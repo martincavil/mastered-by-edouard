@@ -20,20 +20,20 @@ export function LanguageSwitcher({ currentLocale }: { currentLocale: Locale }) {
     <div className="flex gap-2">
       <button
         onClick={() => switchLanguage('fr')}
-        className={`px-3 py-1 rounded ${
+        className={`px-3 py-1 rounded transition-colors ${
           currentLocale === 'fr'
-            ? 'bg-neutral-900 text-white'
-            : 'bg-neutral-100 text-neutral-900'
+            ? 'bg-red text-white'
+            : 'bg-white text-black border border-black/20'
         }`}
       >
         FR
       </button>
       <button
         onClick={() => switchLanguage('en')}
-        className={`px-3 py-1 rounded ${
+        className={`px-3 py-1 rounded transition-colors ${
           currentLocale === 'en'
-            ? 'bg-neutral-900 text-white'
-            : 'bg-neutral-100 text-neutral-900'
+            ? 'bg-red text-white'
+            : 'bg-white text-black border border-black/20'
         }`}
       >
         EN

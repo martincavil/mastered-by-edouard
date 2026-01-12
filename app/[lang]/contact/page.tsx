@@ -10,17 +10,17 @@ export default async function ContactPage({
   const t = getTranslations(lang);
 
   return (
-    <main className="h-screen flex flex-col items-center justify-center bg-neutral-50 dark:bg-neutral-900">
+    <main className="h-screen flex flex-col items-center justify-center bg-white">
       <div className="max-w-4xl mx-auto text-center space-y-6">
-        <h1 className="text-4xl md:text-6xl font-bold">{t.contact.title}</h1>
-        <p className="text-lg text-neutral-600 dark:text-neutral-400">
+        <h1 className="text-4xl md:text-6xl font-bold text-black font-platform">{t.contact.title}</h1>
+        <p className="text-lg text-black/70">
           {t.contact.description}
         </p>
 
         <div className="pt-8">
           <Link
             href={`/${lang}`}
-            className="text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors"
+            className="text-black/60 hover:text-red transition-colors"
           >
             ← {t.nav.home}
           </Link>

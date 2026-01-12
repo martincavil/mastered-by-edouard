@@ -1,16 +1,9 @@
 import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
 import { PageTransition } from '@/components/page-transition';
 import { LanguageSwitcher } from '@/components/language-switcher';
 import { Locale, getTranslations, locales } from '@/lib/i18n';
 import { generateMetadata as generateSEO } from '@/lib/seo';
 import '../globals.css';
-
-const inter = Inter({
-  subsets: ['latin'],
-  variable: '--font-inter',
-  display: 'swap',
-});
 
 export async function generateMetadata({
   params,
@@ -42,7 +35,7 @@ export default async function RootLayout({
   const { lang } = await params;
 
   return (
-    <html lang={lang} className={inter.variable}>
+    <html lang={lang}>
       <body className="antialiased">
         <div className="fixed top-4 right-4 z-50">
           <LanguageSwitcher currentLocale={lang} />
