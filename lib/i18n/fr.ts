@@ -7,21 +7,21 @@ export const fr: Translations = {
   },
   nav: {
     home: "Accueil",
-    listen: "Écouter",
-    sendFiles: "Envoyer des fichiers",
-    studio: "Studio",
-    contact: "Contact",
+    listen: "écouter.",
+    sendFiles: "envoyer.",
+    studio: "studio.",
+    contact: "contact.",
   },
   home: {
-    title: "Bienvenue",
-    subtitle: "Mastering audio professionnel",
+    title: "Edouard Carbonne,",
+    subtitle: "ingénieur de mastering mondial.",
   },
   listen: {
     title: "Écouter",
     description: "Découvrez nos réalisations",
   },
   sendFiles: {
-    title: "Envoyer des fichiers",
+    title: "Envoyer des fichiers.",
     description: "Transmettez vos fichiers en toute sécurité",
   },
   studio: {
@@ -31,5 +31,10 @@ export const fr: Translations = {
   contact: {
     title: "Contact",
     description: "Parlons de votre projet",
+  },
+  footer: {
+    legalnotices: "Mentions Légales",
+    terms: "CGV",
+    qanda: "FAQ",
   },
 };

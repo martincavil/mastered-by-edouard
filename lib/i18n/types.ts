@@ -3,6 +3,10 @@ export type Locale = 'en' | 'fr';
 export const locales: Locale[] = ['en', 'fr'];
 export const defaultLocale: Locale = 'fr';
 
+export function isValidLocale(value: string): value is Locale {
+  return locales.includes(value as Locale);
+}
+
 export type Translations = {
   common: {
     title: string;
@@ -34,5 +38,10 @@ export type Translations = {
   contact: {
     title: string;
     description: string;
+  };
+  footer: {
+    legalnotices: string;
+    terms: string;
+    qanda: string;
   };
 };

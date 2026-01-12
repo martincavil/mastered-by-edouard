@@ -7,14 +7,14 @@ export const en: Translations = {
   },
   nav: {
     home: "Home",
-    listen: "Listen",
-    sendFiles: "Send Files",
-    studio: "Studio",
-    contact: "Contact",
+    listen: "listen.",
+    sendFiles: "send Files.",
+    studio: "studio.",
+    contact: "contact.",
   },
   home: {
-    title: "Welcome",
-    subtitle: "Professional audio mastering",
+    title: "Edouard Carbonne,",
+    subtitle: "worldwide mastering engineer.",
   },
   listen: {
     title: "Listen",
@@ -31,5 +31,10 @@ export const en: Translations = {
   contact: {
     title: "Contact",
     description: "Let's talk about your project",
+  },
+  footer: {
+    legalnotices: "Legal Notices",
+    terms: "Terms and Conditions",
+    qanda: "Q&A",
   },
 };

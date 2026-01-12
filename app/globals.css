@@ -64,13 +64,18 @@
     @apply box-border p-0 m-0;
   }
 
-  html,
-  body {
-    @apply max-w-full overflow-x-hidden h-full;
-  }
-
   body {
     @apply text-black bg-white font-poppins antialiased;
+  }
+
+  /* Titres en Platform par défaut */
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-platform;
   }
 
   a {

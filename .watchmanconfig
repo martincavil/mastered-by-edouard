@@ -1,0 +1,8 @@
+{
+  "ignore_dirs": [
+    ".git",
+    ".next",
+    "node_modules",
+    "public/fonts"
+  ]
+}

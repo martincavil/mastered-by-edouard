@@ -33,23 +33,22 @@ function getInitialLocale(): Locale {
 
 export function LanguageProvider({ children }: { children: ReactNode }) {
   const [locale, setLocaleState] = useState<Locale>(defaultLocale);
-  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    setLocaleState(getInitialLocale());
-    setMounted(true);
+    // Update locale from browser/cookie only on mount
+    const initialLocale = getInitialLocale();
+    if (initialLocale !== locale) {
+      setLocaleState(initialLocale);
+    }
   }, []);
 
   const setLocale = (newLocale: Locale) => {
     setLocaleState(newLocale);
     // Save to cookie
-    document.cookie = `NEXT_LOCALE=${newLocale}; path=/; max-age=31536000`;
+    if (typeof document !== 'undefined') {
+      document.cookie = `NEXT_LOCALE=${newLocale}; path=/; max-age=31536000`;
+    }
   };
-
-  // Prevent hydration mismatch
-  if (!mounted) {
-    return <>{children}</>;
-  }
 
   return (
     <LanguageContext.Provider value={{ locale, setLocale }}>

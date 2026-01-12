@@ -1,32 +1,42 @@
-'use client';
+"use client";
 
-import { useLanguage } from '@/lib/i18n/LanguageProvider';
+import { useLanguage } from "@/lib/i18n/LanguageProvider";
 
 export function LanguageSwitcher() {
   const { locale, setLocale } = useLanguage();
 
   return (
-    <div className="flex gap-2">
-      <button
-        onClick={() => setLocale('fr')}
-        className={`px-3 py-1 rounded transition-colors ${
-          locale === 'fr'
-            ? 'bg-red text-white'
-            : 'bg-white text-black border border-black/20'
-        }`}
+    <div
+      className="flex items-center gap-2"
+      style={{ fontFamily: "platform, sans-serif", fontSize: "25px" }}
+    >
+      <span
+        onClick={() => setLocale("fr")}
+        className={
+          `cursor-pointer transition-colors ` +
+          (locale === "fr"
+            ? "font-medium text-black"
+            : "font-light text-black/50 hover:text-black")
+        }
+        style={{ userSelect: "none" }}
       >
         FR
-      </button>
-      <button
-        onClick={() => setLocale('en')}
-        className={`px-3 py-1 rounded transition-colors ${
-          locale === 'en'
-            ? 'bg-red text-white'
-            : 'bg-white text-black border border-black/20'
-        }`}
+      </span>
+      <span className="mx-1 text-black" style={{ userSelect: "none" }}>
+        |
+      </span>
+      <span
+        onClick={() => setLocale("en")}
+        className={
+          `cursor-pointer transition-colors ` +
+          (locale === "en"
+            ? "font-medium text-black"
+            : "font-light text-black/50 hover:text-black")
+        }
+        style={{ userSelect: "none" }}
       >
         EN
-      </button>
+      </span>
     </div>
   );
 }

@@ -1,54 +1,69 @@
-'use client';
+"use client";
 
-import Link from 'next/link';
-import { useTranslations } from '@/lib/i18n/useTranslations';
-import { PageTransition } from '@/components/page-transition';
-import { LanguageSwitcher } from '@/components/language-switcher';
+import "./navigation-link.css";
+import { useTranslations } from "@/lib/i18n/useTranslations";
+import { PageTransition } from "@/components/page-transition";
+import { Footer } from "@/components/footer";
+import { NavigationCard } from "@/components/navigation-card";
 
 export default function HomePage() {
   const t = useTranslations();
 
+  const navigations = [
+    { href: "/listen/", label: t.nav.listen, variant: "default" as const },
+    {
+      href: "/send-files/",
+      label: t.nav.sendFiles,
+      variant: "accent" as const,
+    },
+    { href: "/studio/", label: t.nav.studio, variant: "default" as const },
+    { href: "/contact/", label: t.nav.contact, variant: "default" as const },
+  ];
+
   return (
     <>
-      <div className="fixed top-4 right-4 z-50">
-        <LanguageSwitcher />
-      </div>
       <PageTransition>
-        <main className="h-screen flex flex-col items-center justify-center bg-white">
-          <div className="text-center space-y-8">
-            <h1 className="text-5xl md:text-7xl font-bold tracking-tight text-black font-platform">
-              {t.home.title}
-            </h1>
-            <p className="text-xl md:text-2xl text-black/70">
-              {t.home.subtitle}
-            </p>
-
-            <nav className="flex flex-wrap gap-4 justify-center mt-12">
-              <Link
-                href="/listen"
-                className="px-6 py-3 bg-red text-white rounded-lg hover:bg-red-dark transition-colors"
-              >
-                {t.nav.listen}
-              </Link>
-              <Link
-                href="/send-files"
-                className="px-6 py-3 bg-black text-white rounded-lg hover:bg-black/80 transition-colors"
-              >
-                {t.nav.sendFiles}
-              </Link>
-              <Link
-                href="/studio"
-                className="px-6 py-3 bg-black text-white rounded-lg hover:bg-black/80 transition-colors"
-              >
-                {t.nav.studio}
-              </Link>
-              <Link
-                href="/contact"
-                className="px-6 py-3 bg-red text-white rounded-lg hover:bg-red-dark transition-colors"
-              >
-                {t.nav.contact}
-              </Link>
-            </nav>
+        <main
+          className="h-full flex flex-col justify-end relative"
+          style={{
+            backgroundImage: 'url("/images/homepage-cover.webp")',
+            backgroundSize: "cover",
+            backgroundPosition: "bottom",
+          }}
+        >
+          {/* Overlay dégradé noir en bas */}
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute left-0 bottom-0 w-full z-0"
+            style={{
+              height: "40%",
+              background:
+                "linear-gradient(to top, rgba(0,0,0,1) 0%, rgba(0,0,0,0.85) 40%, rgba(0,0,0,0.5) 70%, transparent 100%)",
+            }}
+          />
+          <div className="space-y-13 relative z-10 w-full">
+            <div className="px-8">
+              <h1 className="text-5xl md:text-8xl font-medium tracking-tight text-white">
+                {t.home.title}
+              </h1>
+              <h2 className="text-4xl md:text-7xl text-white font-light">
+                {t.home.subtitle}
+              </h2>
+            </div>
+            {/* Navigation homepage */}
+            <div className="flex gap-[10px] justify-between mt-12 mx-[10px]">
+              {navigations.map((nav) => (
+                <NavigationCard
+                  key={nav.label}
+                  href={nav.href}
+                  label={nav.label}
+                  variant={nav.variant}
+                />
+              ))}
+            </div>
+          </div>
+          <div className="relative z-10 w-full">
+            <Footer color="white" />
           </div>
         </main>
       </PageTransition>

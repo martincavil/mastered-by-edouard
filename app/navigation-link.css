@@ -1,0 +1,53 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom navigation link styles */
+.navigation-link {
+  position: relative;
+  overflow: hidden;
+  transition: color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.navigation-link .nav-bg-hover {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: white;
+  transform: translateX(-100%);
+  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 1;
+}
+
+.navigation-link:hover .nav-bg-hover {
+  transform: translateX(0);
+}
+
+.navigation-link span {
+  position: relative;
+  z-index: 2;
+  transition: color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.navigation-link:hover span {
+  color: #161616;
+}
+
+/* Red background and dark red text for send-files variant */
+.navigation-link.send-files {
+  border-color: transparent;
+}
+
+.navigation-link.send-files span {
+  color: #7f1d1d;
+}
+
+.navigation-link.send-files:hover .nav-bg-hover {
+  background: #7f1d1d;
+}
+
+.navigation-link.send-files:hover span {
+  color: white;
+}
