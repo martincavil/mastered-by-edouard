@@ -1,5 +1,51 @@
 # Changelog - MasteredByEdouard
 
+## 2025-01-12 - i18n sans URLs localisées + Downgrade Tailwind v3
+
+### 🌍 Changement majeur : i18n sans `/fr` ni `/en`
+
+Le système de langue a été complètement restructuré :
+
+**Avant :**
+- URLs : `/fr`, `/en`, `/fr/listen`, `/en/studio`
+- Navigation par middleware + redirections
+- Segment dynamique `[lang]`
+
+**Maintenant :**
+- URLs : `/`, `/listen`, `/studio`, `/contact` (pas de langue dans l'URL)
+- Changement de langue instantané via React Context
+- Cookie persistant pour mémoriser la préférence
+- Auto-détection de la langue du navigateur
+
+**Fichiers créés :**
+- `lib/i18n/LanguageProvider.tsx` - Context React pour la langue
+- `lib/i18n/useTranslations.tsx` - Hook pour les traductions
+- `I18N-WITHOUT-URL.md` - Documentation complète
+
+**Fichiers supprimés :**
+- `middleware.ts` - Plus de redirections nécessaires
+- `app/[lang]/` - Structure avec segment dynamique
+
+**Pages migrées vers Client Components :**
+- `app/page.tsx`
+- `app/listen/page.tsx`
+- `app/send-files/page.tsx`
+- `app/studio/page.tsx`
+- `app/contact/page.tsx`
+
+### 🎨 Downgrade : Tailwind v4 → v3
+
+Tailwind v4 (beta) avait des problèmes de compatibilité avec Next.js 16.
+
+**Actions :**
+- Désinstallé `tailwindcss@^4` et `@tailwindcss/postcss`
+- Installé `tailwindcss@^3`, `postcss`, `autoprefixer`
+- Recréé `tailwind.config.ts` (syntaxe v3)
+- Mis à jour `postcss.config.js` (config standard)
+- Corrigé `app/globals.css` (syntaxe v3)
+
+**Résultat :** Toutes les utilities Tailwind fonctionnent maintenant (padding, margin, spacing, etc.)
+
 ## 2025-01-12 - Configuration Tailwind v4 + Fonts + Couleurs
 
 ### ✅ Corrections

@@ -1,27 +1,16 @@
 'use client';
 
-import { usePathname, useRouter } from 'next/navigation';
-import { Locale } from '@/lib/i18n';
+import { useLanguage } from '@/lib/i18n/LanguageProvider';
 
-export function LanguageSwitcher({ currentLocale }: { currentLocale: Locale }) {
-  const pathname = usePathname();
-  const router = useRouter();
-
-  const switchLanguage = (newLocale: Locale) => {
-    const segments = pathname.split('/');
-    segments[1] = newLocale;
-    const newPath = segments.join('/');
-
-    document.cookie = `NEXT_LOCALE=${newLocale}; path=/; max-age=31536000`;
-    router.push(newPath);
-  };
+export function LanguageSwitcher() {
+  const { locale, setLocale } = useLanguage();
 
   return (
     <div className="flex gap-2">
       <button
-        onClick={() => switchLanguage('fr')}
+        onClick={() => setLocale('fr')}
         className={`px-3 py-1 rounded transition-colors ${
-          currentLocale === 'fr'
+          locale === 'fr'
             ? 'bg-red text-white'
             : 'bg-white text-black border border-black/20'
         }`}
@@ -29,9 +18,9 @@ export function LanguageSwitcher({ currentLocale }: { currentLocale: Locale }) {
         FR
       </button>
       <button
-        onClick={() => switchLanguage('en')}
+        onClick={() => setLocale('en')}
         className={`px-3 py-1 rounded transition-colors ${
-          currentLocale === 'en'
+          locale === 'en'
             ? 'bg-red text-white'
             : 'bg-white text-black border border-black/20'
         }`}
