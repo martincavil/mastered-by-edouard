@@ -1,0 +1,26 @@
+{
+  "kind": "collectionType",
+  "collectionName": "artists",
+  "info": {
+    "singularName": "artist",
+    "pluralName": "artists",
+    "displayName": "Artists"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true,
+      "unique": false
+    },
+    "picture": {
+      "type": "string"
+    },
+    "link": {
+      "type": "string"
+    }
+  }
+}

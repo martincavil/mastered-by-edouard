@@ -65,17 +65,12 @@
   }
 
   body {
-    @apply text-black bg-white font-poppins antialiased;
+    @apply text-black bg-white font-platform antialiased;
   }
 
-  /* Titres en Platform par défaut */
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
-    @apply font-platform;
+  /* Paragraphes en Poppins */
+  p {
+    @apply font-poppins;
   }
 
   a {

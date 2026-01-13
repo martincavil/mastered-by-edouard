@@ -1,7 +1,7 @@
-export type Locale = 'en' | 'fr';
+export type Locale = "en" | "fr";
 
-export const locales: Locale[] = ['en', 'fr'];
-export const defaultLocale: Locale = 'fr';
+export const locales: Locale[] = ["en", "fr"];
+export const defaultLocale: Locale = "fr";
 
 export function isValidLocale(value: string): value is Locale {
   return locales.includes(value as Locale);
@@ -25,19 +25,16 @@ export type Translations = {
   };
   listen: {
     title: string;
-    description: string;
+    subTitle: string;
   };
   sendFiles: {
     title: string;
-    description: string;
   };
   studio: {
     title: string;
-    description: string;
   };
   contact: {
     title: string;
-    description: string;
   };
   footer: {
     legalnotices: string;

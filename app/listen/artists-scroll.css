@@ -1,0 +1,54 @@
+/* Infinite diagonal scroll animation - bottom-right to top-left */
+@keyframes diagonalScroll {
+  0% {
+    transform: translate(0, 0);
+  }
+  100% {
+    transform: translate(-50%, -50%);
+  }
+}
+
+.artists-scroll-container {
+  position: relative;
+  width: 100%;
+  height: 300px;
+  overflow: hidden;
+  mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    black 10%,
+    black 90%,
+    transparent 100%
+  );
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    black 10%,
+    black 90%,
+    transparent 100%
+  );
+}
+
+.artists-scroll-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  width: 100%;
+  animation: diagonalScroll 80s linear infinite;
+  will-change: transform;
+  align-content: flex-start;
+}
+
+.artists-scroll-wrapper:hover {
+  animation-play-state: paused;
+}
+
+.artist-image-item {
+  flex-shrink: 0;
+  cursor: pointer;
+}
+
+/* Pause animation on hover of any image */
+.artists-scroll-container:hover .artists-scroll-wrapper {
+  animation-play-state: paused;
+}

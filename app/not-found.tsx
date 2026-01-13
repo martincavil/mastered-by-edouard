@@ -24,7 +24,7 @@ export default function NotFound() {
           {[...Array(3)].map((_, lineIndex) => (
             <div
               key={lineIndex}
-              className="flex text-red font-bold font-platform"
+              className="flex text-red font-bold"
               style={{ fontSize: "380px", lineHeight: "0.8" }}
             >
               {[...Array(30)].map((_, i) => {

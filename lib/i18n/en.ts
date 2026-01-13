@@ -17,20 +17,17 @@ export const en: Translations = {
     subtitle: "worldwide mastering engineer.",
   },
   listen: {
-    title: "Listen",
-    description: "Discover our work",
+    title: "listen.",
+    subTitle: "they trust me.",
   },
   sendFiles: {
-    title: "Send Files",
-    description: "Securely transfer your files",
+    title: "send files.",
   },
   studio: {
-    title: "The Studio",
-    description: "Discover our workspace",
+    title: "the studio.",
   },
   contact: {
-    title: "Contact",
-    description: "Let's talk about your project",
+    title: "contact.",
   },
   footer: {
     legalnotices: "Legal Notices",

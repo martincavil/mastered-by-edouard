@@ -9,6 +9,16 @@ const nextConfig: NextConfig = {
         port: '1337',
         pathname: '/uploads/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'dl.dropboxusercontent.com',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'www.dropbox.com',
+        pathname: '/**',
+      },
     ],
   },
   reactStrictMode: true,
