@@ -44,4 +44,9 @@ export type Translations = {
     terms: string;
     qanda: string;
   };
+  notFound: {
+    oops: string;
+    error: string;
+    backHome: string;
+  };
 };

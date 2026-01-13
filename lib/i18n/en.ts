@@ -37,4 +37,9 @@ export const en: Translations = {
     terms: "Terms and Conditions",
     qanda: "Q&A",
   },
+  notFound: {
+    oops: "Oops...",
+    error: "error try again",
+    backHome: "Back Home",
+  },
 };

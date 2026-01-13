@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
 import { LanguageProvider } from "@/lib/i18n/LanguageProvider";
 import "./globals.css";
-import { Navbar } from "@/components/navbar";
-import { MobileMenu } from "@/components/mobile-menu";
+import { LayoutWrapper } from "@/components/layout-wrapper";
 
 export const metadata: Metadata = {
   title: "MasteredByEdouard - Professional Mastering Studio",
@@ -16,13 +15,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="fr" className="h-screen overflow-hidden">
-      <body className="antialiased h-screen overflow-hidden px-[10px] pb-[10px] flex flex-col">
+      <body className="antialiased h-screen overflow-hidden flex flex-col [&:not([data-not-found])]:px-[10px] [&:not([data-not-found])]:pb-[10px]">
         <LanguageProvider>
-          <Navbar />
-          <div className="flex-1 rounded-[10px] overflow-hidden">
-            {children}
-          </div>
-          <MobileMenu color="white" />
+          <LayoutWrapper>{children}</LayoutWrapper>
         </LanguageProvider>
       </body>
     </html>

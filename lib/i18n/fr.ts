@@ -37,4 +37,9 @@ export const fr: Translations = {
     terms: "CGV",
     qanda: "FAQ",
   },
+  notFound: {
+    oops: "Oops...",
+    error: "erreur réessayez",
+    backHome: "Retour Accueil",
+  },
 };

@@ -45,7 +45,7 @@
   color: #7f1d1d; /* text-red-dark */
 }
 
-/* Dark red background coming from left on hover, leaving to right on unhover */
+/* Dark red background coming from left on hover */
 .navigation-link.send-files .nav-bg-hover {
   background: #7f1d1d; /* bg-red-dark */
   transform: translateX(-100%);
@@ -54,10 +54,6 @@
 
 .navigation-link.send-files:hover .nav-bg-hover {
   transform: translateX(0);
-}
-
-.navigation-link.send-files:not(:hover) .nav-bg-hover {
-  transform: translateX(100%);
 }
 
 .navigation-link.send-files:hover span {
