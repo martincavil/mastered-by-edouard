@@ -6,7 +6,7 @@ import Link from "next/link";
 
 export function Navbar() {
   return (
-    <nav className="flex justify-between pt-3.5 px-6 mb-6">
+    <nav className="flex justify-between pt-3.5 px-2 md:px-6 mb-6">
       {/* Logo */}
       <Link href="/">
         <Image

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { LanguageProvider } from "@/lib/i18n/LanguageProvider";
 import "./globals.css";
 import { Navbar } from "@/components/navbar";
+import { MobileMenu } from "@/components/mobile-menu";
 
 export const metadata: Metadata = {
   title: "MasteredByEdouard - Professional Mastering Studio",
@@ -21,6 +22,7 @@ export default function RootLayout({
           <div className="flex-1 rounded-[10px] overflow-hidden">
             {children}
           </div>
+          <MobileMenu color="white" />
         </LanguageProvider>
       </body>
     </html>
