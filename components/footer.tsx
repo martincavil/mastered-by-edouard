@@ -13,14 +13,14 @@ export function Footer({ color = "white" }: FooterProps) {
   const textColor = color === "white" ? "text-white" : "text-black";
 
   return (
-    <footer className="flex justify-between items-center px-8 pb-6 pt-[45px] text-sm">
+    <footer className="hidden md:flex justify-between items-center px-8 pb-6 pt-[45px] text-sm">
       {/* Social Medias */}
       <div className="flex items-center gap-8">
         <Link
           href="https://www.instagram.com/masteredbyedouard/"
           target="_blank"
           rel="noopener noreferrer"
-          className={`${textColor} hover:text-red transition-colors`}
+          className={`${textColor} hover:text-red transition-colors font-poppins`}
         >
           Instagram
         </Link>
@@ -28,13 +28,13 @@ export function Footer({ color = "white" }: FooterProps) {
           href="https://credits.muso.ai/profile/83085fe9-a37a-493e-b0ac-1a62bf76590f"
           target="_blank"
           rel="noopener noreferrer"
-          className={`${textColor} hover:text-red transition-colors`}
+          className={`${textColor} hover:text-red transition-colors font-poppins`}
         >
           Muso.AI
         </Link>
       </div>
       {/* Policies links */}
-      <div className="flex items-center gap-8">
+      <div className="flex items-center gap-8 font-poppins">
         <p className={textColor}>
           Mastered by Edouard 2025 © |{" "}
           <Link

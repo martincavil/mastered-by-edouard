@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import "./navigation-link.css";
 import { useTranslations } from "@/lib/i18n/useTranslations";
 import { PageTransition } from "@/components/page-transition";
@@ -39,18 +40,24 @@ export default function HomePage() {
   return (
     <>
       <PageTransition>
-        <main
-          className="h-full flex flex-col justify-end relative"
-          style={{
-            backgroundImage: 'url("/images/homepage-cover.webp")',
-            backgroundSize: "cover",
-            backgroundPosition: "bottom",
-          }}
-        >
+        <main className="h-full flex flex-col justify-end relative">
+          <Image
+            src="https://www.dropbox.com/scl/fi/idxk92xsl4vwhymcz8uj8/homepage-cover.webp?rlkey=655enr16z3tymf6ucfqiygmed&st=tdig6bil&dl=1"
+            alt="Homepage background"
+            fill
+            priority
+            quality={90}
+            sizes="100vw"
+            style={{
+              objectFit: "cover",
+              objectPosition: "bottom",
+              zIndex: 0,
+            }}
+          />
           {/* Overlay dégradé noir en bas */}
           <div
             aria-hidden="true"
-            className="pointer-events-none absolute left-0 bottom-0 w-full z-0"
+            className="pointer-events-none absolute left-0 bottom-0 w-full z-[1]"
             style={{
               height: "40%",
               background:

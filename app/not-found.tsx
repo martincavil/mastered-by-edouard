@@ -40,7 +40,7 @@ export default function NotFound() {
           {/* Logo */}
           <div className="flex items-center justify-center mb-16">
             <Image
-              src="/images/logo_Mastered-by-Edouard_v3_blanc.webp"
+              src="https://www.dropbox.com/scl/fi/sz7o4qp32cux52wbgat7x/logo_Mastered-by-Edouard_v3_blanc.webp?rlkey=i863vwo2uhgmok7xyst93gb6e&st=nrjoxgw9&dl=1"
               alt="Mastered by Edouard"
               width={211}
               height={63}

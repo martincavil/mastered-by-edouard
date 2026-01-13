@@ -19,12 +19,24 @@ export const en: Translations = {
   listen: {
     title: "listen.",
     subTitle: "they trust me.",
+    fullDiscography: "view full discography",
   },
   sendFiles: {
     title: "send files.",
   },
   studio: {
-    title: "the studio.",
+    title: "studio.",
+    friends: "friends",
+    services: "services",
+    gear: "gear",
+    edouard: {
+      title: "meet your engineer.",
+      description1:
+        "Hey. I’m Edouard, a french mastering engineer based in Paris. For me, mastering is not just a technical step, it’s about trust and connection. I like things to be clear, organised, and efficient, so artists can feel confident that the final step of their production will be smooth and precise.",
+      description2:
+        "What truly drives me is the human side : the conversations, the cultural exchange, and the shared passion for sound. Over the past years, I’ve had the chance to master more than a thousand songs for artists from every corner of the world, and even reach diamond record certification along the way. ",
+      fullDiscography: "view full discography",
+    },
   },
   contact: {
     title: "contact.",

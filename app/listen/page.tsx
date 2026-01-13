@@ -58,8 +58,8 @@ export default function ListenPage() {
   return (
     <>
       <PageTransition>
-        <main className="h-full flex flex-col justify-between bg-black pt-8 px-8">
-          <div className="flex-1">
+        <main className="h-full flex flex-col bg-black pt-8 px-8 overflow-hidden">
+          <div className="flex-1 flex flex-col overflow-y-auto">
             {/* Header */}
             <div className="flex items-center justify-between mb-3 md:mb-5">
               <h1 className="text-4xl md:text-[80px] font-bold text-white">
@@ -87,7 +87,7 @@ export default function ListenPage() {
               </Link>
             </div>
             {/* Streaming platforms links */}
-            <div className="flex items-center space-x-4 mb-3 md:mb-5">
+            <div className="flex flex-wrap items-center gap-2 md:gap-4 mb-3 md:mb-5">
               {platforms.map((platform) => (
                 <Link
                   key={platform.name}
@@ -96,8 +96,8 @@ export default function ListenPage() {
                   rel="noopener noreferrer"
                 >
                   <Button className="!py-1.5 !px-4 !border border-white rounded-full text-white hover:text-red transition-all duration-300">
-                    <div className="flex items-center gap-4">
-                      <span className="text-3xl font-light">
+                    <div className="flex  items-center gap-4">
+                      <span className="text-xl md:text-3xl font-light">
                         {platform.name}
                       </span>
                       <MoveUpRight size={32} strokeWidth={2} />
@@ -117,60 +117,111 @@ export default function ListenPage() {
                   {loading ? (
                     <p className="text-white/60">Loading artists...</p>
                   ) : artists.length > 0 ? (
-                    artists.map((artist) =>
+                    artists.map((artist, index) =>
                       artist.link ? (
                         <Link href={artist.link} key={artist.id}>
-                          <span className="text-2xl font-light font-poppins uppercase text-red hover:text-white transition-colors duration-300 cursor-pointer">
+                          <span className="text-xl md:text-2xl font-light font-poppins uppercase text-red hover:text-white transition-colors duration-300 cursor-pointer">
                             {artist.name}
-                            {artists.indexOf(artist) < artists.length - 1 &&
-                              ","}
+                            {index < artists.length - 1 && ","}
                           </span>
                         </Link>
                       ) : (
                         <span
                           key={artist.id}
-                          className="text-2xl font-light font-poppins uppercase text-red cursor-default"
+                          className="text-xl md:text-2xl font-light font-poppins uppercase text-red cursor-default"
                         >
                           {artist.name}
-                          {artists.indexOf(artist) < artists.length - 1 && ","}
+                          {index < artists.length - 1 && ","}
                         </span>
                       )
                     )
                   ) : (
                     <p className="text-white/60">No artists found.</p>
                   )}
+                  <div className="flex justify-center w-full">
+                    <Link href="https://credits.muso.ai/profile/83085fe9-a37a-493e-b0ac-1a62bf76590f">
+                      <Button
+                        bgColor="white"
+                        textColor="black"
+                        className="rounded-full md:mt-10 py-3 md:px-10 text-xl font-normal"
+                      >
+                        {t.listen.fullDiscography}
+                      </Button>
+                    </Link>
+                  </div>
                 </div>
               </div>
               {/* Artists pictures */}
-              <div className="artists-scroll-container">
+              <div className="artists-scroll-container hidden md:flex">
                 <div className="artists-scroll-wrapper">
                   {!loading &&
-                    // Duplicate artists array 4 times for infinite scroll
-                    [...artists, ...artists, ...artists, ...artists].map(
-                      (artist, index) => {
-                        const imageUrl =
-                          typeof artist.picture === "string"
-                            ? artist.picture
-                            : artist.picture?.url;
+                    (() => {
+                      // Create rows with 2-4 images each
+                      const rowSizes = [2, 3, 4, 2, 4, 3];
+                      const rows: Artist[][] = [];
+                      let currentIndex = 0;
 
-                        return (
-                          <div
-                            key={`${artist.id}-${index}`}
-                            className="-rotate-12 artist-image-item relative rounded-lg group"
-                          >
-                            {imageUrl && (
-                              <Image
-                                src={getStrapiImageUrl(imageUrl)}
-                                alt={artist.name}
-                                width={140}
-                                height={140}
-                                className="object-cover rounded-lg transition-transform duration-300 group-hover:scale-110"
-                              />
-                            )}
-                          </div>
+                      // Duplicate artists for infinite loop
+                      const duplicatedArtists = [
+                        ...artists,
+                        ...artists,
+                        ...artists,
+                      ];
+
+                      rowSizes.forEach((size) => {
+                        const row = duplicatedArtists.slice(
+                          currentIndex,
+                          currentIndex + size
                         );
-                      }
-                    )}
+                        if (row.length > 0) {
+                          rows.push(row);
+                        }
+                        currentIndex += size;
+                      });
+
+                      return rows.map((row, rowIndex) => (
+                        <div
+                          key={rowIndex}
+                          className="artist-row"
+                          style={{
+                            animationDelay: `${rowIndex * 3}s`,
+                          }}
+                        >
+                          {row.map((artist, imageIndex) => {
+                            const imageUrl =
+                              typeof artist.picture === "string"
+                                ? artist.picture
+                                : artist.picture?.url;
+
+                            const rotations = [-8, -6, -4, -2, 0, 2, 4, 6, 8];
+                            const rotation =
+                              rotations[
+                                (rowIndex + imageIndex) % rotations.length
+                              ];
+
+                            return (
+                              <div
+                                key={`${artist.id}-${rowIndex}-${imageIndex}`}
+                                className="artist-image-item rounded-lg group"
+                                style={{
+                                  transform: `rotate(${rotation}deg)`,
+                                }}
+                              >
+                                {imageUrl && (
+                                  <Image
+                                    src={getStrapiImageUrl(imageUrl)}
+                                    alt={artist.name}
+                                    width={140}
+                                    height={140}
+                                    className="object-cover rounded-lg transition-all duration-300 group-hover:scale-110"
+                                  />
+                                )}
+                              </div>
+                            );
+                          })}
+                        </div>
+                      ));
+                    })()}
                 </div>
               </div>
             </div>

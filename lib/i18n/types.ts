@@ -26,12 +26,22 @@ export type Translations = {
   listen: {
     title: string;
     subTitle: string;
+    fullDiscography: string;
   };
   sendFiles: {
     title: string;
   };
   studio: {
+    friends: string;
+    services: string;
+    gear: string;
     title: string;
+    edouard: {
+      title: string;
+      description1: string;
+      description2: string;
+      fullDiscography: string;
+    };
   };
   contact: {
     title: string;
