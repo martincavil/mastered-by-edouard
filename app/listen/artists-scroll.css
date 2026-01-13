@@ -1,57 +1,47 @@
-/* Row animation - bottom-right to top-left */
-@keyframes rowDiagonal {
-  0% {
-    transform: translate(100%, 100%);
-    opacity: 0;
-  }
-  5% {
-    opacity: 1;
-  }
-  95% {
-    opacity: 1;
-  }
-  100% {
-    transform: translate(-100%, -100%);
-    opacity: 0;
-  }
-}
-
 .artists-scroll-container {
   position: relative;
   width: 100%;
-  height: 400px;
+  height: 100%;
   overflow: hidden;
+  mask-image: linear-gradient(
+    to top,
+    transparent 0%,
+    black 20%,
+    black 80%,
+    transparent 100%
+  );
 }
 
 .artists-scroll-wrapper {
-  position: relative;
-  width: 100%;
-  height: 100%;
+  position: absolute;
+  bottom: -50%;
+  right: -20%;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  animation: scrollDiagonal 60s linear infinite;
+}
+
+@keyframes scrollDiagonal {
+  0% {
+    transform: translate(0, 0);
+  }
+  100% {
+    transform: translate(-100vw, -150vh);
+  }
 }
 
 .artist-row {
-  position: absolute;
   display: flex;
-  gap: 1rem;
-  animation: rowDiagonal 20s linear infinite;
-  animation-play-state: running;
-}
-
-.artist-row:hover {
-  animation-play-state: paused;
+  gap: 0.5rem;
+  align-items: center;
 }
 
 .artist-image-item {
   flex-shrink: 0;
-  cursor: pointer;
-  transition: transform 0.3s ease-out;
+  transition: transform 0.3s ease;
 }
 
 .artist-image-item:hover {
   z-index: 10;
-}
-
-/* Pause all animations on container hover */
-.artists-scroll-container:hover .artist-row {
-  animation-play-state: paused;
 }

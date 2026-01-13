@@ -10,7 +10,7 @@ export function Navbar() {
       {/* Logo */}
       <Link href="/">
         <Image
-          src="/images/logo_Mastered-by-Edouard_v3.webp"
+          src="https://www.dropbox.com/scl/fi/mzniqk11bcx0w0ozl25wh/logo_Mastered-by-Edouard_v3.webp?rlkey=2td8sgwoonneic113dsn3h1f1&st=b7uz5q2i&dl=1"
           alt="Logo Mastered by Edouard"
           width={211}
           height={63}

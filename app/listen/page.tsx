@@ -161,32 +161,30 @@ export default function ListenPage() {
                       const rows: Artist[][] = [];
                       let currentIndex = 0;
 
-                      // Duplicate artists for infinite loop
+                      // Duplicate artists 4 times for smooth infinite loop
                       const duplicatedArtists = [
+                        ...artists,
                         ...artists,
                         ...artists,
                         ...artists,
                       ];
 
-                      rowSizes.forEach((size) => {
-                        const row = duplicatedArtists.slice(
-                          currentIndex,
-                          currentIndex + size
-                        );
-                        if (row.length > 0) {
-                          rows.push(row);
-                        }
-                        currentIndex += size;
-                      });
+                      // Create multiple sets of rows for infinite effect
+                      for (let set = 0; set < 3; set++) {
+                        rowSizes.forEach((size) => {
+                          const row = duplicatedArtists.slice(
+                            currentIndex % duplicatedArtists.length,
+                            (currentIndex % duplicatedArtists.length) + size
+                          );
+                          if (row.length > 0) {
+                            rows.push(row);
+                          }
+                          currentIndex += size;
+                        });
+                      }
 
                       return rows.map((row, rowIndex) => (
-                        <div
-                          key={rowIndex}
-                          className="artist-row"
-                          style={{
-                            animationDelay: `${rowIndex * 3}s`,
-                          }}
-                        >
+                        <div key={rowIndex} className="artist-row">
                           {row.map((artist, imageIndex) => {
                             const imageUrl =
                               typeof artist.picture === "string"
