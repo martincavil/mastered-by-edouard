@@ -1,7 +1,9 @@
 import { Artist, StrapiResponse } from "./types";
 
-const STRAPI_URL =
-  process.env.NEXT_PUBLIC_STRAPI_URL || "http://localhost:1337";
+// Remove trailing slash if present to avoid double slashes in URLs
+const STRAPI_URL = (
+  process.env.NEXT_PUBLIC_STRAPI_URL || "http://localhost:1337"
+).replace(/\/$/, "");
 
 export async function getArtists(): Promise<Artist[]> {
   try {
@@ -45,7 +47,10 @@ export function getStrapiImageUrl(url: string): string {
 
     // For old format without dl parameter: https://www.dropbox.com/s/xxxxx/image.jpg
     // Convert to dl.dropboxusercontent.com
-    convertedUrl = convertedUrl.replace("www.dropbox.com", "dl.dropboxusercontent.com");
+    convertedUrl = convertedUrl.replace(
+      "www.dropbox.com",
+      "dl.dropboxusercontent.com"
+    );
     console.log("✅ Converted Dropbox URL (old format):", convertedUrl);
     return convertedUrl;
   }
