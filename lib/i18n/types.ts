@@ -30,6 +30,7 @@ export type Translations = {
   };
   sendFiles: {
     title: string;
+    description: string;
   };
   studio: {
     friends: string;

@@ -23,6 +23,7 @@ export const en: Translations = {
   },
   sendFiles: {
     title: "send files.",
+    description: "Send your audio files for mastering.",
   },
   studio: {
     title: "studio.",
