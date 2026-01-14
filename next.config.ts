@@ -1,6 +1,9 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  // Turbopack config vide pour éviter les erreurs de build
+  turbopack: {},
+
   images: {
     remotePatterns: [
       {
