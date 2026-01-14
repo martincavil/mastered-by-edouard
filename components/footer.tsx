@@ -13,7 +13,7 @@ export function Footer({ color = "white" }: FooterProps) {
   const textColor = color === "white" ? "text-white" : "text-black";
 
   return (
-    <footer className="hidden md:flex justify-between items-center px-8 pb-6 pt-[45px] text-sm">
+    <footer className="hidden md:flex justify-between items-center px-8 pb-6 pt-6 2xl:pt-[45px] text-sm">
       {/* Social Medias */}
       <div className="flex items-center gap-8">
         <Link

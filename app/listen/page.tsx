@@ -11,11 +11,13 @@ import { MoveUpRight } from "lucide-react";
 import { getArtists, getStrapiImageUrl } from "@/lib/strapi/api";
 import { Artist } from "@/lib/strapi/types";
 import "./artists-scroll.css";
+import "../navigation-link.css";
 
 export default function ListenPage() {
   const t = useTranslations();
   const [artists, setArtists] = useState<Artist[]>([]);
   const [loading, setLoading] = useState(true);
+  const [hoveredArtistId, setHoveredArtistId] = useState<number | null>(null);
 
   useEffect(() => {
     async function fetchArtists() {
@@ -58,11 +60,11 @@ export default function ListenPage() {
   return (
     <>
       <PageTransition>
-        <main className="h-full flex flex-col bg-black pt-8 px-8 overflow-hidden">
-          <div className="flex-1 flex flex-col overflow-y-auto">
+        <main className="h-full flex flex-col bg-black pb-8 md:pb-0 pt-8 md:pt-4 xl:pt-6 2xl:pt-8 px-8 overflow-hidden">
+          <div className="flex-1 flex flex-col overflow-y-auto xl:overflow-y-visible">
             {/* Header */}
-            <div className="flex items-center justify-between mb-3 md:mb-5">
-              <h1 className="text-4xl md:text-[80px] font-bold text-white">
+            <div className="flex items-center justify-between mb-3 md:mb-3 xl:mb-5 2xl:mb-10">
+              <h1 className="text-4xl md:text-5xl xl:text-6xl 2xl:text-[80px] font-bold text-white">
                 {t.listen.title}
               </h1>
               {/* Close button */}
@@ -72,8 +74,7 @@ export default function ListenPage() {
                 aria-label="Retour à l'accueil"
               >
                 <svg
-                  width="58"
-                  height="58"
+                  className="w-10 h-10 md:w-12 md:h-12 xl:w-14 xl:h-14 2xl:w-[58px] 2xl:h-[58px]"
                   viewBox="0 0 24 24"
                   fill="none"
                   stroke="currentColor"
@@ -87,7 +88,7 @@ export default function ListenPage() {
               </Link>
             </div>
             {/* Streaming platforms links */}
-            <div className="flex flex-wrap items-center gap-2 md:gap-4 mb-3 md:mb-5">
+            <div className="flex flex-wrap items-center gap-2 md:gap-3 xl:gap-4 mb-3 md:mb-3 xl:mb-5 2xl:mb-10">
               {platforms.map((platform) => (
                 <Link
                   key={platform.name}
@@ -96,67 +97,86 @@ export default function ListenPage() {
                   rel="noopener noreferrer"
                 >
                   <Button className="!py-1.5 !px-4 !border border-white rounded-full text-white hover:text-red transition-all duration-300">
-                    <div className="flex  items-center gap-4">
-                      <span className="text-xl md:text-3xl font-light">
+                    <div className="flex items-center gap-2 xl:gap-4">
+                      <span className="text-xl md:text-lg xl:text-xl 2xl:text-3xl font-light">
                         {platform.name}
                       </span>
-                      <MoveUpRight size={32} strokeWidth={2} />
+                      <MoveUpRight
+                        size={24}
+                        className="xl:w-8 xl:h-8"
+                        strokeWidth={2}
+                      />
                     </div>
                   </Button>
                 </Link>
               ))}
             </div>
             {/* Content */}
-            <div className="grid md:grid-cols-2 md:gap-16">
-              <div className="space-y-4">
-                <h2 className="text-3xl md:text-6xl font-bold text-white">
+            <div className="grid md:grid-cols-2 md:gap-6 xl:gap-10 2xl:gap-16 flex-1">
+              <div className="space-y-6 xl:space-y-4">
+                <h2 className="text-3xl md:text-4xl xl:text-5xl 2xl:text-6xl font-bold text-white">
                   {t.listen.subTitle}
                 </h2>
                 {/* Artists names via Strapi */}
-                <div className="flex flex-wrap gap-2">
+                <div className="flex flex-wrap gap-2 max-h-[200px] md:max-h-[250px] xl:max-h-[300px] 2xl:max-h-[350px] overflow-hidden">
                   {loading ? (
                     <p className="text-white/60">Loading artists...</p>
                   ) : artists.length > 0 ? (
                     artists.map((artist, index) =>
                       artist.link ? (
-                        <Link href={artist.link} key={artist.id}>
-                          <span className="text-xl md:text-2xl font-light font-poppins uppercase text-red hover:text-white transition-colors duration-300 cursor-pointer">
+                        <Link
+                          href={artist.link}
+                          key={artist.id}
+                          target="_blank"
+                        >
+                          <span
+                            className={`text-lg md:text-xl xl:text-2xl font-light font-poppins uppercase transition-colors duration-300 cursor-pointer ${
+                              hoveredArtistId === artist.id
+                                ? "text-white"
+                                : "text-red hover:text-white"
+                            }`}
+                          >
                             {artist.name}
-                            {index < artists.length - 1 && ","}
+                            {index < artists.length - 1 ? "," : "..."}
                           </span>
                         </Link>
                       ) : (
                         <span
                           key={artist.id}
-                          className="text-xl md:text-2xl font-light font-poppins uppercase text-red cursor-default"
+                          className={`text-lg md:text-xl xl:text-2xl font-light font-poppins uppercase cursor-default ${
+                            hoveredArtistId === artist.id
+                              ? "text-white"
+                              : "text-red"
+                          }`}
                         >
                           {artist.name}
-                          {index < artists.length - 1 && ","}
+                          {index < artists.length - 1 ? "," : "..."}
                         </span>
                       )
                     )
                   ) : (
                     <p className="text-white/60">No artists found.</p>
                   )}
-                  <div className="flex justify-center w-full">
-                    <Link href="https://credits.muso.ai/profile/83085fe9-a37a-493e-b0ac-1a62bf76590f">
-                      <Button
-                        bgColor="white"
-                        textColor="black"
-                        className="rounded-full md:mt-10 py-3 md:px-10 text-xl font-normal"
-                      >
-                        {t.listen.fullDiscography}
-                      </Button>
-                    </Link>
-                  </div>
+                </div>
+                <div className="flex justify-center w-full mt-6 xl:mt-8 2xl:mt-10">
+                  {/* Todo : Fix le bouton */}
+                  <Link href="https://credits.muso.ai/profile/83085fe9-a37a-493e-b0ac-1a62bf76590f">
+                    <Button
+                      bgColor="white"
+                      textColor="black"
+                      className="rounded-full py-2 px-6 md:py-3 md:px-10 text-base md:text-lg xl:text-xl font-normal bg-white !text-black"
+                    >
+                      {t.listen.fullDiscography}
+                    </Button>
+                  </Link>
                 </div>
               </div>
               {/* Artists pictures */}
               <div className="artists-scroll-container hidden md:flex">
                 {!loading &&
                   (() => {
-                    // Create rows with 2-4 images each
-                    const rowSizes = [2, 3, 4, 2, 4, 3];
+                    // Create rows with 3-4 images each
+                    const rowSizes = [3, 4, 3, 4];
                     const rows: Artist[][] = [];
                     let currentIndex = 0;
 
@@ -186,7 +206,10 @@ export default function ListenPage() {
 
                     const renderRows = (keyPrefix: string) =>
                       rows.map((row, rowIndex) => (
-                        <div key={`${keyPrefix}-${rowIndex}`} className="artist-row">
+                        <div
+                          key={`${keyPrefix}-${rowIndex}`}
+                          className="artist-row"
+                        >
                           {row.map((artist, imageIndex) => {
                             const imageUrl =
                               typeof artist.picture === "string"
@@ -199,14 +222,8 @@ export default function ListenPage() {
                                 (rowIndex + imageIndex) % rotations.length
                               ];
 
-                            return (
-                              <div
-                                key={`${artist.id}-${rowIndex}-${imageIndex}`}
-                                className="artist-image-item rounded-lg group"
-                                style={{
-                                  transform: `rotate(${rotation}deg)`,
-                                }}
-                              >
+                            const imageContent = (
+                              <>
                                 {imageUrl && (
                                   <Image
                                     src={getStrapiImageUrl(imageUrl)}
@@ -215,6 +232,32 @@ export default function ListenPage() {
                                     height={140}
                                     className="object-cover rounded-lg transition-all duration-300 group-hover:scale-110"
                                   />
+                                )}
+                              </>
+                            );
+
+                            return (
+                              <div
+                                key={`${artist.id}-${rowIndex}-${imageIndex}`}
+                                className="artist-image-item rounded-lg group"
+                                style={{
+                                  transform: `rotate(${rotation}deg)`,
+                                }}
+                                onMouseEnter={() =>
+                                  setHoveredArtistId(artist.id)
+                                }
+                                onMouseLeave={() => setHoveredArtistId(null)}
+                              >
+                                {artist.link ? (
+                                  <Link
+                                    href={artist.link}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                  >
+                                    {imageContent}
+                                  </Link>
+                                ) : (
+                                  imageContent
                                 )}
                               </div>
                             );
@@ -235,8 +278,8 @@ export default function ListenPage() {
                   })()}
               </div>
             </div>
+            <Footer color="white" />
           </div>
-          <Footer color="white" />
         </main>
       </PageTransition>
     </>

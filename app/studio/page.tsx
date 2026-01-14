@@ -8,6 +8,7 @@ import { PageTransition } from "@/components/page-transition";
 import { Footer } from "@/components/footer";
 import { Button } from "@/components/button";
 import { MoveUpRight } from "lucide-react";
+import "../navigation-link.css";
 
 type SubjectKey = "edouard" | "friends" | "services" | "gear";
 
@@ -39,11 +40,11 @@ export default function StudioPage() {
   return (
     <>
       <PageTransition>
-        <main className="h-full flex flex-col bg-black pt-8 px-8 overflow-hidden">
-          <div className="flex-1 flex flex-col overflow-y-auto">
+        <main className="h-full flex flex-col bg-black pb-8 md:pb-0 pt-8 md:pt-4 xl:pt-6 2xl:pt-8 px-8 overflow-hidden">
+          <div className="flex-1 flex flex-col overflow-y-auto xl:overflow-y-visible">
             {/* Header */}
-            <div className="flex items-center justify-between mb-3 md:mb-5">
-              <h1 className="text-4xl md:text-[80px] font-bold text-white">
+            <div className="flex items-center justify-between mb-3 md:mb-3 xl:mb-5 2xl:mb-10">
+              <h1 className="text-4xl md:text-5xl xl:text-6xl 2xl:text-[80px] font-bold text-white">
                 {t.studio.title}
               </h1>
               {/* Close button */}
@@ -53,8 +54,7 @@ export default function StudioPage() {
                 aria-label="Retour à l'accueil"
               >
                 <svg
-                  width="58"
-                  height="58"
+                  className="w-10 h-10 md:w-12 md:h-12 xl:w-14 xl:h-14 2xl:w-[58px] 2xl:h-[58px]"
                   viewBox="0 0 24 24"
                   fill="none"
                   stroke="currentColor"
@@ -68,18 +68,21 @@ export default function StudioPage() {
               </Link>
             </div>
             {/* Subject buttons - Desktop */}
-            <div className="hidden md:flex flex-wrap items-center gap-2 md:gap-4 mb-3 md:mb-5">
+            <div className="hidden md:flex flex-wrap items-center gap-2 md:gap-3 xl:gap-4 mb-3 md:mb-3 xl:mb-5 2xl:mb-10">
               {subjects.map((subject) => (
                 <button
                   key={subject.key}
                   onClick={() => setSelectedSubject(subject.key)}
-                  className={`py-1.5 px-4 border rounded-full text-xl md:text-3xl font-light transition-all duration-300 ${
+                  className={`py-1.5 px-4 border rounded-full text-xl md:text-lg xl:text-xl 2xl:text-3xl font-light relative overflow-hidden ${
                     selectedSubject === subject.key
                       ? "bg-white text-black border-white"
-                      : "bg-transparent text-white border-white hover:text-red"
+                      : "navigation-link bg-transparent text-white border-white"
                   }`}
                 >
-                  {subject.name}
+                  {selectedSubject !== subject.key && (
+                    <div className="nav-bg-hover" aria-hidden="true" />
+                  )}
+                  <span className="relative z-[2]">{subject.name}</span>
                 </button>
               ))}
             </div>
@@ -131,11 +134,11 @@ export default function StudioPage() {
               )}
             </div>
             {/* Content */}
-            <div className="grid md:grid-cols-2 md:gap-16 flex-1 pb-8">
+            <div className="grid md:grid-cols-2 md:gap-6 xl:gap-10 2xl:gap-16 flex-1">
               {selectedSubject === "edouard" && (
                 <>
                   <div className="text-white order-1 md:order-0">
-                    <h2 className="text-7xl md:text-8xl !leading-[0.8] font-bold mb-4">
+                    <h2 className="text-center md:text-left text-7xl md:text-5xl xl:text-6xl 2xl:text-[100px] !leading-[0.8] font-bold mb-6 xl:mb-3 2xl:mb-4">
                       {(() => {
                         const words = t.studio.edouard.title.split(" ");
                         const firstTwoWords = words.slice(0, 2).join(" ");
@@ -149,14 +152,14 @@ export default function StudioPage() {
                         );
                       })()}
                     </h2>
-                    <div className="space-y-8">
+                    <div className="space-y-4 2xl:space-y-8">
                       <p className="font-poppins">
                         {t.studio.edouard.description1}
                       </p>
                       <p className="font-poppins">
                         {t.studio.edouard.description2}
                       </p>
-                      <div className="flex flex-col gap-4 md:gap-0 md:flex-row items-center justify-between">
+                      <div className="flex flex-col gap-4 md:gap-0 lg:flex-row lg:items-center justify-between pt-2 2xl:pt-4">
                         <Link
                           href="https://credits.muso.ai/profile/83085fe9-a37a-493e-b0ac-1a62bf76590f"
                           target="_blank"
@@ -164,11 +167,15 @@ export default function StudioPage() {
                           className="order-2 md:order-1"
                         >
                           <Button className="!py-1.5 !px-4 !border border-white rounded-full text-white hover:text-red transition-all duration-300">
-                            <div className="flex  items-center gap-4">
-                              <span className="md:text-xl font-normal">
+                            <div className="flex items-center gap-2 xl:gap-4">
+                              <span className="text-xl font-normal">
                                 {t.studio.edouard.fullDiscography}
                               </span>
-                              <MoveUpRight size={32} strokeWidth={2} />
+                              <MoveUpRight
+                                size={24}
+                                className="xl:w-8 xl:h-8"
+                                strokeWidth={2}
+                              />
                             </div>
                           </Button>
                         </Link>
@@ -178,6 +185,7 @@ export default function StudioPage() {
                             alt="Signature Edouard"
                             width={241}
                             height={81}
+                            className="h-auto w-[241px] xl:w-48 2xl:w-[241px]"
                           />
                         </div>
                       </div>
@@ -189,7 +197,7 @@ export default function StudioPage() {
                       alt="Edouard"
                       width={537}
                       height={537}
-                      className="object-cover rounded-full w-[225px] h-[225px] md:w-[537px] md:h-[537px]"
+                      className="object-cover rounded-full w-[225px] h-[225px] md:w-[320px] md:h-[320px] xl:w-[420px] xl:h-[420px] 2xl:w-[537px] 2xl:h-[537px]"
                     />
                   </div>
                 </>
@@ -303,8 +311,8 @@ export default function StudioPage() {
                 </>
               )}
             </div>
+            <Footer color="white" />
           </div>
-          <Footer color="white" />
         </main>
       </PageTransition>
     </>

@@ -15,23 +15,28 @@
 .artists-scroll-wrapper {
   position: absolute;
   bottom: 0;
+  left: 0;
   right: 0;
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  animation: scrollDiagonal 40s linear infinite;
+  animation: scrollUp 150s linear infinite;
 }
 
 .artists-scroll-wrapper:nth-child(2) {
-  animation-delay: -20s;
+  animation-delay: -75s;
 }
 
-@keyframes scrollDiagonal {
+.artists-scroll-container:hover .artists-scroll-wrapper {
+  animation-play-state: paused;
+}
+
+@keyframes scrollUp {
   0% {
-    transform: translate(100%, 100%);
+    transform: translateY(100%);
   }
   100% {
-    transform: translate(-150%, -150%);
+    transform: translateY(-100%);
   }
 }
 
@@ -39,11 +44,14 @@
   display: flex;
   gap: 0.5rem;
   align-items: center;
+  justify-content: center;
 }
 
 .artist-image-item {
   flex-shrink: 0;
   transition: transform 0.3s ease;
+  position: relative;
+  cursor: pointer;
 }
 
 .artist-image-item:hover {
