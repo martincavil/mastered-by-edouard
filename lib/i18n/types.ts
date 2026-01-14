@@ -45,6 +45,7 @@ export type Translations = {
   };
   contact: {
     title: string;
+    description: string;
   };
   footer: {
     legalnotices: string;
