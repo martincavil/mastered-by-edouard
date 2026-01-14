@@ -40,6 +40,7 @@ export const fr: Translations = {
   },
   contact: {
     title: "contact.",
+    description: "Contactez-nous pour vos projets de mastering.",
   },
   footer: {
     legalnotices: "Mentions Légales",
