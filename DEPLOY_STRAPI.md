@@ -164,22 +164,83 @@ NEXT_PUBLIC_STRAPI_URL = https://mastered-strapi.onrender.com
 
 ---
 
-## 📋 Récapitulatif Rapide
+---
 
-1. **Créer PostgreSQL** : New + → PostgreSQL → Plan "Free"
-2. **Copier Database URL** : Onglet "Connect" → "Internal Database URL"
-3. **Créer Web Service** : New + → Web Service → Repository GitHub
+## 🆓 OPTION GRATUITE PERMANENTE (RECOMMANDÉ)
+
+### Pourquoi cette option ?
+
+La base de données PostgreSQL gratuite de Render **expire après 90 jours**.
+
+**Solution** : Utiliser une base de données externe **gratuite pour toujours** !
+
+### Neon PostgreSQL (Gratuit à vie)
+
+1. **Créer un compte sur Neon** : https://neon.tech
+2. Clique sur **"Create a project"**
+3. Configure :
+   - **Project name** : `mastered-strapi`
+   - **Database name** : `strapi`
+   - **Region** : Europe (Frankfurt)
+4. Clique sur **"Create project"**
+5. **Copie la "Connection string"** (commence par `postgresql://`)
+   - Format : `postgresql://user:password@host/dbname?sslmode=require`
+
+✅ **Avantages** :
+- Gratuit **POUR TOUJOURS** (pas de limite de 90 jours)
+- 0.5 GB de stockage (largement suffisant pour les URLs)
+- Backups automatiques
+- Excellent pour faible usage
+
+### Alternative : Supabase PostgreSQL
+
+Si tu préfères Supabase :
+1. Va sur https://supabase.com
+2. New project → Configure → Copie la "Connection string"
+3. ✅ Aussi gratuit pour toujours (500MB)
+
+---
+
+## 📋 Récapitulatif Rapide (Version Gratuite Permanente)
+
+### Avec Neon (Recommandé) :
+
+1. **Créer PostgreSQL sur Neon** : https://neon.tech → Create project → Copier Connection string
+2. **Créer Web Service sur Render** : New + → Web Service → Repository GitHub
    - Root Directory: `cms`
    - Build: `npm install && npm run build`
    - Start: `npm run start`
    - Plan: **Free**
-4. **Ajouter Variables d'Environnement** :
-   - `DATABASE_URL`, `NODE_ENV`, `DATABASE_CLIENT`
-   - Secrets : `APP_KEYS`, `API_TOKEN_SALT`, `ADMIN_JWT_SECRET`, `TRANSFER_TOKEN_SALT`, `JWT_SECRET`
-5. **Attendre 5-10 min** que ça déploie
-6. **Créer compte admin** sur `/admin`
-7. **Configurer permissions** pour Artists (find + findOne)
-8. **Mettre à jour frontend** avec `NEXT_PUBLIC_STRAPI_URL`
+3. **Ajouter Variables d'Environnement** :
+   - `DATABASE_URL` = [URL de Neon]
+   - `NODE_ENV` = `production`
+   - `DATABASE_CLIENT` = `postgres`
+   - Secrets (générer avec `openssl rand -base64 32`) :
+     - `APP_KEYS` = [key1,key2]
+     - `API_TOKEN_SALT` = [clé aléatoire]
+     - `ADMIN_JWT_SECRET` = [clé aléatoire]
+     - `TRANSFER_TOKEN_SALT` = [clé aléatoire]
+     - `JWT_SECRET` = [clé aléatoire]
+4. **Attendre 5-10 min** que ça déploie
+5. **Créer compte admin** sur `/admin`
+6. **Configurer permissions** pour Artists (find + findOne)
+7. **Mettre à jour frontend** avec `NEXT_PUBLIC_STRAPI_URL`
+
+---
+
+## 📊 Comparaison des Options
+
+| Option | Coût | Limite | Maintenance |
+|--------|------|--------|-------------|
+| **Render DB + Render Web** | Gratuit 90j | Renouveler tous les 90j | Moyenne |
+| **Neon DB + Render Web** ✅ | Gratuit ∞ | Aucune | Aucune |
+| **Supabase DB + Render Web** | Gratuit ∞ | Aucune | Aucune |
+
+### 🏆 Recommandation : **Neon + Render**
+
+✅ **100% gratuit pour toujours**
+✅ **Zéro maintenance**
+✅ **Parfait pour faible usage**
 
 ---
 
