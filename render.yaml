@@ -3,7 +3,7 @@ services:
   - type: web
     name: mastered-strapi
     env: node
-    plan: starter
+    plan: free
     buildCommand: cd cms && npm install && npm run build
     startCommand: cd cms && npm run start
     envVars:
@@ -30,6 +30,5 @@ services:
 
 databases:
   - name: mastered-strapi-db
-    plan: starter
     databaseName: strapi
     user: strapi
