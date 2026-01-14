@@ -14,9 +14,12 @@ export default ({ env }) => ({
     encryptionKey: env("ENCRYPTION_KEY"),
   },
   flags: {
-    nps: env.bool("FLAG_NPS", true),
-    promoteEE: env.bool("FLAG_PROMOTE_EE", true),
+    nps: false,
+    promoteEE: false,
   },
-  // Désactive le guided tour qui cause des erreurs
+  // Désactive complètement le guided tour et features qui causent des erreurs
   tutorial: false,
+  features: {
+    SSO: "sso",
+  },
 });
