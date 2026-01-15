@@ -21,19 +21,19 @@ export default function StudioPage() {
   const subjects: { key: SubjectKey; name: string }[] = [
     {
       key: "edouard",
-      name: "edouard",
+      name: selectedSubject === "edouard" ? "edouard" : t.studio.engineerTitle,
     },
     {
       key: "friends",
-      name: t.studio.friends,
+      name: t.studio.friendsTitle,
     },
     {
       key: "services",
-      name: t.studio.services,
+      name: t.studio.servicesTitle,
     },
     {
       key: "gear",
-      name: t.studio.gear,
+      name: t.studio.gearTitle,
     },
   ];
 
@@ -68,7 +68,7 @@ export default function StudioPage() {
               </Link>
             </div>
             {/* Subject buttons - Desktop */}
-            <div className="hidden md:flex flex-wrap items-center gap-2 md:gap-3 xl:gap-4 mb-3 md:mb-3 xl:mb-5 2xl:mb-10">
+            <div className="hidden md:flex flex-wrap items-center gap-2 md:gap-3 xl:gap-4 md:mb-3 xl:mb-5 2xl:mb-10">
               {subjects.map((subject) => (
                 <button
                   key={subject.key}
@@ -88,7 +88,7 @@ export default function StudioPage() {
             </div>
 
             {/* Subject menu - Mobile only */}
-            <div className="md:hidden mb-3 relative">
+            <div className="md:hidden mb-8 relative">
               <button
                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
                 className={`w-full bg-white text-black py-3 px-4 rounded-full flex items-center justify-between${
@@ -134,11 +134,16 @@ export default function StudioPage() {
               )}
             </div>
             {/* Content */}
-            <div className="grid md:grid-cols-2 md:gap-6 xl:gap-10 2xl:gap-16 flex-1">
-              {selectedSubject === "edouard" && <EdouardSubject />}
-              {selectedSubject === "friends" && <FriendsSubject />}
-              {selectedSubject === "services" && <ServicesSubject />}
-              {selectedSubject === "gear" && <GearSubject />}
+            <div className="grid md:grid-cols-2 md:gap-6 xl:gap-10 2xl:gap-16 flex-1 min-h-0">
+              <div
+                key={selectedSubject}
+                className="md:col-span-2 grid md:grid-cols-2 md:gap-6 xl:gap-10 2xl:gap-16 animate-fade-in min-h-0"
+              >
+                {selectedSubject === "edouard" && <EdouardSubject />}
+                {selectedSubject === "friends" && <FriendsSubject />}
+                {selectedSubject === "services" && <ServicesSubject />}
+                {selectedSubject === "gear" && <GearSubject />}
+              </div>
             </div>
             <Footer color="white" />
           </div>

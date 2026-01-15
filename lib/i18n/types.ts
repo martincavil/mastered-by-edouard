@@ -33,15 +33,33 @@ export type Translations = {
     description: string;
   };
   studio: {
-    friends: string;
-    services: string;
-    gear: string;
+    engineerTitle: string;
+    friendsTitle: string;
+    servicesTitle: string;
+    gearTitle: string;
     title: string;
     edouard: {
       title: string;
       description1: string;
       description2: string;
       fullDiscography: string;
+    };
+    friends: {
+      title1: string;
+      description1: string;
+      description2: string;
+      title2: string;
+      description3: string;
+    };
+    services: {
+      title1: string;
+      description1: string;
+      title2: string;
+      description2: string;
+      title3: string;
+      description3: string;
+      title4: string;
+      description4: string;
     };
   };
   contact: {
