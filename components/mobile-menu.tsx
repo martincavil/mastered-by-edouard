@@ -119,11 +119,11 @@ export function MobileMenu({ color = "white" }: MobileMenuProps) {
                     {t.footer.terms}
                   </Link>
                   <Link
-                    href="/legal-notices/"
+                    href="/legal-notice/"
                     className={`${menuTextColor} hover:text-red transition-colors text-sm underline`}
                     onClick={() => setIsOpen(false)}
                   >
-                    {t.footer.legalnotices}
+                    {t.footer.legalnotice}
                   </Link>
                 </div>
               </div>

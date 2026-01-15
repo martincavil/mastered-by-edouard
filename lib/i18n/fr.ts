@@ -69,7 +69,7 @@ export const fr: Translations = {
     description: "Contactez-nous pour vos projets de mastering.",
   },
   footer: {
-    legalnotices: "Mentions Légales",
+    legalnotice: "Mentions Légales",
     terms: "CGV",
     qanda: "FAQ",
   },
@@ -77,5 +77,87 @@ export const fr: Translations = {
     oops: "Oops...",
     error: "erreur réessayez",
     backHome: "Retour Accueil",
+  },
+  termsAndConditions: {
+    title: "conditions générales.",
+    illustrationTitle: "pour une relation saine.",
+    tabs: {
+      ratesPayments: "tarifs & paiements",
+      revisionsVersions: "révisions & versions",
+      dataFiles: "données & fichiers",
+    },
+    ratesPayments: {
+      quotationTitle: "devis et confirmation du prix",
+      quotationContent:
+        "Tous les prix sont communiqués sur demande et confirmés par devis avant le début de tout service. Le devis est valable 30 jours à compter de sa date d'émission.",
+      adjustmentsTitle: "ajustements de prix",
+      adjustmentsContent:
+        "Si l'étendue du travail change significativement par rapport au devis initial (ex. : nombre de morceaux, durée, services additionnels), un devis révisé sera fourni et devra être approuvé avant de continuer.",
+      paymentTitle: "conditions et méthodes de paiement",
+      paymentContent:
+        "Le paiement est dû à la fin du service de mastering, avant la livraison des fichiers finaux. Les méthodes de paiement acceptées incluent :",
+      paymentContent2:
+        "Invoices can be payed using the following methods : Bank transfer (SEPA & SWIFT), Wise Transfer or online Credit Card payment. ",
+    },
+    revisionsVersions: {
+      includedTitle: "révisions incluses",
+      includedContent:
+        "Chaque projet de mastering comprend jusqu'à 2 séries de révisions sans frais supplémentaires. Les révisions doivent être demandées dans les 7 jours suivant la réception du master initial.",
+      newMixTitle: "envoi d'un nouveau mix",
+      newMixContent:
+        "Si un nouveau mix est fourni après le début du processus de mastering, il sera traité comme un nouveau projet et facturé en conséquence, sauf accord préalable.",
+      additionalTitle: "versions supplémentaires",
+      additionalContent:
+        "Les versions alternatives (instrumental, mix TV, edit radio, etc.) peuvent être masterisées à tarif réduit si elles sont demandées en même temps que la version principale.",
+      masterRequestsTitle: "demandes de masters supplémentaires",
+      masterRequestsContent:
+        "Toute demande de masters supplémentaires après la fin du projet (ex. : master vinyle après livraison du master numérique) fera l'objet d'un devis séparé.",
+    },
+    dataFiles: {
+      transferTitle: "protocole de transfert de fichiers",
+      transferContent:
+        "Les fichiers doivent être envoyés via des services de transfert sécurisés tels que WeTransfer, Dropbox, Google Drive ou toute plateforme professionnelle de transfert audio. Tous les fichiers doivent être en format haute résolution (24-bit minimum, 44,1 kHz ou supérieur).",
+      retentionTitle: "période de conservation des données",
+      retentionContent:
+        "Tous les fichiers du projet (mixs originaux et masters) sont stockés en toute sécurité pendant 12 mois après la fin du projet. Après cette période, les fichiers peuvent être supprimés sauf si l'archivage est demandé.",
+      securityTitle: "sécurité et confidentialité",
+      securityContent:
+        "Tous les fichiers clients sont traités avec une stricte confidentialité. Votre musique ne sera jamais partagée, distribuée ou utilisée sans votre autorisation explicite.",
+      finalNote:
+        "En faisant appel à nos services de mastering, vous confirmez avoir lu et accepté ces conditions générales. Si vous avez des questions ou des préoccupations, n'hésitez pas à nous contacter.",
+    },
+  },
+  legalNotice: {
+    title: "legal notice.",
+    illustrationTitle: "for the most curious.",
+    tabs: {
+      website: "website",
+      masteredbyedouard: "masteredbyedouard",
+      thanks: "thanks",
+    },
+    website: {
+      creditsDesign:
+        "Logo, web design & illustrations : edouard carbonne and valentinegrasphisme",
+      webHosting: "Web hosting : Vercel",
+      creditsDevelopmentAuthor: "Development by Martin Cavil",
+      creditsPhotographyAuthor: "Photography by Théo Burette",
+    },
+    masteredByEdouard: {
+      companyName:
+        "Mastered by Edouard is a Limited Liability Corporation (LLC).",
+      startCapital: "Share capital : 700 euros]",
+      siretNumber: "SIRET : 948 971 569 00017",
+      vatNumber: "VAT number : FR27948971569",
+      rcsNumber: "RCS number : Nanterre B 948 971 569",
+      companyManager: "Company manager : Edouard Carbonne",
+      contactTitle: "Contact",
+    },
+    thanks: {
+      description1:
+        "Mastered by Edouard would be nothing without the incredible friends, engineers, artists I met all the way here.",
+      description2:
+        "A special thanks to the following humans who really brought me here : Pierre Ottway, Jowee Omicil, Jordan Kouby, Grégory Germain, Frédéric Perrin, Eric Perez-Björkman, Fabio Morgado, Antoine Castaldi, Fred Vectol, Alexis Cayrouse, Elliott Bastide, Joachim Mike, Nathan Cocherie, Théo Burette, Valentine Gras, my family, and all the others who got involved one way or another to this journey. ",
+      thankYou: "Thank you!",
+    },
   },
 };

@@ -38,14 +38,14 @@ export function Footer({ color = "white" }: FooterProps) {
         <p className={textColor}>
           Mastered by Edouard 2025 © |{" "}
           <Link
-            href="/legal-notices/"
+            href="/legal-notice/"
             className="hover:text-red transition-colors"
           >
-            {t.footer.legalnotices}
+            {t.footer.legalnotice}
           </Link>{" "}
           |{" "}
           <Link
-            href="/general-terms-and-conditions/"
+            href="/terms-and-conditions/"
             className="hover:text-red transition-colors"
           >
             {t.footer.terms}
