@@ -38,6 +38,7 @@ export default function FaqPage() {
       answer: t.faq.questions.answer6,
     },
   ];
+  // Todo Ajouter bullet list dans la réponse 2 et l'image dans la réponse 6
 
   return (
     <>
