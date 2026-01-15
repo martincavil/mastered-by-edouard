@@ -54,7 +54,7 @@ export function Footer({ color = "white" }: FooterProps) {
       </div>
       {/* Faq link */}
       <Link
-        href="/qa/"
+        href="/faq/"
         className={`${textColor} hover:text-red text-2xl font-bold transition-colors`}
       >
         {t.footer.faq}

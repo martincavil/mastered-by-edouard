@@ -27,7 +27,7 @@ export function ServicesSubject() {
 
   return (
     <>
-      <div className="space-y-4 overflow-y-auto md:overflow-y-visible">
+      <div className="space-y-4 overflow-y-auto h-full">
         {services.map((service, index) => (
           <div key={index}>
             <button

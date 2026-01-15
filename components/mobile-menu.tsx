@@ -97,7 +97,7 @@ export function MobileMenu({ color = "white" }: MobileMenuProps) {
                   Muso.AI
                 </Link>
                 <Link
-                  href="/qa/"
+                  href="/faq/"
                   className={`${menuTextColor} hover:text-red transition-colors text-2xl font-bold`}
                   onClick={() => setIsOpen(false)}
                 >
