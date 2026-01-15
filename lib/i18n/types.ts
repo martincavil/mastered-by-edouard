@@ -65,11 +65,46 @@ export type Translations = {
   contact: {
     title: string;
     description: string;
+    ctaTitle: string;
+    form: {
+      sections: {
+        yourInfo: string;
+        projectInfo: string;
+      };
+      placeholders: {
+        name: string;
+        familyName: string;
+        email: string;
+        phone: string;
+        artistName: string;
+        projectName: string;
+        type: string;
+        numberOfSongs: string;
+        message: string;
+      };
+      options: {
+        indie: string;
+        label: string;
+      };
+      send: string;
+      sending: string;
+      requiredNote: string;
+      validation: {
+        nameRequired: string;
+        familyNameRequired: string;
+        emailRequired: string;
+        emailInvalid: string;
+        phoneRequired: string;
+        messageRequired: string;
+        submitError: string;
+        submitSuccess: string;
+      };
+    };
   };
   footer: {
     legalnotice: string;
     terms: string;
-    qanda: string;
+    faq: string;
   };
   notFound: {
     oops: string;
@@ -140,6 +175,24 @@ export type Translations = {
       description1: string;
       description2: string;
       thankYou: string;
+    };
+  };
+  faq: {
+    title: string;
+    illustrationTitle: string;
+    questions: {
+      question1: string;
+      answer1: string;
+      question2: string;
+      answer2: string;
+      question3: string;
+      answer3: string;
+      question4: string;
+      answer4: string;
+      question5: string;
+      answer5: string;
+      question6: string;
+      answer6: string;
     };
   };
 };

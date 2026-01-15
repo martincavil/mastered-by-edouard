@@ -118,7 +118,7 @@ export default function TermsAndConditionsPage() {
         </div>
 
         {/* Content Grid */}
-        <div className="flex-1 grid md:grid-cols-2 md:gap-16 gap-8">
+        <div className="flex-1 grid md:grid-cols-2 md:gap-12 gap-8">
           {/* Left Column - Content */}
           <div className="text-white space-y-6 font-light text-base 2xl:text-lg">
             {activeTab === "ratesPayments" && (

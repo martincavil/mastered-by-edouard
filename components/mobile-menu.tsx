@@ -101,7 +101,7 @@ export function MobileMenu({ color = "white" }: MobileMenuProps) {
                   className={`${menuTextColor} hover:text-red transition-colors text-2xl font-bold`}
                   onClick={() => setIsOpen(false)}
                 >
-                  {t.footer.qanda}
+                  {t.footer.faq}
                 </Link>
               </div>
               <div className="h-[0.5px] w-full bg-white mt-10 mb-4" />

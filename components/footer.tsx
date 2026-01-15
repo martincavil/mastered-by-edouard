@@ -57,7 +57,7 @@ export function Footer({ color = "white" }: FooterProps) {
         href="/qa/"
         className={`${textColor} hover:text-red text-2xl font-bold transition-colors`}
       >
-        {t.footer.qanda}
+        {t.footer.faq}
       </Link>
     </footer>
   );

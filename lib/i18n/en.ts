@@ -67,11 +67,46 @@ export const en: Translations = {
   contact: {
     title: "contact.",
     description: "Contact us for your mastering projects.",
+    ctaTitle: "let's discuss your project.",
+    form: {
+      sections: {
+        yourInfo: "your info",
+        projectInfo: "project info",
+      },
+      placeholders: {
+        name: "name*",
+        familyName: "family name*",
+        email: "mail*",
+        phone: "phone number*",
+        artistName: "artist name",
+        projectName: "project name",
+        type: "indie or label?",
+        numberOfSongs: "number of songs",
+        message: "message*",
+      },
+      options: {
+        indie: "Indie",
+        label: "Label",
+      },
+      send: "send",
+      sending: "sending...",
+      requiredNote: "fields marked with * are required.",
+      validation: {
+        nameRequired: "Name is required",
+        familyNameRequired: "Family name is required",
+        emailRequired: "Email is required",
+        emailInvalid: "Please enter a valid email address",
+        phoneRequired: "Phone number is required",
+        messageRequired: "Message is required",
+        submitError: "An error occurred. Please try again.",
+        submitSuccess: "Your message has been sent successfully!",
+      },
+    },
   },
   footer: {
     legalnotice: "Legal Notices",
     terms: "Terms and Conditions",
-    qanda: "Q&A",
+    faq: "FAQ",
   },
   notFound: {
     oops: "Oops...",
@@ -158,6 +193,30 @@ export const en: Translations = {
       description2:
         "A special thanks to the following humans who really brought me here : Pierre Ottway, Jowee Omicil, Jordan Kouby, Grégory Germain, Frédéric Perrin, Eric Perez-Björkman, Fabio Morgado, Antoine Castaldi, Fred Vectol, Alexis Cayrouse, Elliott Bastide, Joachim Mike, Nathan Cocherie, Théo Burette, Valentine Gras, my family, and all the others who got involved one way or another to this journey. ",
       thankYou: "Thank you!",
+    },
+  },
+  faq: {
+    title: "faq.",
+    illustrationTitle: "most of your questions in one place.",
+    questions: {
+      question1: "1. What is Mastering ?",
+      answer1:
+        "It is the final step in the music production process. The primary goals of audio mastering are to ensure that the music sounds cohesive, balanced, and consistent across different playback systems and to enhance its overall sonic characteristics.",
+      question2: "2. what is Apple Digital Masters ? ",
+      answer2:
+        "Apple Digital Masters (ADM) is a program introduced by Apple which is designed to ensure that music distributed on Apple Music meets a high-quality audio standard. The studio is certified ADM, you simply have to give the following informations to the distributor :",
+      question3: "3. why human mastering in the A.I era ? ",
+      answer3:
+        "We live in an amazing era where A.I can achieve for sure great results ! But the purpose of the mastering engineer is not only to provide tools, but also a human ear and experience ! It allows direct communication, feedback, and collaboration, ensuring that the artist's intentions and expectations are met. It’s all about human connection and trust!",
+      question4: "4. do you provide CD and Vinyl mastering ?",
+      answer4:
+        "The studio offers professional CD and vinyl mastering options, ensuring your music sounds good on every format. CD and/or vinyl mastering will be made or request !",
+      question5: "5. turnaround  time ?",
+      answer5:
+        "Turnaround times naturally vary depending on the type of project. For a single, the standard delivery time is around two to three business days. An express delivery (within 24 hours) is available at an additional cost. For larger projects (EPs or LPs), delivery times will be communicated once the full scope of the project has been defined.",
+      question6: "6. mastered by Edouard : logo, identity ",
+      answer6:
+        "Being passionate about design and user experience, I put a lot of care into shaping the studio’s creative and visual identity. That’s why I strive to maintain a consistent image across all platforms — website, social media, and email. And as for the logo — yes, it does have a meaning! Here it is:",
     },
   },
 };
