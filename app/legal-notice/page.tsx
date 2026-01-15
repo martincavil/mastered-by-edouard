@@ -126,18 +126,27 @@ export default function LegalNoticePage() {
                 <p>{t.legalNotice.website.creditsDesign}</p>
                 <p>{t.legalNotice.website.webHosting}</p>
                 <p>{t.legalNotice.website.creditsDevelopmentAuthor}</p>
-                <a href="https://martincavil.com" className="hover:text-red">
+                <a
+                  href="https://martincavil.com"
+                  target="_blank"
+                  className="hover:text-red"
+                >
                   martincavil.com
                 </a>
                 <p>{t.legalNotice.website.creditsPhotographyAuthor}</p>
 
                 <a
                   href="https://instagram.com/theography_"
+                  target="_blank"
                   className="hover:text-red"
                 >
                   <p>@theography_</p>
                 </a>
-                <a href="https://theoburette.com/" className="hover:text-red">
+                <a
+                  href="https://theoburette.com/"
+                  target="_blank"
+                  className="hover:text-red"
+                >
                   <p>theoburette.com</p>
                 </a>
               </div>
