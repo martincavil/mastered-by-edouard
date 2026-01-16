@@ -53,7 +53,7 @@ export default function FaqPage() {
               {/* Close button */}
               <Link
                 href="/"
-                className="text-white hover:text-red transition-all hover:rotate-90 duration-300"
+                className="text-white transition-all hover:rotate-90 duration-300"
                 aria-label="Retour à l'accueil"
               >
                 <svg
@@ -84,11 +84,7 @@ export default function FaqPage() {
                       className={`
               } w-full text-left flex justify-between items-center hover:text-white transition-colors duration-300 mb-2`}
                     >
-                      <span
-                        className={`${
-                          expandedQuestion === index && "text-white"
-                        } text-red hover:text-white text-4xl font-bold`}
-                      >
+                      <span className="text-white text-4xl font-bold">
                         {question.question}
                       </span>
                       <ChevronDown
