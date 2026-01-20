@@ -34,18 +34,17 @@ export function ServicesSubject() {
               onClick={() =>
                 setExpandedService(expandedService === index ? null : index)
               }
-              className={`
-              } w-full text-left flex justify-between items-center hover:text-white transition-colors duration-300 mb-2`}
+              className="w-full text-left flex justify-between items-center hover:text-white transition-colors duration-300 mb-2"
             >
               <span
                 className={`${
                   expandedService === index && "text-white"
-                } text-red hover:text-white text-4xl md:text-7xl 2xl:text-[90px] font-bold`}
+                } text-red hover:text-white text-4xl lg:text-7xl 2xl:text-[90px] font-bold`}
               >
                 {service.title}
               </span>
               <ChevronDown
-                className={`text-white transform transition-transform duration-300 ${
+                className={`text-white transform transition-transform duration-300 flex-shrink-0 ${
                   expandedService === index ? "rotate-180" : "rotate-0"
                 }`}
               />
@@ -64,17 +63,14 @@ export function ServicesSubject() {
           </div>
         ))}
       </div>
-      <div className="hidden md:flex relative w-full h-full min-h-0 justify-center overflow-hidden">
-        <div className="relative h-full" style={{ aspectRatio: '584/651', maxWidth: '100%' }}>
-          <Image
-            src="https://www.dropbox.com/scl/fi/ei7d0lyb69266wxl8ipxi/studio-services.webp?rlkey=8w779w3baq9dcedexwa44dthb&st=hhztqil6&dl=1"
-            alt="Studio MasteredByEdouard"
-            width={584}
-            height={651}
-            className="w-full h-full object-cover rounded-[10px]"
-            sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 584px"
-          />
-        </div>
+      <div className="hidden md:flex relative w-full h-full min-h-0 justify-center items-start overflow-hidden">
+        <Image
+          src="https://www.dropbox.com/scl/fi/ei7d0lyb69266wxl8ipxi/studio-services.webp?rlkey=8w779w3baq9dcedexwa44dthb&st=hhztqil6&dl=1"
+          alt="Studio MasteredByEdouard"
+          width={584}
+          height={651}
+          className="md:w-full md:h-[400px] 2xl:w-[584px] 2xl:h-[651px] object-cover rounded-[10px]"
+        />
       </div>
     </>
   );

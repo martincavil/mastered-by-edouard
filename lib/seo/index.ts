@@ -1,7 +1,7 @@
-import { Metadata } from 'next';
-import { Locale } from '@/lib/i18n';
+import { Metadata } from "next";
+import { Locale } from "@/lib/i18n";
 
-const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || 'https://your-domain.com';
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || "https://your-domain.com";
 
 interface SEOConfig {
   title: string;
@@ -47,11 +47,11 @@ export function generateMetadata({
           alt: title,
         },
       ],
-      locale: locale === 'fr' ? 'fr_FR' : 'en_US',
-      type: 'website',
+      locale: locale === "fr" ? "fr_FR" : "en_US",
+      type: "website",
     },
     twitter: {
-      card: 'summary_large_image',
+      card: "summary_large_image",
       title,
       description,
       images: [ogImage],
@@ -68,15 +68,32 @@ export function generateMetadata({
 }
 
 export function generateSitemap() {
-  const pages = ['', '/listen', '/send-files', '/studio', '/contact'];
-  const locales: Locale[] = ['fr', 'en'];
+  const pages = [
+    { path: "", priority: 1.0, changeFrequency: "monthly" as const },
+    { path: "/studio", priority: 0.9, changeFrequency: "monthly" as const },
+    { path: "/listen", priority: 0.8, changeFrequency: "weekly" as const },
+    { path: "/contact", priority: 0.8, changeFrequency: "monthly" as const },
+    { path: "/send-files", priority: 0.7, changeFrequency: "monthly" as const },
+    { path: "/faq", priority: 0.6, changeFrequency: "monthly" as const },
+    {
+      path: "/legal-notice",
+      priority: 0.3,
+      changeFrequency: "yearly" as const,
+    },
+    {
+      path: "/terms-and-conditions",
+      priority: 0.3,
+      changeFrequency: "yearly" as const,
+    },
+  ];
+  const locales: Locale[] = ["fr", "en"];
 
   const routes = locales.flatMap((locale) =>
     pages.map((page) => ({
-      url: `${BASE_URL}/${locale}${page}`,
+      url: `${BASE_URL}/${locale}${page.path}`,
       lastModified: new Date(),
-      changeFrequency: 'monthly' as const,
-      priority: page === '' ? 1.0 : 0.8,
+      changeFrequency: page.changeFrequency,
+      priority: page.priority,
     }))
   );
 

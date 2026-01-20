@@ -46,19 +46,16 @@ export function GearSubject() {
         </p>
       </div>
       <div className="hidden md:flex relative w-full h-full min-h-0 justify-center overflow-hidden">
-        <div className="relative group h-full" style={{ aspectRatio: '584/651', maxWidth: '100%' }}>
+        <div className="relative group h-full">
           {/* Image */}
-          <div className="relative w-full h-full rounded-[10px] overflow-hidden">
-            <Image
-              src={images[currentIndex]}
-              alt={`Studio gear ${currentIndex + 1}`}
-              width={584}
-              height={651}
-              className="w-full h-full object-cover transition-opacity duration-500 rounded-[10px]"
-              priority={currentIndex === 0}
-              sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 584px"
-            />
-          </div>
+          <Image
+            src={images[currentIndex]}
+            alt={`Studio gear ${currentIndex + 1}`}
+            width={584}
+            height={651}
+            className="md:w-full md:h-[400px] 2xl:w-[584px] 2xl:h-[651px] rounded-[10px] object-cover transition-opacity duration-500"
+            priority={currentIndex === 0}
+          />
           {/* Navigation arrows */}
           <button
             onClick={goToPrevious}
