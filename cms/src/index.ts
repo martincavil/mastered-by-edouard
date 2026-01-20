@@ -16,5 +16,24 @@ export default {
    * This gives you an opportunity to set up your data model,
    * run jobs, or perform some special logic.
    */
-  bootstrap(/* { strapi }: { strapi: Core.Strapi } */) {},
+  async bootstrap({ strapi }) {
+    // Fix guided tour issue by setting preferedLanguage for all admin users
+    try {
+      const users = await strapi.entityService.findMany('admin::user', {
+        limit: 100,
+      });
+
+      for (const user of users) {
+        if (!user.preferedLanguage) {
+          await strapi.entityService.update('admin::user', user.id, {
+            data: {
+              preferedLanguage: 'en',
+            },
+          });
+        }
+      }
+    } catch (error) {
+      console.log('Bootstrap: Could not update admin users', error);
+    }
+  },
 };
