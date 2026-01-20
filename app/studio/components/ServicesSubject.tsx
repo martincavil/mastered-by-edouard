@@ -3,13 +3,20 @@ import { ChevronDown } from "lucide-react";
 import { useState } from "react";
 import Image from "next/image";
 
+interface Service {
+  title: string;
+  description: string;
+  logo?: string;
+}
+
 export function ServicesSubject() {
   const [expandedService, setExpandedService] = useState<number | null>(null);
   const t = useTranslations();
-  const services = [
+  const services: Service[] = [
     {
       title: t.studio.services.title1,
       description: t.studio.services.description1,
+      logo: "https://www.dropbox.com/scl/fi/74lzu7bxk5xcirokpbqk6/adm.webp?rlkey=v52dklfrntt9zme4u3m3yclj7&st=e1xvcw0v&dl=1",
     },
     {
       title: t.studio.services.title2,
@@ -22,6 +29,7 @@ export function ServicesSubject() {
     {
       title: t.studio.services.title4,
       description: t.studio.services.description4,
+      logo: "https://www.dropbox.com/scl/fi/vaglz4cz0507pgnjlbghi/dolby.webp?rlkey=wpz3hcqkllvyb9c48fd5xwh7v&st=h1nj5xfg&dl=1",
     },
   ];
 
@@ -44,7 +52,7 @@ export function ServicesSubject() {
                 {service.title}
               </span>
               <ChevronDown
-                className={`text-white transform transition-transform duration-300 flex-shrink-0 ${
+                className={`text-white transform transition-transform duration-300 flex-shrink-0 w-9 h-9 ${
                   expandedService === index ? "rotate-180" : "rotate-0"
                 }`}
               />
@@ -56,9 +64,20 @@ export function ServicesSubject() {
                   : "max-h-0 opacity-0 -translate-y-2"
               }`}
             >
-              <div className="2xl:text-lg text-white font-poppins pb-2">
+              <div className="2xl:text-lg text-white font-poppins">
                 {service.description}
               </div>
+              {service.logo && (
+                <div className="flex justify-end mt-4">
+                  <Image
+                    src={service.logo}
+                    alt="Service logo"
+                    width={130}
+                    height={48}
+                    className="w-[130px] h-[48px] object-contain"
+                  />
+                </div>
+              )}
             </div>
           </div>
         ))}

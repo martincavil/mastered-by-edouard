@@ -185,6 +185,14 @@ export type Translations = {
       answer1: string;
       question2: string;
       answer2: string;
+      answer2Credits: {
+        engineerName: string;
+        engineerValue: string;
+        studioName: string;
+        studioValue: string;
+        email: string;
+        emailValue: string;
+      };
       question3: string;
       answer3: string;
       question4: string;

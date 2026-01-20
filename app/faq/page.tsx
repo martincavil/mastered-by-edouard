@@ -8,6 +8,20 @@ import Image from "next/image";
 import { ChevronDown } from "lucide-react";
 import { useState } from "react";
 
+interface Question {
+  question: string;
+  answer: string;
+  credits?: {
+    engineerName: string;
+    engineerValue: string;
+    studioName: string;
+    studioValue: string;
+    email: string;
+    emailValue: string;
+  };
+  image?: string;
+}
+
 export default function FaqPage() {
   const [expandedQuestion, setExpandedQuestion] = useState<number | null>(null);
   const t = useTranslations();
@@ -20,6 +34,7 @@ export default function FaqPage() {
     {
       question: t.faq.questions.question2,
       answer: t.faq.questions.answer2,
+      credits: t.faq.questions.answer2Credits,
     },
     {
       question: t.faq.questions.question3,
@@ -36,9 +51,10 @@ export default function FaqPage() {
     {
       question: t.faq.questions.question6,
       answer: t.faq.questions.answer6,
+      image:
+        "https://www.dropbox.com/scl/fi/hy3vmk2dhg5xudc5wg6i4/play-masteredByEdouard.webp?rlkey=33eisdspg44fg1jyb15pqy9fc&st=unvodn2g&dl=1",
     },
   ];
-  // Todo Ajouter bullet list dans la réponse 2 et l'image dans la réponse 6
 
   return (
     <>
@@ -71,7 +87,7 @@ export default function FaqPage() {
               </Link>
             </div>
             {/* Content */}
-            <div className="flex-1 grid md:grid-cols-2 md:gap-12 gap-8 min-h-0">
+            <div className="flex-1 grid md:grid-cols-2 2xl:gap-12 gap-6 min-h-0">
               <div className="space-y-4 overflow-y-auto h-full">
                 {questions.map((question, index) => (
                   <div key={index}>
@@ -88,7 +104,7 @@ export default function FaqPage() {
                         {question.question}
                       </span>
                       <ChevronDown
-                        className={`text-white transform transition-transform duration-300 ${
+                        className={`text-white transform transition-transform duration-300 w-9 h-9 ${
                           expandedQuestion === index ? "rotate-180" : "rotate-0"
                         }`}
                       />
@@ -96,13 +112,40 @@ export default function FaqPage() {
                     <div
                       className={`overflow-hidden transition-all duration-500 ease-in-out ${
                         expandedQuestion === index
-                          ? "max-h-96 opacity-100 translate-y-0"
+                          ? "max-h-[600px] opacity-100 translate-y-0"
                           : "max-h-0 opacity-0 -translate-y-2"
                       }`}
                     >
                       <div className="2xl:text-lg text-white font-poppins">
                         {question.answer}
                       </div>
+                      {question.credits && (
+                        <ul className="mt-2 text-white font-poppins font-bold">
+                          <li>
+                            <span>{question.credits.engineerName}</span> :{" "}
+                            {question.credits.engineerValue}
+                          </li>
+                          <li>
+                            <span>{question.credits.studioName}</span> :{" "}
+                            {question.credits.studioValue}
+                          </li>
+                          <li>
+                            <span>{question.credits.email}</span> :{" "}
+                            {question.credits.emailValue}
+                          </li>
+                        </ul>
+                      )}
+                      {question.image && (
+                        <div className="mt-4 bg-white rounded-[10px] py-8 px-10 w-full flex items-center justify-center">
+                          <Image
+                            src={question.image}
+                            alt="FAQ Illustration"
+                            width={500}
+                            height={300}
+                            className="w-full h-auto object-contain"
+                          />
+                        </div>
+                      )}
                     </div>
                   </div>
                 ))}

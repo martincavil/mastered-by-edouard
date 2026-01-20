@@ -205,6 +205,14 @@ export const fr: Translations = {
       question2: "2. what is Apple Digital Masters ? ",
       answer2:
         "Apple Digital Masters (ADM) is a program introduced by Apple which is designed to ensure that music distributed on Apple Music meets a high-quality audio standard. The studio is certified ADM, you simply have to give the following informations to the distributor :",
+      answer2Credits: {
+        engineerName: "Nom de l'ingénieur",
+        engineerValue: "Edouard Carbonne",
+        studioName: "Nom du studio",
+        studioValue: "Mastered by Edouard",
+        email: "Email",
+        emailValue: "contact@masteredbyedouard.com",
+      },
       question3: "3. why human mastering in the A.I era ? ",
       answer3:
         "We live in an amazing era where A.I can achieve for sure great results ! But the purpose of the mastering engineer is not only to provide tools, but also a human ear and experience ! It allows direct communication, feedback, and collaboration, ensuring that the artist's intentions and expectations are met. It’s all about human connection and trust!",
