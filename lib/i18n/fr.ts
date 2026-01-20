@@ -91,6 +91,8 @@ export const fr: Translations = {
       send: "envoyer",
       sending: "envoi en cours...",
       requiredNote: "les champs marqués d'un * sont obligatoires.",
+      successMessage: "message envoyé avec succès.",
+      backToHome: "retour à l'accueil",
       validation: {
         nameRequired: "Le prénom est obligatoire",
         familyNameRequired: "Le nom est obligatoire",

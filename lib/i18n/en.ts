@@ -91,6 +91,8 @@ export const en: Translations = {
       send: "send",
       sending: "sending...",
       requiredNote: "fields marked with * are required.",
+      successMessage: "message sent successfully.",
+      backToHome: "go back to homepage",
       validation: {
         nameRequired: "Name is required",
         familyNameRequired: "Family name is required",

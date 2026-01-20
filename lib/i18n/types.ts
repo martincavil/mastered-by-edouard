@@ -89,6 +89,8 @@ export type Translations = {
       send: string;
       sending: string;
       requiredNote: string;
+      successMessage: string;
+      backToHome: string;
       validation: {
         nameRequired: string;
         familyNameRequired: string;

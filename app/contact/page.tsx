@@ -13,6 +13,7 @@ import {
   MessageCircle,
   ChevronDown,
   MoveUpRight,
+  CircleCheckBig,
 } from "lucide-react";
 
 interface FormData {
@@ -116,9 +117,6 @@ export default function ContactPage() {
         numberOfSongs: "",
         message: "",
       });
-
-      // Reset success message after 5 seconds
-      setTimeout(() => setSubmitSuccess(false), 5000);
     } catch (error) {
       console.error("Error submitting form:", error);
       setErrors({ submit: t.contact.form.validation.submitError });
@@ -158,12 +156,12 @@ export default function ContactPage() {
           </div>
 
           {/* Social Links */}
-          <div className="flex gap-3 md:gap-3 xl:gap-4 mb-6 md:mb-3 xl:mb-5 2xl:mb-10">
+          <div className="flex gap-3 md:gap-3 xl:gap-4 mb-6 md:mb-3 2xl:mb-10">
             <a
               href="https://www.instagram.com/masteredbyedouard/"
               target="_blank"
               rel="noopener noreferrer"
-              className="border border-white rounded-xl px-6 py-2 text-white hover:text-red transition-colors duration-300"
+              className="border border-white rounded-full px-6 py-2 text-white hover:text-red transition-colors duration-300"
               aria-label="Instagram"
             >
               <Instagram className="w-5 h-5 md:w-6 md:h-6 xl:w-7 xl:h-7 2xl:w-8 2xl:h-8" />
@@ -172,7 +170,7 @@ export default function ContactPage() {
               href="https://www.linkedin.com/in/edouard-carbonne/"
               target="_blank"
               rel="noopener noreferrer"
-              className="border border-white rounded-xl px-6 py-2 text-white hover:text-red transition-colors duration-300"
+              className="border border-white rounded-full px-6 py-2 text-white hover:text-red transition-colors duration-300"
               aria-label="LinkedIn"
             >
               <Linkedin className="w-5 h-5 md:w-6 md:h-6 xl:w-7 xl:h-7 2xl:w-8 2xl:h-8" />
@@ -181,7 +179,7 @@ export default function ContactPage() {
               href="https://www.facebook.com/masteredbyedouard"
               target="_blank"
               rel="noopener noreferrer"
-              className="border border-white rounded-xl px-6 py-2 text-white hover:text-red transition-colors duration-300"
+              className="border border-white rounded-full px-6 py-2 text-white hover:text-red transition-colors duration-300"
               aria-label="Facebook"
             >
               <Facebook className="w-5 h-5 md:w-6 md:h-6 xl:w-7 xl:h-7 2xl:w-8 2xl:h-8" />
@@ -190,7 +188,7 @@ export default function ContactPage() {
               href="https://wa.me/+33695822071"
               target="_blank"
               rel="noopener noreferrer"
-              className="border border-white rounded-xl px-6 py-2 text-white hover:text-red transition-colors duration-300"
+              className="border border-white rounded-full px-6 py-2 text-white hover:text-red transition-colors duration-300"
               aria-label="WhatsApp"
             >
               <MessageCircle className="w-5 h-5 md:w-6 md:h-6 xl:w-7 xl:h-7 2xl:w-8 2xl:h-8" />
@@ -199,200 +197,230 @@ export default function ContactPage() {
 
           {/* Content Grid */}
           <div className="grid md:grid-cols-2 md:gap-6 xl:gap-10 2xl:gap-16 gap-8 flex-1 min-h-0">
-            {/* Left Column - Contact Form */}
+            {/* Left Column - Contact Form or Success Message */}
             <div className="overflow-y-auto md:overflow-y-visible">
-              <form onSubmit={handleSubmit} className="space-y-3">
-                {/* YOUR INFO Section */}
-                <div>
-                  <h2 className="uppercase text-lg 2xl:text-3xl font-light text-white mb-2 2xl:mb-6">
-                    {t.contact.form.sections.yourInfo}
-                  </h2>
-                  <div className="space-y-2">
-                    <div className="grid grid-cols-2 gap-3">
-                      <div>
-                        <input
-                          type="text"
-                          name="name"
-                          value={formData.name}
-                          onChange={handleChange}
-                          placeholder={t.contact.form.placeholders.name}
-                          className={`w-full bg-white rounded-lg px-4 py-2 text-base 2xl:text-lg text-black placeholder-black focus:ring-2 focus:ring-red outline-none ${
-                            errors.name ? "ring-2 ring-red" : ""
-                          }`}
-                          required
-                        />
-                        {errors.name && (
-                          <p className="text-red text-sm 2xl:text-base mt-1 font-poppins">
-                            {errors.name}
-                          </p>
-                        )}
-                      </div>
-                      <div>
-                        <input
-                          type="text"
-                          name="familyName"
-                          value={formData.familyName}
-                          onChange={handleChange}
-                          placeholder={t.contact.form.placeholders.familyName}
-                          className={`w-full bg-white rounded-lg px-4 py-2 text-base 2xl:text-lg text-black placeholder-black focus:ring-2 focus:ring-red outline-none ${
-                            errors.familyName ? "ring-2 ring-red" : ""
-                          }`}
-                          required
-                        />
-                        {errors.familyName && (
-                          <p className="text-red text-sm 2xl:text-base mt-1 font-poppins">
-                            {errors.familyName}
-                          </p>
-                        )}
-                      </div>
-                    </div>
-                    <div>
-                      <input
-                        type="email"
-                        name="email"
-                        value={formData.email}
-                        onChange={handleChange}
-                        placeholder={t.contact.form.placeholders.email}
-                        className={`w-full bg-white rounded-lg px-4 py-2 text-base 2xl:text-lg text-black placeholder-black focus:ring-2 focus:ring-red outline-none ${
-                          errors.email ? "ring-2 ring-red" : ""
-                        }`}
-                        required
+              {submitSuccess ? (
+                <div className="flex flex-col h-full">
+                  {/* White success container */}
+                  <div className="bg-white rounded-[10px] pt-8 px-8 flex flex-col items-center relative flex-1">
+                    <CircleCheckBig
+                      size={64}
+                      className="text-white bg-red rounded-full p-3"
+                      strokeWidth={2}
+                    />
+                    <p className="text-black text-center md:text-2xl 2xl:text-3xl mt-3">
+                      {t.contact.form.successMessage}
+                    </p>
+                    <div className="mt-auto w-full flex justify-center">
+                      <Image
+                        src="https://www.dropbox.com/scl/fi/k3q1w44zwfdlpglo9w3gc/sucess-message-contact.webp?rlkey=204sf2iuubp7ndii001ihsoaa&st=boi6c088&dl=1"
+                        alt="Success illustration"
+                        width={271}
+                        height={271}
+                        className="object-cover w-full"
                       />
-                      {errors.email && (
-                        <p className="text-red text-sm 2xl:text-base mt-1 font-poppins">
-                          {errors.email}
-                        </p>
-                      )}
-                    </div>
-                    <div>
-                      <input
-                        type="tel"
-                        name="phone"
-                        value={formData.phone}
-                        onChange={handleChange}
-                        placeholder={t.contact.form.placeholders.phone}
-                        className={`w-full bg-white rounded-lg px-4 py-2 text-base 2xl:text-lg text-black placeholder-black focus:ring-2 focus:ring-red outline-none ${
-                          errors.phone ? "ring-2 ring-red" : ""
-                        }`}
-                        required
-                      />
-                      {errors.phone && (
-                        <p className="text-red text-sm 2xl:text-base mt-1 font-poppins">
-                          {errors.phone}
-                        </p>
-                      )}
                     </div>
                   </div>
-                </div>
-
-                {/* PROJECT INFO Section */}
-                <div>
-                  <h2 className="uppercase text-lg 2xl:text-3xl font-light text-white mb-2 2xl:mb-6">
-                    {t.contact.form.sections.projectInfo}
-                  </h2>
-                  <div className="space-y-2">
-                    <div className="grid grid-cols-2 gap-3">
-                      <input
-                        type="text"
-                        name="artistName"
-                        value={formData.artistName}
-                        onChange={handleChange}
-                        placeholder={t.contact.form.placeholders.artistName}
-                        className="w-full bg-white rounded-lg px-4 py-2 text-base 2xl:text-lg text-black placeholder-black focus:ring-2 focus:ring-red outline-none"
-                      />
-                      <input
-                        type="text"
-                        name="projectName"
-                        value={formData.projectName}
-                        onChange={handleChange}
-                        placeholder={t.contact.form.placeholders.projectName}
-                        className="w-full bg-white rounded-lg px-4 py-2 text-base 2xl:text-lg text-black placeholder-black focus:ring-2 focus:ring-red outline-none"
-                      />
-                    </div>
-                    <div className="grid grid-cols-2 gap-3">
-                      <div className="relative">
-                        <select
-                          name="type"
-                          value={formData.type}
-                          onChange={handleChange}
-                          className="w-full bg-white rounded-lg px-4 py-2 text-base 2xl:text-lg text-black appearance-none focus:ring-2 focus:ring-red outline-none"
-                        >
-                          <option value="">
-                            {t.contact.form.placeholders.type}
-                          </option>
-                          <option value="indie">
-                            {t.contact.form.options.indie}
-                          </option>
-                          <option value="label">
-                            {t.contact.form.options.label}
-                          </option>
-                        </select>
-                        <ChevronDown
-                          className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none"
-                          size={20}
-                        />
-                      </div>
-                      <input
-                        type="number"
-                        name="numberOfSongs"
-                        value={formData.numberOfSongs}
-                        onChange={handleChange}
-                        placeholder={t.contact.form.placeholders.numberOfSongs}
-                        className="w-full bg-white rounded-lg px-4 py-2 text-base 2xl:text-lg text-black placeholder-black focus:ring-2 focus:ring-red outline-none"
-                        min="1"
-                      />
-                    </div>
-                    <div>
-                      <textarea
-                        name="message"
-                        value={formData.message}
-                        onChange={handleChange}
-                        placeholder={t.contact.form.placeholders.message}
-                        className={`w-full bg-white rounded-lg px-4 py-2 text-base 2xl:text-lg text-black placeholder-black h-16 resize-none focus:ring-2 focus:ring-red outline-none ${
-                          errors.message ? "ring-2 ring-red" : ""
-                        }`}
-                        required
-                      />
-                      {errors.message && (
-                        <p className="text-red text-sm 2xl:text-base mt-1 font-poppins">
-                          {errors.message}
-                        </p>
-                      )}
-                    </div>
-                  </div>
-                </div>
-
-                {/* Form Footer */}
-                <div className="flex items-center justify-between">
-                  <p className="text-sm 2xl:text-base text-white/70 font-poppins">
-                    {t.contact.form.requiredNote}
-                  </p>
-                  <button
-                    type="submit"
-                    disabled={isSubmitting}
-                    className="bg-red text-white font-bold text-base 2xl:text-lg px-6 xl:px-8 py-2.5 xl:py-3 rounded-lg hover:bg-red/90 transition-colors duration-300 flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+                  <Link
+                    href="/"
+                    className="bg-red text-black font-bold text-base 2xl:text-lg px-6 xl:px-8 py-2.5 xl:py-3 rounded-lg hover:bg-red/90 transition-colors duration-300 flex items-center justify-center gap-2 mt-3"
                   >
-                    {isSubmitting
-                      ? t.contact.form.sending
-                      : t.contact.form.send}
+                    {t.contact.form.backToHome}
                     <MoveUpRight size={20} />
-                  </button>
+                  </Link>
                 </div>
-
-                {/* Success Message */}
-                {submitSuccess && (
-                  <div className="bg-green-500/20 border border-green-500 text-green-500 px-4 py-3 rounded-lg text-base 2xl:text-lg font-poppins">
-                    {t.contact.form.validation.submitSuccess}
+              ) : (
+                <form
+                  onSubmit={handleSubmit}
+                  className="space-y-1 2xl:space-x-5"
+                >
+                  {/* YOUR INFO Section */}
+                  <div>
+                    <h2 className="uppercase text-lg 2xl:text-3xl font-light text-white mb-2 2xl:mb-6">
+                      {t.contact.form.sections.yourInfo}
+                    </h2>
+                    <div className="space-y-2">
+                      <div className="grid grid-cols-2 gap-3">
+                        <div>
+                          <input
+                            type="text"
+                            name="name"
+                            value={formData.name}
+                            onChange={handleChange}
+                            placeholder={t.contact.form.placeholders.name}
+                            className={`w-full bg-white rounded-lg px-4 py-2 text-base 2xl:text-lg text-black placeholder-black focus:ring-2 focus:ring-red outline-none ${
+                              errors.name ? "ring-2 ring-red" : ""
+                            }`}
+                            required
+                          />
+                          {errors.name && (
+                            <p className="text-red text-sm 2xl:text-base mt-1 font-poppins">
+                              {errors.name}
+                            </p>
+                          )}
+                        </div>
+                        <div>
+                          <input
+                            type="text"
+                            name="familyName"
+                            value={formData.familyName}
+                            onChange={handleChange}
+                            placeholder={t.contact.form.placeholders.familyName}
+                            className={`w-full bg-white rounded-lg px-4 py-2 text-base 2xl:text-lg text-black placeholder-black focus:ring-2 focus:ring-red outline-none ${
+                              errors.familyName ? "ring-2 ring-red" : ""
+                            }`}
+                            required
+                          />
+                          {errors.familyName && (
+                            <p className="text-red text-sm 2xl:text-base mt-1 font-poppins">
+                              {errors.familyName}
+                            </p>
+                          )}
+                        </div>
+                      </div>
+                      <div>
+                        <input
+                          type="email"
+                          name="email"
+                          value={formData.email}
+                          onChange={handleChange}
+                          placeholder={t.contact.form.placeholders.email}
+                          className={`w-full bg-white rounded-lg px-4 py-2 text-base 2xl:text-lg text-black placeholder-black focus:ring-2 focus:ring-red outline-none ${
+                            errors.email ? "ring-2 ring-red" : ""
+                          }`}
+                          required
+                        />
+                        {errors.email && (
+                          <p className="text-red text-sm 2xl:text-base mt-1 font-poppins">
+                            {errors.email}
+                          </p>
+                        )}
+                      </div>
+                      <div>
+                        <input
+                          type="tel"
+                          name="phone"
+                          value={formData.phone}
+                          onChange={handleChange}
+                          placeholder={t.contact.form.placeholders.phone}
+                          className={`w-full bg-white rounded-lg px-4 py-2 text-base 2xl:text-lg text-black placeholder-black focus:ring-2 focus:ring-red outline-none ${
+                            errors.phone ? "ring-2 ring-red" : ""
+                          }`}
+                          required
+                        />
+                        {errors.phone && (
+                          <p className="text-red text-sm 2xl:text-base mt-1 font-poppins">
+                            {errors.phone}
+                          </p>
+                        )}
+                      </div>
+                    </div>
                   </div>
-                )}
 
-                {/* Submit Error */}
-                {errors.submit && (
-                  <div className="bg-red/20 border border-red text-red px-4 py-3 rounded-lg text-base 2xl:text-lg font-poppins">
-                    {errors.submit}
+                  {/* PROJECT INFO Section */}
+                  <div>
+                    <h2 className="uppercase text-lg 2xl:text-3xl font-light text-white mb-2 2xl:mb-6">
+                      {t.contact.form.sections.projectInfo}
+                    </h2>
+                    <div className="space-y-2">
+                      <div className="grid grid-cols-2 gap-3">
+                        <input
+                          type="text"
+                          name="artistName"
+                          value={formData.artistName}
+                          onChange={handleChange}
+                          placeholder={t.contact.form.placeholders.artistName}
+                          className="w-full bg-white rounded-lg px-4 py-2 text-base 2xl:text-lg text-black placeholder-black focus:ring-2 focus:ring-red outline-none"
+                        />
+                        <input
+                          type="text"
+                          name="projectName"
+                          value={formData.projectName}
+                          onChange={handleChange}
+                          placeholder={t.contact.form.placeholders.projectName}
+                          className="w-full bg-white rounded-lg px-4 py-2 text-base 2xl:text-lg text-black placeholder-black focus:ring-2 focus:ring-red outline-none"
+                        />
+                      </div>
+                      <div className="grid grid-cols-2 gap-3">
+                        <div className="relative">
+                          <select
+                            name="type"
+                            value={formData.type}
+                            onChange={handleChange}
+                            className="w-full bg-white rounded-lg px-4 py-2 text-base 2xl:text-lg text-black appearance-none focus:ring-2 focus:ring-red outline-none"
+                          >
+                            <option value="">
+                              {t.contact.form.placeholders.type}
+                            </option>
+                            <option value="indie">
+                              {t.contact.form.options.indie}
+                            </option>
+                            <option value="label">
+                              {t.contact.form.options.label}
+                            </option>
+                          </select>
+                          <ChevronDown
+                            className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none"
+                            size={20}
+                          />
+                        </div>
+                        <input
+                          type="number"
+                          name="numberOfSongs"
+                          value={formData.numberOfSongs}
+                          onChange={handleChange}
+                          placeholder={
+                            t.contact.form.placeholders.numberOfSongs
+                          }
+                          className="w-full bg-white rounded-lg px-4 py-2 text-base 2xl:text-lg text-black placeholder-black focus:ring-2 focus:ring-red outline-none"
+                          min="1"
+                        />
+                      </div>
+                      <div>
+                        <textarea
+                          name="message"
+                          value={formData.message}
+                          onChange={handleChange}
+                          placeholder={t.contact.form.placeholders.message}
+                          className={`w-full bg-white rounded-lg px-4 py-2 text-base 2xl:text-lg text-black placeholder-black h-16 resize-none focus:ring-2 focus:ring-red outline-none ${
+                            errors.message ? "ring-2 ring-red" : ""
+                          }`}
+                          required
+                        />
+                        {errors.message && (
+                          <p className="text-red text-sm 2xl:text-base mt-1 font-poppins">
+                            {errors.message}
+                          </p>
+                        )}
+                      </div>
+                    </div>
                   </div>
-                )}
-              </form>
+
+                  {/* Form Footer */}
+                  <div className="flex items-center justify-between">
+                    <p className="text-sm 2xl:text-base text-white/70 font-poppins">
+                      {t.contact.form.requiredNote}
+                    </p>
+                    <button
+                      type="submit"
+                      disabled={isSubmitting}
+                      className="bg-red text-black font-bold text-base 2xl:text-lg px-6 xl:px-8 py-2.5 xl:py-3 rounded-lg hover:bg-red/90 transition-colors duration-300 flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+                    >
+                      {isSubmitting
+                        ? t.contact.form.sending
+                        : t.contact.form.send}
+                      <MoveUpRight size={20} />
+                    </button>
+                  </div>
+
+                  {/* Submit Error */}
+                  {errors.submit && (
+                    <div className="bg-red/20 border border-red text-red px-4 py-3 rounded-lg text-base 2xl:text-lg font-poppins">
+                      {errors.submit}
+                    </div>
+                  )}
+                </form>
+              )}
             </div>
 
             {/* Right Column - Illustration */}
