@@ -5,7 +5,7 @@ export default [
   {
     name: 'strapi::cors',
     config: {
-      origin: ['http://localhost:3000', 'https://mastered-by-edouard.vercel.app', 'https://*.vercel.app'],
+      origin: '*',
       headers: '*',
     }
   },
