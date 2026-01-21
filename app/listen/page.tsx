@@ -1,17 +1,39 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { useTranslations } from "@/lib/i18n/useTranslations";
 import { PageTransition } from "@/components/page-transition";
 import { Footer } from "@/components/footer";
 import { Button } from "@/components/button";
 import { MoveUpRight } from "lucide-react";
+import { getArtists, getStrapiImageUrl } from "@/lib/strapi/api";
+import { Artist } from "@/lib/strapi/types";
 import "./artists-scroll.css";
 import "../navigation-link.css";
 
 export default function ListenPage() {
   const t = useTranslations();
+  const [artists, setArtists] = useState<Artist[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [hoveredArtistId, setHoveredArtistId] = useState<number | null>(null);
+
+  useEffect(() => {
+    async function fetchArtists() {
+      try {
+        const data = await getArtists();
+        console.log("🎨 Artists data:", data);
+        setArtists(data);
+      } catch (error) {
+        console.error("Failed to fetch artists:", error);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchArtists();
+  }, []);
 
   const platforms = [
     {
@@ -92,6 +114,51 @@ export default function ListenPage() {
                 <h2 className="text-3xl md:text-4xl xl:text-5xl 2xl:text-6xl font-bold text-white">
                   {t.listen.subTitle}
                 </h2>
+                {/* Artists names via Strapi */}
+                <div className="flex flex-wrap gap-2 max-h-[200px] md:max-h-[250px] xl:max-h-[300px] 2xl:max-h-[350px] overflow-hidden">
+                  {loading ? (
+                    <p className="text-white/60">Loading artists...</p>
+                  ) : artists.length > 0 ? (
+                    artists.map((artist, index) =>
+                      artist.link ? (
+                        <Link
+                          href={artist.link}
+                          key={artist.id}
+                          target="_blank"
+                        >
+                          <span
+                            className={`text-lg md:text-xl xl:text-2xl font-light font-poppins uppercase transition-colors duration-300 cursor-pointer ${
+                              hoveredArtistId === artist.id
+                                ? "text-white"
+                                : "text-red hover:text-white"
+                            }`}
+                            onMouseEnter={() => setHoveredArtistId(artist.id)}
+                            onMouseLeave={() => setHoveredArtistId(null)}
+                          >
+                            {artist.name}
+                            {index < artists.length - 1 ? "," : "..."}
+                          </span>
+                        </Link>
+                      ) : (
+                        <span
+                          key={artist.id}
+                          className={`text-lg md:text-xl xl:text-2xl font-light font-poppins uppercase cursor-default ${
+                            hoveredArtistId === artist.id
+                              ? "text-white"
+                              : "text-red"
+                          }`}
+                          onMouseEnter={() => setHoveredArtistId(artist.id)}
+                          onMouseLeave={() => setHoveredArtistId(null)}
+                        >
+                          {artist.name}
+                          {index < artists.length - 1 ? "," : "..."}
+                        </span>
+                      )
+                    )
+                  ) : (
+                    <p className="text-white/60">No artists found.</p>
+                  )}
+                </div>
                 <div className="flex justify-center w-full mt-6 xl:mt-8 2xl:mt-10">
                   <Link href="https://credits.muso.ai/profile/83085fe9-a37a-493e-b0ac-1a62bf76590f">
                     <Button
@@ -103,6 +170,108 @@ export default function ListenPage() {
                     </Button>
                   </Link>
                 </div>
+              </div>
+              {/* Artists pictures */}
+              <div className="artists-scroll-container hidden md:flex">
+                {!loading && artists.length > 0 &&
+                  (() => {
+                    // Create rows with 3-4 images each
+                    const rowSizes = [3, 4, 3, 4];
+                    const rows: Artist[][] = [];
+                    let currentIndex = 0;
+
+                    // Duplicate artists many times for smooth infinite loop
+                    const duplicatedArtists = [
+                      ...artists,
+                      ...artists,
+                      ...artists,
+                      ...artists,
+                      ...artists,
+                      ...artists,
+                    ];
+
+                    // Create multiple sets of rows for infinite effect
+                    for (let set = 0; set < 6; set++) {
+                      rowSizes.forEach((size) => {
+                        const row = duplicatedArtists.slice(
+                          currentIndex % duplicatedArtists.length,
+                          (currentIndex % duplicatedArtists.length) + size
+                        );
+                        if (row.length > 0) {
+                          rows.push(row);
+                        }
+                        currentIndex += size;
+                      });
+                    }
+
+                    const renderRows = (keyPrefix: string) =>
+                      rows.map((row, rowIndex) => (
+                        <div
+                          key={`${keyPrefix}-${rowIndex}`}
+                          className="artist-row"
+                        >
+                          {row.map((artist, imageIndex) => {
+                            const imageUrl = artist.picture;
+                            const rotations = [-8, -6, -4, -2, 0, 2, 4, 6, 8];
+                            const rotation =
+                              rotations[
+                                (rowIndex + imageIndex) % rotations.length
+                              ];
+
+                            const imageContent = (
+                              <>
+                                {imageUrl && (
+                                  <Image
+                                    src={getStrapiImageUrl(imageUrl)}
+                                    alt={artist.name}
+                                    width={140}
+                                    height={140}
+                                    className="object-cover rounded-lg transition-all duration-300 group-hover:scale-110"
+                                  />
+                                )}
+                              </>
+                            );
+
+                            return (
+                              <div
+                                key={`${artist.id}-${rowIndex}-${imageIndex}`}
+                                className="artist-image-item rounded-lg group"
+                                style={{
+                                  transform: `rotate(${rotation}deg)`,
+                                }}
+                                onMouseEnter={() =>
+                                  setHoveredArtistId(artist.id)
+                                }
+                                onMouseLeave={() => setHoveredArtistId(null)}
+                              >
+                                {artist.link ? (
+                                  <Link
+                                    href={artist.link}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                  >
+                                    {imageContent}
+                                  </Link>
+                                ) : (
+                                  imageContent
+                                )}
+                              </div>
+                            );
+                          })}
+                        </div>
+                      ));
+
+                    return (
+                      <>
+                        <div className="artists-scroll-wrapper">
+                          {renderRows("set1")}
+                        </div>
+                        <div className="artists-scroll-wrapper">
+                          {renderRows("set2")}
+                        </div>
+                      </>
+                    );
+                  })()}
               </div>
             </div>
             <Footer color="white" />
