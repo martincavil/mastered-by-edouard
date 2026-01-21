@@ -71,8 +71,8 @@ export default function SendFilesPage() {
                   onClick={() => setSelectedSubject(subject.key)}
                   className={`py-1.5 px-4 border rounded-full text-xl md:text-lg xl:text-xl 2xl:text-3xl font-light relative overflow-hidden ${
                     selectedSubject === subject.key
-                      ? "bg-white text-black border-white"
-                      : "navigation-link bg-transparent text-white border-white"
+                      ? "bg-black text-white border-black"
+                      : "navigation-link bg-transparent text-black border-black"
                   }`}
                 >
                   {selectedSubject !== subject.key && (
