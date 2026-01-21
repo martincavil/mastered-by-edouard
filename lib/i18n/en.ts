@@ -27,9 +27,14 @@ export const en: Translations = {
     productionSheetTitle: "production sheet",
     prepareFilesTitle: "prepare your files",
     audioFiles: {
+      draganddrop: "Simply drop the file(s) below :",
+      clickordrag: "upload file(s) *",
+      uploadingFiles: "Uploaded file(s)",
       headline1: "simple.",
       headline2: "fast.",
       headline3: "secure.",
+      termsAndConditions:
+        "you accept the terms and conditions of the studio when sending files.",
     },
     productionSheet: {
       headline1: "all infos,",

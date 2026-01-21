@@ -34,9 +34,13 @@ export type Translations = {
     productionSheetTitle: string;
     prepareFilesTitle: string;
     audioFiles: {
+      draganddrop: string;
+      clickordrag: string;
+      uploadingFiles: string;
       headline1: string;
       headline2: string;
       headline3: string;
+      termsAndConditions: string;
     };
     productionSheet: {
       headline1: string;
