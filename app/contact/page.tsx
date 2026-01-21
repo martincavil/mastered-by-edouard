@@ -438,7 +438,7 @@ export default function ContactPage() {
             </div>
           </div>
 
-          <Footer color="white" />
+          <Footer color="white" hoverColor="black" />
         </div>
       </main>
     </PageTransition>

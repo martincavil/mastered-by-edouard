@@ -27,13 +27,17 @@ export const fr: Translations = {
     productionSheetTitle: "fiche de production",
     prepareFilesTitle: "préparer vos fichiers",
     audioFiles: {
-      headline: "simple. rapide. sécurisé.",
+      headline1: "simple.",
+      headline2: "rapide.",
+      headline3: "sécurisé.",
     },
     productionSheet: {
-      headline: "toutes les infos, un seul endroit.",
+      headline1: "toutes les infos,",
+      headline2: "un seul endroit.",
     },
     prepareFiles: {
-      headline: "le mastering commence par un bon mix.",
+      headline1: "le mastering",
+      headline2: "commence par un bon mix.",
     },
   },
   studio: {

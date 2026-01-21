@@ -5,7 +5,7 @@ import { useTranslations } from "@/lib/i18n/useTranslations";
 
 interface FooterProps {
   color?: "white" | "black";
-  hoverColor?: "red" | "white";
+  hoverColor?: "red" | "white" | "black";
 }
 
 export function Footer({ color = "white", hoverColor = "red" }: FooterProps) {
@@ -13,7 +13,11 @@ export function Footer({ color = "white", hoverColor = "red" }: FooterProps) {
 
   const textColor = color === "white" ? "text-white" : "text-black";
   const hoverColorClass =
-    hoverColor === "red" ? "hover:text-red" : "hover:text-white";
+    hoverColor === "red"
+      ? "hover:text-red"
+      : hoverColor === "black"
+      ? "hover:text-black"
+      : "hover:text-white";
 
   return (
     <footer className="hidden md:flex justify-between items-center px-8 pb-6 pt-6 2xl:pt-[45px] text-sm">

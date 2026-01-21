@@ -140,7 +140,7 @@ export default function SendFilesPage() {
                 {selectedSubject === "prepare-files" && <PrepareFiles />}
               </div>
             </div>
-            <Footer color="white" />
+            <Footer color="white" hoverColor="black" />
           </div>
         </main>
       </PageTransition>

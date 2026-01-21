@@ -34,13 +34,17 @@ export type Translations = {
     productionSheetTitle: string;
     prepareFilesTitle: string;
     audioFiles: {
-      headline: string;
+      headline1: string;
+      headline2: string;
+      headline3: string;
     };
     productionSheet: {
-      headline: string;
+      headline1: string;
+      headline2: string;
     };
     prepareFiles: {
-      headline: string;
+      headline1: string;
+      headline2: string;
     };
   };
   studio: {
