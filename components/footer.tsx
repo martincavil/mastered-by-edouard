@@ -5,12 +5,15 @@ import { useTranslations } from "@/lib/i18n/useTranslations";
 
 interface FooterProps {
   color?: "white" | "black";
+  hoverColor?: "red" | "white";
 }
 
-export function Footer({ color = "white" }: FooterProps) {
+export function Footer({ color = "white", hoverColor = "red" }: FooterProps) {
   const t = useTranslations();
 
   const textColor = color === "white" ? "text-white" : "text-black";
+  const hoverColorClass =
+    hoverColor === "red" ? "hover:text-red" : "hover:text-white";
 
   return (
     <footer className="hidden md:flex justify-between items-center px-8 pb-6 pt-6 2xl:pt-[45px] text-sm">
@@ -20,7 +23,7 @@ export function Footer({ color = "white" }: FooterProps) {
           href="https://www.instagram.com/masteredbyedouard/"
           target="_blank"
           rel="noopener noreferrer"
-          className={`${textColor} hover:text-red transition-colors font-poppins`}
+          className={`${textColor} ${hoverColorClass} transition-colors font-poppins`}
         >
           Instagram
         </Link>
@@ -28,7 +31,7 @@ export function Footer({ color = "white" }: FooterProps) {
           href="https://credits.muso.ai/profile/83085fe9-a37a-493e-b0ac-1a62bf76590f"
           target="_blank"
           rel="noopener noreferrer"
-          className={`${textColor} hover:text-red transition-colors font-poppins`}
+          className={`${textColor} ${hoverColorClass} transition-colors font-poppins`}
         >
           Muso.AI
         </Link>
@@ -39,14 +42,14 @@ export function Footer({ color = "white" }: FooterProps) {
           Mastered by Edouard 2025 © |{" "}
           <Link
             href="/legal-notice/"
-            className="hover:text-red transition-colors"
+            className={`${hoverColorClass} transition-colors`}
           >
             {t.footer.legalnotice}
           </Link>{" "}
           |{" "}
           <Link
             href="/terms-and-conditions/"
-            className="hover:text-red transition-colors"
+            className={`${hoverColorClass} transition-colors`}
           >
             {t.footer.terms}
           </Link>
@@ -55,7 +58,7 @@ export function Footer({ color = "white" }: FooterProps) {
       {/* Faq link */}
       <Link
         href="/faq/"
-        className={`${textColor} hover:text-red text-2xl font-bold transition-colors`}
+        className={`${textColor} ${hoverColorClass} text-2xl font-bold transition-colors`}
       >
         {t.footer.faq}
       </Link>
