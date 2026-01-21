@@ -1,3 +1,0 @@
-// Empty PostCSS config for Strapi
-// This prevents Strapi from using the root postcss.config.js (which requires Tailwind)
-module.exports = {};

@@ -40,16 +40,3 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
-
-# strapi
-/cms/.tmp
-/cms/.cache
-/cms/build
-/cms/.strapi
-/cms/dist
-/cms/exports
-/cms/**/*.db*
-/cms/**/.env
-/cms/package-lock.json
-/cms/public/uploads/*
-!/cms/public/uploads/.gitkeep
