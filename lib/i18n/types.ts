@@ -30,7 +30,18 @@ export type Translations = {
   };
   sendFiles: {
     title: string;
-    description: string;
+    audioFilesTitle: string;
+    productionSheetTitle: string;
+    prepareFilesTitle: string;
+    audioFiles: {
+      headline: string;
+    };
+    productionSheet: {
+      headline: string;
+    };
+    prepareFiles: {
+      headline: string;
+    };
   };
   studio: {
     engineerTitle: string;

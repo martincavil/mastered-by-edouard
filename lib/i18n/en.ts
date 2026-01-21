@@ -23,7 +23,18 @@ export const en: Translations = {
   },
   sendFiles: {
     title: "send files.",
-    description: "Send your audio files for mastering.",
+    audioFilesTitle: "audio files",
+    productionSheetTitle: "production sheet",
+    prepareFilesTitle: "prepare your files",
+    audioFiles: {
+      headline: "simple. fast. secure.",
+    },
+    productionSheet: {
+      headline: "all infos, one place.",
+    },
+    prepareFiles: {
+      headline: "mastering starts with a good mix.",
+    },
   },
   studio: {
     title: "studio.",
