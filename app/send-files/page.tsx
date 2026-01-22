@@ -1,7 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import { useTranslations } from "@/lib/i18n/useTranslations";
 import { PageTransition } from "@/components/page-transition";
 import { Footer } from "@/components/footer";
@@ -14,9 +15,21 @@ type SubjectKey = "audio-files" | "production-sheet" | "prepare-files";
 
 export default function SendFilesPage() {
   const t = useTranslations();
+  const searchParams = useSearchParams();
   const [selectedSubject, setSelectedSubject] =
     useState<SubjectKey>("audio-files");
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  useEffect(() => {
+    const tab = searchParams.get("tab");
+    if (
+      tab === "production-sheet" ||
+      tab === "prepare-files" ||
+      tab === "audio-files"
+    ) {
+      setSelectedSubject(tab);
+    }
+  }, [searchParams]);
 
   const subjects: { key: SubjectKey; name: string }[] = [
     {

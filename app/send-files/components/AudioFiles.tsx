@@ -180,7 +180,7 @@ export function AudioFiles() {
             </div>
             <div className="flex items-center w-full gap-2 mt-2 2xl:mt-3">
               <Link
-                href="/send-files"
+                href="/send-files?tab=production-sheet"
                 className="bg-white text-black font-bold text-base 2xl:text-lg py-1.5 2xl:py-3 rounded-[10px] hover:bg-black/90 transition-colors duration-300 flex items-center justify-center gap-2 w-full"
               >
                 {t.sendFiles.audioFiles.sendProductionSheet}
