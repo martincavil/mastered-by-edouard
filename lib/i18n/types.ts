@@ -40,7 +40,12 @@ export type Translations = {
       headline1: string;
       headline2: string;
       headline3: string;
+      successHeadline1: string;
+      successHeadline2: string;
       termsAndConditions: string;
+      successMessage: string;
+      sendProductionSheet: string;
+      backToHome: string;
     };
     productionSheet: {
       headline1: string;

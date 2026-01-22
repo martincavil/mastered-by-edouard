@@ -6,6 +6,7 @@ import Image from "next/image";
 import { useTranslations } from "@/lib/i18n/useTranslations";
 import { PageTransition } from "@/components/page-transition";
 import { Footer } from "@/components/footer";
+import { LoadingSpinner } from "@/components/loading-spinner";
 import {
   Instagram,
   Linkedin,
@@ -53,7 +54,7 @@ export default function ContactPage() {
   const handleChange = (
     e: React.ChangeEvent<
       HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
-    >
+    >,
   ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
@@ -223,7 +224,7 @@ export default function ContactPage() {
                   </div>
                   <Link
                     href="/"
-                    className="bg-red text-black font-bold text-base 2xl:text-lg px-6 xl:px-8 py-2.5 xl:py-3 rounded-lg hover:bg-red/90 transition-colors duration-300 flex items-center justify-center gap-2 mt-3"
+                    className="bg-red text-black font-bold text-base 2xl:text-lg px-6 xl:px-8 py-2.5 xl:py-3 rounded-[10px] hover:bg-red/90 transition-colors duration-300 flex items-center justify-center gap-2 mt-3"
                   >
                     {t.contact.form.backToHome}
                     <MoveUpRight size={20} />
@@ -248,7 +249,7 @@ export default function ContactPage() {
                             value={formData.name}
                             onChange={handleChange}
                             placeholder={t.contact.form.placeholders.name}
-                            className={`w-full bg-white rounded-lg px-4 py-2 text-base 2xl:text-lg text-black placeholder-black focus:ring-2 focus:ring-red outline-none ${
+                            className={`w-full bg-white rounded-[10px] px-4 py-2 text-base 2xl:text-lg text-black placeholder-black focus:ring-2 focus:ring-red outline-none ${
                               errors.name ? "ring-2 ring-red" : ""
                             }`}
                             required
@@ -266,7 +267,7 @@ export default function ContactPage() {
                             value={formData.familyName}
                             onChange={handleChange}
                             placeholder={t.contact.form.placeholders.familyName}
-                            className={`w-full bg-white rounded-lg px-4 py-2 text-base 2xl:text-lg text-black placeholder-black focus:ring-2 focus:ring-red outline-none ${
+                            className={`w-full bg-white rounded-[10px] px-4 py-2 text-base 2xl:text-lg text-black placeholder-black focus:ring-2 focus:ring-red outline-none ${
                               errors.familyName ? "ring-2 ring-red" : ""
                             }`}
                             required
@@ -285,7 +286,7 @@ export default function ContactPage() {
                           value={formData.email}
                           onChange={handleChange}
                           placeholder={t.contact.form.placeholders.email}
-                          className={`w-full bg-white rounded-lg px-4 py-2 text-base 2xl:text-lg text-black placeholder-black focus:ring-2 focus:ring-red outline-none ${
+                          className={`w-full bg-white rounded-[10px] px-4 py-2 text-base 2xl:text-lg text-black placeholder-black focus:ring-2 focus:ring-red outline-none ${
                             errors.email ? "ring-2 ring-red" : ""
                           }`}
                           required
@@ -303,7 +304,7 @@ export default function ContactPage() {
                           value={formData.phone}
                           onChange={handleChange}
                           placeholder={t.contact.form.placeholders.phone}
-                          className={`w-full bg-white rounded-lg px-4 py-2 text-base 2xl:text-lg text-black placeholder-black focus:ring-2 focus:ring-red outline-none ${
+                          className={`w-full bg-white rounded-[10px] px-4 py-2 text-base 2xl:text-lg text-black placeholder-black focus:ring-2 focus:ring-red outline-none ${
                             errors.phone ? "ring-2 ring-red" : ""
                           }`}
                           required
@@ -330,7 +331,7 @@ export default function ContactPage() {
                           value={formData.artistName}
                           onChange={handleChange}
                           placeholder={t.contact.form.placeholders.artistName}
-                          className="w-full bg-white rounded-lg px-4 py-2 text-base 2xl:text-lg text-black placeholder-black focus:ring-2 focus:ring-red outline-none"
+                          className="w-full bg-white rounded-[10px] px-4 py-2 text-base 2xl:text-lg text-black placeholder-black focus:ring-2 focus:ring-red outline-none"
                         />
                         <input
                           type="text"
@@ -338,7 +339,7 @@ export default function ContactPage() {
                           value={formData.projectName}
                           onChange={handleChange}
                           placeholder={t.contact.form.placeholders.projectName}
-                          className="w-full bg-white rounded-lg px-4 py-2 text-base 2xl:text-lg text-black placeholder-black focus:ring-2 focus:ring-red outline-none"
+                          className="w-full bg-white rounded-[10px] px-4 py-2 text-base 2xl:text-lg text-black placeholder-black focus:ring-2 focus:ring-red outline-none"
                         />
                       </div>
                       <div className="grid grid-cols-2 gap-3">
@@ -347,7 +348,7 @@ export default function ContactPage() {
                             name="type"
                             value={formData.type}
                             onChange={handleChange}
-                            className="w-full bg-white rounded-lg px-4 py-2 text-base 2xl:text-lg text-black appearance-none focus:ring-2 focus:ring-red outline-none"
+                            className="w-full bg-white rounded-[10px] px-4 py-2 text-base 2xl:text-lg text-black appearance-none focus:ring-2 focus:ring-red outline-none"
                           >
                             <option value="">
                               {t.contact.form.placeholders.type}
@@ -372,7 +373,7 @@ export default function ContactPage() {
                           placeholder={
                             t.contact.form.placeholders.numberOfSongs
                           }
-                          className="w-full bg-white rounded-lg px-4 py-2 text-base 2xl:text-lg text-black placeholder-black focus:ring-2 focus:ring-red outline-none"
+                          className="w-full bg-white rounded-[10px] px-4 py-2 text-base 2xl:text-lg text-black placeholder-black focus:ring-2 focus:ring-red outline-none"
                           min="1"
                         />
                       </div>
@@ -382,7 +383,7 @@ export default function ContactPage() {
                           value={formData.message}
                           onChange={handleChange}
                           placeholder={t.contact.form.placeholders.message}
-                          className={`w-full bg-white rounded-lg px-4 py-2 text-base 2xl:text-lg text-black placeholder-black h-16 resize-none focus:ring-2 focus:ring-red outline-none ${
+                          className={`w-full bg-white rounded-[10px] px-4 py-2 text-base 2xl:text-lg text-black placeholder-black h-16 resize-none focus:ring-2 focus:ring-red outline-none ${
                             errors.message ? "ring-2 ring-red" : ""
                           }`}
                           required
@@ -404,7 +405,7 @@ export default function ContactPage() {
                     <button
                       type="submit"
                       disabled={isSubmitting}
-                      className="bg-red text-black font-bold text-base 2xl:text-lg px-6 xl:px-8 py-2.5 xl:py-3 rounded-lg hover:bg-red/90 transition-colors duration-300 flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+                      className="bg-red text-black font-bold text-base 2xl:text-lg px-6 xl:px-8 py-2.5 xl:py-3 rounded-[10px] hover:bg-red/90 transition-colors duration-300 flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
                     >
                       {isSubmitting
                         ? t.contact.form.sending
@@ -415,7 +416,7 @@ export default function ContactPage() {
 
                   {/* Submit Error */}
                   {errors.submit && (
-                    <div className="bg-red/20 border border-red text-red px-4 py-3 rounded-lg text-base 2xl:text-lg font-poppins">
+                    <div className="bg-red/20 border border-red text-red px-4 py-3 rounded-[10px] text-base 2xl:text-lg font-poppins">
                       {errors.submit}
                     </div>
                   )}
@@ -425,7 +426,7 @@ export default function ContactPage() {
 
             {/* Right Column - Illustration */}
             <div className="hidden md:flex flex-col items-center md:items-end justify-start space-y-4 2xl:space-y-20">
-              <h3 className="text-5xl xl:text-[100px] font-bold text-white leading-[0.8]">
+              <h3 className="text-5xl xl:text-[90px] 2xl:text-[100px] font-bold text-white leading-[0.8]">
                 {t.contact.ctaTitle}
               </h3>
               <Image
@@ -441,6 +442,7 @@ export default function ContactPage() {
           <Footer color="white" hoverColor="black" />
         </div>
       </main>
+      {isSubmitting && <LoadingSpinner />}
     </PageTransition>
   );
 }

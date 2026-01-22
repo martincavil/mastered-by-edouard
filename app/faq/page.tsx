@@ -94,7 +94,7 @@ export default function FaqPage() {
                     <button
                       onClick={() =>
                         setExpandedQuestion(
-                          expandedQuestion === index ? null : index
+                          expandedQuestion === index ? null : index,
                         )
                       }
                       className={`
@@ -152,7 +152,7 @@ export default function FaqPage() {
               </div>
               {/* Right Column - Illustration */}
               <div className="hidden md:flex flex-col items-center md:items-end justify-start space-y-4 2xl:space-y-20">
-                <h3 className="text-5xl xl:text-[100px] font-bold text-white leading-[0.8]">
+                <h3 className="text-5xl xl:text-[90px] 2xl:text-[100px] font-bold text-white leading-[0.8]">
                   {t.faq.illustrationTitle}
                 </h3>
                 <Image

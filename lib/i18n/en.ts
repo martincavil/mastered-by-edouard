@@ -33,8 +33,13 @@ export const en: Translations = {
       headline1: "simple.",
       headline2: "fast.",
       headline3: "secure.",
+      successHeadline1: "your files",
+      successHeadline2: "are now in good hands.",
       termsAndConditions:
         "you accept the terms and conditions of the studio when sending files.",
+      successMessage: "audio files sent successfully.",
+      sendProductionSheet: "send production sheet",
+      backToHome: "back to home",
     },
     productionSheet: {
       headline1: "all infos,",

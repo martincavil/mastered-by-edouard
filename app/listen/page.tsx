@@ -153,7 +153,7 @@ export default function ListenPage() {
                           {artist.name}
                           {index < artists.length - 1 ? "," : "..."}
                         </span>
-                      )
+                      ),
                     )
                   ) : (
                     <p className="text-white/60">No artists found.</p>
@@ -173,7 +173,8 @@ export default function ListenPage() {
               </div>
               {/* Artists pictures */}
               <div className="artists-scroll-container hidden md:flex">
-                {!loading && artists.length > 0 &&
+                {!loading &&
+                  artists.length > 0 &&
                   (() => {
                     // Create rows with 3-4 images each
                     const rowSizes = [3, 4, 3, 4];
@@ -195,7 +196,7 @@ export default function ListenPage() {
                       rowSizes.forEach((size) => {
                         const row = duplicatedArtists.slice(
                           currentIndex % duplicatedArtists.length,
-                          (currentIndex % duplicatedArtists.length) + size
+                          (currentIndex % duplicatedArtists.length) + size,
                         );
                         if (row.length > 0) {
                           rows.push(row);
@@ -226,7 +227,7 @@ export default function ListenPage() {
                                     alt={artist.name}
                                     width={140}
                                     height={140}
-                                    className="object-cover rounded-lg transition-all duration-300 group-hover:scale-110"
+                                    className="object-cover rounded-[10px] transition-all duration-300 group-hover:scale-110"
                                   />
                                 )}
                               </>
@@ -235,7 +236,7 @@ export default function ListenPage() {
                             return (
                               <div
                                 key={`${artist.id}-${rowIndex}-${imageIndex}`}
-                                className="artist-image-item rounded-lg group"
+                                className="artist-image-item rounded-[10px] group"
                                 style={{
                                   transform: `rotate(${rotation}deg)`,
                                 }}
