@@ -36,7 +36,7 @@ async function uploadSmallFile(file: Buffer, path: string): Promise<void> {
         mute: false,
       }),
     },
-    body: file,
+    body: new Uint8Array(file),
   });
 
   if (!response.ok) {
@@ -59,7 +59,7 @@ async function uploadLargeFile(file: Buffer, path: string): Promise<void> {
           'Authorization': `Bearer ${DROPBOX_ACCESS_TOKEN}`,
           'Content-Type': 'application/octet-stream',
         },
-        body: chunk,
+        body: new Uint8Array(chunk),
       });
 
       if (!startResponse.ok) {
@@ -81,7 +81,7 @@ async function uploadLargeFile(file: Buffer, path: string): Promise<void> {
             },
           }),
         },
-        body: chunk,
+        body: new Uint8Array(chunk),
       });
 
       if (!appendResponse.ok) {
@@ -106,7 +106,7 @@ async function uploadLargeFile(file: Buffer, path: string): Promise<void> {
             },
           }),
         },
-        body: chunk,
+        body: new Uint8Array(chunk),
       });
 
       if (!finishResponse.ok) {
