@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { useTranslations } from "@/lib/i18n/useTranslations";
@@ -13,7 +13,7 @@ import { PrepareFiles } from "./components/PrepareFiles";
 
 type SubjectKey = "audio-files" | "production-sheet" | "prepare-files";
 
-export default function SendFilesPage() {
+function SendFilesContent() {
   const t = useTranslations();
   const searchParams = useSearchParams();
   const [selectedSubject, setSelectedSubject] =
@@ -158,5 +158,13 @@ export default function SendFilesPage() {
         </main>
       </PageTransition>
     </>
+  );
+}
+
+export default function SendFilesPage() {
+  return (
+    <Suspense fallback={<div className="h-full w-full bg-red" />}>
+      <SendFilesContent />
+    </Suspense>
   );
 }
