@@ -1,5 +1,74 @@
 # Changelog - MasteredByEdouard
 
+## 2025-01-23 - Repository Cleanup & Security Improvements
+
+### 🧹 Code Cleanup
+
+**Removed debug code:**
+- Removed `console.log()` statements from production code
+- Kept `console.error()` for error logging
+- Cleaned up `/app/contact/page.tsx`
+- Cleaned up `/app/listen/page.tsx`
+- Cleaned up `/app/api/production-sheet/route.ts`
+
+**Removed obsolete documentation:**
+- Deleted `I18N-WITHOUT-URL.md` (implementation already complete)
+- Deleted `FONTS-SETUP.md` (fonts already configured)
+
+### 🔒 Security Improvements
+
+**Enhanced `.gitignore`:**
+- Added IDE/editor exclusions (.vscode/, .idea/, etc.)
+- Added OS file exclusions (Thumbs.db, .DS_Store)
+- Added temporary file patterns (*.tmp, *.bak, *.backup)
+- Added log file pattern (*.log)
+
+**New security documentation:**
+- Created `SECURITY.md` with security guidelines
+- Created `.env.example` to document required environment variables
+- Security warnings in README.md
+
+**Security notes:**
+- ⚠️ `.env.local` and `cms/.env` contain sensitive tokens
+- ⚠️ Dropbox access tokens should be rotated periodically
+- ⚠️ Never commit environment files to version control
+
+### 📝 Documentation Updates
+
+**Updated README.md:**
+- Added Dropbox API to tech stack
+- Added file upload features
+- Updated environment variable setup
+- Added security section reference
+- Updated Next.js version to 16
+- Added Turbopack mention
+
+**Updated project documentation:**
+- All builds verified successful
+- TypeScript compilation clean
+- No linting errors
+
+### ✅ Quality Assurance
+
+- Build verified: ✅
+- TypeScript compilation: ✅
+- All routes functional: ✅
+- Environment variables documented: ✅
+- Security guidelines in place: ✅
+
+### 📦 Dependencies
+
+No changes to dependencies - all current versions are optimal:
+- Next.js 16.1.1
+- React 19.2.3
+- TypeScript 5
+- Tailwind CSS 3.4.19
+- Framer Motion 12.26.1
+
+---
+
+# Changelog - MasteredByEdouard
+
 ## 2025-01-12 - i18n sans URLs localisées + Downgrade Tailwind v3
 
 ### 🌍 Changement majeur : i18n sans `/fr` ni `/en`

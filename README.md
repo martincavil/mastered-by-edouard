@@ -4,22 +4,25 @@ Production-grade Next.js website for a professional music mastering studio in Fr
 
 ## Tech Stack
 
-- **Next.js 15+** with App Router
+- **Next.js 16** with App Router & Turbopack
 - **TypeScript**
 - **Tailwind CSS**
 - **Framer Motion** for page transitions
 - **Strapi CMS** (headless) for dynamic content
+- **Dropbox API** for file uploads
 - **Vercel** for hosting
 
 ## Features
 
 - ✅ Multilingual (French & English) with auto-detection
-- ✅ Full-screen app-like experience (no scroll on desktop)
+- ✅ Full-screen app-like experience
 - ✅ Smooth page transitions
 - ✅ SEO optimized (meta tags, sitemap, robots.txt)
 - ✅ Cookie-based language persistence
 - ✅ Dynamic content via Strapi
-- ✅ Vercel-ready deployment
+- ✅ File upload system (audio files & production sheets)
+- ✅ PDF generation for production sheets
+- ✅ Dropbox integration for client file management
 
 ## Getting Started
 
@@ -31,14 +34,16 @@ npm install
 
 ### Configure environment
 
-```bash
-cp .env.example .env.local
+Create `.env.local` file with:
+
+```env
+NEXT_PUBLIC_BASE_URL=http://localhost:3000
+NEXT_PUBLIC_STRAPI_URL=your-strapi-url
+STRAPI_API_TOKEN=your-strapi-token
+DROPBOX_ACCESS_TOKEN=your-dropbox-token
 ```
 
-Edit `.env.local`:
-- `NEXT_PUBLIC_BASE_URL`: Your domain
-- `NEXT_PUBLIC_STRAPI_URL`: Strapi API URL
-- `STRAPI_API_TOKEN`: Strapi API token
+⚠️ **Security**: Never commit `.env.local` to version control. See `SECURITY.md` for details.
 
 ### Run development server
 
@@ -46,9 +51,7 @@ Edit `.env.local`:
 npm run dev
 ```
 
-Open:
-- French: http://localhost:3000
-- English: http://localhost:3000/en
+Open http://localhost:3000 (language auto-detected from browser)
 
 ## Project Structure
 
@@ -61,7 +64,8 @@ See `strapi/README.md` for CMS configuration.
 ## Scripts
 
 ```bash
-npm run dev          # Start development server
+npm run dev          # Start development server with Turbopack
+npm run dev:safe     # Start dev server with reduced memory
 npm run build        # Build for production
 npm run start        # Start production server
 npm run lint         # Run ESLint
@@ -69,7 +73,17 @@ npm run lint         # Run ESLint
 
 ## Deployment
 
-Push to GitHub and import to Vercel. Add environment variables in Vercel dashboard.
+1. Push to GitHub
+2. Import to Vercel
+3. Add environment variables in Vercel dashboard:
+   - `NEXT_PUBLIC_BASE_URL`
+   - `NEXT_PUBLIC_STRAPI_URL`
+   - `STRAPI_API_TOKEN`
+   - `DROPBOX_ACCESS_TOKEN`
+
+## Security
+
+See `SECURITY.md` for security guidelines and best practices.
 
 ## License
 

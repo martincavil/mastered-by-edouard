@@ -59,9 +59,6 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    console.log('=== Production Sheet Upload Started ===');
-    console.log('Token configured:', !!DROPBOX_ACCESS_TOKEN);
-
     const formData = await request.formData();
     const formDataString = formData.get('formData') as string;
     const parsedData = JSON.parse(formDataString);
@@ -76,8 +73,6 @@ export async function POST(request: NextRequest) {
     const projectName = parsedData.projectTitle.replace(/[^a-z0-9]/gi, '-').toLowerCase();
     const folderName = `${artistName}_${projectName}_${timestamp}`;
     const basePath = `/CLIENT_UPLOADS/${folderName}`;
-
-    console.log('Creating folder structure:', basePath);
 
     // Create folder structure in Dropbox
     await createFolder(basePath);

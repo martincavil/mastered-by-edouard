@@ -23,7 +23,6 @@ export default function ListenPage() {
     async function fetchArtists() {
       try {
         const data = await getArtists();
-        console.log("🎨 Artists data:", data);
         setArtists(data);
       } catch (error) {
         console.error("Failed to fetch artists:", error);
