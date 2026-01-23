@@ -7,14 +7,16 @@ import { useTranslations } from "@/lib/i18n/useTranslations";
 
 interface MobileMenuProps {
   color?: "white" | "black";
+  variant?: "default" | "red";
 }
 
-export function MobileMenu({ color = "white" }: MobileMenuProps) {
+export function MobileMenu({ color = "white", variant = "default" }: MobileMenuProps) {
   const [isOpen, setIsOpen] = useState(false);
   const t = useTranslations();
 
-  const menuTextColor = "text-white";
-  const bgColor = "bg-[#161616]";
+  const menuTextColor = variant === "red" ? "text-red" : "text-white";
+  const bgColor = variant === "red" ? "bg-red-dark" : "bg-[#161616]";
+  const hoverColor = variant === "red" ? "hover:text-white" : "hover:text-red";
 
   return (
     <div className="md:hidden">
@@ -57,7 +59,7 @@ export function MobileMenu({ color = "white" }: MobileMenuProps) {
             <div className="flex justify-center mb-4">
               <button
                 onClick={() => setIsOpen(false)}
-                className={`${menuTextColor} hover:text-red transition-colors`}
+                className={`${menuTextColor} ${hoverColor} transition-colors`}
                 aria-label="Fermer le menu"
               >
                 <svg
@@ -82,7 +84,7 @@ export function MobileMenu({ color = "white" }: MobileMenuProps) {
                   href="https://www.instagram.com/masteredbyedouard/"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className={`${menuTextColor} hover:text-red transition-colors text-lg`}
+                  className={`${menuTextColor} ${hoverColor} transition-colors text-lg`}
                   onClick={() => setIsOpen(false)}
                 >
                   Instagram
@@ -91,20 +93,20 @@ export function MobileMenu({ color = "white" }: MobileMenuProps) {
                   href="https://credits.muso.ai/profile/83085fe9-a37a-493e-b0ac-1a62bf76590f"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className={`${menuTextColor} hover:text-red transition-colors text-lg`}
+                  className={`${menuTextColor} ${hoverColor} transition-colors text-lg`}
                   onClick={() => setIsOpen(false)}
                 >
                   Muso.AI
                 </Link>
                 <Link
                   href="/faq/"
-                  className={`${menuTextColor} hover:text-red transition-colors text-2xl font-bold`}
+                  className={`${menuTextColor} ${hoverColor} transition-colors text-2xl font-bold`}
                   onClick={() => setIsOpen(false)}
                 >
                   {t.footer.faq}
                 </Link>
               </div>
-              <div className="h-[0.5px] w-full bg-white mt-10 mb-4" />
+              <div className={`h-[0.5px] w-full ${variant === "red" ? "bg-red" : "bg-white"} mt-10 mb-4`} />
               <div className="flex justify-between items-end">
                 {/* Copyright */}
                 <p className={`${menuTextColor} text-sm`}>
@@ -113,14 +115,14 @@ export function MobileMenu({ color = "white" }: MobileMenuProps) {
                 <div className="flex flex-col justify-end space-y-2 text-right">
                   <Link
                     href="/general-terms-and-conditions/"
-                    className={`${menuTextColor} hover:text-red transition-colors text-sm underline`}
+                    className={`${menuTextColor} ${hoverColor} transition-colors text-sm underline`}
                     onClick={() => setIsOpen(false)}
                   >
                     {t.footer.terms}
                   </Link>
                   <Link
                     href="/legal-notice/"
-                    className={`${menuTextColor} hover:text-red transition-colors text-sm underline`}
+                    className={`${menuTextColor} ${hoverColor} transition-colors text-sm underline`}
                     onClick={() => setIsOpen(false)}
                   >
                     {t.footer.legalnotice}
