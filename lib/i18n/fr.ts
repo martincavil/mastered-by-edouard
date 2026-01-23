@@ -44,10 +44,94 @@ export const fr: Translations = {
     productionSheet: {
       headline1: "toutes les infos,",
       headline2: "un seul endroit.",
+      headlineSuccess1: "vos fichiers",
+      headlineSuccess2: "sont entre de bonnes mains.",
+      step1Title: "informations.",
+      step2Title: "liste des titres.",
+      step3Title: "crédits.",
+      name: "nom*",
+      artist: "artiste / groupe*",
+      mail: "mail*",
+      projectTitle: "titre du projet*",
+      streaming: "streaming",
+      dolbyAtmos: "dolby atmos",
+      vinyl: "vinyle",
+      cd: "cd",
+      alternativeVersions: "version(s) alternative(s)",
+      cdUpc: "code UPC cd",
+      vinylUpc: "code UPC vinyle",
+      uploadCover: "télécharger la pochette",
+      uploadCoverHint: ".jpeg ou .png - min 500x500px",
+      uploadOtherFiles: "télécharger d'autres fichiers",
+      uploadOtherFilesHint: "PDF, DOC, DOCX, TXT, XLS, XLSX uniquement",
+      trackTitle: "titre du morceau",
+      isrcCode: "code ISRC",
+      addTrack: "ajouter un morceau",
+      composer: "compositeur",
+      arranger: "arrangeur",
+      genre: "genre",
+      label: "label",
+      recordingEngineer: "ingénieur d'enregistrement / studio",
+      mixingEngineer: "ingénieur de mixage",
+      otherCredits: "autres crédits",
+      allInfoChecked: "toutes les informations sont vérifiées",
+      back: "retour",
+      nextTrackList: "liste des titres",
+      nextCredits: "crédits",
+      sendDocument: "envoyer le document",
+      successMessage: "documents envoyés avec succès.",
+      backToHome: "retour à l'accueil",
+      termsAndConditions:
+        "en envoyant cette fiche de production, vous acceptez nos conditions générales.",
+      errorCoverFormat:
+        "Seuls les formats JPEG et PNG sont autorisés pour la pochette",
+      errorCoverSize: "La pochette doit faire au minimum 500x500 pixels",
+      errorOtherFilesFormat:
+        "Seuls les documents sont autorisés (PDF, DOC, DOCX, TXT, XLS, XLSX)",
+      errorNameRequired: "Le nom est requis",
+      errorArtistRequired: "L'artiste/groupe est requis",
+      errorEmailRequired: "L'email est requis",
+      errorEmailInvalid: "Format d'email invalide",
+      errorProjectTitleRequired: "Le titre du projet est requis",
+      errorFormatRequired: "Au moins un format doit être sélectionné",
+      errorTracksRequired: "Au moins un morceau est requis",
+      errorTracksTitleRequired: "Tous les morceaux doivent avoir un titre",
+      errorCheckboxRequired:
+        "Veuillez confirmer que toutes les informations sont vérifiées",
     },
     prepareFiles: {
       headline1: "le mastering",
       headline2: "commence par un bon mix.",
+      uploadFiles: "envoyer des fichiers",
+      step1Title: "the mix.",
+      step1Content: {
+        step1Content1:
+          "make sure the audio is clean : no clicks, noise, or other audio artifacts. pay attention to the beginning and end of the track; avoid cutting the audio too abruptly.",
+        step1Content2:
+          " true Peak (TP) level doesn’t really matter in the digital world, whether it’s at -0.1 or -6, as long as the sound doesn’t clip! just avoid peaks and distortions.",
+        step1Content3:
+          "The mix is THE MIX : please  keep all your mix bus processing  (including limiters and clippers).",
+      },
+      step2Title: "the bounce.",
+      step2Content: {
+        step2Content1:
+          "If you can’t export at 32-bit floating point, then 24-bit is still excellent. Try to avoid exporting at 16-bit, especially if your peak levels are quite low.",
+        step2Content2:
+          "This is very simple... sample rate must remain the same as during mixing.",
+        step2Content3: "Files must be exported in .WAV or .AIF format.",
+      },
+      step3Title: "the naming.",
+      step3Content: {
+        step3Content1:
+          "Please, name properly your files before sending them! You can follow the following naming scheme :",
+        step3Content2: "Artist_Title(VERSION)_Mix 1",
+      },
+      step4Title: "stem mastering?",
+      step4Content: {
+        step4Content1:
+          "stem mastering is often a sign of a mix not fully finalized : This is why the studio doesn’t necessarily favor this approach. My approach : Let’s take time together to listen to the mix and improve it to its best! My job as a mastering engineer starts at the mixing stage, helping you keep to good direction.",
+        step4Content2: "However, stem mastering can be used in certain cases.",
+      },
     },
   },
   studio: {

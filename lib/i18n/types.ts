@@ -50,10 +50,83 @@ export type Translations = {
     productionSheet: {
       headline1: string;
       headline2: string;
+      headlineSuccess1: string;
+      headlineSuccess2: string;
+      step1Title: string;
+      step2Title: string;
+      step3Title: string;
+      name: string;
+      artist: string;
+      mail: string;
+      projectTitle: string;
+      streaming: string;
+      dolbyAtmos: string;
+      vinyl: string;
+      cd: string;
+      alternativeVersions: string;
+      cdUpc: string;
+      vinylUpc: string;
+      uploadCover: string;
+      uploadCoverHint: string;
+      uploadOtherFiles: string;
+      uploadOtherFilesHint: string;
+      trackTitle: string;
+      isrcCode: string;
+      addTrack: string;
+      composer: string;
+      arranger: string;
+      genre: string;
+      label: string;
+      recordingEngineer: string;
+      mixingEngineer: string;
+      otherCredits: string;
+      allInfoChecked: string;
+      back: string;
+      nextTrackList: string;
+      nextCredits: string;
+      sendDocument: string;
+      successMessage: string;
+      backToHome: string;
+      termsAndConditions: string;
+      errorCoverFormat: string;
+      errorCoverSize: string;
+      errorOtherFilesFormat: string;
+      errorNameRequired: string;
+      errorArtistRequired: string;
+      errorEmailRequired: string;
+      errorEmailInvalid: string;
+      errorProjectTitleRequired: string;
+      errorFormatRequired: string;
+      errorTracksRequired: string;
+      errorTracksTitleRequired: string;
+      errorCheckboxRequired: string;
     };
     prepareFiles: {
       headline1: string;
       headline2: string;
+      uploadFiles: string;
+      step1Title: string;
+      step1Content: {
+        step1Content1: string;
+        step1Content2: string;
+        step1Content3: string;
+      };
+      step2Title: string;
+      step2Content: {
+        step2Content1: string;
+        step2Content2: string;
+        step2Content3: string;
+      };
+      step3Title: string;
+      step3Content: {
+        step3Content1: string;
+        step3Content2: string;
+      };
+      step4Title: string;
+      step4Content: {
+        step4Content1: string;
+        step4Content2: string;
+      };
     };
   };
   studio: {
