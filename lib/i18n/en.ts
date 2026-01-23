@@ -62,8 +62,17 @@ export const en: Translations = {
       vinylUpc: "vinyl UPC code",
       uploadCover: "upload cover",
       uploadCoverHint: ".jpeg or .png - min 500x500px",
+      uploadCoverTooltipTitle: "cover details",
+      uploadCoverTooltipHints: [
+        ". you can send the cover in .jpeg or .png",
+        ". make sure the resolution is at least 500x500",
+      ],
       uploadOtherFiles: "upload other files",
       uploadOtherFilesHint: "PDF, DOC, DOCX, TXT, XLS, XLSX only",
+      uploadOtherFilesTooltipTitle: "other files",
+      uploadOtherFilesTooltipHints: [
+        ". you can attach any other documents, label copy, references...",
+      ],
       trackTitle: "track title",
       isrcCode: "ISRC code",
       addTrack: "add track",

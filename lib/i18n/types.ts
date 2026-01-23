@@ -68,8 +68,12 @@ export type Translations = {
       vinylUpc: string;
       uploadCover: string;
       uploadCoverHint: string;
+      uploadCoverTooltipTitle: string;
+      uploadCoverTooltipHints: string[];
       uploadOtherFiles: string;
       uploadOtherFilesHint: string;
+      uploadOtherFilesTooltipTitle: string;
+      uploadOtherFilesTooltipHints: string[];
       trackTitle: string;
       isrcCode: string;
       addTrack: string;

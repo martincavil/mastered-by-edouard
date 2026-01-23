@@ -171,6 +171,8 @@ export function FormStep1({
         <UploadSection
           label={t.sendFiles.productionSheet.uploadCover}
           hint={t.sendFiles.productionSheet.uploadCoverHint}
+          tooltipTitle={t.sendFiles.productionSheet.uploadCoverTooltipTitle}
+          tooltipHints={t.sendFiles.productionSheet.uploadCoverTooltipHints}
           onUpload={handleCoverUpload}
           accept=".jpeg,.jpg,.png"
         >
@@ -199,6 +201,8 @@ export function FormStep1({
         <UploadSection
           label={t.sendFiles.productionSheet.uploadOtherFiles}
           hint={t.sendFiles.productionSheet.uploadOtherFilesHint}
+          tooltipTitle={t.sendFiles.productionSheet.uploadOtherFilesTooltipTitle}
+          tooltipHints={t.sendFiles.productionSheet.uploadOtherFilesTooltipHints}
           onUpload={handleOtherFilesUpload}
           accept=".pdf,.doc,.docx,.txt,.xls,.xlsx"
           multiple

@@ -1,11 +1,13 @@
 "use client";
 
 import { MoveUpRight } from "lucide-react";
-import { DragEvent, useRef, ChangeEvent } from "react";
+import { DragEvent, useRef, ChangeEvent, useState } from "react";
 
 interface UploadSectionProps {
   label: string;
   hint: string;
+  tooltipTitle: string;
+  tooltipHints: string[];
   onUpload: (files: FileList) => void;
   accept?: string;
   multiple?: boolean;
@@ -15,12 +17,28 @@ interface UploadSectionProps {
 export function UploadSection({
   label,
   hint,
+  tooltipTitle,
+  tooltipHints,
   onUpload,
   accept,
   multiple = false,
   children,
 }: UploadSectionProps) {
   const inputRef = useRef<HTMLInputElement>(null);
+  const tooltipButtonRef = useRef<HTMLDivElement>(null);
+  const [tooltipPosition, setTooltipPosition] = useState({ top: 0, left: 0 });
+  const [showTooltip, setShowTooltip] = useState(false);
+
+  const handleTooltipHover = () => {
+    if (tooltipButtonRef.current) {
+      const rect = tooltipButtonRef.current.getBoundingClientRect();
+      setTooltipPosition({
+        top: rect.top,
+        left: rect.left,
+      });
+      setShowTooltip(true);
+    }
+  };
 
   const handleDragOver = (e: DragEvent<HTMLDivElement>) => {
     e.preventDefault();
@@ -65,21 +83,44 @@ export function UploadSection({
             <MoveUpRight size={14} className="text-black/60" />
           </div>
           <div
-            className="absolute right-3 top-1/2 -translate-y-1/2 group"
+            ref={tooltipButtonRef}
+            className="absolute right-3 top-1/2 -translate-y-1/2"
             onClick={(e) => e.stopPropagation()}
+            onMouseEnter={handleTooltipHover}
+            onMouseLeave={() => setShowTooltip(false)}
           >
             <div className="w-5 h-5 rounded-full border border-black flex items-center justify-center cursor-help bg-white hover:bg-black hover:text-white transition-colors">
               <span className="text-xs font-medium">i</span>
             </div>
-            {/* Tooltip */}
-            <div className="absolute right-0 md:left-full bottom-full md:bottom-auto md:top-1/2 md:-translate-y-1/2 mb-2 md:mb-0 md:ml-3 left-1/2 -translate-x-1/2 md:translate-x-0 hidden group-hover:block bg-black text-white rounded-lg px-3 py-2 text-xs shadow-xl z-50 w-max max-w-[200px] md:max-w-xs">
-              {hint}
-              {/* Arrow */}
-              <div className="absolute left-1/2 -translate-x-1/2 top-full md:top-1/2 md:left-0 md:-translate-x-0 md:-translate-y-1/2 md:right-full">
-                <div className="border-4 border-transparent border-t-black md:border-t-transparent md:border-r-black"></div>
+          </div>
+          {/* Tooltip with fixed positioning */}
+          {showTooltip && (
+            <div
+              className="fixed bg-black/90 text-white rounded-lg p-5 text-xs border border-white z-[9999] w-max max-w-[200px] md:max-w-xs"
+              style={{
+                top: `${tooltipPosition.top - 10}px`,
+                left:
+                  window.innerWidth < 768
+                    ? `${tooltipPosition.left - 100}px`
+                    : `${tooltipPosition.left + 30}px`,
+                transform:
+                  window.innerWidth < 768
+                    ? "translateY(-100%)"
+                    : "translateY(-50%)",
+              }}
+              onMouseEnter={() => setShowTooltip(true)}
+              onMouseLeave={() => setShowTooltip(false)}
+            >
+              <div className="flex flex-col gap-2">
+                <span className="text-lg font-bold">{tooltipTitle}</span>
+                {tooltipHints.map((hint, index) => (
+                  <span key={index} className="font-poppins text-xs">
+                    {hint}
+                  </span>
+                ))}
               </div>
             </div>
-          </div>
+          )}
         </div>
       )}
     </div>

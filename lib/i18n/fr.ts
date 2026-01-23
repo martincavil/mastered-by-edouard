@@ -62,8 +62,17 @@ export const fr: Translations = {
       vinylUpc: "code UPC vinyle",
       uploadCover: "télécharger la pochette",
       uploadCoverHint: ".jpeg ou .png - min 500x500px",
+      uploadCoverTooltipTitle: "cover details",
+      uploadCoverTooltipHints: [
+        ". vous pouvez envoyer la pochette en .jpeg ou .png",
+        ". assurez-vous que la résolution soit d'au moins 500x500",
+      ],
       uploadOtherFiles: "télécharger d'autres fichiers",
       uploadOtherFilesHint: "PDF, DOC, DOCX, TXT, XLS, XLSX uniquement",
+      uploadOtherFilesTooltipTitle: "other files",
+      uploadOtherFilesTooltipHints: [
+        ". vous pouvez joindre tout autre document, copie de label, références...",
+      ],
       trackTitle: "titre du morceau",
       isrcCode: "code ISRC",
       addTrack: "ajouter un morceau",
