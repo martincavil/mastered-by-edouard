@@ -2,10 +2,6 @@ import { NextRequest, NextResponse } from 'next/server';
 
 const DROPBOX_ACCESS_TOKEN = process.env.DROPBOX_ACCESS_TOKEN;
 
-if (!DROPBOX_ACCESS_TOKEN) {
-  throw new Error('DROPBOX_ACCESS_TOKEN is not configured');
-}
-
 async function createFolder(path: string): Promise<void> {
   const response = await fetch('https://api.dropboxapi.com/2/files/create_folder_v2', {
     method: 'POST',
@@ -56,6 +52,13 @@ async function uploadFile(file: Buffer, path: string): Promise<void> {
 
 export async function POST(request: NextRequest) {
   try {
+    if (!DROPBOX_ACCESS_TOKEN) {
+      return NextResponse.json(
+        { error: 'DROPBOX_ACCESS_TOKEN is not configured' },
+        { status: 500 }
+      );
+    }
+
     console.log('=== Production Sheet Upload Started ===');
     console.log('Token configured:', !!DROPBOX_ACCESS_TOKEN);
 

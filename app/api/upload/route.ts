@@ -4,10 +4,6 @@ const DROPBOX_ACCESS_TOKEN = process.env.DROPBOX_ACCESS_TOKEN;
 const CHUNK_SIZE = 8 * 1024 * 1024; // 8MB chunks
 const LARGE_FILE_THRESHOLD = 150 * 1024 * 1024; // 150MB
 
-if (!DROPBOX_ACCESS_TOKEN) {
-  throw new Error('DROPBOX_ACCESS_TOKEN is not configured');
-}
-
 async function createFolder(path: string): Promise<void> {
   const response = await fetch('https://api.dropboxapi.com/2/files/create_folder_v2', {
     method: 'POST',
@@ -120,6 +116,13 @@ async function uploadLargeFile(file: Buffer, path: string): Promise<void> {
 
 export async function POST(request: NextRequest) {
   try {
+    if (!DROPBOX_ACCESS_TOKEN) {
+      return NextResponse.json(
+        { error: 'DROPBOX_ACCESS_TOKEN is not configured' },
+        { status: 500 }
+      );
+    }
+
     const formData = await request.formData();
     const name = formData.get('name') as string;
     const email = formData.get('email') as string;
