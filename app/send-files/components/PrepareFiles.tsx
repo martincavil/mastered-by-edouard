@@ -102,7 +102,7 @@ export function PrepareFiles() {
           {/* Step indicator */}
           <div className="font-poppins absolute left-0 bottom-0 leading-7">
             <span className="text-[50px] text-black font-extrabold">
-              <span className="text-[200px] 2xl:text-[250px]">
+              <span className="text-7xl lg:text-[200px] 2xl:text-[250px]">
                 {currentStep}
               </span>
               /4
