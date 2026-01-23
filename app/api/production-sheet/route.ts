@@ -40,7 +40,7 @@ async function uploadFile(file: Buffer, path: string): Promise<void> {
         mute: false,
       }),
     },
-    body: file,
+    body: new Uint8Array(file),
   });
 
   if (!response.ok) {
