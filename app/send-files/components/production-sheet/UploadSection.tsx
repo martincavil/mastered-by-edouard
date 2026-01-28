@@ -68,7 +68,7 @@ export function UploadSection({
           onDragOver={handleDragOver}
           onDrop={handleDrop}
           onClick={() => inputRef.current?.click()}
-          className="relative border border-dashed border-black rounded-[10px] py-3 px-6 cursor-pointer hover:border-black/50 bg-black/10 transition-colors"
+          className="relative border-dashed-custom rounded-[10px] py-3 px-6 cursor-pointer bg-black/10 transition-colors hover:opacity-80"
         >
           <input
             ref={inputRef}

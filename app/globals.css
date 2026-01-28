@@ -130,3 +130,40 @@
     outline-offset: 2px;
   }
 }
+
+@layer utilities {
+  /* Bordure en pointillés avec espacement personnalisé */
+  .border-dashed-custom {
+    background-image: repeating-linear-gradient(
+      0deg,
+      #161616 0,
+      #161616 10px,
+      transparent 10px,
+      transparent 20px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      #161616 0,
+      #161616 10px,
+      transparent 10px,
+      transparent 20px
+    ),
+    repeating-linear-gradient(
+      180deg,
+      #161616 0,
+      #161616 10px,
+      transparent 10px,
+      transparent 20px
+    ),
+    repeating-linear-gradient(
+      270deg,
+      #161616 0,
+      #161616 10px,
+      transparent 10px,
+      transparent 20px
+    );
+    background-size: 1px 100%, 100% 1px, 1px 100%, 100% 1px;
+    background-position: 0 0, 0 0, 100% 0, 0 100%;
+    background-repeat: no-repeat;
+  }
+}

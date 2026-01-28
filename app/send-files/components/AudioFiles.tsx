@@ -212,7 +212,7 @@ export function AudioFiles() {
                 onDragOver={handleDragOver}
                 onDrop={handleDrop}
                 onClick={() => fileInputRef.current?.click()}
-                className="border border-dashed border-black rounded-[10px] p-8 text-center cursor-pointer hover:border-black/50 bg-black/10 transition-colors"
+                className="border-dashed-custom rounded-[10px] p-8 text-center cursor-pointer bg-black/10 transition-colors hover:opacity-80"
               >
                 <input
                   ref={fileInputRef}

@@ -29,7 +29,7 @@ export function PrepareFiles() {
       content1: t.sendFiles.prepareFiles.step3Content.step3Content1,
       content2: t.sendFiles.prepareFiles.step3Content.step3Content2,
       image:
-        "https://www.dropbox.com/scl/fi/lb4y3jroxncsr752tm6gu/prepare-your-files-3.webp?rlkey=q3ixgaqmo0pv0omdeaemixojx&st=23brxjn4&dl=1",
+        "https://www.dropbox.com/scl/fi/l2wwct3hb9rz8esupxef7/send-files-the-naming.png?rlkey=xi9sbt216hea3k4xw2hwjqoit&st=aq1fn09s&dl=1",
     },
     {
       title: t.sendFiles.prepareFiles.step4Title,
@@ -66,7 +66,7 @@ export function PrepareFiles() {
 
             {/* Steps 1 and 2: List */}
             {(currentStep === 1 || currentStep === 2) && (
-              <ul className="md:pl-32 md:pr-16 space-y-5 list-disc list-inside leading-[1] 2xl:text-xl font-medium">
+              <ul className="md:pl-32 font-poppins md:pr-16 space-y-5 list-disc list-inside leading-[1] 2xl:text-xl">
                 <li>{steps[currentStep - 1].content1}</li>
                 {steps[currentStep - 1].content2 && (
                   <li>{steps[currentStep - 1].content2}</li>
@@ -79,7 +79,7 @@ export function PrepareFiles() {
 
             {/* Steps 3 and 4: Simple text */}
             {(currentStep === 3 || currentStep === 4) && (
-              <div className="md:pl-32 md:pr-16 space-y-5 leading-[1] 2xl:text-xl font-medium">
+              <div className="md:pl-32 font-poppins md:pr-16 space-y-5 leading-[1] 2xl:text-xl">
                 <p>{steps[currentStep - 1].content1}</p>
                 {steps[currentStep - 1].content2 && (
                   <p>{steps[currentStep - 1].content2}</p>
@@ -101,12 +101,12 @@ export function PrepareFiles() {
           </div>
 
           {/* Step indicator */}
-          <div className="font-poppins absolute left-0 bottom-0 leading-7">
+          <div className="font-poppins absolute left-0 bottom-0 ">
             <span className="text-[50px] text-black font-extrabold">
               <span className="text-7xl lg:text-[200px] 2xl:text-[250px]">
                 {currentStep}
               </span>
-              /4
+              <span>/4</span>
             </span>
           </div>
 
