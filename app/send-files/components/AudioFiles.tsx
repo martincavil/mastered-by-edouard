@@ -330,7 +330,7 @@ export function AudioFiles() {
                         <span key={index} className="font-poppins text-xs">
                           {hint}
                         </span>
-                      )
+                      ),
                     )}
                   </div>
                 </div>
@@ -377,8 +377,12 @@ export function AudioFiles() {
           </form>
         )}
         {!submitSuccess && (
-          <p className="text-black font-extralight">
-            {t.sendFiles.audioFiles.termsAndConditions}
+          <p className="text-black font-light">
+            you accept the{" "}
+            <Link href="/terms-and-conditions" className="font-medium">
+              terms and conditions
+            </Link>{" "}
+            of the studio when sending files.
           </p>
         )}
       </div>
