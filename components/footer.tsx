@@ -16,11 +16,11 @@ export function Footer({ color = "white", hoverColor = "red" }: FooterProps) {
     hoverColor === "red"
       ? "hover:text-red"
       : hoverColor === "black"
-      ? "hover:text-black"
-      : "hover:text-white";
+        ? "hover:text-black"
+        : "hover:text-white";
 
   return (
-    <footer className="hidden md:flex justify-between items-center px-8 pb-6 pt-6 2xl:pt-[45px] text-sm">
+    <footer className="hidden md:flex justify-between items-center px-8 py-3 2xl:py-5 text-sm">
       {/* Social Medias */}
       <div className="flex items-center gap-8">
         <Link
