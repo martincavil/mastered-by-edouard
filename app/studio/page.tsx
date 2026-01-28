@@ -77,7 +77,9 @@ export default function StudioPage() {
                     selectedSubject === subject.key
                       ? "bg-white text-black border-white"
                       : "navigation-link bg-transparent text-white border-white"
-                  }`}
+                  }
+                  ${subject.key === "edouard" && "!min-w-36"}
+                  `}
                 >
                   {selectedSubject !== subject.key && (
                     <div className="nav-bg-hover" aria-hidden="true" />
