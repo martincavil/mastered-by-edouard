@@ -37,19 +37,19 @@ export default function ListenPage() {
   const platforms = [
     {
       name: "apple music",
-      url: "https://www.apple.com/apple-music/",
+      url: "https://music.apple.com/fr/playlist/mastered-by-edouard/pl.u-MDAWkl3FG5bqDJ",
     },
     {
       name: "spotify",
-      url: "https://www.spotify.com",
+      url: "https://open.spotify.com/playlist/7fXjq8tKmUNAsN6D0VRgnb?si=TUP7CUAYR8KBLichWnUTZA",
     },
     {
       name: "deezer",
-      url: "https://www.deezer.com",
+      url: "https://www.deezer.com/fr/playlist/8826952102?deferredFl=1&host=44690471",
     },
     {
       name: "tidal",
-      url: "https://www.tidal.com",
+      url: "https://tidal.com/playlist/f14880a7-d8db-402f-8326-e8cb338e285d",
     },
   ];
 
