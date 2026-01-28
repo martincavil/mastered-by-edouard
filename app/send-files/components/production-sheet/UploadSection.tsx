@@ -89,7 +89,7 @@ export function UploadSection({
             onMouseEnter={handleTooltipHover}
             onMouseLeave={() => setShowTooltip(false)}
           >
-            <div className="w-5 h-5 rounded-full border border-black flex items-center justify-center cursor-help bg-white hover:bg-black hover:text-white transition-colors">
+            <div className="w-5 h-5 rounded-full border border-black flex items-center justify-center cursor-help bg-transaprent hover:bg-black hover:text-white transition-colors">
               <span className="text-xs font-medium">i</span>
             </div>
           </div>

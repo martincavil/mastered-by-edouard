@@ -293,7 +293,7 @@ export function AudioFiles() {
                   required
                 />
               </div>
-              <div className="flex items-center space-x-3">
+              <div className="flex items-center space-x-2 2xl:space-x-3">
                 <input
                   id="name"
                   type="text"
@@ -328,22 +328,22 @@ export function AudioFiles() {
       <div className="hidden md:flex flex-col items-center md:items-end justify-end space-y-4 2xl:space-y-20">
         {submitSuccess ? (
           <div className="flex flex-col self-start">
-            <span className="text-5xl xl:text-[90px] 2xl:text-[100px] font-bold text-white leading-[0.8]">
+            <span className="text-5xl lg:text-7xl xl:text-[90px] 2xl:text-[100px] font-bold text-white !leading-[0.8]">
               {t.sendFiles.audioFiles.successHeadline1}
             </span>
-            <span className="text-5xl xl:text-[90px] 2xl:text-[100px] font-bold text-black leading-[0.8]">
+            <span className="text-5xl lg:text-7xl xl:text-[90px] 2xl:text-[100px] font-bold text-black !leading-[0.8]">
               {t.sendFiles.audioFiles.successHeadline2}
             </span>
           </div>
         ) : (
           <div className="flex flex-col self-start">
-            <span className="text-5xl xl:text-[90px] 2xl:text-[100px] font-bold text-white leading-[0.8]">
+            <span className="text-5xl lg:text-7xl xl:text-[90px] 2xl:text-[100px] font-bold text-white !leading-[0.8]">
               {t.sendFiles.audioFiles.headline1}
             </span>
-            <span className="text-5xl xl:text-[90px] 2xl:text-[100px] font-bold text-black leading-[0.8]">
+            <span className="text-5xl lg:text-7xl xl:text-[90px] 2xl:text-[100px] font-bold text-black !leading-[0.8]">
               {t.sendFiles.audioFiles.headline2}
             </span>
-            <span className="text-5xl xl:text-[90px] 2xl:text-[100px] font-bold text-black leading-[0.8]">
+            <span className="text-5xl lg:text-7xl xl:text-[90px] 2xl:text-[100px] font-bold text-black !leading-[0.8]">
               {t.sendFiles.audioFiles.headline3}
             </span>
           </div>

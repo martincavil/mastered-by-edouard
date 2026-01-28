@@ -22,7 +22,7 @@ export function AlternativeVersionsDropdown({
       <button
         type="button"
         onClick={onToggle}
-        className={`px-4 py-2 rounded-full border-2 text-sm transition-colors flex items-center gap-2 ${
+        className={`px-4 py-2 rounded-full border text-sm transition-colors flex items-center gap-2 ${
           selectedVersions.length > 0
             ? "bg-black text-white border-black"
             : "bg-white text-black border-black"
@@ -54,7 +54,7 @@ export function AlternativeVersionsDropdown({
 
       {/* Dropdown Menu */}
       {isOpen && (
-        <div className="absolute top-full left-0 mt-2 bg-white border-2 border-black rounded-lg p-2 min-w-[200px] z-10 shadow-lg">
+        <div className="absolute top-full left-0 mt-2 bg-white border border-black rounded-lg p-2 min-w-[200px] z-10 shadow-lg">
           {VERSIONS.map((version) => (
             <label
               key={version}

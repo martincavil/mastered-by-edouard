@@ -114,7 +114,7 @@ export function FormStep1({
       />
 
       {/* Formats */}
-      <div className="flex flex-wrap gap-3 2xl:gap-6 items-start">
+      <div className="flex flex-wrap gap-2 2xl:gap-4 items-start">
         {(
           [
             { key: "streaming", label: t.sendFiles.productionSheet.streaming },
@@ -201,8 +201,12 @@ export function FormStep1({
         <UploadSection
           label={t.sendFiles.productionSheet.uploadOtherFiles}
           hint={t.sendFiles.productionSheet.uploadOtherFilesHint}
-          tooltipTitle={t.sendFiles.productionSheet.uploadOtherFilesTooltipTitle}
-          tooltipHints={t.sendFiles.productionSheet.uploadOtherFilesTooltipHints}
+          tooltipTitle={
+            t.sendFiles.productionSheet.uploadOtherFilesTooltipTitle
+          }
+          tooltipHints={
+            t.sendFiles.productionSheet.uploadOtherFilesTooltipHints
+          }
           onUpload={handleOtherFilesUpload}
           accept=".pdf,.doc,.docx,.txt,.xls,.xlsx"
           multiple

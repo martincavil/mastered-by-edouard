@@ -196,7 +196,7 @@ export default function LegalNoticePage() {
 
             {/* Right Column - Illustration */}
             <div className="hidden md:flex flex-col items-center md:items-end justify-end space-y-4 2xl:space-y-20">
-              <div className="text-5xl xl:text-[90px] 2xl:text-[100px] font-bold text-white leading-[0.8]">
+              <div className="text-5xl lg:text-7xl xl:text-[90px] 2xl:text-[100px] font-bold text-white !leading-[0.8]">
                 <p>{t.legalNotice.illustrationTitle1}</p>
                 <p>{t.legalNotice.illustrationTitle2}</p>
               </div>

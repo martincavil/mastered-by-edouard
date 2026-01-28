@@ -36,7 +36,7 @@ export function NavigationButtons({
           <span className="text-sm text-black">
             {t.sendFiles.productionSheet.allInfoChecked}
           </span>
-          <span className="ml-auto text-black/60">{currentStep}/3</span>
+          <span className="ml-auto text-black font-bold">{currentStep}/3</span>
         </label>
       ) : (
         <div className="flex items-center justify-center bg-white w-full px-4 py-2 rounded-lg text-black font-bold">
