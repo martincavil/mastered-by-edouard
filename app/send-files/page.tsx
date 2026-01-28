@@ -82,7 +82,7 @@ function SendFilesContent() {
                 <button
                   key={subject.key}
                   onClick={() => setSelectedSubject(subject.key)}
-                  className={`py-1.5 px-4 border rounded-full text-xl md:text-lg xl:text-xl 2xl:text-3xl font-extralight relative overflow-hidden ${
+                  className={`py-1.5 px-4 border rounded-full text-xl md:text-lg lg:text-2xl xl:text-3xl font-extralight relative overflow-hidden ${
                     selectedSubject === subject.key
                       ? "bg-black text-white border-black"
                       : "navigation-link bg-transparent text-black border-black"

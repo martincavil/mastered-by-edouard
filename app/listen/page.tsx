@@ -94,7 +94,7 @@ export default function ListenPage() {
                 >
                   <Button className="!py-1.5 !px-4 !border border-white rounded-full text-white hover:text-red transition-all duration-300">
                     <div className="flex items-center gap-2 xl:gap-4">
-                      <span className="text-xl md:text-lg xl:text-xl 2xl:text-3xl font-extralight">
+                      <span className="text-xl md:text-lg lg:text-2xl xl:text-3xl font-extralight">
                         {platform.name}
                       </span>
                       <MoveUpRight
