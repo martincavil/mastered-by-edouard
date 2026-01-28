@@ -1,7 +1,6 @@
 "use client";
 
 import Image from "next/image";
-import "./navigation-link.css";
 import { useTranslations } from "@/lib/i18n/useTranslations";
 import { PageTransition } from "@/components/page-transition";
 import { Footer } from "@/components/footer";
@@ -66,10 +65,10 @@ export default function HomePage() {
           />
           <div className="space-y-10 md:space-y-13 relative z-10 w-full">
             <div className="px-4 md:px-8">
-              <h1 className="text-6xl md:text-8xl font-medium tracking-tight text-white">
+              <h1 className="text-6xl md:text-8xl font-medium tracking-tight text-white drop-shadow-xl">
                 {t.home.title}
               </h1>
-              <h2 className="text-[45px]/9 md:text-7xl/9  text-white font-extralight">
+              <h2 className="text-[45px]/9 md:text-7xl/9  text-white drop-shadow-xl font-extralight">
                 {t.home.subtitle}
               </h2>
             </div>
@@ -87,10 +86,10 @@ export default function HomePage() {
                       nav.order === 2
                         ? "col-span-3 order-4 md:order-2"
                         : nav.order === 1
-                        ? "order-1 md:order-1"
-                        : nav.order === 3
-                        ? "order-2 md:order-3"
-                        : "order-3 md:order-4"
+                          ? "order-1 md:order-1"
+                          : nav.order === 3
+                            ? "order-2 md:order-3"
+                            : "order-3 md:order-4"
                     }
                   />
                 ))}

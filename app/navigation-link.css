@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Custom navigation link styles */
+/* Navigation link styles for buttons and tabs */
 .navigation-link {
   position: relative;
   overflow: hidden;
@@ -35,25 +35,18 @@
   color: #161616;
 }
 
-/* Red background and dark red text for send-files variant */
+/* Red variant for send-files button */
 .navigation-link.send-files {
   border-color: transparent;
-  background: #e20600; /* bg-red */
+  background: #e20600;
 }
 
 .navigation-link.send-files span {
-  color: #7f1d1d; /* text-red-dark */
+  color: #7f1d1d;
 }
 
-/* Dark red background coming from left on hover */
 .navigation-link.send-files .nav-bg-hover {
-  background: #7f1d1d; /* bg-red-dark */
-  transform: translateX(-100%);
-  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.navigation-link.send-files:hover .nav-bg-hover {
-  transform: translateX(0);
+  background: #7f1d1d;
 }
 
 .navigation-link.send-files:hover span {
