@@ -40,6 +40,12 @@ export const en: Translations = {
       successMessage: "audio files sent successfully.",
       sendProductionSheet: "send production sheet",
       backToHome: "back to home",
+      namingTooltipTitle: "folder organization",
+      namingTooltipHints: [
+        ". your files will be organized in a folder named: artist_name-timestamp",
+        ". all your audio files will be stored in this folder",
+        ". this ensures easy tracking and organization",
+      ],
     },
     productionSheet: {
       headline1: "all infos,",

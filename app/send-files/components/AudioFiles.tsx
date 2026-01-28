@@ -25,6 +25,20 @@ export function AudioFiles() {
     text: string;
   } | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const tooltipButtonRef = useRef<HTMLDivElement>(null);
+  const [tooltipPosition, setTooltipPosition] = useState({ top: 0, left: 0 });
+  const [showTooltip, setShowTooltip] = useState(false);
+
+  const handleTooltipHover = () => {
+    if (tooltipButtonRef.current) {
+      const rect = tooltipButtonRef.current.getBoundingClientRect();
+      setTooltipPosition({
+        top: rect.top,
+        left: rect.left,
+      });
+      setShowTooltip(true);
+    }
+  };
 
   const validateFile = (file: File): boolean => {
     const validExtensions = [".wav", ".aif"];
@@ -201,7 +215,7 @@ export function AudioFiles() {
             onSubmit={handleSubmit}
             className="flex flex-col space-y-2 2xl:space-y-4"
           >
-            <div className="bg-white px-4 py-6 2xl:py-8 2xl:px-6 rounded-[10px] h-[300px] max-h-[300px] 2xl:h-full 2xl:max-h-[700px]">
+            <div className="bg-white px-4 py-6 2xl:py-8 2xl:px-6 rounded-[10px] h-[300px] max-h-[300px] 2xl:h-full 2xl:max-h-[700px] relative">
               <div className="w-full">
                 <p className="text-center font-medium mb-3 2xl:mb-5">
                   {t.sendFiles.audioFiles.draganddrop}
@@ -274,6 +288,51 @@ export function AudioFiles() {
                   }`}
                 >
                   {message.text}
+                </div>
+              )}
+
+              {/* Tooltip button - bottom right */}
+              <div
+                ref={tooltipButtonRef}
+                className="absolute right-3 bottom-3"
+                onMouseEnter={handleTooltipHover}
+                onMouseLeave={() => setShowTooltip(false)}
+              >
+                <div className="w-5 h-5 rounded-full border border-black flex items-center justify-center cursor-help bg-transaprent hover:bg-black hover:text-white transition-colors">
+                  <span className="text-xs font-medium">i</span>
+                </div>
+              </div>
+
+              {/* Tooltip with fixed positioning */}
+              {showTooltip && (
+                <div
+                  className="fixed bg-black/90 text-white rounded-lg p-5 text-xs border border-white z-[9999] w-max max-w-[200px] md:max-w-xs"
+                  style={{
+                    top: `${tooltipPosition.top - 10}px`,
+                    left:
+                      window.innerWidth < 768
+                        ? `${tooltipPosition.left - 100}px`
+                        : `${tooltipPosition.left + 30}px`,
+                    transform:
+                      window.innerWidth < 768
+                        ? "translateY(-100%)"
+                        : "translateY(-50%)",
+                  }}
+                  onMouseEnter={() => setShowTooltip(true)}
+                  onMouseLeave={() => setShowTooltip(false)}
+                >
+                  <div className="flex flex-col gap-2">
+                    <span className="text-lg font-bold">
+                      {t.sendFiles.audioFiles.namingTooltipTitle}
+                    </span>
+                    {t.sendFiles.audioFiles.namingTooltipHints.map(
+                      (hint, index) => (
+                        <span key={index} className="font-poppins text-xs">
+                          {hint}
+                        </span>
+                      )
+                    )}
+                  </div>
                 </div>
               )}
             </div>

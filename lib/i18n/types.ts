@@ -46,6 +46,8 @@ export type Translations = {
       successMessage: string;
       sendProductionSheet: string;
       backToHome: string;
+      namingTooltipTitle: string;
+      namingTooltipHints: string[];
     };
     productionSheet: {
       headline1: string;
