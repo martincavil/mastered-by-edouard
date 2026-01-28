@@ -16,7 +16,7 @@ export function LanguageSwitcher() {
           `cursor-pointer transition-colors ` +
           (locale === "fr"
             ? "font-medium text-black"
-            : "font-light text-black/50 hover:text-black")
+            : "font-extralight text-black/50 hover:text-black")
         }
         style={{ userSelect: "none" }}
       >
@@ -31,7 +31,7 @@ export function LanguageSwitcher() {
           `cursor-pointer transition-colors ` +
           (locale === "en"
             ? "font-medium text-black"
-            : "font-light text-black/50 hover:text-black")
+            : "font-extralight text-black/50 hover:text-black")
         }
         style={{ userSelect: "none" }}
       >

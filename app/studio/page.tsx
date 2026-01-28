@@ -73,7 +73,7 @@ export default function StudioPage() {
                 <button
                   key={subject.key}
                   onClick={() => setSelectedSubject(subject.key)}
-                  className={`py-1.5 px-4 border rounded-full text-xl md:text-lg xl:text-xl 2xl:text-3xl font-light relative overflow-hidden ${
+                  className={`py-1.5 px-4 border rounded-full text-xl md:text-lg xl:text-xl 2xl:text-3xl font-extralight relative overflow-hidden ${
                     selectedSubject === subject.key
                       ? "bg-white text-black border-white"
                       : "navigation-link bg-transparent text-white border-white"
@@ -96,7 +96,7 @@ export default function StudioPage() {
                 }`}
               >
                 <div />
-                <span className="text-3xl font-light flex items-center justify-between">
+                <span className="text-3xl font-extralight flex items-center justify-between">
                   {subjects.find((s) => s.key === selectedSubject)?.name}
                 </span>
                 <svg
@@ -125,7 +125,7 @@ export default function StudioPage() {
                           setSelectedSubject(subject.key);
                           setIsMobileMenuOpen(false);
                         }}
-                        className="w-full bg-black text-white py-3 px-4 rounded-full text-3xl font-light flex items-center justify-center"
+                        className="w-full bg-black text-white py-3 px-4 rounded-full text-3xl font-extralight flex items-center justify-center"
                       >
                         {subject.name}
                       </button>

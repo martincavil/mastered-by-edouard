@@ -421,7 +421,7 @@ export function ProductionSheet() {
         )}
 
         {!submitSuccess && (
-          <p className="text-black font-light text-sm">
+          <p className="text-black font-extralight text-sm">
             {t.sendFiles.productionSheet.termsAndConditions}
           </p>
         )}

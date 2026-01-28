@@ -223,14 +223,14 @@ export function AudioFiles() {
                 />
                 <div className="flex items-center justify-center gap-2">
                   <p className="">{t.sendFiles.audioFiles.clickordrag}</p>
-                  <MoveUpRight size={24} className="font-light inline-block" />
+                  <MoveUpRight size={24} className="font-extralight inline-block" />
                 </div>
               </div>
 
               {/* Selected Files List */}
               {selectedFiles.length > 0 && (
                 <div className="mt-2">
-                  <h3 className="text-black font-light mb-2">
+                  <h3 className="text-black font-extralight mb-2">
                     {t.sendFiles.audioFiles.uploadingFiles}
                   </h3>
                   <div className="space-y-2 max-h-[80px] overflow-y-scroll pr-1">
@@ -314,7 +314,7 @@ export function AudioFiles() {
           </form>
         )}
         {!submitSuccess && (
-          <p className="text-black font-light">
+          <p className="text-black font-extralight">
             {t.sendFiles.audioFiles.termsAndConditions}
           </p>
         )}

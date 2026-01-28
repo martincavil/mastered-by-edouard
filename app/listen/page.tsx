@@ -94,7 +94,7 @@ export default function ListenPage() {
                 >
                   <Button className="!py-1.5 !px-4 !border border-white rounded-full text-white hover:text-red transition-all duration-300">
                     <div className="flex items-center gap-2 xl:gap-4">
-                      <span className="text-xl md:text-lg xl:text-xl 2xl:text-3xl font-light">
+                      <span className="text-xl md:text-lg xl:text-xl 2xl:text-3xl font-extralight">
                         {platform.name}
                       </span>
                       <MoveUpRight
@@ -126,7 +126,7 @@ export default function ListenPage() {
                           target="_blank"
                         >
                           <span
-                            className={`text-lg md:text-xl xl:text-2xl font-light font-poppins uppercase transition-colors duration-300 cursor-pointer ${
+                            className={`text-lg md:text-xl xl:text-2xl font-extralight font-poppins uppercase transition-colors duration-300 cursor-pointer ${
                               hoveredArtistId === artist.id
                                 ? "text-white"
                                 : "text-red hover:text-white"
@@ -141,7 +141,7 @@ export default function ListenPage() {
                       ) : (
                         <span
                           key={artist.id}
-                          className={`text-lg md:text-xl xl:text-2xl font-light font-poppins uppercase cursor-default ${
+                          className={`text-lg md:text-xl xl:text-2xl font-extralight font-poppins uppercase cursor-default ${
                             hoveredArtistId === artist.id
                               ? "text-white"
                               : "text-red"

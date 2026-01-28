@@ -60,7 +60,7 @@ export default function LegalNoticePage() {
               <button
                 key={tab.key}
                 onClick={() => setActiveTab(tab.key)}
-                className={`py-1.5 px-4 border rounded-full text-xl md:text-lg xl:text-xl 2xl:text-3xl font-light relative overflow-hidden ${
+                className={`py-1.5 px-4 border rounded-full text-xl md:text-lg xl:text-xl 2xl:text-3xl font-extralight relative overflow-hidden ${
                   activeTab === tab.key
                     ? "bg-white text-black border-white"
                     : "navigation-link bg-transparent text-white border-white"
@@ -80,7 +80,7 @@ export default function LegalNoticePage() {
               }`}
             >
               <div />
-              <span className="text-3xl font-light flex items-center justify-between">
+              <span className="text-3xl font-extralight flex items-center justify-between">
                 {tabs.find((t) => t.key === activeTab)?.label}
               </span>
               <svg
@@ -109,7 +109,7 @@ export default function LegalNoticePage() {
                         setActiveTab(tab.key);
                         setIsMobileMenuOpen(false);
                       }}
-                      className="w-full bg-black text-white py-3 px-4 rounded-full text-3xl font-light flex items-center justify-center"
+                      className="w-full bg-black text-white py-3 px-4 rounded-full text-3xl font-extralight flex items-center justify-center"
                     >
                       {tab.label}
                     </button>
@@ -121,7 +121,7 @@ export default function LegalNoticePage() {
           {/* Content Grid */}
           <div className="flex-1 grid md:grid-cols-2 2xl:gap-12 gap-6 min-h-0">
             {/* Left Column - Content */}
-            <div className="text-white font-light text-base 2xl:text-lg font-poppins">
+            <div className="text-white font-extralight text-base 2xl:text-lg font-poppins">
               {activeTab === "website" && (
                 <div className="space-y-1">
                   <p>{t.legalNotice.website.creditsDesign}</p>

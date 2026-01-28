@@ -235,7 +235,7 @@ export default function ContactPage() {
                 >
                   {/* YOUR INFO Section */}
                   <div>
-                    <h2 className="uppercase text-lg 2xl:text-3xl font-light text-white mb-2 2xl:mb-6">
+                    <h2 className="uppercase text-lg 2xl:text-3xl font-extralight text-white mb-2 2xl:mb-6">
                       {t.contact.form.sections.yourInfo}
                     </h2>
                     <div className="space-y-2">
@@ -318,7 +318,7 @@ export default function ContactPage() {
 
                   {/* PROJECT INFO Section */}
                   <div>
-                    <h2 className="uppercase text-lg 2xl:text-3xl font-light text-white mb-2 2xl:mb-6">
+                    <h2 className="uppercase text-lg 2xl:text-3xl font-extralight text-white mb-2 2xl:mb-6">
                       {t.contact.form.sections.projectInfo}
                     </h2>
                     <div className="space-y-2">

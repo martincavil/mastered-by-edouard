@@ -35,7 +35,7 @@ export function GearSubject() {
   return (
     <>
       <div className="text-white overflow-y-auto md:overflow-y-visible">
-        <p className="uppercase leading-9 font-light text-2xl md:text-[40px]">
+        <p className="uppercase leading-9 font-extralight text-2xl md:text-[40px]">
           <span className="text-red font-bold">MONITORING</span> ATC SCM50a SL,
           TRINNOV NOVA, SPL DMC, Ollo audio S4x, APPLE AIRPODS MAX, GIK
           acoustics <span className="text-red font-bold">HARDWARE</span> SPL PQ

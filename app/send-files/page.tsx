@@ -82,7 +82,7 @@ function SendFilesContent() {
                 <button
                   key={subject.key}
                   onClick={() => setSelectedSubject(subject.key)}
-                  className={`py-1.5 px-4 border rounded-full text-xl md:text-lg xl:text-xl 2xl:text-3xl font-light relative overflow-hidden ${
+                  className={`py-1.5 px-4 border rounded-full text-xl md:text-lg xl:text-xl 2xl:text-3xl font-extralight relative overflow-hidden ${
                     selectedSubject === subject.key
                       ? "bg-black text-white border-black"
                       : "navigation-link bg-transparent text-black border-black"
@@ -105,7 +105,7 @@ function SendFilesContent() {
                 }`}
               >
                 <div />
-                <span className="text-3xl font-light flex items-center justify-between">
+                <span className="text-3xl font-extralight flex items-center justify-between">
                   {subjects.find((s) => s.key === selectedSubject)?.name}
                 </span>
                 <svg
@@ -134,7 +134,7 @@ function SendFilesContent() {
                           setSelectedSubject(subject.key);
                           setIsMobileMenuOpen(false);
                         }}
-                        className="w-full bg-black text-white py-3 px-4 rounded-full text-3xl font-light flex items-center justify-center"
+                        className="w-full bg-black text-white py-3 px-4 rounded-full text-3xl font-extralight flex items-center justify-center"
                       >
                         {subject.name}
                       </button>
