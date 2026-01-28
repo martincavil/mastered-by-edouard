@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useTranslations } from "@/lib/i18n/useTranslations";
@@ -25,9 +25,13 @@ const GRID_SIZE = 14; // Total d'images : 3 + 4 + 4 + 3
 
 export default function ListenPage() {
   const t = useTranslations();
-  // Filtrer les artistes qui ont une image valide
-  const artists: Artist[] = artistsData.filter(
-    (artist) => artist.picture && artist.picture.trim() !== "",
+  // Filtrer les artistes qui ont une image valide - useMemo pour éviter le recalcul
+  const artists: Artist[] = useMemo(
+    () =>
+      artistsData.filter(
+        (artist) => artist.picture && artist.picture.trim() !== "",
+      ),
+    [],
   );
 
   // Initialiser la grille avec des artistes aléatoires uniques
@@ -36,21 +40,21 @@ export default function ListenPage() {
 
   useEffect(() => {
     // Initialiser la grille au montage avec des artistes uniques
-    const shuffled = [...artists].sort(() => 1 - Math.random());
+    const shuffled = [...artists].sort(() => Math.random() - 0.5);
     const initialGrid = shuffled.slice(0, GRID_SIZE);
     setImageGrid(initialGrid);
   }, [artists]);
 
   useEffect(() => {
-    if (imageGrid.length === 0) return;
+    if (imageGrid.length === 0 || artists.length === 0) return;
 
     // Pour chaque image, créer une fonction récursive avec un délai aléatoire
     const timeouts: NodeJS.Timeout[] = [];
 
     const scheduleImageChange = (index: number, isFirstCall = false) => {
       // Pour le premier appel, ajouter un délai initial aléatoire pour étaler les changements
-      const initialDelay = isFirstCall ? Math.random() * 5000 : 0;
-      const randomDelay = Math.random() * 4000 + 3000; // Entre 3000ms et 7000ms
+      const initialDelay = isFirstCall ? Math.random() * 3000 : 0;
+      const randomDelay = Math.random() * 3000 + 4000; // Entre 4000ms et 7000ms
       const totalDelay = initialDelay + randomDelay;
 
       const timeout = setTimeout(() => {
@@ -201,7 +205,7 @@ export default function ListenPage() {
                   {t.listen.subTitle}
                 </h2>
                 {/* Artists names from JSON */}
-                <p className="text-lg md:text-xl xl:text-2xl font-light font-poppins uppercase !leading-6 text-red text-justify max-h-[200px] md:max-h-[250px] xl:max-h-[300px] 2xl:max-h-[350px] overflow-hidden">
+                <p className="text-lg md:text-xl xl:text-2xl font-light font-poppins uppercase !leading-7 text-red text-justify max-h-[200px] md:max-h-[250px] xl:max-h-[300px] 2xl:max-h-[350px] overflow-hidden">
                   {artists.map((artist, index) => (
                     <span key={artist.id}>
                       {artist.link ? (
@@ -236,197 +240,202 @@ export default function ListenPage() {
                 </div>
               </div>
               {/* Artists pictures - Grille avec animation de fondu */}
-              <div className="hidden md:flex flex-col w-full">
-                {/* Ligne 1 : 3 images à gauche */}
-                <div className="flex justify-start">
-                  {imageGrid.slice(0, 3).map((artist, index) => {
-                    const rotations = [-8, -6, -4, -2, 0, 2, 4, 6, 8];
-                    const rotation = rotations[index % rotations.length];
-                    const isFading = fadingIndex === index;
+              <div className="w-full flex justify-end">
+                <div className="hidden md:flex flex-col w-3/4 2xl:space-y-3">
+                  {/* Ligne 1 : 3 images à gauche */}
+                  <div className="flex justify-start">
+                    {imageGrid.slice(0, 3).map((artist, index) => {
+                      const rotations = [-8, -6, -4, -2, 0, 2, 4, 6, 8];
+                      const rotation = rotations[index % rotations.length];
+                      const isFading = fadingIndex === index;
 
-                    return (
-                      <div
-                        key={`row1-${index}`}
-                        className="relative w-[120px] h-[120px] 2xl:w-[140px] 2xl:h-[140px]"
-                        style={{
-                          transform: `rotate(${rotation}deg)`,
-                        }}
-                      >
-                        {artist.link ? (
-                          <Link
-                            href={artist.link}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="block group"
-                          >
+                      return (
+                        <div
+                          key={`row1-${index}`}
+                          className="relative w-[105px] h-[105px] 2xl:w-[140px] 2xl:h-[140px]"
+                          style={{
+                            transform: `rotate(${rotation}deg)`,
+                          }}
+                        >
+                          {artist.link ? (
+                            <Link
+                              href={artist.link}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="block group"
+                            >
+                              <Image
+                                src={artist.picture}
+                                alt={artist.name}
+                                width={140}
+                                height={140}
+                                className={`w-[105px] h-[105px] 2xl:w-[140px] 2xl:h-[140px] object-cover rounded-[10px] transition-all duration-500 group-hover:scale-110 ${
+                                  isFading ? "opacity-0" : "opacity-100"
+                                }`}
+                              />
+                            </Link>
+                          ) : (
                             <Image
                               src={artist.picture}
                               alt={artist.name}
                               width={140}
                               height={140}
-                              className={`w-[120px] h-[120px] 2xl:w-[140px] 2xl:h-[140px] object-cover rounded-[10px] transition-all duration-500 group-hover:scale-110 ${
+                              className={`w-[105px] h-[105px] 2xl:w-[140px] 2xl:h-[140px] object-cover rounded-[10px] transition-opacity duration-500 ${
                                 isFading ? "opacity-0" : "opacity-100"
                               }`}
                             />
-                          </Link>
-                        ) : (
-                          <Image
-                            src={artist.picture}
-                            alt={artist.name}
-                            width={140}
-                            height={140}
-                            className={`w-[120px] h-[120px] 2xl:w-[140px] 2xl:h-[140px] object-cover rounded-[10px] transition-opacity duration-500 ${
-                              isFading ? "opacity-0" : "opacity-100"
-                            }`}
-                          />
-                        )}
-                      </div>
-                    );
-                  })}
-                </div>
+                          )}
+                        </div>
+                      );
+                    })}
+                  </div>
 
-                {/* Ligne 2 : 4 images sur toute la largeur */}
-                <div className="flex gap-y-4">
-                  {imageGrid.slice(3, 7).map((artist, index) => {
-                    const rotations = [-8, -6, -4, -2, 0, 2, 4, 6, 8];
-                    const rotation = rotations[(index + 3) % rotations.length];
-                    const isFading = fadingIndex === index + 3;
+                  {/* Ligne 2 : 4 images sur toute la largeur */}
+                  <div className="flex gap-y-4">
+                    {imageGrid.slice(3, 7).map((artist, index) => {
+                      const rotations = [-8, -6, -4, -2, 0, 2, 4, 6, 8];
+                      const rotation =
+                        rotations[(index + 3) % rotations.length];
+                      const isFading = fadingIndex === index + 3;
 
-                    return (
-                      <div
-                        key={`row2-${index}`}
-                        className="relative w-[120px] h-[120px] 2xl:w-[140px]"
-                        style={{
-                          transform: `rotate(${rotation}deg)`,
-                        }}
-                      >
-                        {artist.link ? (
-                          <Link
-                            href={artist.link}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="block group"
-                          >
+                      return (
+                        <div
+                          key={`row2-${index}`}
+                          className="relative w-[105px] h-[105px] 2xl:w-[140px]"
+                          style={{
+                            transform: `rotate(${rotation}deg)`,
+                          }}
+                        >
+                          {artist.link ? (
+                            <Link
+                              href={artist.link}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="block group"
+                            >
+                              <Image
+                                src={artist.picture}
+                                alt={artist.name}
+                                width={140}
+                                height={140}
+                                className={`w-[105px] h-[105px] 2xl:w-[140px] object-cover rounded-[10px] transition-all duration-500 group-hover:scale-110 ${
+                                  isFading ? "opacity-0" : "opacity-100"
+                                }`}
+                              />
+                            </Link>
+                          ) : (
                             <Image
                               src={artist.picture}
                               alt={artist.name}
                               width={140}
                               height={140}
-                              className={`w-[120px] h-[120px] 2xl:w-[140px] object-cover rounded-[10px] transition-all duration-500 group-hover:scale-110 ${
+                              className={`w-[105px] h-[105px] 2xl:w-[140px] object-cover rounded-[10px] transition-opacity duration-500 ${
                                 isFading ? "opacity-0" : "opacity-100"
                               }`}
                             />
-                          </Link>
-                        ) : (
-                          <Image
-                            src={artist.picture}
-                            alt={artist.name}
-                            width={140}
-                            height={140}
-                            className={`w-[120px] h-[120px] 2xl:w-[140px] object-cover rounded-[10px] transition-opacity duration-500 ${
-                              isFading ? "opacity-0" : "opacity-100"
-                            }`}
-                          />
-                        )}
-                      </div>
-                    );
-                  })}
-                </div>
+                          )}
+                        </div>
+                      );
+                    })}
+                  </div>
 
-                {/* Ligne 3 : 4 images sur toute la largeur */}
-                <div className="flex gap-y-4">
-                  {imageGrid.slice(7, 11).map((artist, index) => {
-                    const rotations = [-8, -6, -4, -2, 0, 2, 4, 6, 8];
-                    const rotation = rotations[(index + 7) % rotations.length];
-                    const isFading = fadingIndex === index + 7;
+                  {/* Ligne 3 : 4 images sur toute la largeur */}
+                  <div className="flex gap-y-4">
+                    {imageGrid.slice(7, 11).map((artist, index) => {
+                      const rotations = [-8, -6, -4, -2, 0, 2, 4, 6, 8];
+                      const rotation =
+                        rotations[(index + 7) % rotations.length];
+                      const isFading = fadingIndex === index + 7;
 
-                    return (
-                      <div
-                        key={`row3-${index}`}
-                        className="relative w-[120px] h-[120px] 2xl:w-[140px]"
-                        style={{
-                          transform: `rotate(${rotation}deg)`,
-                        }}
-                      >
-                        {artist.link ? (
-                          <Link
-                            href={artist.link}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="block group"
-                          >
+                      return (
+                        <div
+                          key={`row3-${index}`}
+                          className="relative w-[105px] h-[105px] 2xl:w-[140px]"
+                          style={{
+                            transform: `rotate(${rotation}deg)`,
+                          }}
+                        >
+                          {artist.link ? (
+                            <Link
+                              href={artist.link}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="block group"
+                            >
+                              <Image
+                                src={artist.picture}
+                                alt={artist.name}
+                                width={140}
+                                height={140}
+                                className={`w-[105px] h-[105px] 2xl:w-[140px] object-cover rounded-[10px] transition-all duration-500 group-hover:scale-110 ${
+                                  isFading ? "opacity-0" : "opacity-100"
+                                }`}
+                              />
+                            </Link>
+                          ) : (
                             <Image
                               src={artist.picture}
                               alt={artist.name}
                               width={140}
                               height={140}
-                              className={`w-[120px] h-[120px] 2xl:w-[140px] object-cover rounded-[10px] transition-all duration-500 group-hover:scale-110 ${
+                              className={`w-[105px] h-[105px] 2xl:w-[140px] object-cover rounded-[10px] transition-opacity duration-500 ${
                                 isFading ? "opacity-0" : "opacity-100"
                               }`}
                             />
-                          </Link>
-                        ) : (
-                          <Image
-                            src={artist.picture}
-                            alt={artist.name}
-                            width={140}
-                            height={140}
-                            className={`w-[120px] h-[120px] 2xl:w-[140px] object-cover rounded-[10px] transition-opacity duration-500 ${
-                              isFading ? "opacity-0" : "opacity-100"
-                            }`}
-                          />
-                        )}
-                      </div>
-                    );
-                  })}
-                </div>
+                          )}
+                        </div>
+                      );
+                    })}
+                  </div>
 
-                {/* Ligne 4 : 3 images à droite */}
-                <div className="flex gap-y-4 justify-end">
-                  {imageGrid.slice(11, 14).map((artist, index) => {
-                    const rotations = [-8, -6, -4, -2, 0, 2, 4, 6, 8];
-                    const rotation = rotations[(index + 11) % rotations.length];
-                    const isFading = fadingIndex === index + 11;
+                  {/* Ligne 4 : 3 images à droite */}
+                  <div className="flex gap-y-4 justify-end">
+                    {imageGrid.slice(11, 14).map((artist, index) => {
+                      const rotations = [-8, -6, -4, -2, 0, 2, 4, 6, 8];
+                      const rotation =
+                        rotations[(index + 11) % rotations.length];
+                      const isFading = fadingIndex === index + 11;
 
-                    return (
-                      <div
-                        key={`row4-${index}`}
-                        className="relative w-[120px] h-[120px] 2xl:w-[140px]"
-                        style={{
-                          transform: `rotate(${rotation}deg)`,
-                        }}
-                      >
-                        {artist.link ? (
-                          <Link
-                            href={artist.link}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="block group"
-                          >
+                      return (
+                        <div
+                          key={`row4-${index}`}
+                          className="relative w-[105px] h-[105px] 2xl:w-[140px]"
+                          style={{
+                            transform: `rotate(${rotation}deg)`,
+                          }}
+                        >
+                          {artist.link ? (
+                            <Link
+                              href={artist.link}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="block group"
+                            >
+                              <Image
+                                src={artist.picture}
+                                alt={artist.name}
+                                width={140}
+                                height={140}
+                                className={`w-[105px] h-[105px] 2xl:w-[140px] object-cover rounded-[10px] transition-all duration-500 group-hover:scale-110 ${
+                                  isFading ? "opacity-0" : "opacity-100"
+                                }`}
+                              />
+                            </Link>
+                          ) : (
                             <Image
                               src={artist.picture}
                               alt={artist.name}
                               width={140}
                               height={140}
-                              className={`w-[120px] h-[120px] 2xl:w-[140px] object-cover rounded-[10px] transition-all duration-500 group-hover:scale-110 ${
+                              className={`w-[105px] h-[105px] 2xl:w-[140px] object-cover rounded-[10px] transition-opacity duration-500 ${
                                 isFading ? "opacity-0" : "opacity-100"
                               }`}
                             />
-                          </Link>
-                        ) : (
-                          <Image
-                            src={artist.picture}
-                            alt={artist.name}
-                            width={140}
-                            height={140}
-                            className={`w-[120px] h-[120px] 2xl:w-[140px] object-cover rounded-[10px] transition-opacity duration-500 ${
-                              isFading ? "opacity-0" : "opacity-100"
-                            }`}
-                          />
-                        )}
-                      </div>
-                    );
-                  })}
+                          )}
+                        </div>
+                      );
+                    })}
+                  </div>
                 </div>
               </div>
             </div>
