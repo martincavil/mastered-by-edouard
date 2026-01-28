@@ -13,9 +13,9 @@ import {
   Facebook,
   MessageCircle,
   ChevronDown,
-  MoveUpRight,
   CircleCheckBig,
 } from "lucide-react";
+import { ArrowUpRight } from "@/components/icons/ArrowUpRight";
 
 interface FormData {
   name: string;
@@ -225,7 +225,7 @@ export default function ContactPage() {
                     className="bg-red text-black font-bold text-base 2xl:text-lg px-6 xl:px-8 py-2.5 xl:py-3 rounded-[10px] hover:bg-red/90 transition-colors duration-300 flex items-center justify-center gap-2 mt-3"
                   >
                     {t.contact.form.backToHome}
-                    <MoveUpRight size={20} />
+                    <ArrowUpRight size={20} />
                   </Link>
                 </div>
               ) : (
@@ -235,7 +235,7 @@ export default function ContactPage() {
                 >
                   {/* YOUR INFO Section */}
                   <div>
-                    <h2 className="uppercase text-lg 2xl:text-3xl font-extralight text-white mb-2 2xl:mb-6">
+                    <h2 className="uppercase text-lg 2xl:text-3xl font-extralight text-white mb-2 2xl:mb-6 pl-4">
                       {t.contact.form.sections.yourInfo}
                     </h2>
                     <div className="space-y-2">
@@ -318,7 +318,7 @@ export default function ContactPage() {
 
                   {/* PROJECT INFO Section */}
                   <div>
-                    <h2 className="uppercase text-lg 2xl:text-3xl font-extralight text-white mb-2 2xl:mb-6">
+                    <h2 className="uppercase text-lg 2xl:text-3xl font-extralight text-white mb-2 2xl:mb-6 pl-4">
                       {t.contact.form.sections.projectInfo}
                     </h2>
                     <div className="space-y-2">
@@ -396,19 +396,19 @@ export default function ContactPage() {
                   </div>
 
                   {/* Form Footer */}
-                  <div className="flex items-center justify-between">
-                    <p className="text-sm 2xl:text-base text-white/70 font-poppins">
+                  <div className="grid grid-cols-2 items-end gap-x-3">
+                    <p className="text-sm 2xl:text-base text-white font-poppins">
                       {t.contact.form.requiredNote}
                     </p>
                     <button
                       type="submit"
                       disabled={isSubmitting}
-                      className="bg-red text-black font-bold text-base 2xl:text-lg px-6 xl:px-8 py-2.5 xl:py-3 rounded-[10px] hover:bg-red/90 transition-colors duration-300 flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+                      className="bg-red text-black font-bold text-base 2xl:text-lg px-6 xl:px-8 py-2.5 xl:py-3 rounded-[10px] hover:bg-red/90 transition-colors duration-300 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer w-full"
                     >
                       {isSubmitting
                         ? t.contact.form.sending
                         : t.contact.form.send}
-                      <MoveUpRight size={20} />
+                      <ArrowUpRight size={20} />
                     </button>
                   </div>
 
@@ -424,20 +424,21 @@ export default function ContactPage() {
 
             {/* Right Column - Illustration */}
             <div className="hidden md:flex flex-col items-center md:items-end justify-start space-y-4 2xl:space-y-20">
-              <h3 className="text-5xl xl:text-[90px] 2xl:text-[100px] font-bold text-white leading-[0.8]">
-                {t.contact.ctaTitle}
-              </h3>
+              <div className="text-5xl xl:text-[90px] 2xl:text-[100px] font-bold text-white leading-[0.8]">
+                <p>{t.contact.ctaTitle1}</p>
+                <p>{t.contact.ctaTitle2}</p>
+              </div>
               <Image
                 src="https://www.dropbox.com/scl/fi/vcphub2lii62wkgckszn6/contact.webp?rlkey=iff7tnt6qg1gixxxm6rbgtt37&st=0jd4agpq&dl=1"
                 alt="Edouard Contact Illustration"
                 width={271}
                 height={271}
-                className="object-cover w-48 h-48 2xl:w-[271px] 2xl:h-[271px]"
+                className="object-cover w-52 h-52 2xl:w-[271px] 2xl:h-[271px]"
               />
             </div>
           </div>
 
-          <Footer color="white" hoverColor="black" />
+          <Footer color="white" hoverColor="red" />
         </div>
       </main>
       {isSubmitting && <LoadingSpinner />}

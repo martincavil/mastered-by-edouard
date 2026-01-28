@@ -35,7 +35,7 @@ export function ServicesSubject() {
 
   return (
     <>
-      <div className="space-y-4 overflow-y-auto h-full">
+      <div className="space-y-4 overflow-y-auto h-full pr-3">
         {services.map((service, index) => (
           <div key={index}>
             <button
@@ -47,7 +47,7 @@ export function ServicesSubject() {
               <span
                 className={`${
                   expandedService === index && "text-white"
-                } text-red hover:text-white text-4xl lg:text-7xl 2xl:text-[90px] font-bold`}
+                } text-red hover:text-white text-4xl lg:text-6xl 2xl:text-[90px] font-bold`}
               >
                 {service.title}
               </span>

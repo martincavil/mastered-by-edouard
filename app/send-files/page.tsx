@@ -82,7 +82,7 @@ function SendFilesContent() {
                 <button
                   key={subject.key}
                   onClick={() => setSelectedSubject(subject.key)}
-                  className={`py-1.5 px-4 border rounded-full text-xl md:text-lg lg:text-2xl xl:text-3xl font-extralight relative overflow-hidden ${
+                  className={`py-1.5 px-4 border rounded-full text-xl md:text-lg lg:text-xl xl:text-2xl 2xl:text-3xl font-extralight relative overflow-hidden ${
                     selectedSubject === subject.key
                       ? "bg-black text-white border-black"
                       : "navigation-link bg-transparent text-black border-black"
@@ -143,15 +143,13 @@ function SendFilesContent() {
               )}
             </div>
             {/* Content */}
-            <div className="flex-1 grid md:grid-cols-2 md:gap-6 xl:gap-10 2xl:gap-16 min-h-0">
-              <div
-                key={selectedSubject}
-                className="md:col-span-2 grid md:grid-cols-2 md:gap-6 xl:gap-10 2xl:gap-16 animate-fade-in min-h-0"
-              >
-                {selectedSubject === "audio-files" && <AudioFiles />}
-                {selectedSubject === "production-sheet" && <ProductionSheet />}
-                {selectedSubject === "prepare-files" && <PrepareFiles />}
-              </div>
+            <div
+              key={selectedSubject}
+              className="md:col-span-2 grid md:grid-cols-2 md:gap-6 xl:gap-16 2xl:gap-16 animate-fade-in min-h-0"
+            >
+              {selectedSubject === "audio-files" && <AudioFiles />}
+              {selectedSubject === "production-sheet" && <ProductionSheet />}
+              {selectedSubject === "prepare-files" && <PrepareFiles />}
             </div>
             <Footer color="white" hoverColor="black" />
           </div>

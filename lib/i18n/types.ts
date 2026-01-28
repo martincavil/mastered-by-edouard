@@ -166,7 +166,8 @@ export type Translations = {
   contact: {
     title: string;
     description: string;
-    ctaTitle: string;
+    ctaTitle1: string;
+    ctaTitle2: string;
     form: {
       sections: {
         yourInfo: string;
@@ -216,7 +217,8 @@ export type Translations = {
   };
   termsAndConditions: {
     title: string;
-    illustrationTitle: string;
+    illustrationTitle1: string;
+    illustrationTitle2: string;
     tabs: {
       ratesPayments: string;
       revisionsVersions: string;
@@ -253,7 +255,8 @@ export type Translations = {
   };
   legalNotice: {
     title: string;
-    illustrationTitle: string;
+    illustrationTitle1: string;
+    illustrationTitle2: string;
     tabs: {
       website: string;
       masteredbyedouard: string;

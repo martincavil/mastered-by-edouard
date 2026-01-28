@@ -185,7 +185,8 @@ export const fr: Translations = {
   contact: {
     title: "contact.",
     description: "Contactez-nous pour vos projets de mastering.",
-    ctaTitle: "discutons de votre projet.",
+    ctaTitle1: "discutons de",
+    ctaTitle2: "votre projet.",
     form: {
       sections: {
         yourInfo: "vos informations",
@@ -235,7 +236,8 @@ export const fr: Translations = {
   },
   termsAndConditions: {
     title: "conditions générales.",
-    illustrationTitle: "pour une relation saine.",
+    illustrationTitle1: "pour une relation",
+    illustrationTitle2: "saine.",
     tabs: {
       ratesPayments: "tarifs & paiements",
       revisionsVersions: "révisions & versions",
@@ -284,7 +286,8 @@ export const fr: Translations = {
   },
   legalNotice: {
     title: "legal notice.",
-    illustrationTitle: "for the most curious.",
+    illustrationTitle1: "pour les plus",
+    illustrationTitle2: "curieux.",
     tabs: {
       website: "website",
       masteredbyedouard: "masteredbyedouard",
@@ -292,7 +295,7 @@ export const fr: Translations = {
     },
     website: {
       creditsDesign:
-        "Logo, web design & illustrations : edouard carbonne and valentinegrasphisme",
+        "Logo, web design & illustrations : valentinegrasphisme et edouard carbonne",
       webHosting: "Web hosting : Vercel",
       creditsDevelopmentAuthor: "Development by Martin Cavil",
       creditsPhotographyAuthor: "Photography by Théo Burette",
@@ -316,7 +319,7 @@ export const fr: Translations = {
     },
   },
   faq: {
-    title: "faq.",
+    title: "FAQ.",
     illustrationTitle: "most of your questions in one place.",
     questions: {
       question1: "1. What is Mastering ?",

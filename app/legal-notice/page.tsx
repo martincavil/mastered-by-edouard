@@ -166,10 +166,19 @@ export default function LegalNoticePage() {
                       {t.legalNotice.masteredByEdouard.contactTitle}
                     </p>
                     <p>Edouard Carbonne</p>
-                    <Link href="mailto:contact@masteredByEdouard.com">
-                      contact@masteredByEdouard.com
-                    </Link>
-                    <a href="tel:+33695822071">+33 6 95 82 20 71</a>
+                    <div>
+                      <Link
+                        className="hover:text-red"
+                        href="mailto:contact@masteredByEdouard.com"
+                      >
+                        contact@masteredByEdouard.com
+                      </Link>
+                    </div>
+                    <div>
+                      <a className="hover:text-red" href="tel:+33695822071">
+                        +33 6 95 82 20 71
+                      </a>
+                    </div>
                   </div>
                 </div>
               )}
@@ -186,16 +195,17 @@ export default function LegalNoticePage() {
             </div>
 
             {/* Right Column - Illustration */}
-            <div className="hidden md:flex flex-col items-center md:items-end justify-start space-y-4 2xl:space-y-20">
-              <h3 className="text-5xl xl:text-[90px] 2xl:text-[100px] font-bold text-white leading-[0.8]">
-                {t.legalNotice.illustrationTitle}
-              </h3>
+            <div className="hidden md:flex flex-col items-center md:items-end justify-end space-y-4 2xl:space-y-20">
+              <div className="text-5xl xl:text-[90px] 2xl:text-[100px] font-bold text-white leading-[0.8]">
+                <p>{t.legalNotice.illustrationTitle1}</p>
+                <p>{t.legalNotice.illustrationTitle2}</p>
+              </div>
               <Image
                 src="https://www.dropbox.com/scl/fi/rz6sml1cnpcbvdi4cyqhv/legal-notice.webp?rlkey=xycol0n7ia11xvysrk9rv4p0l&st=41k547uk&dl=1"
                 alt="Edouard Legal Notice Illustration"
                 width={271}
                 height={271}
-                className="object-cover w-48 h-48 2xl:w-[271px] 2xl:h-[271px]"
+                className="object-cover w-52 h-52 2xl:w-[271px] 2xl:h-[271px]"
               />
             </div>
           </div>

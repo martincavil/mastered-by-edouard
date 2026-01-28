@@ -1,8 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
-import { MoveUpRight } from "lucide-react";
 import { Button } from "@/components/button";
 import { useTranslations } from "@/lib/i18n/useTranslations";
+import { ArrowUpRight } from "@/components/icons/ArrowUpRight";
 
 export function EdouardSubject() {
   const t = useTranslations();
@@ -39,7 +39,7 @@ export function EdouardSubject() {
                   <span className="text-xl font-normal">
                     {t.studio.edouard.fullDiscography}
                   </span>
-                  <MoveUpRight
+                  <ArrowUpRight
                     size={24}
                     className="xl:w-8 xl:h-8"
                     strokeWidth={2}

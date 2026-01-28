@@ -238,16 +238,17 @@ export default function TermsAndConditionsPage() {
             </div>
 
             {/* Right Column - Illustration */}
-            <div className="hidden md:flex flex-col items-center md:items-end justify-start space-y-4 2xl:space-y-20">
-              <h3 className="text-5xl xl:text-[90px] 2xl:text-[100px] font-bold text-white leading-[0.8]">
-                {t.termsAndConditions.illustrationTitle}
-              </h3>
+            <div className="hidden md:flex flex-col items-center md:items-end justify-end space-y-4 2xl:space-y-20">
+              <div className="text-5xl xl:text-[90px] 2xl:text-[100px] font-bold text-white leading-[0.8]">
+                <p>{t.termsAndConditions.illustrationTitle1}</p>
+                <p>{t.termsAndConditions.illustrationTitle2}</p>
+              </div>
               <Image
                 src="https://www.dropbox.com/scl/fi/8u7xc79fmf1l4li94uydk/terms-and-conditions.webp?rlkey=pwg98ym8pxhqa5hspb7ev199c&st=8xuqvejr&dl=1"
                 alt="Edouard holding Terms & Conditions book"
                 width={271}
                 height={271}
-                className="object-cover w-48 h-48 2xl:w-[271px] 2xl:h-[271px]"
+                className="object-cover w-52 h-52 2xl:w-[271px] 2xl:h-[271px]"
               />
             </div>
           </div>

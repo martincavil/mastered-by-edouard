@@ -1,7 +1,7 @@
 "use client";
 
-import { MoveUpRight } from "lucide-react";
 import { DragEvent, useRef, ChangeEvent, useState } from "react";
+import { ArrowUpRight } from "@/components/icons/ArrowUpRight";
 
 interface UploadSectionProps {
   label: string;
@@ -80,7 +80,7 @@ export function UploadSection({
           />
           <div className="flex justify-center items-center gap-3">
             <p className="text-xs text-black/60">{label}</p>
-            <MoveUpRight size={14} className="text-black/60" />
+            <ArrowUpRight size={14} className="text-black/60" />
           </div>
           <div
             ref={tooltipButtonRef}

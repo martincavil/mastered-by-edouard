@@ -4,7 +4,8 @@ import { useTranslations } from "@/lib/i18n/useTranslations";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
-import { MoveUpRight, ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ArrowUpRight } from "@/components/icons/ArrowUpRight";
 
 export function PrepareFiles() {
   const t = useTranslations();
@@ -144,12 +145,12 @@ export function PrepareFiles() {
           className="bg-red-dark text-white font-bold text-base 2xl:text-lg px-6 xl:px-8 py-2.5 xl:py-3 rounded-[10px] hover:bg-red-dark/90 transition-colors duration-300 flex items-center justify-center gap-2"
         >
           {t.sendFiles.prepareFiles.uploadFiles}
-          <MoveUpRight size={20} />
+          <ArrowUpRight size={20} />
         </Link>
       </div>
 
       {/* Right Column - Illustration */}
-      <div className="hidden md:flex flex-col items-center md:items-end justify-start space-y-4 2xl:space-y-20">
+      <div className="hidden md:flex flex-col items-center md:items-end justify-end space-y-4 2xl:space-y-20">
         <div className="flex flex-col self-start">
           <span className="text-5xl xl:text-[90px] 2xl:text-[100px] font-bold text-white leading-[0.8]">
             {t.sendFiles.prepareFiles.headline1}

@@ -134,16 +134,14 @@ export default function StudioPage() {
               )}
             </div>
             {/* Content */}
-            <div className="flex-1 grid md:grid-cols-2 md:gap-6 xl:gap-10 2xl:gap-16 min-h-0">
-              <div
-                key={selectedSubject}
-                className="md:col-span-2 grid md:grid-cols-2 md:gap-6 xl:gap-10 2xl:gap-16 animate-fade-in min-h-0"
-              >
-                {selectedSubject === "edouard" && <EdouardSubject />}
-                {selectedSubject === "friends" && <FriendsSubject />}
-                {selectedSubject === "services" && <ServicesSubject />}
-                {selectedSubject === "gear" && <GearSubject />}
-              </div>
+            <div
+              key={selectedSubject}
+              className="md:col-span-2 grid md:grid-cols-2 md:gap-6 xl:gap-16 2xl:gap-16 animate-fade-in min-h-0"
+            >
+              {selectedSubject === "edouard" && <EdouardSubject />}
+              {selectedSubject === "friends" && <FriendsSubject />}
+              {selectedSubject === "services" && <ServicesSubject />}
+              {selectedSubject === "gear" && <GearSubject />}
             </div>
             <Footer color="white" />
           </div>

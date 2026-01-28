@@ -88,7 +88,7 @@ export default function FaqPage() {
             </div>
             {/* Content */}
             <div className="flex-1 grid md:grid-cols-2 2xl:gap-12 gap-6 min-h-0">
-              <div className="space-y-4 overflow-y-auto h-full">
+              <div className="space-y-4 overflow-y-auto h-full pr-3">
                 {questions.map((question, index) => (
                   <div key={index}>
                     <button
@@ -151,10 +151,10 @@ export default function FaqPage() {
                 ))}
               </div>
               {/* Right Column - Illustration */}
-              <div className="hidden md:flex flex-col items-center md:items-end justify-start space-y-4 2xl:space-y-20">
-                <h3 className="text-5xl xl:text-[90px] 2xl:text-[100px] font-bold text-white leading-[0.8]">
+              <div className="hidden md:flex flex-col items-center md:items-end justify-end space-y-4 2xl:space-y-20">
+                <div className="text-5xl xl:text-[90px] 2xl:text-[100px] font-bold text-white leading-[0.8]">
                   {t.faq.illustrationTitle}
-                </h3>
+                </div>
                 <Image
                   src="https://www.dropbox.com/scl/fi/fxmjaxacm25am4jhl7bg8/FAQ.webp?rlkey=50jmw69ih4x61xmibewjrvxgc&st=lg4wpkik&dl=1"
                   alt="FAQ Illustration"
