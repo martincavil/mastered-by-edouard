@@ -69,38 +69,30 @@ export async function POST(request: NextRequest) {
 
     // Create folder name
     const timestamp = Date.now();
-    const artistName = parsedData.artist.replace(/[^a-z0-9]/gi, '-').toLowerCase();
-    const projectName = parsedData.projectTitle.replace(/[^a-z0-9]/gi, '-').toLowerCase();
-    const folderName = `${artistName}_${projectName}_${timestamp}`;
-    const basePath = `/CLIENT_UPLOADS/${folderName}`;
+    const artistName = parsedData.artist.replace(/[^a-z0-9]/gi, '_').toLowerCase();
+    const folderName = `${artistName}-${timestamp}`;
+    const basePath = `/01_uploads/${folderName}`;
 
-    // Create folder structure in Dropbox
+    // Create folder in Dropbox
     await createFolder(basePath);
-    await createFolder(`${basePath}/informations`);
-    if (coverFile) {
-      await createFolder(`${basePath}/cover`);
-    }
-    if (otherFiles.length > 0) {
-      await createFolder(`${basePath}/other-files`);
-    }
 
-    // Upload production sheet PDF
+    // Upload production sheet PDF with artist name
     if (productionSheetPdf) {
       const pdfBuffer = Buffer.from(await productionSheetPdf.arrayBuffer());
-      await uploadFile(pdfBuffer, `${basePath}/informations/production-sheet.pdf`);
+      await uploadFile(pdfBuffer, `${basePath}/${artistName}-production_sheet.pdf`);
     }
 
-    // Upload cover image
+    // Upload cover image to root
     if (coverFile) {
       const coverBuffer = Buffer.from(await coverFile.arrayBuffer());
       const coverExtension = coverFile.name.split('.').pop();
-      await uploadFile(coverBuffer, `${basePath}/cover/cover.${coverExtension}`);
+      await uploadFile(coverBuffer, `${basePath}/cover.${coverExtension}`);
     }
 
-    // Upload other files
+    // Upload other files to root
     for (const file of otherFiles) {
       const fileBuffer = Buffer.from(await file.arrayBuffer());
-      await uploadFile(fileBuffer, `${basePath}/other-files/${file.name}`);
+      await uploadFile(fileBuffer, `${basePath}/${file.name}`);
     }
 
     return NextResponse.json({
