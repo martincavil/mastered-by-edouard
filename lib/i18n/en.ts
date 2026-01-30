@@ -326,7 +326,7 @@ export const en: Translations = {
     title: "FAQ.",
     illustrationTitle: "most of your questions in one place.",
     questions: {
-      question1: "1. What is Mastering ?",
+      question1: "1. what is Mastering ?",
       answer1:
         "It is the final step in the music production process. The primary goals of audio mastering are to ensure that the music sounds cohesive, balanced, and consistent across different playback systems and to enhance its overall sonic characteristics.",
       question2: "2. what is Apple Digital Masters ? ",
