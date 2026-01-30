@@ -10,7 +10,6 @@ import { FormStep2 } from "./production-sheet/FormStep2";
 import { FormStep3 } from "./production-sheet/FormStep3";
 import { SuccessView } from "./production-sheet/SuccessView";
 import { NavigationButtons } from "./production-sheet/NavigationButtons";
-import { generateProductionSheetPDF } from "@/lib/pdf/generateProductionSheet";
 
 interface FormData {
   name: string;
@@ -294,11 +293,23 @@ export function ProductionSheet() {
     setMessage(null);
 
     try {
-      // Generate PDF
-      const pdfBlob = await generateProductionSheetPDF({
-        ...formData,
-        tracks,
+      // Generate filled PDF using template
+      const pdfResponse = await fetch("/api/production-sheet-fill", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          ...formData,
+          tracks,
+        }),
       });
+
+      if (!pdfResponse.ok) {
+        throw new Error("Failed to generate PDF");
+      }
+
+      const pdfBlob = await pdfResponse.blob();
 
       const submitData = new FormData();
       submitData.append("formData", JSON.stringify({ ...formData, tracks }));
