@@ -47,7 +47,7 @@ export function FormStep3({ formData, t, onInputChange, onBack }: FormStep3Props
           value={formData.composer}
           onChange={onInputChange}
           placeholder={t.sendFiles.productionSheet.composer}
-          className="w-full px-4 py-2 bg-gray-100 rounded-lg text-black placeholder:text-black"
+          className="w-full px-4 py-2 bg-gray-100 rounded-lg text-black placeholder:text-black focus:ring-2 focus:ring-inset focus:ring-red outline-none"
         />
         <input
           type="text"
@@ -55,7 +55,7 @@ export function FormStep3({ formData, t, onInputChange, onBack }: FormStep3Props
           value={formData.arranger}
           onChange={onInputChange}
           placeholder={t.sendFiles.productionSheet.arranger}
-          className="w-full px-4 py-2 bg-gray-100 rounded-lg text-black placeholder:text-black"
+          className="w-full px-4 py-2 bg-gray-100 rounded-lg text-black placeholder:text-black focus:ring-2 focus:ring-inset focus:ring-red outline-none"
         />
         <input
           type="text"
@@ -63,7 +63,7 @@ export function FormStep3({ formData, t, onInputChange, onBack }: FormStep3Props
           value={formData.genre}
           onChange={onInputChange}
           placeholder={t.sendFiles.productionSheet.genre}
-          className="w-full px-4 py-2 bg-gray-100 rounded-lg text-black placeholder:text-black"
+          className="w-full px-4 py-2 bg-gray-100 rounded-lg text-black placeholder:text-black focus:ring-2 focus:ring-inset focus:ring-red outline-none"
         />
         <input
           type="text"
@@ -71,7 +71,7 @@ export function FormStep3({ formData, t, onInputChange, onBack }: FormStep3Props
           value={formData.label}
           onChange={onInputChange}
           placeholder={t.sendFiles.productionSheet.label}
-          className="w-full px-4 py-2 bg-gray-100 rounded-lg text-black placeholder:text-black"
+          className="w-full px-4 py-2 bg-gray-100 rounded-lg text-black placeholder:text-black focus:ring-2 focus:ring-inset focus:ring-red outline-none"
         />
         <input
           type="text"
@@ -79,7 +79,7 @@ export function FormStep3({ formData, t, onInputChange, onBack }: FormStep3Props
           value={formData.recordingEngineer}
           onChange={onInputChange}
           placeholder={t.sendFiles.productionSheet.recordingEngineer}
-          className="w-full px-4 py-2 bg-gray-100 rounded-lg text-black placeholder:text-black"
+          className="w-full px-4 py-2 bg-gray-100 rounded-lg text-black placeholder:text-black focus:ring-2 focus:ring-inset focus:ring-red outline-none"
         />
         <input
           type="text"
@@ -87,7 +87,7 @@ export function FormStep3({ formData, t, onInputChange, onBack }: FormStep3Props
           value={formData.mixingEngineer}
           onChange={onInputChange}
           placeholder={t.sendFiles.productionSheet.mixingEngineer}
-          className="w-full px-4 py-2 bg-gray-100 rounded-lg text-black placeholder:text-black"
+          className="w-full px-4 py-2 bg-gray-100 rounded-lg text-black placeholder:text-black focus:ring-2 focus:ring-inset focus:ring-red outline-none"
         />
       </div>
 
@@ -97,7 +97,7 @@ export function FormStep3({ formData, t, onInputChange, onBack }: FormStep3Props
         onChange={onInputChange}
         placeholder={t.sendFiles.productionSheet.otherCredits}
         rows={4}
-        className="w-full px-4 py-1.5 2xl:px-6 2xl:py-3 bg-gray-100 rounded-lg text-black placeholder:text-black resize-none"
+        className="w-full px-4 py-1.5 2xl:px-6 2xl:py-3 bg-gray-100 rounded-lg text-black placeholder:text-black resize-none focus:ring-2 focus:ring-inset focus:ring-red outline-none"
       />
     </div>
   );

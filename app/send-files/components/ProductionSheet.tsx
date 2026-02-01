@@ -457,7 +457,7 @@ export function ProductionSheet() {
           alt="Edouard SendFiles Illustration"
           width={271}
           height={271}
-          className="object-cover w-48 h-48 2xl:w-[271px] 2xl:h-[271px]"
+          className="object-cover w-48 h-48 xl:w-56 xl:h-56 2xl:w-[271px] 2xl:h-[271px]"
         />
       </div>
       {isSubmitting && <LoadingSpinner />}

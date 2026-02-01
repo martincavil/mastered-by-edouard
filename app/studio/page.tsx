@@ -138,14 +138,16 @@ export default function StudioPage() {
             {/* Content */}
             <div
               key={selectedSubject}
-              className="md:col-span-2 grid md:grid-cols-2 md:gap-6 xl:gap-16 2xl:gap-16 animate-fade-in min-h-0"
+              className="md:col-span-2 grid md:grid-cols-2 md:gap-6 xl:gap-16 2xl:gap-16 animate-fade-in flex-1 min-h-0"
             >
               {selectedSubject === "edouard" && <EdouardSubject />}
               {selectedSubject === "friends" && <FriendsSubject />}
               {selectedSubject === "services" && <ServicesSubject />}
               {selectedSubject === "gear" && <GearSubject />}
             </div>
-            <Footer color="white" />
+            <div className="mt-auto">
+              <Footer color="white" />
+            </div>
           </div>
         </main>
       </PageTransition>

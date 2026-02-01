@@ -7,14 +7,7 @@ import { useTranslations } from "@/lib/i18n/useTranslations";
 import { PageTransition } from "@/components/page-transition";
 import { Footer } from "@/components/footer";
 import { LoadingSpinner } from "@/components/loading-spinner";
-import {
-  Instagram,
-  Linkedin,
-  Facebook,
-  MessageCircle,
-  ChevronDown,
-  CircleCheckBig,
-} from "lucide-react";
+import { ChevronDown, CircleCheckBig } from "lucide-react";
 import { ArrowUpRight } from "@/components/icons/ArrowUpRight";
 
 interface FormData {
@@ -160,37 +153,61 @@ export default function ContactPage() {
               href="https://www.instagram.com/masteredbyedouard/"
               target="_blank"
               rel="noopener noreferrer"
-              className="border border-white rounded-full px-6 py-2 text-white hover:text-red transition-colors duration-300"
+              className="group border border-white rounded-full px-6 py-2 hover:bg-white transition-colors duration-300"
               aria-label="Instagram"
             >
-              <Instagram className="w-5 h-5 md:w-6 md:h-6 xl:w-7 xl:h-7 2xl:w-8 2xl:h-8" />
+              <Image
+                width={28}
+                height={28}
+                src="/svg/instagram-logo.svg"
+                alt="Instagram"
+                className="w-5 h-5 md:w-6 md:h-6 xl:w-7 xl:h-7 2xl:w-8 2xl:h-8 brightness-0 invert group-hover:brightness-0 group-hover:invert-0 transition-all duration-300"
+              />
             </a>
             <a
               href="https://www.linkedin.com/in/edouard-carbonne/"
               target="_blank"
               rel="noopener noreferrer"
-              className="border border-white rounded-full px-6 py-2 text-white hover:text-red transition-colors duration-300"
+              className="group border border-white rounded-full px-6 py-2 hover:bg-white transition-colors duration-300"
               aria-label="LinkedIn"
             >
-              <Linkedin className="w-5 h-5 md:w-6 md:h-6 xl:w-7 xl:h-7 2xl:w-8 2xl:h-8" />
+              <Image
+                width={28}
+                height={28}
+                src="/svg/linkedin-logo.svg"
+                alt="LinkedIn"
+                className="w-5 h-5 md:w-6 md:h-6 xl:w-7 xl:h-7 2xl:w-8 2xl:h-8 brightness-0 invert group-hover:brightness-0 group-hover:invert-0 transition-all duration-300"
+              />
             </a>
             <a
               href="https://www.facebook.com/masteredbyedouard"
               target="_blank"
               rel="noopener noreferrer"
-              className="border border-white rounded-full px-6 py-2 text-white hover:text-red transition-colors duration-300"
+              className="group border border-white rounded-full px-6 py-2 hover:bg-white transition-colors duration-300"
               aria-label="Facebook"
             >
-              <Facebook className="w-5 h-5 md:w-6 md:h-6 xl:w-7 xl:h-7 2xl:w-8 2xl:h-8" />
+              <Image
+                width={28}
+                height={28}
+                src="/svg/facebook-logo.svg"
+                alt="Facebook"
+                className="w-5 h-5 md:w-6 md:h-6 xl:w-7 xl:h-7 2xl:w-8 2xl:h-8 brightness-0 invert group-hover:brightness-0 group-hover:invert-0 transition-all duration-300"
+              />
             </a>
             <a
               href="https://wa.me/+33695822071"
               target="_blank"
               rel="noopener noreferrer"
-              className="border border-white rounded-full px-6 py-2 text-white hover:text-red transition-colors duration-300"
+              className="group border border-white rounded-full px-6 py-2 hover:bg-white transition-colors duration-300"
               aria-label="WhatsApp"
             >
-              <MessageCircle className="w-5 h-5 md:w-6 md:h-6 xl:w-7 xl:h-7 2xl:w-8 2xl:h-8" />
+              <Image
+                width={28}
+                height={28}
+                src="/svg/whatsapp-logo.svg"
+                alt="WhatsApp"
+                className="w-5 h-5 md:w-6 md:h-6 xl:w-7 xl:h-7 2xl:w-8 2xl:h-8 brightness-0 invert group-hover:brightness-0 group-hover:invert-0 transition-all duration-300"
+              />
             </a>
           </div>
 
@@ -247,8 +264,8 @@ export default function ContactPage() {
                             value={formData.name}
                             onChange={handleChange}
                             placeholder={t.contact.form.placeholders.name}
-                            className={`w-full bg-white rounded-[10px] px-4 py-2 text-base 2xl:text-lg text-black placeholder-black focus:ring-2 focus:ring-red outline-none ${
-                              errors.name ? "ring-2 ring-red" : ""
+                            className={`w-full bg-white rounded-[10px] px-4 py-2 text-base 2xl:text-lg text-black placeholder-black focus:ring-2 focus:ring-inset focus:ring-red outline-none ${
+                              errors.name ? "ring-2 ring-inset ring-red" : ""
                             }`}
                             required
                           />
@@ -265,8 +282,10 @@ export default function ContactPage() {
                             value={formData.familyName}
                             onChange={handleChange}
                             placeholder={t.contact.form.placeholders.familyName}
-                            className={`w-full bg-white rounded-[10px] px-4 py-2 text-base 2xl:text-lg text-black placeholder-black focus:ring-2 focus:ring-red outline-none ${
-                              errors.familyName ? "ring-2 ring-red" : ""
+                            className={`w-full bg-white rounded-[10px] px-4 py-2 text-base 2xl:text-lg text-black placeholder-black focus:ring-2 focus:ring-inset focus:ring-red outline-none ${
+                              errors.familyName
+                                ? "ring-2 ring-inset ring-red"
+                                : ""
                             }`}
                             required
                           />
@@ -284,8 +303,8 @@ export default function ContactPage() {
                           value={formData.email}
                           onChange={handleChange}
                           placeholder={t.contact.form.placeholders.email}
-                          className={`w-full bg-white rounded-[10px] px-4 py-2 text-base 2xl:text-lg text-black placeholder-black focus:ring-2 focus:ring-red outline-none ${
-                            errors.email ? "ring-2 ring-red" : ""
+                          className={`w-full bg-white rounded-[10px] px-4 py-2 text-base 2xl:text-lg text-black placeholder-black focus:ring-2 focus:ring-inset focus:ring-red outline-none ${
+                            errors.email ? "ring-2 ring-inset ring-red" : ""
                           }`}
                           required
                         />
@@ -302,8 +321,8 @@ export default function ContactPage() {
                           value={formData.phone}
                           onChange={handleChange}
                           placeholder={t.contact.form.placeholders.phone}
-                          className={`w-full bg-white rounded-[10px] px-4 py-2 text-base 2xl:text-lg text-black placeholder-black focus:ring-2 focus:ring-red outline-none ${
-                            errors.phone ? "ring-2 ring-red" : ""
+                          className={`w-full bg-white rounded-[10px] px-4 py-2 text-base 2xl:text-lg text-black placeholder-black focus:ring-2 focus:ring-inset focus:ring-red outline-none ${
+                            errors.phone ? "ring-2 ring-inset ring-red" : ""
                           }`}
                           required
                         />
@@ -329,7 +348,7 @@ export default function ContactPage() {
                           value={formData.artistName}
                           onChange={handleChange}
                           placeholder={t.contact.form.placeholders.artistName}
-                          className="w-full bg-white rounded-[10px] px-4 py-2 text-base 2xl:text-lg text-black placeholder-black focus:ring-2 focus:ring-red outline-none"
+                          className="w-full bg-white rounded-[10px] px-4 py-2 text-base 2xl:text-lg text-black placeholder-black focus:ring-2 focus:ring-inset focus:ring-red outline-none"
                         />
                         <input
                           type="text"
@@ -337,7 +356,7 @@ export default function ContactPage() {
                           value={formData.projectName}
                           onChange={handleChange}
                           placeholder={t.contact.form.placeholders.projectName}
-                          className="w-full bg-white rounded-[10px] px-4 py-2 text-base 2xl:text-lg text-black placeholder-black focus:ring-2 focus:ring-red outline-none"
+                          className="w-full bg-white rounded-[10px] px-4 py-2 text-base 2xl:text-lg text-black placeholder-black focus:ring-2 focus:ring-inset focus:ring-red outline-none"
                         />
                       </div>
                       <div className="grid grid-cols-2 gap-3">
@@ -346,7 +365,7 @@ export default function ContactPage() {
                             name="type"
                             value={formData.type}
                             onChange={handleChange}
-                            className="w-full bg-white rounded-[10px] px-4 py-2 text-base 2xl:text-lg text-black appearance-none focus:ring-2 focus:ring-red outline-none"
+                            className="w-full bg-white rounded-[10px] px-4 py-2 text-base 2xl:text-lg text-black appearance-none focus:ring-2 focus:ring-inset focus:ring-red outline-none"
                           >
                             <option value="">
                               {t.contact.form.placeholders.type}
@@ -371,7 +390,7 @@ export default function ContactPage() {
                           placeholder={
                             t.contact.form.placeholders.numberOfSongs
                           }
-                          className="w-full bg-white rounded-[10px] px-4 py-2 text-base 2xl:text-lg text-black placeholder-black focus:ring-2 focus:ring-red outline-none"
+                          className="w-full bg-white rounded-[10px] px-4 py-2 text-base 2xl:text-lg text-black placeholder-black focus:ring-2 focus:ring-inset focus:ring-red outline-none"
                           min="1"
                         />
                       </div>
@@ -381,8 +400,8 @@ export default function ContactPage() {
                           value={formData.message}
                           onChange={handleChange}
                           placeholder={t.contact.form.placeholders.message}
-                          className={`w-full bg-white rounded-[10px] px-4 py-2 text-base 2xl:text-lg text-black placeholder-black h-16 resize-none focus:ring-2 focus:ring-red outline-none ${
-                            errors.message ? "ring-2 ring-red" : ""
+                          className={`w-full bg-white rounded-[10px] px-4 py-2 text-base 2xl:text-lg text-black placeholder-black h-16 resize-none focus:ring-2 focus:ring-inset focus:ring-red outline-none ${
+                            errors.message ? "ring-2 ring-inset ring-red" : ""
                           }`}
                           required
                         />
@@ -433,7 +452,7 @@ export default function ContactPage() {
                 alt="Edouard Contact Illustration"
                 width={271}
                 height={271}
-                className="object-cover w-52 h-52 2xl:w-[271px] 2xl:h-[271px]"
+                className="object-cover w-52 h-52 xl:w-60 xl:h-60 2xl:w-[271px] 2xl:h-[271px]"
               />
             </div>
           </div>

@@ -34,7 +34,7 @@ export function GearSubject() {
 
   return (
     <>
-      <div className="text-white overflow-y-auto md:overflow-y-visible">
+      <div className="text-white order-1 md:order-0">
         <p className="uppercase leading-9 font-extralight text-2xl md:text-[40px]">
           <span className="text-red font-bold">MONITORING</span> ATC SCM50a SL,
           TRINNOV NOVA, SPL DMC, Ollo audio S4x, APPLE AIRPODS MAX, GIK
@@ -45,7 +45,7 @@ export function GearSubject() {
           Protools, iZotope, Fabfilter, TOKYO DAWN LAB, SOFTUBE...
         </p>
       </div>
-      <div className="hidden md:flex relative w-full h-full min-h-0 justify-center overflow-hidden">
+      <div className="relative w-full flex justify-center order-0 md:order-1 mb-5 md:mb-0">
         <div className="relative group h-full">
           {/* Image */}
           <Image

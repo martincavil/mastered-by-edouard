@@ -248,7 +248,7 @@ export default function TermsAndConditionsPage() {
                 alt="Edouard holding Terms & Conditions book"
                 width={271}
                 height={271}
-                className="object-cover w-52 h-52 2xl:w-[271px] 2xl:h-[271px]"
+                className="object-cover w-52 h-52 xl:w-60 xl:h-60 2xl:w-[271px] 2xl:h-[271px]"
               />
             </div>
           </div>

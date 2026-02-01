@@ -71,8 +71,8 @@ export function FormStep1({
           value={formData.name}
           onChange={onInputChange}
           placeholder={t.sendFiles.productionSheet.name}
-          className={`w-full px-4 py-1.5 2xl:px-6 2xl:py-3 bg-gray-100 rounded-lg text-black placeholder:text-black ${
-            errors.name ? "ring-2 ring-red" : ""
+          className={`w-full px-4 py-1.5 2xl:px-6 2xl:py-3 bg-gray-100 rounded-lg text-black placeholder:text-black focus:ring-2 focus:ring-inset focus:ring-red outline-none ${
+            errors.name ? "ring-2 ring-inset ring-red" : ""
           }`}
           required
         />
@@ -82,8 +82,8 @@ export function FormStep1({
           value={formData.artist}
           onChange={onInputChange}
           placeholder={t.sendFiles.productionSheet.artist}
-          className={`w-full px-4 py-1.5 2xl:px-6 2xl:py-3 bg-gray-100 rounded-lg text-black placeholder:text-black ${
-            errors.artist ? "ring-2 ring-red" : ""
+          className={`w-full px-4 py-1.5 2xl:px-6 2xl:py-3 bg-gray-100 rounded-lg text-black placeholder:text-black focus:ring-2 focus:ring-inset focus:ring-red outline-none ${
+            errors.artist ? "ring-2 ring-inset ring-red" : ""
           }`}
           required
         />
@@ -95,8 +95,8 @@ export function FormStep1({
         value={formData.email}
         onChange={onInputChange}
         placeholder={t.sendFiles.productionSheet.mail}
-        className={`w-full px-4 py-1.5 2xl:px-6 2xl:py-3 bg-gray-100 rounded-lg text-black placeholder:text-black ${
-          errors.email ? "ring-2 ring-red" : ""
+        className={`w-full px-4 py-1.5 2xl:px-6 2xl:py-3 bg-gray-100 rounded-lg text-black placeholder:text-black focus:ring-2 focus:ring-inset focus:ring-red outline-none ${
+          errors.email ? "ring-2 ring-inset ring-red" : ""
         }`}
         required
       />
@@ -107,8 +107,8 @@ export function FormStep1({
         value={formData.projectTitle}
         onChange={onInputChange}
         placeholder={t.sendFiles.productionSheet.projectTitle}
-        className={`w-full px-4 py-1.5 2xl:px-6 2xl:py-3 bg-gray-100 rounded-lg text-black placeholder:text-black ${
-          errors.projectTitle ? "ring-2 ring-red" : ""
+        className={`w-full px-4 py-1.5 2xl:px-6 2xl:py-3 bg-gray-100 rounded-lg text-black placeholder:text-black focus:ring-2 focus:ring-inset focus:ring-red outline-none ${
+          errors.projectTitle ? "ring-2 ring-inset ring-red" : ""
         }`}
         required
       />
@@ -154,7 +154,7 @@ export function FormStep1({
           value={formData.cdUpc}
           onChange={onInputChange}
           placeholder={t.sendFiles.productionSheet.cdUpc}
-          className="w-full px-4 py-1 2xl:py-2 border border-black rounded-full text-black placeholder:text-black"
+          className="w-full px-4 py-1 2xl:py-2 border border-black rounded-full text-black placeholder:text-black focus:ring-2 focus:ring-inset focus:ring-red outline-none"
         />
         <input
           type="text"
@@ -162,7 +162,7 @@ export function FormStep1({
           value={formData.vinylUpc}
           onChange={onInputChange}
           placeholder={t.sendFiles.productionSheet.vinylUpc}
-          className="w-full px-4 py-1 2xl:py-2 border border-black rounded-full text-black placeholder:text-black"
+          className="w-full px-4 py-1 2xl:py-2 border border-black rounded-full text-black placeholder:text-black focus:ring-2 focus:ring-inset focus:ring-red outline-none"
         />
       </div>
 

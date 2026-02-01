@@ -35,7 +35,7 @@ export function ServicesSubject() {
 
   return (
     <>
-      <div className="space-y-4 overflow-y-auto h-full pr-3">
+      <div className="text-white order-1 md:order-0 space-y-4 overflow-y-auto pr-3">
         {services.map((service, index) => (
           <div key={index}>
             <button
@@ -82,7 +82,7 @@ export function ServicesSubject() {
           </div>
         ))}
       </div>
-      <div className="hidden md:flex relative w-full h-full min-h-0 justify-center items-start overflow-hidden">
+      <div className="relative w-full flex justify-center order-0 md:order-1 mb-5 md:mb-0">
         <Image
           src="https://www.dropbox.com/scl/fi/ei7d0lyb69266wxl8ipxi/studio-services.webp?rlkey=8w779w3baq9dcedexwa44dthb&st=hhztqil6&dl=1"
           alt="Studio MasteredByEdouard"

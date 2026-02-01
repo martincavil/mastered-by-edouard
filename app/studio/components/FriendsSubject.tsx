@@ -6,7 +6,7 @@ export function FriendsSubject() {
 
   return (
     <>
-      <div className="text-white">
+      <div className="text-white order-1 md:order-0">
         <h2 className="text-center md:text-left text-4xl 2xl:text-[40px] !leading-[0.8] font-bold mb-6 md:mb-2">
           {t.studio.friends.title1}
         </h2>
@@ -38,7 +38,7 @@ export function FriendsSubject() {
           </div>
         </div>
       </div>
-      <div className="relative w-full h-[400px] flex items-center justify-center">
+      <div className="relative w-full flex justify-center order-0 md:order-1 mb-5 md:mb-0">
         {/* Map SVG will go here */}
         <Image
           src="/svg/active-map.svg"
