@@ -41,8 +41,8 @@ export function EdouardSubject() {
                   </span>
                   <ArrowUpRight
                     size={24}
-                    className="xl:w-8 xl:h-8"
-                    strokeWidth={2}
+                    className="lg:w-5 lg:h-5"
+                    strokeWidth={1.5}
                   />
                 </div>
               </Button>

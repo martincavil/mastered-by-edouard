@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useMemo } from "react";
+import { useMemo } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useTranslations } from "@/lib/i18n/useTranslations";
@@ -21,93 +21,19 @@ interface Artist {
   link: string;
 }
 
-const GRID_SIZE = 14; // Total d'images : 3 + 4 + 4 + 3
-
 export default function ListenPage() {
   const t = useTranslations();
-  // Filtrer les artistes qui ont une image valide - useMemo pour éviter le recalcul
-  const artists: Artist[] = useMemo(
+  // Tous les artistes du JSON pour la liste des noms
+  const allArtists: Artist[] = useMemo(() => artistsData, []);
+
+  // Filtrer les artistes qui ont une image valide et prendre les 14 premiers pour la grille
+  const gridArtists: Artist[] = useMemo(
     () =>
-      artistsData.filter(
-        (artist) => artist.picture && artist.picture.trim() !== "",
-      ),
+      artistsData
+        .filter((artist) => artist.picture && artist.picture.trim() !== "")
+        .slice(0, 14),
     [],
   );
-
-  // Initialiser la grille avec des artistes aléatoires uniques
-  const [imageGrid, setImageGrid] = useState<Artist[]>([]);
-  const [fadingIndex, setFadingIndex] = useState<number | null>(null);
-
-  useEffect(() => {
-    // Initialiser la grille au montage avec des artistes uniques
-    const shuffled = [...artists].sort(() => Math.random() - 0.5);
-    const initialGrid = shuffled.slice(0, GRID_SIZE);
-    setImageGrid(initialGrid);
-  }, [artists]);
-
-  useEffect(() => {
-    if (imageGrid.length === 0 || artists.length === 0) return;
-
-    // Pour chaque image, créer une fonction récursive avec un délai aléatoire
-    const timeouts: NodeJS.Timeout[] = [];
-
-    const scheduleImageChange = (index: number, isFirstCall = false) => {
-      // Pour le premier appel, ajouter un délai initial aléatoire pour étaler les changements
-      const initialDelay = isFirstCall ? Math.random() * 3000 : 0;
-      const randomDelay = Math.random() * 3000 + 4000; // Entre 4000ms et 7000ms
-      const totalDelay = initialDelay + randomDelay;
-
-      const timeout = setTimeout(() => {
-        // Choisir un artiste aléatoire qui n'est pas déjà affiché
-        setImageGrid((prevGrid) => {
-          const currentIds = prevGrid.map((a) => a.id);
-          const availableArtists = artists.filter(
-            (a) => !currentIds.includes(a.id),
-          );
-
-          if (availableArtists.length > 0) {
-            const randomArtist =
-              availableArtists[
-                Math.floor(Math.random() * availableArtists.length)
-              ];
-
-            // Étape 1: Fade out (500ms)
-            setFadingIndex(index);
-
-            // Étape 2: Changer l'image après le fade out
-            setTimeout(() => {
-              setImageGrid((grid) => {
-                const newGrid = [...grid];
-                newGrid[index] = randomArtist;
-                return newGrid;
-              });
-
-              // Étape 3: Fade in (500ms) - petit délai pour laisser le DOM se mettre à jour
-              setTimeout(() => {
-                setFadingIndex(null);
-              }, 50);
-            }, 500);
-          }
-
-          return prevGrid;
-        });
-
-        // Reprogrammer le prochain changement avec un nouveau délai aléatoire
-        scheduleImageChange(index, false);
-      }, totalDelay);
-
-      timeouts.push(timeout);
-    };
-
-    // Démarrer le cycle pour chaque image avec un délai initial
-    imageGrid.forEach((_, index) => {
-      scheduleImageChange(index, true);
-    });
-
-    return () => {
-      timeouts.forEach((timeout) => clearTimeout(timeout));
-    };
-  }, [artists, imageGrid.length]);
 
   // Strapi fetch temporairement commenté
   // useEffect(() => {
@@ -190,8 +116,8 @@ export default function ListenPage() {
                       </span>
                       <ArrowUpRight
                         size={24}
-                        className="xl:w-8 xl:h-8"
-                        strokeWidth={2}
+                        className="lg:w-5 lg:h-5"
+                        strokeWidth={1.5}
                       />
                     </div>
                   </Button>
@@ -199,14 +125,14 @@ export default function ListenPage() {
               ))}
             </div>
             {/* Content */}
-            <div className="grid md:grid-cols-2 md:gap-6 xl:gap-16 2xl:gap-16 flex-1">
+            <div className="grid md:grid-cols-2 flex-1">
               <div className="space-y-6 xl:space-y-4">
                 <h2 className="text-3xl md:text-4xl xl:text-5xl 2xl:text-6xl font-bold text-white">
                   {t.listen.subTitle}
                 </h2>
                 {/* Artists names from JSON */}
                 <p className="text-lg md:text-xl xl:text-2xl font-light font-poppins uppercase !leading-7 text-red text-justify max-h-[200px] md:max-h-[250px] xl:max-h-[300px] 2xl:max-h-[350px] overflow-hidden">
-                  {artists.map((artist, index) => (
+                  {allArtists.map((artist, index) => (
                     <span key={artist.id}>
                       {artist.link ? (
                         <Link
@@ -220,7 +146,7 @@ export default function ListenPage() {
                       ) : (
                         <span className="cursor-default">{artist.name}</span>
                       )}
-                      {index < artists.length - 1 ? ", " : "..."}
+                      {index < allArtists.length - 1 ? ", " : "..."}
                     </span>
                   ))}
                 </p>
@@ -239,19 +165,18 @@ export default function ListenPage() {
                   </Link>
                 </div>
               </div>
-              {/* Artists pictures - Grille avec animation de fondu */}
+              {/* Artists pictures - Grille statique 3+4+4+3 */}
               <div className="w-full flex justify-end">
                 <div className="hidden md:flex flex-col w-3/4 2xl:space-y-3">
                   {/* Ligne 1 : 3 images à gauche */}
                   <div className="flex justify-start">
-                    {imageGrid.slice(0, 3).map((artist, index) => {
+                    {gridArtists.slice(0, 3).map((artist, index) => {
                       const rotations = [-8, -6, -4, -2, 0, 2, 4, 6, 8];
                       const rotation = rotations[index % rotations.length];
-                      const isFading = fadingIndex === index;
 
                       return (
                         <div
-                          key={`row1-${index}`}
+                          key={`row1-${artist.id}`}
                           className="relative w-[105px] h-[105px] 2xl:w-[140px] 2xl:h-[140px]"
                           style={{
                             transform: `rotate(${rotation}deg)`,
@@ -269,9 +194,7 @@ export default function ListenPage() {
                                 alt={artist.name}
                                 width={140}
                                 height={140}
-                                className={`w-[105px] h-[105px] 2xl:w-[140px] 2xl:h-[140px] object-cover rounded-[10px] transition-all duration-500 group-hover:scale-110 ${
-                                  isFading ? "opacity-0" : "opacity-100"
-                                }`}
+                                className="w-[105px] h-[105px] 2xl:w-[140px] 2xl:h-[140px] object-cover rounded-[10px] transition-all duration-500 group-hover:scale-110"
                               />
                             </Link>
                           ) : (
@@ -280,9 +203,7 @@ export default function ListenPage() {
                               alt={artist.name}
                               width={140}
                               height={140}
-                              className={`w-[105px] h-[105px] 2xl:w-[140px] 2xl:h-[140px] object-cover rounded-[10px] transition-opacity duration-500 ${
-                                isFading ? "opacity-0" : "opacity-100"
-                              }`}
+                              className="w-[105px] h-[105px] 2xl:w-[140px] 2xl:h-[140px] object-cover rounded-[10px]"
                             />
                           )}
                         </div>
@@ -290,17 +211,16 @@ export default function ListenPage() {
                     })}
                   </div>
 
-                  {/* Ligne 2 : 4 images sur toute la largeur */}
+                  {/* Ligne 2 : 4 images */}
                   <div className="flex gap-y-4">
-                    {imageGrid.slice(3, 7).map((artist, index) => {
+                    {gridArtists.slice(3, 7).map((artist, index) => {
                       const rotations = [-8, -6, -4, -2, 0, 2, 4, 6, 8];
                       const rotation =
                         rotations[(index + 3) % rotations.length];
-                      const isFading = fadingIndex === index + 3;
 
                       return (
                         <div
-                          key={`row2-${index}`}
+                          key={`row2-${artist.id}`}
                           className="relative w-[105px] h-[105px] 2xl:w-[140px]"
                           style={{
                             transform: `rotate(${rotation}deg)`,
@@ -318,9 +238,7 @@ export default function ListenPage() {
                                 alt={artist.name}
                                 width={140}
                                 height={140}
-                                className={`w-[105px] h-[105px] 2xl:w-[140px] object-cover rounded-[10px] transition-all duration-500 group-hover:scale-110 ${
-                                  isFading ? "opacity-0" : "opacity-100"
-                                }`}
+                                className="w-[105px] h-[105px] 2xl:w-[140px] object-cover rounded-[10px] transition-all duration-500 group-hover:scale-110"
                               />
                             </Link>
                           ) : (
@@ -329,9 +247,7 @@ export default function ListenPage() {
                               alt={artist.name}
                               width={140}
                               height={140}
-                              className={`w-[105px] h-[105px] 2xl:w-[140px] object-cover rounded-[10px] transition-opacity duration-500 ${
-                                isFading ? "opacity-0" : "opacity-100"
-                              }`}
+                              className="w-[105px] h-[105px] 2xl:w-[140px] object-cover rounded-[10px]"
                             />
                           )}
                         </div>
@@ -339,17 +255,16 @@ export default function ListenPage() {
                     })}
                   </div>
 
-                  {/* Ligne 3 : 4 images sur toute la largeur */}
+                  {/* Ligne 3 : 4 images */}
                   <div className="flex gap-y-4">
-                    {imageGrid.slice(7, 11).map((artist, index) => {
+                    {gridArtists.slice(7, 11).map((artist, index) => {
                       const rotations = [-8, -6, -4, -2, 0, 2, 4, 6, 8];
                       const rotation =
                         rotations[(index + 7) % rotations.length];
-                      const isFading = fadingIndex === index + 7;
 
                       return (
                         <div
-                          key={`row3-${index}`}
+                          key={`row3-${artist.id}`}
                           className="relative w-[105px] h-[105px] 2xl:w-[140px]"
                           style={{
                             transform: `rotate(${rotation}deg)`,
@@ -367,9 +282,7 @@ export default function ListenPage() {
                                 alt={artist.name}
                                 width={140}
                                 height={140}
-                                className={`w-[105px] h-[105px] 2xl:w-[140px] object-cover rounded-[10px] transition-all duration-500 group-hover:scale-110 ${
-                                  isFading ? "opacity-0" : "opacity-100"
-                                }`}
+                                className="w-[105px] h-[105px] 2xl:w-[140px] object-cover rounded-[10px] transition-all duration-500 group-hover:scale-110"
                               />
                             </Link>
                           ) : (
@@ -378,9 +291,7 @@ export default function ListenPage() {
                               alt={artist.name}
                               width={140}
                               height={140}
-                              className={`w-[105px] h-[105px] 2xl:w-[140px] object-cover rounded-[10px] transition-opacity duration-500 ${
-                                isFading ? "opacity-0" : "opacity-100"
-                              }`}
+                              className="w-[105px] h-[105px] 2xl:w-[140px] object-cover rounded-[10px]"
                             />
                           )}
                         </div>
@@ -390,15 +301,14 @@ export default function ListenPage() {
 
                   {/* Ligne 4 : 3 images à droite */}
                   <div className="flex gap-y-4 justify-end">
-                    {imageGrid.slice(11, 14).map((artist, index) => {
+                    {gridArtists.slice(11, 14).map((artist, index) => {
                       const rotations = [-8, -6, -4, -2, 0, 2, 4, 6, 8];
                       const rotation =
                         rotations[(index + 11) % rotations.length];
-                      const isFading = fadingIndex === index + 11;
 
                       return (
                         <div
-                          key={`row4-${index}`}
+                          key={`row4-${artist.id}`}
                           className="relative w-[105px] h-[105px] 2xl:w-[140px]"
                           style={{
                             transform: `rotate(${rotation}deg)`,
@@ -416,9 +326,7 @@ export default function ListenPage() {
                                 alt={artist.name}
                                 width={140}
                                 height={140}
-                                className={`w-[105px] h-[105px] 2xl:w-[140px] object-cover rounded-[10px] transition-all duration-500 group-hover:scale-110 ${
-                                  isFading ? "opacity-0" : "opacity-100"
-                                }`}
+                                className="w-[105px] h-[105px] 2xl:w-[140px] object-cover rounded-[10px] transition-all duration-500 group-hover:scale-110"
                               />
                             </Link>
                           ) : (
@@ -427,9 +335,7 @@ export default function ListenPage() {
                               alt={artist.name}
                               width={140}
                               height={140}
-                              className={`w-[105px] h-[105px] 2xl:w-[140px] object-cover rounded-[10px] transition-opacity duration-500 ${
-                                isFading ? "opacity-0" : "opacity-100"
-                              }`}
+                              className="w-[105px] h-[105px] 2xl:w-[140px] object-cover rounded-[10px]"
                             />
                           )}
                         </div>
