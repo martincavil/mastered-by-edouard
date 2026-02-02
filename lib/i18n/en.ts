@@ -324,7 +324,8 @@ export const en: Translations = {
   },
   faq: {
     title: "FAQ.",
-    illustrationTitle: "most of your questions in one place.",
+    illustrationTitle1: "most of your questions in",
+    illustrationTitle2: "one place.",
     questions: {
       question1: "1. what is Mastering ?",
       answer1:

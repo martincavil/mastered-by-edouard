@@ -124,7 +124,18 @@ export default function LegalNoticePage() {
             <div className="text-white font-extralight text-base 2xl:text-lg font-poppins">
               {activeTab === "website" && (
                 <div className="space-y-1">
-                  <p>{t.legalNotice.website.creditsDesign}</p>
+                  <p>
+                    Logo, web design & illustrations :{" "}
+                    <a
+                      href="https://www.instagram.com/valentinegrasphisme?igsh=MXNuNzliMmRvbGQ3Zw%3D%3D"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="hover:text-red"
+                    >
+                      valentinegrasphisme
+                    </a>
+                    {" "}et edouard carbonne
+                  </p>
                   <p>{t.legalNotice.website.webHosting}</p>
                   <p>{t.legalNotice.website.creditsDevelopmentAuthor}</p>
                   <a

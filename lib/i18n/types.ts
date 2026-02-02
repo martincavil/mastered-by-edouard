@@ -287,7 +287,8 @@ export type Translations = {
   };
   faq: {
     title: string;
-    illustrationTitle: string;
+    illustrationTitle1: string;
+    illustrationTitle2: string;
     questions: {
       question1: string;
       answer1: string;

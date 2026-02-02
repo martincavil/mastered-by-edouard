@@ -153,7 +153,9 @@ export default function FaqPage() {
               {/* Right Column - Illustration */}
               <div className="hidden md:flex flex-col items-center md:items-end justify-end space-y-4 2xl:space-y-20">
                 <div className="text-5xl lg:text-7xl xl:text-[90px] 2xl:text-[100px] font-bold text-white !leading-[0.8]">
-                  {t.faq.illustrationTitle}
+                  {t.faq.illustrationTitle1}
+                  <br />
+                  {t.faq.illustrationTitle2}
                 </div>
                 <Image
                   src="https://www.dropbox.com/scl/fi/fxmjaxacm25am4jhl7bg8/FAQ.webp?rlkey=50jmw69ih4x61xmibewjrvxgc&st=lg4wpkik&dl=1"
