@@ -54,7 +54,7 @@ export function PrepareFiles() {
     <>
       <div className="flex flex-col space-y-3">
         {/* White container with carousel */}
-        <div className="relative bg-white p-5 rounded-[10px] h-[350px] max-h-[350px] 2xl:h-full 2xl:max-h-[700px] flex flex-col">
+        <div className="relative bg-white overflow-hidden p-5 rounded-[10px] h-[350px] max-h-[350px] 2xl:h-full 2xl:max-h-[700px] flex flex-col">
           {/* Content */}
           <div
             key={currentStep}
@@ -101,12 +101,12 @@ export function PrepareFiles() {
           </div>
 
           {/* Step indicator */}
-          <div className="font-poppins absolute left-0 bottom-0 ">
-            <span className="text-[50px] text-black font-extrabold">
-              <span className="text-7xl lg:text-[200px] 2xl:text-[250px]">
+          <div className="font-poppins absolute -left-2 -bottom-3 translate-y-[10%] leading-none">
+            <span className="text-[50px] text-black font-extrabold leading-none block">
+              <span className="text-7xl lg:text-[200px] 2xl:text-[250px] leading-none">
                 {currentStep}
               </span>
-              <span>/4</span>
+              <span className="leading-none">/4</span>
             </span>
           </div>
 
