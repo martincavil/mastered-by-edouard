@@ -150,7 +150,7 @@ export function PrepareFiles() {
       </div>
 
       {/* Right Column - Illustration */}
-      <div className="hidden md:flex flex-col items-center md:items-end justify-end space-y-4 2xl:space-y-20">
+      <div className="hidden md:flex flex-col items-center md:items-end justify-between space-y-4 2xl:space-y-20">
         <div className="flex flex-col self-start">
           <span className="text-5xl lg:text-7xl xl:text-[90px] 2xl:text-[100px] font-bold text-white !leading-[0.8]">
             {t.sendFiles.prepareFiles.headline1}
