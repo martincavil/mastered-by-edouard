@@ -96,7 +96,7 @@ export function UploadSection({
           {/* Tooltip with fixed positioning */}
           {showTooltip && (
             <div
-              className="fixed bg-black/90 text-white rounded-lg p-5 text-xs border border-white z-[9999] w-max max-w-[200px] md:max-w-xs"
+              className="fixed bg-black backdrop-blur-md text-white rounded-lg p-5 text-xs border border-white z-[9999] w-max max-w-[200px] md:max-w-xs"
               style={{
                 top: `${tooltipPosition.top - 10}px`,
                 left:

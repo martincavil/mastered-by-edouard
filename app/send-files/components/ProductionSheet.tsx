@@ -49,7 +49,7 @@ export function ProductionSheet() {
     email: "",
     projectTitle: "",
     formats: {
-      streaming: true,
+      streaming: false,
       dolbyAtmos: false,
       vinyl: false,
       cd: false,

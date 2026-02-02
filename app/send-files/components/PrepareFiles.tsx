@@ -88,7 +88,7 @@ export function PrepareFiles() {
             )}
 
             {steps[currentStep - 1].image && (
-              <div className="-mr-6 flex items-end justify-end mt-5 2xl:mt-8">
+              <div className="flex items-end justify-end mt-5 2xl:mt-8">
                 <Image
                   src={steps[currentStep - 1].image!}
                   alt={`Step ${currentStep} Illustration`}
