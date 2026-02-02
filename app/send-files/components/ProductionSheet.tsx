@@ -437,6 +437,7 @@ export function ProductionSheet() {
             {t.sendFiles.productionSheet.termsAndConditions.beforeLink}{" "}
             <Link
               href="/terms-and-conditions"
+              target="_blank"
               className="font-medium hover:underline"
             >
               {t.sendFiles.productionSheet.termsAndConditions.linkText}

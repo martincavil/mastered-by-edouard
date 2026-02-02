@@ -377,9 +377,13 @@ export function AudioFiles() {
           </form>
         )}
         {!submitSuccess && (
-          <p className="text-black font-light">
+          <p className="text-black font-light text-sm 2xl:text-base">
             you accept the{" "}
-            <Link href="/terms-and-conditions" className="font-medium">
+            <Link
+              href="/terms-and-conditions"
+              target="_blank"
+              className="font-medium hover:underline"
+            >
               terms and conditions
             </Link>{" "}
             of the studio when sending files.
