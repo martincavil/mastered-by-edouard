@@ -96,8 +96,11 @@ export const en: Translations = {
       sendDocument: "send document",
       successMessage: "documents sent successfully.",
       backToHome: "back to home",
-      termsAndConditions:
-        "by sending this production sheet, you accept our terms and conditions.",
+      termsAndConditions: {
+        beforeLink: "by sending this production sheet, you accept our",
+        linkText: "terms and conditions",
+        afterLink: ".",
+      },
       errorCoverFormat: "Only JPEG and PNG formats are allowed for cover",
       errorCoverSize: "Cover image must be at least 500x500 pixels",
       errorOtherFilesFormat:

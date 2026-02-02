@@ -2,6 +2,7 @@
 
 import { useTranslations } from "@/lib/i18n/useTranslations";
 import Image from "next/image";
+import Link from "next/link";
 import { useState, ChangeEvent, FormEvent } from "react";
 import { LoadingSpinner } from "@/components/loading-spinner";
 import { Track } from "./production-sheet/TrackListSection";
@@ -432,8 +433,15 @@ export function ProductionSheet() {
         )}
 
         {!submitSuccess && (
-          <p className="text-black font-light text-sm">
-            {t.sendFiles.productionSheet.termsAndConditions}
+          <p className="text-black text-sm 2xl:text-base font-light">
+            {t.sendFiles.productionSheet.termsAndConditions.beforeLink}{" "}
+            <Link
+              href="/terms-and-conditions"
+              className="font-medium hover:underline"
+            >
+              {t.sendFiles.productionSheet.termsAndConditions.linkText}
+            </Link>
+            {t.sendFiles.productionSheet.termsAndConditions.afterLink}
           </p>
         )}
       </div>

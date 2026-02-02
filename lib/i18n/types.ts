@@ -93,7 +93,11 @@ export type Translations = {
       sendDocument: string;
       successMessage: string;
       backToHome: string;
-      termsAndConditions: string;
+      termsAndConditions: {
+        beforeLink: string;
+        linkText: string;
+        afterLink: string;
+      };
       errorCoverFormat: string;
       errorCoverSize: string;
       errorOtherFilesFormat: string;

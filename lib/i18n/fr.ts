@@ -96,8 +96,11 @@ export const fr: Translations = {
       sendDocument: "envoyer le document",
       successMessage: "documents envoyés avec succès.",
       backToHome: "retour à l'accueil",
-      termsAndConditions:
-        "en envoyant cette fiche de production, vous acceptez nos conditions générales.",
+      termsAndConditions: {
+        beforeLink: "en envoyant cette fiche de production, vous acceptez nos",
+        linkText: "conditions générales",
+        afterLink: ".",
+      },
       errorCoverFormat:
         "Seuls les formats JPEG et PNG sont autorisés pour la pochette",
       errorCoverSize: "La pochette doit faire au minimum 500x500 pixels",
