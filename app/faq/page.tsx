@@ -151,19 +151,21 @@ export default function FaqPage() {
                 ))}
               </div>
               {/* Right Column - Illustration */}
-              <div className="hidden md:flex flex-col items-center md:items-end justify-between space-y-4 2xl:space-y-20">
-                <div className="text-5xl lg:text-7xl xl:text-[90px] 2xl:text-[100px] font-bold text-white !leading-[0.8]">
-                  {t.faq.illustrationTitle1}
-                  <br />
-                  {t.faq.illustrationTitle2}
+              <div className="hidden md:flex flex-col items-center md:items-end relative">
+                <div className="flex flex-col self-start">
+                  <div className="text-5xl lg:text-7xl xl:text-[90px] 2xl:text-[100px] font-bold text-white !leading-[0.8]">
+                    {t.faq.illustrationTitle1}
+                    <br />
+                    {t.faq.illustrationTitle2}
+                  </div>
+                  <Image
+                    src="https://www.dropbox.com/scl/fi/fxmjaxacm25am4jhl7bg8/FAQ.webp?rlkey=50jmw69ih4x61xmibewjrvxgc&st=lg4wpkik&dl=1"
+                    alt="FAQ Illustration"
+                    width={271}
+                    height={271}
+                    className="absolute bottom-0 right-0 object-cover w-48 h-48 xl:w-56 xl:h-56 2xl:w-[271px] 2xl:h-[271px]"
+                  />
                 </div>
-                <Image
-                  src="https://www.dropbox.com/scl/fi/fxmjaxacm25am4jhl7bg8/FAQ.webp?rlkey=50jmw69ih4x61xmibewjrvxgc&st=lg4wpkik&dl=1"
-                  alt="FAQ Illustration"
-                  width={271}
-                  height={271}
-                  className="object-cover w-48 h-48 xl:w-56 xl:h-56 2xl:w-[271px] 2xl:h-[271px]"
-                />
               </div>
             </div>
 
