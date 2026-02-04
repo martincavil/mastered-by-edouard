@@ -163,7 +163,7 @@ export default function ContactPage() {
               href="https://www.instagram.com/masteredbyedouard/"
               target="_blank"
               rel="noopener noreferrer"
-              className="group border border-white rounded-full px-6 py-2 hover:bg-white transition-colors duration-300"
+              className="group border border-white rounded-full px-6 py-2 hover:bg-white hover:scale-105 transition-all duration-500"
               aria-label="Instagram"
             >
               <Image
@@ -178,7 +178,7 @@ export default function ContactPage() {
               href="https://www.linkedin.com/in/edouard-carbonne/"
               target="_blank"
               rel="noopener noreferrer"
-              className="group border border-white rounded-full px-6 py-2 hover:bg-white transition-colors duration-300"
+              className="group border border-white rounded-full px-6 py-2 hover:bg-white hover:scale-105 transition-all duration-500"
               aria-label="LinkedIn"
             >
               <Image
@@ -186,14 +186,14 @@ export default function ContactPage() {
                 height={28}
                 src="/svg/linkedin-logo.svg"
                 alt="LinkedIn"
-                className="w-5 h-5 md:w-6 md:h-6 xl:w-7 xl:h-7 2xl:w-8 2xl:h-8 brightness-0 invert group-hover:brightness-0 group-hover:invert-0 transition-all duration-300"
+                className="w-5 h-5 md:w-6 md:h-6  2xl:w-8 2xl:h-8 brightness-0 invert group-hover:brightness-0 group-hover:invert-0 transition-all duration-300"
               />
             </a>
             <a
               href="https://www.facebook.com/masteredbyedouard"
               target="_blank"
               rel="noopener noreferrer"
-              className="group border border-white rounded-full px-6 py-2 hover:bg-white transition-colors duration-300"
+              className="group border border-white rounded-full px-6 py-2 hover:bg-white hover:scale-105 transition-all duration-500"
               aria-label="Facebook"
             >
               <Image
@@ -208,7 +208,7 @@ export default function ContactPage() {
               href="https://wa.me/+33695822071"
               target="_blank"
               rel="noopener noreferrer"
-              className="group border border-white rounded-full px-6 py-2 hover:bg-white transition-colors duration-300"
+              className="group border border-white rounded-full px-6 py-2 hover:bg-white hover:scale-105 transition-all duration-500"
               aria-label="WhatsApp"
             >
               <Image
@@ -432,7 +432,7 @@ export default function ContactPage() {
                     <button
                       type="submit"
                       disabled={isSubmitting}
-                      className="bg-red text-black font-bold text-base 2xl:text-lg px-6 xl:px-8 py-2.5 xl:py-3 rounded-[10px] hover:bg-red/90 transition-colors duration-300 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer w-full"
+                      className="bg-red text-black font-bold text-lg px-6 xl:px-8 py-2.5 rounded-[10px] hover:bg-red/90 transition-all duration-500 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer w-full hover:scale-[1.03]"
                     >
                       {isSubmitting
                         ? t.contact.form.sending

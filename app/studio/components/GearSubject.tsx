@@ -40,8 +40,8 @@ export function GearSubject() {
           TRINNOV NOVA, SPL DMC, Ollo audio S4x, APPLE AIRPODS MAX, GIK
           acoustics <span className="text-red font-bold">HARDWARE</span> SPL PQ
           MASTERING, NEVE MASTER BUSS PROCESSOR, DANGEROUS BAX EQ, SPL Gemini
-          <span className="text-red font-bold">CONVERTER</span> Grimm UC1, Lavry
-          Savitr <span className="text-red font-bold">SOFTWARE</span> AVID
+          <span className="text-red font-bold"> CONVERTER</span> Grimm UC1,
+          Lavry Savitr <span className="text-red font-bold">SOFTWARE</span> AVID
           Protools, iZotope, Fabfilter, TOKYO DAWN LAB, SOFTUBE...
         </p>
       </div>
