@@ -58,7 +58,7 @@ export default function HomePage() {
             aria-hidden="true"
             className="pointer-events-none absolute left-0 bottom-0 w-full z-[1]"
             style={{
-              height: "40%",
+              height: "55%",
               background:
                 "linear-gradient(to top, rgba(0,0,0,1) 0%, rgba(0,0,0,0.85) 40%, rgba(0,0,0,0.5) 70%, transparent 100%)",
             }}
