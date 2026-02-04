@@ -71,7 +71,7 @@ export function NavigationButtons({
         <button
           type="submit"
           disabled={isSubmitting || !allInfoChecked}
-          className="w-full bg-red-dark text-white font-bold px-6 py-2 rounded-lg hover:bg-red-dark/80 transition-colors flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+          className="w-full bg-red-dark text-white font-bold px-6 py-2 rounded-lg hover:bg-red-dark/80 hover:scale-[1.03] transition-all flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
         >
           {t.sendFiles.productionSheet.sendDocument}
           <ArrowUpRight size={20} />

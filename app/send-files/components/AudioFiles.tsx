@@ -294,11 +294,11 @@ export function AudioFiles() {
               {/* Tooltip button - bottom right */}
               <div
                 ref={tooltipButtonRef}
-                className="absolute right-3 bottom-3"
+                className="absolute right-3 bottom-3 "
                 onMouseEnter={handleTooltipHover}
                 onMouseLeave={() => setShowTooltip(false)}
               >
-                <div className="w-5 h-5 rounded-full border border-black flex items-center justify-center cursor-help bg-transaprent hover:bg-black hover:text-white transition-colors">
+                <div className="w-5 h-5 rounded-full border border-black flex items-center justify-center cursor-help bg-transaprent hover:bg-black hover:text-white transition-colors shadow-md shadow-black/30">
                   <span className="text-xs font-medium">i</span>
                 </div>
               </div>
@@ -367,7 +367,7 @@ export function AudioFiles() {
                 <button
                   type="submit"
                   disabled={isUploading}
-                  className="bg-red-dark text-white font-bold text-center w-full py-1.5 2xl:py-3 rounded-[10px] hover:bg-red-dark/90 transition-colors duration-300 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="bg-red-dark text-white font-bold text-center w-full py-1.5 2xl:py-3 rounded-[10px] hover:bg-red-dark/90 hover:scale-[1.03] transition-all duration-300 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
                 >
                   {isUploading ? "Uploading…" : "send files"}
                   <ArrowUpRight size={20} />
@@ -392,7 +392,7 @@ export function AudioFiles() {
       </div>
 
       {/* Right Column - Illustration */}
-      <div className="hidden md:flex flex-col items-center md:items-end justify-between space-y-4 2xl:space-y-20">
+      <div className="hidden md:flex flex-col items-center md:items-end relative">
         {submitSuccess ? (
           <div className="flex flex-col self-start">
             <span className="text-5xl lg:text-7xl xl:text-[90px] 2xl:text-[100px] font-bold text-white !leading-[0.8]">
@@ -420,7 +420,7 @@ export function AudioFiles() {
           alt="Edouard SendFiles Illustration"
           width={271}
           height={271}
-          className="object-cover w-48 h-48 xl:w-56 xl:h-56 2xl:w-[271px] 2xl:h-[271px]"
+          className="absolute bottom-0 right-0 object-cover w-48 h-48 xl:w-56 xl:h-56 2xl:w-[271px] 2xl:h-[271px]"
         />
       </div>
       {isUploading && <LoadingSpinner />}

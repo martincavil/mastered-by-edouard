@@ -448,7 +448,7 @@ export function ProductionSheet() {
       </div>
 
       {/* Right Column - Illustration */}
-      <div className="hidden md:flex flex-col items-center md:items-end justify-between space-y-4 2xl:space-y-20">
+      <div className="hidden md:flex flex-col items-center md:items-end relative">
         <div className="flex flex-col self-start">
           <span className="text-5xl lg:text-7xl xl:text-[90px] 2xl:text-[100px] font-bold text-white !leading-[0.8]">
             {submitSuccess
@@ -466,7 +466,7 @@ export function ProductionSheet() {
           alt="Edouard SendFiles Illustration"
           width={271}
           height={271}
-          className="object-cover w-48 h-48 xl:w-56 xl:h-56 2xl:w-[271px] 2xl:h-[271px]"
+          className="absolute bottom-0 right-0 object-cover w-48 h-48 xl:w-56 xl:h-56 2xl:w-[271px] 2xl:h-[271px]"
         />
       </div>
       {isSubmitting && <LoadingSpinner />}

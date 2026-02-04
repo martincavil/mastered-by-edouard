@@ -29,7 +29,7 @@ export function PrepareFiles() {
       content1: t.sendFiles.prepareFiles.step3Content.step3Content1,
       content2: t.sendFiles.prepareFiles.step3Content.step3Content2,
       image:
-        "https://www.dropbox.com/scl/fi/l2wwct3hb9rz8esupxef7/send-files-the-naming.png?rlkey=xi9sbt216hea3k4xw2hwjqoit&st=aq1fn09s&dl=1",
+        "https://www.dropbox.com/scl/fi/2qcsr5m8po00plzip7asq/finder_Site-web_prepare-your-files.png?rlkey=3ufg17f6has1zwsszwrf4mys2&st=54vn1kst&dl=1",
     },
     {
       title: t.sendFiles.prepareFiles.step4Title,
@@ -88,7 +88,7 @@ export function PrepareFiles() {
             )}
 
             {steps[currentStep - 1].image && (
-              <div className="flex items-end justify-end mt-5 2xl:mt-8">
+              <div className="md:hidden xl:flex absolute right-0 bottom-20 flex items-end justify-end">
                 <Image
                   src={steps[currentStep - 1].image!}
                   alt={`Step ${currentStep} Illustration`}
@@ -101,7 +101,7 @@ export function PrepareFiles() {
           </div>
 
           {/* Step indicator */}
-          <div className="font-poppins absolute -left-2 -bottom-3 translate-y-[10%] leading-none">
+          <div className="font-poppins absolute -left-2.5 -bottom-3 translate-y-[10%] leading-none">
             <span className="text-[50px] text-black font-extrabold leading-none block">
               <span className="text-7xl lg:text-[200px] 2xl:text-[250px] leading-none">
                 {currentStep}
@@ -150,7 +150,7 @@ export function PrepareFiles() {
       </div>
 
       {/* Right Column - Illustration */}
-      <div className="hidden md:flex flex-col items-center md:items-end justify-between space-y-4 2xl:space-y-20">
+      <div className="hidden md:flex flex-col items-center md:items-end relative">
         <div className="flex flex-col self-start">
           <span className="text-5xl lg:text-7xl xl:text-[90px] 2xl:text-[100px] font-bold text-white !leading-[0.8]">
             {t.sendFiles.prepareFiles.headline1}
@@ -164,7 +164,7 @@ export function PrepareFiles() {
           alt="Edouard SendFiles Illustration"
           width={271}
           height={271}
-          className="object-cover w-48 h-48 xl:w-56 xl:h-56 2xl:w-[271px] 2xl:h-[271px]"
+          className="absolute bottom-0 right-0 object-cover w-48 h-48 xl:w-56 xl:h-56 2xl:w-[271px] 2xl:h-[271px]"
         />
       </div>
     </>
