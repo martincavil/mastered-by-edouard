@@ -10,7 +10,7 @@ export function GearSubject() {
   // Array of images - à adapter selon tes images réelles
   const images = [
     "https://www.dropbox.com/scl/fi/670gcts6fwz7x1sog0ugt/studio-gear-photos-1.webp?rlkey=k402wtxulryrm6kqu88tltkxa&st=gu5fiuw5&dl=1",
-    "https://www.dropbox.com/scl/fi/zm0szr8qg08bpznwrsdzj/studio-gear-photos-2.webp?rlkey=hulgrq40i2ea5mmiq7f4zxghd&st=tbevomam&dl=1",
+    // "https://www.dropbox.com/scl/fi/zm0szr8qg08bpznwrsdzj/studio-gear-photos-2.webp?rlkey=hulgrq40i2ea5mmiq7f4zxghd&st=tbevomam&dl=1",
     "https://www.dropbox.com/scl/fi/y80ord2cchqlvza5daefc/studio-gear-photos-3.webp?rlkey=dugpbmn2r1tqeqmv6qk8lm12b&st=nuqy3cdx&dl=1",
     "https://www.dropbox.com/scl/fi/vwvr9mk0q5zcjgxrr2bug/studio-gear-photos-4.webp?rlkey=hcxngfiazvnf2mdilkjcv9r5y&st=1cy4i3ze&dl=1",
   ];
@@ -35,7 +35,7 @@ export function GearSubject() {
   return (
     <>
       <div className="text-white order-1 md:order-0">
-        <p className="uppercase leading-9 font-extralight text-2xl md:text-[40px]">
+        <p className="uppercase leading-9 font-extralight text-2xl md:text-3xl xl:text-[40px]">
           <span className="text-red font-bold">MONITORING</span> ATC SCM50a SL,
           TRINNOV NOVA, SPL DMC, Ollo audio S4x, APPLE AIRPODS MAX, GIK
           acoustics <span className="text-red font-bold">HARDWARE</span> SPL PQ
@@ -53,7 +53,7 @@ export function GearSubject() {
             alt={`Studio gear ${currentIndex + 1}`}
             width={584}
             height={651}
-            className="md:w-full md:h-[400px] 2xl:w-[584px] 2xl:h-[651px] rounded-[10px] object-cover transition-opacity duration-500"
+            className="md:w-full md:h-[350px] md:max-h-[350px] xl:h-[400px] xl:max-h-[400px] 2xl:w-[584px] 2xl:h-auto 2xl:max-h-[650px] rounded-[10px] object-cover transition-opacity duration-500"
             priority={currentIndex === 0}
           />
           {/* Navigation arrows */}

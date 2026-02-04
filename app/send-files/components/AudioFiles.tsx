@@ -20,6 +20,7 @@ export function AudioFiles() {
   const [email, setEmail] = useState("");
   const [isUploading, setIsUploading] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
+  const [acceptTerms, setAcceptTerms] = useState(false);
   const [message, setMessage] = useState<{
     type: "success" | "error";
     text: string;
@@ -215,126 +216,136 @@ export function AudioFiles() {
             onSubmit={handleSubmit}
             className="flex flex-col space-y-2 2xl:space-y-4"
           >
-            <div className="bg-white px-4 py-6 2xl:py-8 2xl:px-6 rounded-[10px] h-[300px] max-h-[300px] 2xl:h-full 2xl:max-h-[700px] relative">
-              <div className="w-full">
-                <p className="text-center font-medium mb-3 2xl:mb-5">
-                  {t.sendFiles.audioFiles.draganddrop}
-                </p>
-              </div>
-              {/* Drag & Drop Zone */}
-              <div
-                onDragOver={handleDragOver}
-                onDrop={handleDrop}
-                onClick={() => fileInputRef.current?.click()}
-                className="border-dashed-custom rounded-[10px] p-8 text-center cursor-pointer bg-black/10 transition-colors hover:opacity-80"
-              >
-                <input
-                  ref={fileInputRef}
-                  type="file"
-                  multiple
-                  accept=".wav,.aif"
-                  onChange={handleFileInputChange}
-                  className="hidden"
-                />
-                <div className="flex items-center justify-center gap-2">
-                  <p className="">{t.sendFiles.audioFiles.clickordrag}</p>
-                  <ArrowUpRight
-                    size={24}
-                    className="font-extralight inline-block"
-                  />
+            <div className="bg-white px-4 py-6 2xl:py-8 2xl:px-6 rounded-[10px] h-[300px] max-h-[300px] 2xl:h-full 2xl:max-h-[700px] relative flex flex-col justify-between">
+              <div>
+                <div className="w-full">
+                  <p className="text-center font-medium mb-3 2xl:mb-5">
+                    {t.sendFiles.audioFiles.draganddrop}
+                  </p>
                 </div>
-              </div>
+                {/* Drag & Drop Zone */}
+                <div
+                  onDragOver={handleDragOver}
+                  onDrop={handleDrop}
+                  onClick={() => fileInputRef.current?.click()}
+                  className="border-dashed-custom rounded-[10px] p-8 text-center cursor-pointer bg-[#ECECEC] transition-colors "
+                >
+                  <input
+                    ref={fileInputRef}
+                    type="file"
+                    multiple
+                    accept=".wav,.aif"
+                    onChange={handleFileInputChange}
+                    className="hidden"
+                  />
+                  <div className="flex items-center justify-center gap-2">
+                    <p className="">{t.sendFiles.audioFiles.clickordrag}</p>
+                    <ArrowUpRight
+                      size={24}
+                      className="font-extralight inline-block"
+                    />
+                  </div>
+                </div>
 
-              {/* Selected Files List */}
-              {selectedFiles.length > 0 && (
-                <div className="mt-2">
-                  <h3 className="text-black font-extralight mb-2">
-                    {t.sendFiles.audioFiles.uploadingFiles}
-                  </h3>
-                  <div className="space-y-2 max-h-[80px] overflow-y-scroll pr-1">
-                    {selectedFiles.map(({ file, id }) => (
-                      <div
-                        key={id}
-                        className="flex items-center justify-between rounded-[10px]"
-                      >
-                        <div className="flex items-center justify-between w-full min-w-0 border bg-black/10 border-black rounded-[10px] px-3 py-2">
-                          <p className="text-black text-xs truncate">
-                            {file.name}
-                          </p>
-                          {/* <p className="text-black/60 text-sm">
+                {/* Selected Files List */}
+                {selectedFiles.length > 0 && (
+                  <div className="mt-2">
+                    <h3 className="text-black font-extralight mb-2">
+                      {t.sendFiles.audioFiles.uploadingFiles}
+                    </h3>
+                    <div className="space-y-2 max-h-[80px] overflow-y-scroll pr-1">
+                      {selectedFiles.map(({ file, id }) => (
+                        <div
+                          key={id}
+                          className="flex items-center justify-between rounded-[10px]"
+                        >
+                          <div className="flex items-center justify-between w-full min-w-0 border bg-[#ECECEC] border-black rounded-[10px] px-3 py-2">
+                            <p className="text-black text-xs truncate">
+                              {file.name}
+                            </p>
+                            {/* <p className="text-black/60 text-sm">
                         {formatFileSize(file.size)}
                       </p> */}
-                          <button
-                            type="button"
-                            onClick={() => handleRemoveFile(id)}
-                            className=" text-black hover:text-red transition-colors"
-                            disabled={isUploading}
-                          >
-                            <X size={20} />
-                          </button>
+                            <button
+                              type="button"
+                              onClick={() => handleRemoveFile(id)}
+                              className=" text-black hover:text-red transition-colors"
+                              disabled={isUploading}
+                            >
+                              <X size={20} />
+                            </button>
+                          </div>
                         </div>
-                      </div>
-                    ))}
+                      ))}
+                    </div>
                   </div>
-                </div>
-              )}
-              {/* Message Display */}
-              {message && (
-                <div
-                  className={`mt-2 py-1.5 px-4 rounded-lg text-xs ${
-                    message.type === "success"
-                      ? "bg-green-500/20 text-green-700"
-                      : "bg-red-500/20 text-red"
-                  }`}
-                >
-                  {message.text}
-                </div>
-              )}
+                )}
+                {/* Message Display */}
+                {message && (
+                  <div
+                    className={`mt-2 py-1.5 px-4 rounded-lg text-xs ${
+                      message.type === "success"
+                        ? "bg-green-500/20 text-green-700"
+                        : "bg-red-500/20 text-red"
+                    }`}
+                  >
+                    {message.text}
+                  </div>
+                )}
 
-              {/* Tooltip button - bottom right */}
-              <div
-                ref={tooltipButtonRef}
-                className="absolute right-3 bottom-3 "
-                onMouseEnter={handleTooltipHover}
-                onMouseLeave={() => setShowTooltip(false)}
-              >
-                <div className="w-5 h-5 rounded-full border border-black flex items-center justify-center cursor-help bg-transaprent hover:bg-black hover:text-white transition-colors shadow-md shadow-black/30">
-                  <span className="text-xs font-medium">i</span>
-                </div>
-              </div>
-
-              {/* Tooltip with fixed positioning */}
-              {showTooltip && (
+                {/* Tooltip button - bottom right */}
                 <div
-                  className="fixed bg-black backdrop-blur-md text-white rounded-lg p-5 text-xs border border-white z-[9999] w-max max-w-[200px] md:max-w-xs"
-                  style={{
-                    top: `${tooltipPosition.top - 10}px`,
-                    left:
-                      window.innerWidth < 768
-                        ? `${tooltipPosition.left - 100}px`
-                        : `${tooltipPosition.left + 30}px`,
-                    transform:
-                      window.innerWidth < 768
-                        ? "translateY(-100%)"
-                        : "translateY(-50%)",
-                  }}
-                  onMouseEnter={() => setShowTooltip(true)}
+                  ref={tooltipButtonRef}
+                  className="absolute right-4 bottom-6 2xl:right-6 2xl:bottom-8"
+                  onMouseEnter={handleTooltipHover}
                   onMouseLeave={() => setShowTooltip(false)}
                 >
-                  <div className="flex flex-col gap-2">
-                    <span className="text-lg font-bold">
-                      {t.sendFiles.audioFiles.namingTooltipTitle}
-                    </span>
-                    {t.sendFiles.audioFiles.namingTooltipHints.map(
-                      (hint, index) => (
-                        <span key={index} className="font-poppins text-xs">
-                          {hint}
-                        </span>
-                      ),
-                    )}
+                  <div className="w-5 h-5 rounded-full border border-black flex items-center justify-center cursor-help bg-transparent hover:bg-black hover:text-white transition-colors shadow-md shadow-black/30">
+                    <span className="text-xs font-medium">i</span>
                   </div>
                 </div>
-              )}
+
+                {/* Tooltip with fixed positioning */}
+                {showTooltip && (
+                  <div
+                    className="fixed text-white rounded-lg p-5 text-xs border border-white z-[9999] w-max max-w-[200px] md:max-w-xs"
+                    style={{
+                      backgroundColor: "#161616",
+                      opacity: 1,
+                      top: `${tooltipPosition.top - 10}px`,
+                      left:
+                        window.innerWidth < 768
+                          ? `${tooltipPosition.left - 100}px`
+                          : `${tooltipPosition.left + 30}px`,
+                      transform:
+                        window.innerWidth < 768
+                          ? "translateY(-100%)"
+                          : "translateY(-50%)",
+                    }}
+                    onMouseEnter={() => setShowTooltip(true)}
+                    onMouseLeave={() => setShowTooltip(false)}
+                  >
+                    <div className="flex flex-col gap-2">
+                      <span className="text-lg font-bold">
+                        {t.sendFiles.audioFiles.namingTooltipTitle}
+                      </span>
+                      {t.sendFiles.audioFiles.namingTooltipHints.map(
+                        (hint, index) => (
+                          <span key={index} className="font-poppins text-xs">
+                            {hint}
+                          </span>
+                        ),
+                      )}
+                    </div>
+                  </div>
+                )}
+              </div>
+              <Image
+                src="https://www.dropbox.com/scl/fi/387ne9zdsto43otkmktg8/powered-by-Dropbox.png?rlkey=2n2na2rux64ivpluv1tmochuq&st=ovcr5mp5&dl=1"
+                alt=""
+                width={120}
+                height={120}
+              />
             </div>
 
             {/* Form Inputs */}
@@ -366,7 +377,7 @@ export function AudioFiles() {
                 {/* Submit Button */}
                 <button
                   type="submit"
-                  disabled={isUploading}
+                  disabled={isUploading || !acceptTerms}
                   className="bg-red-dark text-white font-bold text-center w-full py-1.5 2xl:py-3 rounded-[10px] hover:bg-red-dark/90 hover:scale-[1.03] transition-all duration-300 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
                 >
                   {isUploading ? "Uploading…" : "send files"}
@@ -377,17 +388,25 @@ export function AudioFiles() {
           </form>
         )}
         {!submitSuccess && (
-          <p className="text-black font-light text-sm 2xl:text-base">
-            you accept the{" "}
-            <Link
-              href="/terms-and-conditions"
-              target="_blank"
-              className="font-medium hover:underline"
-            >
-              terms and conditions
-            </Link>{" "}
-            of the studio when sending files.
-          </p>
+          <label className="flex items-start gap-2 cursor-pointer">
+            <input
+              type="checkbox"
+              checked={acceptTerms}
+              onChange={(e) => setAcceptTerms(e.target.checked)}
+              className="mt-1 w-4 h-4 flex-shrink-0 cursor-pointer outline-none focus:outline-none"
+            />
+            <p className="text-black font-light text-sm 2xl:text-base">
+              you accept the{" "}
+              <Link
+                href="/terms-and-conditions"
+                target="_blank"
+                className="font-medium hover:underline"
+              >
+                terms and conditions
+              </Link>{" "}
+              of the studio when sending files.
+            </p>
+          </label>
         )}
       </div>
 

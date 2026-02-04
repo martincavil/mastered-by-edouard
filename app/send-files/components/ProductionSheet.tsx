@@ -358,8 +358,8 @@ export function ProductionSheet() {
             onSubmit={handleSubmit}
             className="flex flex-col space-y-2 2xl:space-y-4"
           >
-            <div className="bg-white px-4 py-6 2xl:py-8 2xl:px-6 rounded-[10px] h-[350px] max-h-[350px] 2xl:h-full 2xl:max-h-[700px] overflow-y-auto">
-              <div key={currentStep} className="animate-slide-in">
+            <div className="bg-white px-4 py-6 2xl:py-8 2xl:px-6 rounded-[10px] h-[350px] max-h-[350px] 2xl:h-full 2xl:max-h-[700px] overflow-y-auto relative flex flex-col">
+              <div key={currentStep} className="animate-slide-in flex-1">
                 {/* STEP 1 - INFORMATIONS */}
                 {currentStep === 1 && (
                   <FormStep1
@@ -417,6 +417,15 @@ export function ProductionSheet() {
                   {message.text}
                 </div>
               )}
+
+              {/* Dropbox logo */}
+              <Image
+                src="https://www.dropbox.com/scl/fi/387ne9zdsto43otkmktg8/powered-by-Dropbox.png?rlkey=2n2na2rux64ivpluv1tmochuq&st=ovcr5mp5&dl=1"
+                alt=""
+                width={120}
+                height={120}
+                className="mt-2"
+              />
             </div>
 
             {/* Navigation Buttons */}

@@ -47,7 +47,7 @@ export function ServicesSubject() {
               <span
                 className={`${
                   expandedService === index && "text-white"
-                } text-red hover:text-white text-4xl lg:text-6xl 2xl:text-[90px] font-bold`}
+                } text-red hover:text-white text-4xl lg:text-6xl 2xl:text-[80px] font-bold`}
               >
                 {service.title}
               </span>
@@ -88,7 +88,7 @@ export function ServicesSubject() {
           alt="Studio MasteredByEdouard"
           width={584}
           height={651}
-          className="md:w-full md:h-[400px] 2xl:w-[584px] 2xl:h-[651px] object-cover rounded-[10px]"
+          className="md:w-full md:h-[350px] md:max-h-[350px] xl:h-[400px] xl:max-h-[400px] 2xl:w-[584px] 2xl:h-auto 2xl:max-h-[650px] rounded-[10px] object-cover"
         />
       </div>
     </>

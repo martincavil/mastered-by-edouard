@@ -65,7 +65,7 @@ export function EdouardSubject() {
           alt="Edouard"
           width={537}
           height={537}
-          className="object-cover rounded-full w-[225px] h-[225px] md:w-[320px] md:h-[320px] xl:w-[420px] xl:h-[420px] 2xl:w-[537px] 2xl:h-[537px]"
+          className="object-cover rounded-full w-[225px] h-[225px] md:w-[320px] md:h-[320px] xl:w-[400px] xl:h-[400px] xl:max-w-[420px] xl:max-h-[420px] 2xl:w-[537px] 2xl:h-[537px]"
         />
       </div>
     </>

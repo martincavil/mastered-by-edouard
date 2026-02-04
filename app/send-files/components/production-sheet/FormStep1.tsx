@@ -219,7 +219,7 @@ export function FormStep1({
           {otherFiles.map((file, index) => (
             <div
               key={index}
-              className="flex items-center justify-between bg-black/10 rounded-lg px-3 py-1"
+              className="flex items-center justify-between bg-[#ECECEC] rounded-lg px-3 py-1"
             >
               <p className="text-xs text-black truncate">{file.name}</p>
               <button

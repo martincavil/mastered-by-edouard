@@ -68,7 +68,7 @@ export function UploadSection({
           onDragOver={handleDragOver}
           onDrop={handleDrop}
           onClick={() => inputRef.current?.click()}
-          className="relative border-dashed-custom rounded-[10px] py-3 px-6 cursor-pointer bg-black/10 transition-colors hover:opacity-80"
+          className="relative border-dashed-custom rounded-[10px] py-3 px-6 cursor-pointer bg-[#ECECEC] transition-colors "
         >
           <input
             ref={inputRef}
@@ -89,15 +89,17 @@ export function UploadSection({
             onMouseEnter={handleTooltipHover}
             onMouseLeave={() => setShowTooltip(false)}
           >
-            <div className="w-5 h-5 rounded-full border border-black flex items-center justify-center cursor-help bg-transaprent hover:bg-black hover:text-white transition-colors shadow-md shadow-black/30">
+            <div className="w-5 h-5 rounded-full border border-black flex items-center justify-center cursor-help bg-transparent hover:bg-black hover:text-white transition-colors shadow-md shadow-black/30">
               <span className="text-xs font-medium">i</span>
             </div>
           </div>
           {/* Tooltip with fixed positioning */}
           {showTooltip && (
             <div
-              className="fixed bg-black backdrop-blur-md text-white rounded-lg p-5 text-xs border border-white z-[9999] w-max max-w-[200px] md:max-w-xs"
+              className="fixed text-white rounded-lg p-5 text-xs border border-white z-[9999] w-max max-w-[200px] md:max-w-xs"
               style={{
+                backgroundColor: "#161616",
+                opacity: 1,
                 top: `${tooltipPosition.top - 10}px`,
                 left:
                   window.innerWidth < 768

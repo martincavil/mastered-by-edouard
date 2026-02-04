@@ -45,7 +45,7 @@ export function FriendsSubject() {
           alt="World Map"
           width={683}
           height={339}
-          className="object-cover w-full max-h-[339px]"
+          className="object-cover w-full max-h-[300px] xl:max-h-[339px]"
         />
       </div>
     </>
