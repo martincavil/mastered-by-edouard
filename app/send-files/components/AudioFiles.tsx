@@ -359,7 +359,7 @@ export function AudioFiles() {
                   disabled={isUploading}
                   placeholder="mail*"
                   aria-required="true"
-                  className="w-full py-1.5 px-8 2xl:py-3 bg-white rounded-[10px] text-black placeholder:text-black"
+                  className="focus:ml-1 w-full py-1.5 px-8 2xl:py-3 bg-white rounded-[10px] text-black placeholder:text-black"
                   required
                 />
               </div>
@@ -370,7 +370,7 @@ export function AudioFiles() {
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   disabled={isUploading}
-                  className="w-full py-1.5 px-8 2xl:py-3 bg-white rounded-[10px] text-black placeholder:text-black"
+                  className="focus:ml-1 w-full py-1.5 px-8 2xl:py-3 bg-white rounded-[10px] text-black placeholder:text-black"
                   placeholder="name*"
                   required
                 />

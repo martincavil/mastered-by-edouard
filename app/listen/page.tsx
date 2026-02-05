@@ -177,7 +177,7 @@ export default function ListenPage() {
                       return (
                         <div
                           key={`row1-${artist.id}`}
-                          className="relative w-[105px] h-[105px] 2xl:w-[140px] 2xl:h-[140px]"
+                          className="relative w-[90px] h-[90px] lg:w-[105px] lg:h-[105px] xl:w-[120px] xl:h-[120px] 2xl:w-[140px] 2xl:h-[140px] 3xl:w-[160px] 3xl:h-[160px]"
                           style={{
                             transform: `rotate(${rotation}deg)`,
                           }}
@@ -192,18 +192,18 @@ export default function ListenPage() {
                               <Image
                                 src={artist.picture}
                                 alt={artist.name}
-                                width={140}
-                                height={140}
-                                className="w-[105px] h-[105px] 2xl:w-[140px] 2xl:h-[140px] object-cover rounded-[10px] transition-all duration-500 group-hover:scale-110"
+                                width={160}
+                                height={160}
+                                className="w-full h-full object-contain rounded-full transition-all duration-500 group-hover:scale-110"
                               />
                             </Link>
                           ) : (
                             <Image
                               src={artist.picture}
                               alt={artist.name}
-                              width={140}
-                              height={140}
-                              className="w-[105px] h-[105px] 2xl:w-[140px] 2xl:h-[140px] object-cover rounded-[10px]"
+                              width={160}
+                              height={160}
+                              className="w-full h-full object-contain rounded-full"
                             />
                           )}
                         </div>
@@ -221,7 +221,7 @@ export default function ListenPage() {
                       return (
                         <div
                           key={`row2-${artist.id}`}
-                          className="relative w-[105px] h-[105px] 2xl:w-[140px]"
+                          className="relative w-[90px] h-[90px] lg:w-[105px] lg:h-[105px] xl:w-[120px] xl:h-[120px] 2xl:w-[140px] 2xl:h-[140px] 3xl:w-[160px] 3xl:h-[160px]"
                           style={{
                             transform: `rotate(${rotation}deg)`,
                           }}
@@ -236,18 +236,18 @@ export default function ListenPage() {
                               <Image
                                 src={artist.picture}
                                 alt={artist.name}
-                                width={140}
-                                height={140}
-                                className="w-[105px] h-[105px] 2xl:w-[140px] object-cover rounded-[10px] transition-all duration-500 group-hover:scale-110"
+                                width={160}
+                                height={160}
+                                className="w-full h-full object-contain rounded-full transition-all duration-500 group-hover:scale-110"
                               />
                             </Link>
                           ) : (
                             <Image
                               src={artist.picture}
                               alt={artist.name}
-                              width={140}
-                              height={140}
-                              className="w-[105px] h-[105px] 2xl:w-[140px] object-cover rounded-[10px]"
+                              width={160}
+                              height={160}
+                              className="w-full h-full object-contain rounded-full"
                             />
                           )}
                         </div>
@@ -265,7 +265,7 @@ export default function ListenPage() {
                       return (
                         <div
                           key={`row3-${artist.id}`}
-                          className="relative w-[105px] h-[105px] 2xl:w-[140px]"
+                          className="relative w-[90px] h-[90px] lg:w-[105px] lg:h-[105px] xl:w-[120px] xl:h-[120px] 2xl:w-[140px] 2xl:h-[140px] 3xl:w-[160px] 3xl:h-[160px]"
                           style={{
                             transform: `rotate(${rotation}deg)`,
                           }}
@@ -280,18 +280,18 @@ export default function ListenPage() {
                               <Image
                                 src={artist.picture}
                                 alt={artist.name}
-                                width={140}
-                                height={140}
-                                className="w-[105px] h-[105px] 2xl:w-[140px] object-cover rounded-[10px] transition-all duration-500 group-hover:scale-110"
+                                width={160}
+                                height={160}
+                                className="w-full h-full object-contain rounded-full transition-all duration-500 group-hover:scale-110"
                               />
                             </Link>
                           ) : (
                             <Image
                               src={artist.picture}
                               alt={artist.name}
-                              width={140}
-                              height={140}
-                              className="w-[105px] h-[105px] 2xl:w-[140px] object-cover rounded-[10px]"
+                              width={160}
+                              height={160}
+                              className="w-full h-full object-contain rounded-full"
                             />
                           )}
                         </div>
@@ -309,7 +309,7 @@ export default function ListenPage() {
                       return (
                         <div
                           key={`row4-${artist.id}`}
-                          className="relative w-[105px] h-[105px] 2xl:w-[140px]"
+                          className="relative w-[90px] h-[90px] lg:w-[105px] lg:h-[105px] xl:w-[120px] xl:h-[120px] 2xl:w-[140px] 2xl:h-[140px] 3xl:w-[160px] 3xl:h-[160px]"
                           style={{
                             transform: `rotate(${rotation}deg)`,
                           }}
@@ -324,18 +324,18 @@ export default function ListenPage() {
                               <Image
                                 src={artist.picture}
                                 alt={artist.name}
-                                width={140}
-                                height={140}
-                                className="w-[105px] h-[105px] 2xl:w-[140px] object-cover rounded-[10px] transition-all duration-500 group-hover:scale-110"
+                                width={160}
+                                height={160}
+                                className="w-full h-full object-contain rounded-full transition-all duration-500 group-hover:scale-110"
                               />
                             </Link>
                           ) : (
                             <Image
                               src={artist.picture}
                               alt={artist.name}
-                              width={140}
-                              height={140}
-                              className="w-[105px] h-[105px] 2xl:w-[140px] object-cover rounded-[10px]"
+                              width={160}
+                              height={160}
+                              className="w-full h-full object-contain rounded-full"
                             />
                           )}
                         </div>

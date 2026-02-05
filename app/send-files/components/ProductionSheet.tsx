@@ -350,7 +350,7 @@ export function ProductionSheet() {
 
   return (
     <>
-      <div className="flex flex-col space-y-3">
+      <div className="flex flex-col space-y-2 2xl:space-y-3">
         {submitSuccess ? (
           <SuccessView t={t} />
         ) : (
@@ -419,13 +419,6 @@ export function ProductionSheet() {
               )}
 
               {/* Dropbox logo */}
-              <Image
-                src="https://www.dropbox.com/scl/fi/387ne9zdsto43otkmktg8/powered-by-Dropbox.png?rlkey=2n2na2rux64ivpluv1tmochuq&st=ovcr5mp5&dl=1"
-                alt=""
-                width={120}
-                height={120}
-                className="mt-2"
-              />
             </div>
 
             {/* Navigation Buttons */}

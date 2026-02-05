@@ -3,6 +3,7 @@
 import { ArrowLeft } from "lucide-react";
 import { Translations } from "@/lib/i18n/types";
 import { TrackListSection, Track } from "./TrackListSection";
+import Image from "next/image";
 
 interface FormStep2Props {
   tracks: Track[];
@@ -24,32 +25,41 @@ export function FormStep2({
   onBack,
 }: FormStep2Props) {
   return (
-    <div className="space-y-2 2xl:space-y-3">
-      <div className="flex items-center justify-between">
-        <h2 className="text-3xl 2xl:text-6xl font-bold text-black">
-          {t.sendFiles.productionSheet.step2Title}
-        </h2>
-        <button
-          type="button"
-          onClick={onBack}
-          className="flex items-center gap-2 text-black hover:text-red-dark transition-colors"
-        >
-          <ArrowLeft size={20} />
-          {t.sendFiles.productionSheet.back}
-        </button>
+    <div className="flex flex-col justify-between h-full">
+      <div className="space-y-2 2xl:space-y-3">
+        <div className="flex items-center justify-between">
+          <h2 className="text-3xl 2xl:text-6xl font-bold text-black">
+            {t.sendFiles.productionSheet.step2Title}
+          </h2>
+          <button
+            type="button"
+            onClick={onBack}
+            className="flex items-center gap-2 text-black hover:text-red-dark transition-colors"
+          >
+            <ArrowLeft size={20} />
+            {t.sendFiles.productionSheet.back}
+          </button>
+        </div>
+
+        <TrackListSection
+          tracks={tracks}
+          onAddTrack={onAddTrack}
+          onRemoveTrack={onRemoveTrack}
+          onUpdateTrack={onUpdateTrack}
+          trackTitleLabel={t.sendFiles.productionSheet.trackTitle}
+          isrcCodeLabel={t.sendFiles.productionSheet.isrcCode}
+          addTrackLabel={t.sendFiles.productionSheet.addTrack}
+        />
+
+        {errors.tracks && <p className="text-red text-xs">{errors.tracks}</p>}
       </div>
 
-      <TrackListSection
-        tracks={tracks}
-        onAddTrack={onAddTrack}
-        onRemoveTrack={onRemoveTrack}
-        onUpdateTrack={onUpdateTrack}
-        trackTitleLabel={t.sendFiles.productionSheet.trackTitle}
-        isrcCodeLabel={t.sendFiles.productionSheet.isrcCode}
-        addTrackLabel={t.sendFiles.productionSheet.addTrack}
+      <Image
+        src="https://www.dropbox.com/scl/fi/387ne9zdsto43otkmktg8/powered-by-Dropbox.png?rlkey=2n2na2rux64ivpluv1tmochuq&st=ovcr5mp5&dl=1"
+        alt=""
+        width={140}
+        height={140}
       />
-
-      {errors.tracks && <p className="text-red text-xs">{errors.tracks}</p>}
     </div>
   );
 }

@@ -37,14 +37,14 @@ export function TrackListSection({
               value={track.title}
               onChange={(e) => onUpdateTrack(track.id, "title", e.target.value)}
               placeholder={`${index + 1}. ${trackTitleLabel}`}
-              className="w-full px-4 py-2 2xl:py-3 bg-gray-100 rounded-lg text-black placeholder:text-black focus:ring-2 focus:ring-inset focus:ring-red outline-none"
+              className="w-full px-4 py-2 2xl:py-3 bg-gray-100 rounded-lg text-black placeholder:text-black focus:ring-2 focus:ring-red outline-none"
             />
             <input
               type="text"
               value={track.isrc}
               onChange={(e) => onUpdateTrack(track.id, "isrc", e.target.value)}
               placeholder={isrcCodeLabel}
-              className="w-full px-4 py-2 2xl:py-3 bg-gray-100 rounded-lg text-black placeholder:text-black focus:ring-2 focus:ring-inset focus:ring-red outline-none"
+              className="w-full px-4 py-2 2xl:py-3 bg-gray-100 rounded-lg text-black placeholder:text-black focus:ring-2 focus:ring-red outline-none"
             />
             {tracks.length > 1 && (
               <button

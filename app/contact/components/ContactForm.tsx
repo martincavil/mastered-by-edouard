@@ -126,7 +126,7 @@ export function ContactForm({ t, onSuccess, onSubmitting }: ContactFormProps) {
   ];
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-1 2xl:space-x-5">
+    <form onSubmit={handleSubmit} className="space-y-1 2xl:space-y-5">
       {/* YOUR INFO Section */}
       <div>
         <h2 className="uppercase text-lg 2xl:text-3xl font-extralight text-white mb-2 2xl:mb-6 pl-4">
