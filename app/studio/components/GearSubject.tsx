@@ -47,7 +47,7 @@ export function GearSubject() {
           Protools, iZotope, Fabfilter, TOKYO DAWN LAB, SOFTUBE...
         </p>
       </div>
-      <div className="relative w-full flex justify-center order-0 md:order-1 mb-5 md:mb-0">
+      <div className="relative w-full flex justify-center order-0 md:order-1 mb-5 md:mb-0 md:sticky md:top-0 md:self-start md:h-fit md:max-h-full">
         <div className="relative group h-full">
           {/* Image */}
           <Image

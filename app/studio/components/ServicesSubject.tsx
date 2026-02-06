@@ -82,7 +82,7 @@ export function ServicesSubject() {
           </div>
         ))}
       </div>
-      <div className="relative w-full flex justify-center order-0 md:order-1 mb-5 md:mb-0">
+      <div className="relative w-full flex justify-center order-0 md:order-1 mb-5 md:mb-0 md:sticky md:top-0 md:self-start md:h-fit md:max-h-full">
         <Image
           src="https://www.dropbox.com/scl/fi/40tprumg74yj867w8n0jp/services.jpg?rlkey=g8xedvw29i9zmyfz5urc6r0xf&st=fzz76cb6&dl=1"
           alt="Studio MasteredByEdouard"
