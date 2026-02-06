@@ -29,7 +29,7 @@ export function TrackListSection({
 }: TrackListSectionProps) {
   return (
     <>
-      <div className="space-y-2 max-h-[200px] overflow-y-auto pr-1">
+      <div className="space-y-2 max-h-[200px] overflow-y-auto pr-1 py-1">
         {tracks.map((track, index) => (
           <div key={track.id} className="flex gap-2">
             <input
@@ -37,14 +37,14 @@ export function TrackListSection({
               value={track.title}
               onChange={(e) => onUpdateTrack(track.id, "title", e.target.value)}
               placeholder={`${index + 1}. ${trackTitleLabel}`}
-              className="w-full px-4 py-2 2xl:py-3 bg-gray-100 rounded-lg text-black placeholder:text-black focus:ring-2 focus:ring-red outline-none"
+              className="w-full px-4 ml-0.5 py-2 2xl:py-3 bg-gray-100 rounded-lg text-black placeholder:text-black focus:outline-none focus:ring-2 focus:ring-red focus:ring-offset-0"
             />
             <input
               type="text"
               value={track.isrc}
               onChange={(e) => onUpdateTrack(track.id, "isrc", e.target.value)}
               placeholder={isrcCodeLabel}
-              className="w-full px-4 py-2 2xl:py-3 bg-gray-100 rounded-lg text-black placeholder:text-black focus:ring-2 focus:ring-red outline-none"
+              className="w-full px-4 py-2 2xl:py-3 bg-gray-100 rounded-lg text-black placeholder:text-black focus:outline-none focus:ring-2 focus:ring-red focus:ring-offset-0"
             />
             {tracks.length > 1 && (
               <button

@@ -216,8 +216,8 @@ export function AudioFiles() {
             onSubmit={handleSubmit}
             className="flex flex-col space-y-2 2xl:space-y-4"
           >
-            <div className="bg-white px-4 py-6 2xl:py-8 2xl:px-6 rounded-[10px] h-[300px] max-h-[300px] 2xl:h-full 2xl:max-h-[700px] relative flex flex-col justify-between">
-              <div>
+            <div className="bg-white px-4 py-6 2xl:py-8 2xl:px-6 rounded-[10px] min-h-[300px] h-[300px] max-h-[300px] 2xl:h-full 2xl:max-h-[700px] relative flex flex-col justify-between">
+              <div className="mb-2">
                 <div className="w-full">
                   <p className="text-center font-medium mb-3 2xl:mb-5">
                     {t.sendFiles.audioFiles.draganddrop}

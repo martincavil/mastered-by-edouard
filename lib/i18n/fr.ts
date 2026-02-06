@@ -2,11 +2,11 @@ import { Translations } from "./types";
 
 export const fr: Translations = {
   common: {
-    title: "MasteredByEdouard - Studio de Mastering Professionnel",
-    description: "Services de mastering audio professionnels en France",
+    title: "mastered by edouard - studio de mastering professionnel",
+    description: "Services de mastering audio professionnels en France et dans le monde",
   },
   nav: {
-    home: "Accueil",
+    home: "accueil",
     listen: "écouter.",
     sendFiles: "envoyer.",
     studio: "studio.",
@@ -14,7 +14,7 @@ export const fr: Translations = {
   },
   home: {
     title: "Edouard Carbonne,",
-    subtitle: "ingénieur de mastering mondial.",
+    subtitle: "ingénieur de mastering international.",
   },
   listen: {
     title: "écouter.",
@@ -28,7 +28,7 @@ export const fr: Translations = {
     prepareFilesTitle: "préparer vos fichiers",
     audioFiles: {
       draganddrop: "glissez ou déposez vos fichiers ici",
-      clickordrag: "uploadez ton ou tes fichiers *",
+      clickordrag: "uploader des fichiers *",
       uploadingFiles: "fichiers uploadés",
       headline1: "simple.",
       headline2: "rapide.",
@@ -68,16 +68,16 @@ export const fr: Translations = {
       vinylUpc: "code UPC vinyle",
       uploadCover: "télécharger la pochette",
       uploadCoverHint: ".jpeg ou .png - min 500x500px",
-      uploadCoverTooltipTitle: "cover details",
+      uploadCoverTooltipTitle: "détails de la pochette",
       uploadCoverTooltipHints: [
         ". vous pouvez envoyer la pochette en .jpeg ou .png",
         ". assurez-vous que la résolution soit d'au moins 500x500",
       ],
       uploadOtherFiles: "télécharger d'autres fichiers",
       uploadOtherFilesHint: "PDF, DOC, DOCX, TXT, XLS, XLSX uniquement",
-      uploadOtherFilesTooltipTitle: "other files",
+      uploadOtherFilesTooltipTitle: "autres fichiers",
       uploadOtherFilesTooltipHints: [
-        ". vous pouvez joindre tout autre document, copie de label, références...",
+        ". vous pouvez joindre tout autre document, label copy, références...",
       ],
       trackTitle: "titre du morceau",
       isrcCode: "code ISRC",
@@ -96,11 +96,8 @@ export const fr: Translations = {
       sendDocument: "envoyer le document",
       successMessage: "documents envoyés avec succès.",
       backToHome: "retour à l'accueil",
-      termsAndConditions: {
-        beforeLink: "en envoyant cette fiche de production, vous acceptez nos",
-        linkText: "conditions générales",
-        afterLink: ".",
-      },
+      termsAndConditions:
+        "en envoyant cette fiche de production, vous acceptez nos conditions générales.",
       errorCoverFormat:
         "Seuls les formats JPEG et PNG sont autorisés pour la pochette",
       errorCoverSize: "La pochette doit faire au minimum 500x500 pixels",
@@ -121,74 +118,74 @@ export const fr: Translations = {
       headline1: "le mastering",
       headline2: "commence par un bon mix.",
       uploadFiles: "envoyer des fichiers",
-      step1Title: "the mix.",
+      step1Title: "le mix.",
       step1Content: {
         step1Content1:
-          "make sure the audio is clean : no clicks, noise, or other audio artifacts. pay attention to the beginning and end of the track; avoid cutting the audio too abruptly.",
+          "veillez à la propreté du signal : aucun clic, bruit de fond ou artefact. Soignez l'entrée et la sortie de la piste ; évitez les coupures trop brutales (ou cut trop secs).",
         step1Content2:
-          " true Peak (TP) level doesn’t really matter in the digital world, whether it’s at -0.1 or -6, as long as the sound doesn’t clip! just avoid peaks and distortions.",
+          " le niveau de True Peak (TP) n'a pas vraiment d'importance dans le monde numérique, qu'il soit à -0,1 ou -6, tant que le son ne sature pas ! Évitez simplement les crêtes et les distorsions.",
         step1Content3:
-          "The mix is THE MIX : please  keep all your mix bus processing  (including limiters and clippers).",
+          "le mix, c'est LE MIX : merci de conserver tous vos traitements sur le bus de mixage (y compris les limiteurs et les clippers).",
       },
-      step2Title: "the bounce.",
+      step2Title: "l'export.",
       step2Content: {
         step2Content1:
-          "If you can’t export at 32-bit floating point, then 24-bit is still excellent. Try to avoid exporting at 16-bit, especially if your peak levels are quite low.",
+          "si vous ne pouvez pas exporter en 32-bit float, le 24-bit reste excellent. Essayez d'éviter d'exporter en 16-bit, surtout si vos niveaux de crête sont assez bas.",
         step2Content2:
-          "This is very simple... sample rate must remain the same as during mixing.",
-        step2Content3: "Files must be exported in .WAV or .AIF format.",
+          "c'est très simple... la fréquence d'échantillonnage (sample rate) doit rester la même que celle utilisée pendant le mixage.",
+        step2Content3: "Les fichiers doivent être exportés au format .WAV ou .AIF.",
       },
-      step3Title: "the naming.",
+      step3Title: "la nomenclature.",
       step3Content: {
         step3Content1:
-          "Please, name properly your files before sending them! You can follow the following naming scheme :",
-        step3Content2: "Artist_Title(VERSION)_Mix 1",
+          "merci de nommer correctement vos fichiers avant de les envoyer ! Vous pouvez suivre le schéma de nommage suivant :",
+        step3Content2: "Artiste_Titre(MIX)_mix 1; Artiste_Titre(PBO)_mix 1...",
       },
       step4Title: "stem mastering?",
       step4Content: {
         step4Content1:
-          "stem mastering is often a sign of a mix not fully finalized : This is why the studio doesn’t necessarily favor this approach. My approach : Let’s take time together to listen to the mix and improve it to its best! My job as a mastering engineer starts at the mixing stage, helping you keep to good direction.",
-        step4Content2: "However, stem mastering can be used in certain cases.",
+          "le stem mastering est souvent le signe d'un mixage qui n'est pas totalement finalisé : c'est pourquoi le studio ne privilégie pas nécessairement cette approche. Ma vision des choses : prenons le temps d'écouter le mix ensemble et de l'améliorer au maximum ! Mon travail d'ingénieur de mastering commence dès l'étape du mixage, en vous aidant à garder la bonne direction.",
+        step4Content2: "cependant, le stem mastering peut être utilisé dans certains cas particuliers.",
       },
     },
   },
   studio: {
     title: "studio.",
-    engineerTitle: "ingénieur",
+    engineerTitle: "edouard",
     friendsTitle: "amis",
     servicesTitle: "services",
     gearTitle: "matériel",
     edouard: {
       title: "rencontrez votre ingénieur du son.",
       description1:
-        "Salut. Je suis Edouard, un ingénieur de mastering français basé à Paris. Pour moi, le mastering n'est pas seulement une étape technique, c'est une question de confiance et de connexion. J'aime que les choses soient claires, organisées et efficaces, afin que les artistes puissent se sentir en confiance quant à la dernière étape de leur production.",
+        "Salut. Je suis Edouard, ingénieur de mastering basé à Paris. Pour moi, le mastering ne se résume pas à une simple étape technique ; c'est avant tout une histoire de confiance et de lien humain. J'aime que les choses soient claires, organisées et fiables, afin que les artistes puissent aborder cette ultime étape de leur production avec sérénité et précision.",
       description2:
-        "Ce qui me motive vraiment, c'est l'aspect humain : les conversations, les échanges culturels et la passion partagée pour le son. Au cours des dernières années, j'ai eu la chance de masteriser plus d'un millier de chansons pour des artistes du monde entier, atteignant même la certification de disque de diamant en cours de route.",
+        "Ce qui me motive vraiment, c'est l'aspect humain : les conversations, les échanges culturels et la passion partagée pour le son. Au cours des dernières années, j'ai eu la chance de masteriser plus d'un millier de chansons pour des artistes du monde entier, atteignant même la certification de disque de diamant.",
       fullDiscography: "voir toute la discographie",
     },
     friends: {
-      title1: "amis",
+      title1: "la musique doit être partagée",
       description1:
-        "Au fil des ans, j'ai eu le privilège de collaborer avec une gamme diversifiée d'artistes et de professionnels de l'industrie musicale. Ces amitiés ont enrichi mon parcours en tant qu'ingénieur de mastering et ont été une source d'inspiration et de croissance.",
+        "Pour moi, tout est question de connexions, d’histoires et de rencontres culturelles. Je me sens chanceux de collaborer avec des artistes et des ingénieurs venant d'horizons aussi variés que le Japon, la Belgique, l’Afrique du Sud, l’Argentine et bien d’autres pays encore.",
       description2:
-        "Des ingénieurs aux musiciens et producteurs, chaque connexion a contribué à ma compréhension de la musique et du son. Je valorise profondément ces relations et j'ai hâte de continuer à nouer de nouvelles amitiés à l'avenir.",
-      title2: "la musique doit être partagée.",
+        "Chaque projet est un dialogue, un croisement d'identités qui donne naissance à quelque chose d'unique. Pour moi, c'est ça l'essence de la musique : un langage que nous parlons tous avec nos propres accents, mais qui finit toujours par nous rassembler.",
+      title2: "collaboration et confiance.",
       description3:
-        "Il s'agit de personnes, d'histoires et de cultures qui se connectent. Je me sens chanceux de travailler déjà avec des artistes et des ingénieurs de tant d'endroits différents — Japon, Belgique, Afrique du Sud, Argentine, et au-delà.",
+        "C’est une aventure humaine, mais c'est aussi une histoire de collaboration et de travail d'équipe ! Voici quelques-uns des partenariats qui se sont construits au fil des années :",
     },
     services: {
-      title1: "services",
+      title1: "mastering digital",
       description1:
-        "Services de mastering audio professionnels pour vos morceaux.",
-      title2: "mastering de stems",
+        "fichier master haute résolution (pour les plateformes de streaming et les clips vidéo). Tous les masters sont certifiés Apple Digital Masters. Masters jusqu'à 192 kHz / 24 bits.",
+      title2: "mastering vinyle",
       description2:
-        "Le mastering de stems implique le traitement séparé de plusieurs groupes de pistes audio (stems) avant leur combinaison finale. Cela permet un contrôle plus précis sur l'équilibre et la dynamique globale du mixage final.",
-      title3: "mastering analogique",
+        "adaptation des masters pour le pressage vinyle. Fichiers audio .WAV / 24 bits, fournis avec une Cue sheet PDF. Application des traitements spécifiques au vinyle si l'usine de pressage le demande.",
+      title3: "mastering CD",
       description3:
-        "Le mastering analogique utilise des équipements matériels traditionnels pour traiter l'audio, offrant une chaleur et une profondeur uniques qui peuvent être difficiles à reproduire avec des outils numériques.",
-      title4: "mastering numérique",
+        "fichier DDP pour pressage CD : incluant les métadonnées, CD text, ISRC, UPC...",
+      title4: "dolby Atmos",
       description4:
-        "Le mastering numérique utilise des logiciels et des plugins avancés pour affiner et optimiser les pistes audio, garantissant une clarté et une précision maximales dans le produit final.",
+        "réinventez l'expérience d'écoute grâce à notre expertise en mastering Dolby Atmos. Un son immersif, optimisé pour toutes les plateformes de streaming compatibles.",
     },
   },
   contact: {
@@ -198,8 +195,8 @@ export const fr: Translations = {
     ctaTitle2: "votre projet.",
     form: {
       sections: {
-        yourInfo: "vos informations",
-        projectInfo: "informations projet",
+        yourInfo: "coordonnées",
+        projectInfo: "projet",
       },
       placeholders: {
         name: "prénom*",
@@ -213,8 +210,8 @@ export const fr: Translations = {
         message: "message*",
       },
       options: {
-        indie: "Indépendant",
-        label: "Label",
+        indie: "indépendant",
+        label: "label",
       },
       send: "envoyer",
       sending: "envoi en cours...",
@@ -240,104 +237,103 @@ export const fr: Translations = {
   },
   notFound: {
     oops: "Oops...",
-    error: "erreur réessayez",
-    backHome: "Retour Accueil",
+    error: "erreur, réessayez",
+    backHome: "retour à l'accueil",
   },
   termsAndConditions: {
     title: "conditions générales.",
     illustrationTitle1: "pour une relation",
-    illustrationTitle2: "saine.",
+    illustrationTitle2: "des plus saines.",
     tabs: {
       ratesPayments: "tarifs & paiements",
       revisionsVersions: "révisions & versions",
-      dataFiles: "données & fichiers",
+      dataFiles: "gestion des données",
     },
     ratesPayments: {
-      quotationTitle: "devis et confirmation du prix",
+      quotationTitle: "devis et tarifs : ",
       quotationContent:
-        "Tous les prix sont communiqués sur demande et confirmés par devis avant le début de tout service. Le devis est valable 30 jours à compter de sa date d'émission.",
-      adjustmentsTitle: "ajustements de prix",
+        "Tous les prix sont communiqués sur demande et confirmés avant le début de tout service. LA confirmation peut s'effectuer sur devis : le devis est alors valable 30 jours à compter de sa date d'émission.",
+      adjustmentsTitle: "ajustements de prix : ",
       adjustmentsContent:
         "Si l'étendue du travail change significativement par rapport au devis initial (ex. : nombre de morceaux, durée, services additionnels), un devis révisé sera fourni et devra être approuvé avant de continuer.",
-      paymentTitle: "conditions et méthodes de paiement",
+      paymentTitle: "conditions et méthodes de paiement : ",
       paymentContent:
-        "Le paiement est dû à la fin du service de mastering, avant la livraison des fichiers finaux. Les méthodes de paiement acceptées incluent :",
+        "Le paiement est dû à la fin du service de mastering, à la validation des fichiers finaux.",
       paymentContent2:
-        "Invoices can be payed using the following methods : Bank transfer (SEPA & SWIFT), Wise Transfer or online Credit Card payment. ",
+        "Les factures peuvent être réglées par les moyens suivants : transfert de banque (SEPA & SWIFT), Wise Transfer ou paiement par CB en ligne.",
     },
     revisionsVersions: {
-      includedTitle: "révisions incluses",
+      includedTitle: "révisions : ",
       includedContent:
-        "Chaque projet de mastering comprend jusqu'à 2 séries de révisions sans frais supplémentaires. Les révisions doivent être demandées dans les 7 jours suivant la réception du master initial.",
-      newMixTitle: "envoi d'un nouveau mix",
+        "Voici mon approche concernant les révisions : parce que la satisfaction de l'artiste prime sur l'immédiateté du résultat, je ne facture pas les retouches. En règle générale, le tarif inclut autant de modifications que nécessaire — et dans 99 % des cas, une ou deux versions suffisent !",
+      newMixTitle: "envoi d'un nouveau mix : ",
       newMixContent:
         "Si un nouveau mix est fourni après le début du processus de mastering, il sera traité comme un nouveau projet et facturé en conséquence, sauf accord préalable.",
-      additionalTitle: "versions supplémentaires",
+      additionalTitle: "versions supplémentaires : ",
       additionalContent:
-        "Les versions alternatives (instrumental, mix TV, edit radio, etc.) peuvent être masterisées à tarif réduit si elles sont demandées en même temps que la version principale.",
-      masterRequestsTitle: "demandes de masters supplémentaires",
+        "Les versions alternatives (instrumentale, TV mix, radio edit, etc.) peuvent être masterisées si elles sont demandées. Elles feront l'objet d'un surcoût.",
+      masterRequestsTitle: "masters supplémentaires : ",
       masterRequestsContent:
-        "Toute demande de masters supplémentaires après la fin du projet (ex. : master vinyle après livraison du master numérique) fera l'objet d'un devis séparé.",
+        "Toute demande de masters supplémentaires après la fin du projet (ex. : mastering vinyle après livraison du master numérique) fera l'objet d'un devis séparé.",
     },
     dataFiles: {
-      transferTitle: "protocole de transfert de fichiers",
+      transferTitle: "transfert de fichiers : ",
       transferContent:
-        "Les fichiers doivent être envoyés via des services de transfert sécurisés tels que WeTransfer, Dropbox, Google Drive ou toute plateforme professionnelle de transfert audio. Tous les fichiers doivent être en format haute résolution (24-bit minimum, 44,1 kHz ou supérieur).",
-      retentionTitle: "période de conservation des données",
+        "u studio, nous croyons fermement à l'importance d'une interface unique pour simplifier la vie de chacun, le tout de manière fiable et sécurisée. C'est pourquoi tous les transferts de fichiers (envois comme réceptions) passent exclusivement par Dropbox.	",
+      retentionTitle: "conservation des données : ",
       retentionContent:
-        "Tous les fichiers du projet (mixs originaux et masters) sont stockés en toute sécurité pendant 12 mois après la fin du projet. Après cette période, les fichiers peuvent être supprimés sauf si l'archivage est demandé.",
-      securityTitle: "sécurité et confidentialité",
+        "Les sessions et les fichiers associés seront archivés pour une période de 2 ans à compter de la date de livraison finale. Passé ce délai, seul le fichier master sera conservé. La durée de conservation des masters est, quant à elle, indéterminée.",
+      securityTitle: "sécurité et confidentialité : ",
       securityContent:
-        "Tous les fichiers clients sont traités avec une stricte confidentialité. Votre musique ne sera jamais partagée, distribuée ou utilisée sans votre autorisation explicite.",
+        "Mastered by Edouard garantit la confidentialité et la sécurité de tous les fichiers clients. Nous ne partageons ni ne diffusons aucune donnée sans votre consentement explicite.",
       finalNote:
-        "En faisant appel à nos services de mastering, vous confirmez avoir lu et accepté ces conditions générales. Si vous avez des questions ou des préoccupations, n'hésitez pas à nous contacter.",
+        "La confidentialité est une valeur fondamentale pour tout studio de mastering digne de ce nom. Fidèle à ce principe, aucun projet traité au studio — même en l'absence de NDA signé — ne sera jamais divulgué ou partagé avec qui que ce soit, en dehors des personnes directement impliquées dans le processus.",
     },
   },
   legalNotice: {
-    title: "legal notice.",
+    title: "mentions légales.",
     illustrationTitle1: "pour les plus",
     illustrationTitle2: "curieux.",
     tabs: {
-      website: "website",
+      website: "site web",
       masteredbyedouard: "masteredbyedouard",
-      thanks: "thanks",
+      thanks: "merci",
     },
     website: {
       creditsDesign:
         "Logo, web design & illustrations : valentinegrasphisme et edouard carbonne",
-      webHosting: "Web hosting : Vercel",
-      creditsDevelopmentAuthor: "Development by Martin Cavil",
-      creditsPhotographyAuthor: "Photography by Théo Burette",
+      webHosting: "hébergement web : Vercel",
+      creditsDevelopmentAuthor: "développement web par Martin Cavil",
+      creditsPhotographyAuthor: "Photos par Théo Burette",
     },
     masteredByEdouard: {
       companyName:
-        "Mastered by Edouard is a Limited Liability Corporation (LLC).",
-      startCapital: "Share capital : 700 euros]",
-      siretNumber: "SIRET : 948 971 569 00017",
-      vatNumber: "VAT number : FR27948971569",
-      rcsNumber: "RCS number : Nanterre B 948 971 569",
-      companyManager: "Company manager : Edouard Carbonne",
+        "Mastered by Edouard est une société à responsabilité limité (SARL).",
+      startCapital: "Capital social : 700 euros]",
+      siretNumber: "Numéro SIRET : 948 971 569 00017",
+      vatNumber: "Numéro de TVA : FR27948971569",
+      rcsNumber: "Numéro RCS : Nanterre B 948 971 569",
+      companyManager: "Dirigeant : Edouard Carbonne",
       contactTitle: "Contact",
     },
     thanks: {
       description1:
-        "Mastered by Edouard would be nothing without the incredible friends, engineers, artists I met all the way here.",
+        "Mastered by Edouard ne serait rien sans les amis, ingénieurs et artistes incroyables que j'ai rencontrés tout au long de ce parcours.",
       description2:
-        "A special thanks to the following humans who really brought me here : Pierre Ottway, Jowee Omicil, Jordan Kouby, Grégory Germain, Frédéric Perrin, Eric Perez-Björkman, Fabio Morgado, Antoine Castaldi, Fred Vectol, Alexis Cayrouse, Elliott Bastide, Joachim Mike, Nathan Cocherie, Théo Burette, Valentine Gras, my family, and all the others who got involved one way or another to this journey. ",
-      thankYou: "Thank you!",
+        "Des remerciements tout particulier aux personnes suivantes qui m'ont permis d'en arriver là aujourd'hui : Pierre Ottway, Jowee Omicil, Jordan Kouby, Grégory Germain, Frédéric Perrin, Eric Perez-Björkman, Fabio Morgado, Antoine Castaldi, Fred Vectol, Alexis Cayrouse, Elliott Bastide, Joachim Mike, Nathan Cocherie, Théo Burette, Valentine Gras, ma famille, et toutes les autres personnes qui se sont impliqués d'une manière ou d'une autre dans ce projet. ",
+      thankYou: "Merci !",
     },
   },
   faq: {
     title: "FAQ.",
-    illustrationTitle1: "most of your questions in",
-    illustrationTitle2: "one place.",
+    illustrationTitle: "la réponse à presque toutes vos questions.",
     questions: {
-      question1: "1. what is Mastering ?",
+      question1: "1. qu'est-ce que le mastering ?",
       answer1:
-        "It is the final step in the music production process. The primary goals of audio mastering are to ensure that the music sounds cohesive, balanced, and consistent across different playback systems and to enhance its overall sonic characteristics.",
-      question2: "2. what is Apple Digital Masters ? ",
+        "C'est l'étape finale du processus de production musicale. Les principaux objectifs du mastering sont de garantir un son cohérent, équilibré et homogène sur tous les systèmes d'écoute, tout en optimisant ses caractéristiques sonores globales.",
+      question2: "2. Qu'est-ce que l'Apple Digital Masters ?",
       answer2:
-        "Apple Digital Masters (ADM) is a program introduced by Apple which is designed to ensure that music distributed on Apple Music meets a high-quality audio standard. The studio is certified ADM, you simply have to give the following informations to the distributor :",
+        "Apple Digital Masters (ADM) est une programme introduit par Apple qui a pour but de garatnir la qualité des fichiers musicaux accessibles sur Apple Music. Le studio est certifié ADM, il vous suffit simplement de transmettre les coordonnées suivantes au distributeur lors de l'upload :",
       answer2Credits: {
         engineerName: "Nom de l'ingénieur",
         engineerValue: "Edouard Carbonne",
@@ -346,18 +342,18 @@ export const fr: Translations = {
         email: "Email",
         emailValue: "contact@masteredbyedouard.com",
       },
-      question3: "3. why human mastering in the A.I era ? ",
+      question3: "3. pourquoi le mastering à l'ère de l'I.A ? ",
       answer3:
-        "We live in an amazing era where A.I can achieve for sure great results ! But the purpose of the mastering engineer is not only to provide tools, but also a human ear and experience ! It allows direct communication, feedback, and collaboration, ensuring that the artist's intentions and expectations are met. It’s all about human connection and trust!",
-      question4: "4. do you provide CD and Vinyl mastering ?",
+        "« Nous vivons une époque incroyable où l'IA permet, c'est certain, d'obtenir des résultats impressionnants ! Mais le rôle de l'ingénieur de mastering ne se limite pas à fournir des outils : il apporte une oreille humaine et son expérience ! Travailler avec un ingénieur permet une communication directe, des échanges constructifs et une vraie collaboration, garantissant ainsi le respect total de la vision et des attentes de l'artiste. Au final, tout est une question de lien humain et de confiance !",
+      question4: "4. le studio propose-t-il de mastering CD / vinyle ?",
       answer4:
-        "The studio offers professional CD and vinyl mastering options, ensuring your music sounds good on every format. CD and/or vinyl mastering will be made or request !",
-      question5: "5. turnaround  time ?",
+        "la réponse est simple : oui !",
+      question5: "5. quels sont les délais de livraison ?",
       answer5:
-        "Turnaround times naturally vary depending on the type of project. For a single, the standard delivery time is around two to three business days. An express delivery (within 24 hours) is available at an additional cost. For larger projects (EPs or LPs), delivery times will be communicated once the full scope of the project has been defined.",
-      question6: "6. mastered by Edouard : logo, identity ",
+        "Les délais varient naturellement selon la nature du projet. Pour un single, le délai de livraison standard est d'environ un à trois jours ouvrés. Pour les projets plus conséquents (EPs ou Albums), les délais vous seront communiqués une fois l'ampleur du projet définie.",
+      question6: "6. mastered by Edouard : logo, identité ",
       answer6:
-        "Being passionate about design and user experience, I put a lot of care into shaping the studio’s creative and visual identity. That’s why I strive to maintain a consistent image across all platforms — website, social media, and email. And as for the logo — yes, it does have a meaning! Here it is:",
+        "Passionné par le design et l'expérience utilisateur, j'apporte un soin tout particulier à l'identité visuelle et créative du studio. C'est pourquoi je veille à maintenir une image cohérente sur tous les supports : site web, réseaux sociaux et emails. Quant au logo… oui, il a bien une signification ! La voici :",
     },
   },
 };

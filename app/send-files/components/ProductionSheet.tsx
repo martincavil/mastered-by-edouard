@@ -358,7 +358,7 @@ export function ProductionSheet() {
             onSubmit={handleSubmit}
             className="flex flex-col space-y-2 2xl:space-y-4"
           >
-            <div className="bg-white px-4 py-6 2xl:py-8 2xl:px-6 rounded-[10px] h-[350px] max-h-[350px] 2xl:h-full 2xl:max-h-[700px] overflow-y-auto relative flex flex-col">
+            <div className="bg-white px-6 py-6 2xl:py-8 2xl:px-8 rounded-[10px] h-[350px] max-h-[350px] 2xl:h-full 2xl:max-h-[700px] overflow-y-auto relative flex flex-col">
               <div key={currentStep} className="animate-slide-in flex-1">
                 {/* STEP 1 - INFORMATIONS */}
                 {currentStep === 1 && (

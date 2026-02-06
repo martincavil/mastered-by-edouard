@@ -9,10 +9,12 @@ export function GearSubject() {
 
   // Array of images - à adapter selon tes images réelles
   const images = [
-    "https://www.dropbox.com/scl/fi/670gcts6fwz7x1sog0ugt/studio-gear-photos-1.webp?rlkey=k402wtxulryrm6kqu88tltkxa&st=gu5fiuw5&dl=1",
-    // "https://www.dropbox.com/scl/fi/zm0szr8qg08bpznwrsdzj/studio-gear-photos-2.webp?rlkey=hulgrq40i2ea5mmiq7f4zxghd&st=tbevomam&dl=1",
-    "https://www.dropbox.com/scl/fi/y80ord2cchqlvza5daefc/studio-gear-photos-3.webp?rlkey=dugpbmn2r1tqeqmv6qk8lm12b&st=nuqy3cdx&dl=1",
-    "https://www.dropbox.com/scl/fi/vwvr9mk0q5zcjgxrr2bug/studio-gear-photos-4.webp?rlkey=hcxngfiazvnf2mdilkjcv9r5y&st=1cy4i3ze&dl=1",
+    "https://www.dropbox.com/scl/fi/sjaumbxdnxdafx11poetr/gear-1.jpg?rlkey=4p854nu7cqx5un5azkm1q2j5v&st=spxmuat5&dl=1",
+    "https://www.dropbox.com/scl/fi/rln1ujibt3wlzpdxep19i/gear-2.jpg?rlkey=aqrbj3dul11zlunxxt9jkotqj&st=zg6k8o76&dl=1",
+    "https://www.dropbox.com/scl/fi/s8bm4eulq5k62ve4e84y5/gear-3.jpg?rlkey=of8tcxos22nya48t3igs3uxhi&st=op83y5n9&dl=1",
+    "https://www.dropbox.com/scl/fi/egx642fdc5efdth7gdwal/gear-4.jpg?rlkey=ohmg198ufr1xzgpvi8p8jt2x5&st=anc9zspw&dl=1",
+    "https://www.dropbox.com/scl/fi/kb8xar99b2a8saff0hmzh/gear-5.jpg?rlkey=29fkfvl3wd6gy70ko8n2yeo35&st=25vgtmud&dl=1",
+    "https://www.dropbox.com/scl/fi/ppqsb4u5775tuadudjkg6/gear-6.jpg?rlkey=3u1jg5tcxwwzumwujmx4ed5t2&st=3pk1vo2w&dl=1",
   ];
 
   // Auto-scroll every 4 seconds
@@ -53,7 +55,7 @@ export function GearSubject() {
             alt={`Studio gear ${currentIndex + 1}`}
             width={584}
             height={651}
-            className="md:w-full md:h-[350px] md:max-h-[350px] xl:h-[400px] xl:max-h-[400px] 2xl:w-[584px] 2xl:h-auto 2xl:max-h-[650px] rounded-[10px] object-cover transition-opacity duration-500"
+            className="md:w-full md:h-[350px] md:max-h-[350px] xl:h-[400px] xl:max-h-[400px] 2xl:w-[584px] 2xl:h-auto 2xl:max-h-[651px] rounded-[10px] object-cover transition-opacity duration-500"
             priority={currentIndex === 0}
           />
           {/* Navigation arrows */}
@@ -74,7 +76,7 @@ export function GearSubject() {
           </button>
 
           {/* Indicators dots */}
-          <div className="flex absolute bottom-4 left-1/2 -translate-x-1/2 gap-2">
+          <div className="flex absolute bottom-6 left-1/2 -translate-x-1/2 gap-2">
             {images.map((_, index) => (
               <button
                 key={index}

@@ -3,7 +3,6 @@
 import { ArrowLeft } from "lucide-react";
 import { Translations } from "@/lib/i18n/types";
 import { TrackListSection, Track } from "./TrackListSection";
-import Image from "next/image";
 
 interface FormStep2Props {
   tracks: Track[];
@@ -53,13 +52,6 @@ export function FormStep2({
 
         {errors.tracks && <p className="text-red text-xs">{errors.tracks}</p>}
       </div>
-
-      <Image
-        src="https://www.dropbox.com/scl/fi/387ne9zdsto43otkmktg8/powered-by-Dropbox.png?rlkey=2n2na2rux64ivpluv1tmochuq&st=ovcr5mp5&dl=1"
-        alt=""
-        width={140}
-        height={140}
-      />
     </div>
   );
 }

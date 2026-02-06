@@ -2,11 +2,11 @@ import { Translations } from "./types";
 
 export const en: Translations = {
   common: {
-    title: "MasteredByEdouard - Professional Mastering Studio",
-    description: "Professional audio mastering services in France",
+    title: "mastered by edouard - professional mastering studio",
+    description: "Professional audio mastering services in France and worldwide",
   },
   nav: {
-    home: "Home",
+    home: "home",
     listen: "listen.",
     sendFiles: "send Files.",
     studio: "studio.",
@@ -27,9 +27,9 @@ export const en: Translations = {
     productionSheetTitle: "production sheet",
     prepareFilesTitle: "prepare your files",
     audioFiles: {
-      draganddrop: "Simply drop the file(s) below :",
+      draganddrop: "simply drop the file(s) below :",
       clickordrag: "upload file(s) *",
-      uploadingFiles: "Uploaded file(s)",
+      uploadingFiles: "uploaded file(s)",
       headline1: "simple.",
       headline2: "fast.",
       headline3: "secure.",
@@ -96,24 +96,21 @@ export const en: Translations = {
       sendDocument: "send document",
       successMessage: "documents sent successfully.",
       backToHome: "back to home",
-      termsAndConditions: {
-        beforeLink: "by sending this production sheet, you accept our",
-        linkText: "terms and conditions",
-        afterLink: ".",
-      },
+      termsAndConditions:
+        "by sending this production sheet, you accept our terms and conditions.",
       errorCoverFormat: "Only JPEG and PNG formats are allowed for cover",
       errorCoverSize: "Cover image must be at least 500x500 pixels",
       errorOtherFilesFormat:
         "Only document files are allowed (PDF, DOC, DOCX, TXT, XLS, XLSX)",
-      errorNameRequired: "Name is required",
-      errorArtistRequired: "Artist/Group is required",
-      errorEmailRequired: "Email is required",
-      errorEmailInvalid: "Invalid email format",
-      errorProjectTitleRequired: "Project title is required",
-      errorFormatRequired: "At least one format must be selected",
-      errorTracksRequired: "At least one track is required",
-      errorTracksTitleRequired: "All tracks must have a title",
-      errorCheckboxRequired: "Please confirm all information are checked",
+      errorNameRequired: "name is required",
+      errorArtistRequired: "artist/Group is required",
+      errorEmailRequired: "email is required",
+      errorEmailInvalid: "invalid email format",
+      errorProjectTitleRequired: "project title is required",
+      errorFormatRequired: "at least one format must be selected",
+      errorTracksRequired: "at least one track is required",
+      errorTracksTitleRequired: "all tracks must have a title",
+      errorCheckboxRequired: "please confirm all information are checked",
     },
     prepareFiles: {
       headline1: "mastering",
@@ -126,26 +123,26 @@ export const en: Translations = {
         step1Content2:
           " true Peak (TP) level doesn’t really matter in the digital world, whether it’s at -0.1 or -6, as long as the sound doesn’t clip! just avoid peaks and distortions.",
         step1Content3:
-          "The mix is THE MIX : please  keep all your mix bus processing  (including limiters and clippers).",
+          "the mix is THE MIX : please  keep all your mix bus processing  (including limiters and clippers).",
       },
       step2Title: "the bounce.",
       step2Content: {
         step2Content1:
-          "If you can’t export at 32-bit floating point, then 24-bit is still excellent. Try to avoid exporting at 16-bit, especially if your peak levels are quite low.",
+          "if you can’t export at 32-bit floating point, then 24-bit is still excellent. Try to avoid exporting at 16-bit, especially if your peak levels are quite low.",
         step2Content2:
-          "This is very simple... sample rate must remain the same as during mixing.",
+          "this is very simple... sample rate must remain the same as during mixing.",
         step2Content3: "Files must be exported in .WAV or .AIF format.",
       },
       step3Title: "the naming.",
       step3Content: {
         step3Content1:
-          "Please, name properly your files before sending them! You can follow the following naming scheme :",
-        step3Content2: "Artist_Title(VERSION)_Mix 1",
+          "please, name properly your files before sending them! You can follow the following naming scheme :",
+        step3Content2: "Artist_Title(MIX)_mix 1; Artist_Title(PBO)_mix 1...",
       },
       step4Title: "stem mastering?",
       step4Content: {
         step4Content1:
-          "stem mastering is often a sign of a mix not fully finalized : This is why the studio doesn’t necessarily favor this approach. My approach : Let’s take time together to listen to the mix and improve it to its best! My job as a mastering engineer starts at the mixing stage, helping you keep to good direction.",
+          "stem mastering is often a sign of a mix not fully finalized : this is why the studio doesn’t necessarily favor this approach. My vision : let’s take time together to listen to the mix and improve it to its best! My job as a mastering engineer starts at the mixing stage, helping you keep to good direction.",
         step4Content2: "However, stem mastering can be used in certain cases.",
       },
     },
@@ -172,12 +169,12 @@ export const en: Translations = {
         "Every project is a dialogue, a mix of identities that creates something unique.That’s what music really is to me — a language we all speak differently, but that brings us together.",
       title2: "connection and trust.",
       description3:
-        "It’s about people, but also about collaboration and team work! Here are some of the following partnership grown years after years.",
+        "It’s about people, but also about collaboration and team work! Here are some of the following partnership grown years after years:",
     },
     services: {
       title1: "digital mastering",
       description1:
-        "Hi-resolution digital master file (for digital streaming platforms and video clip).  All masters are Apple Digital Masters certified. > up to 192kHz/24-bit and mp3.",
+        "Hi-resolution digital master file (for digital streaming platforms and video clip).  All masters are Apple Digital Masters certified. > up to 192kHz/24-bit.",
       title2: "vinyl mastering",
       description2:
         "24-bit WAV masters per side of vinyl with a cue sheet PDF. Vinyl-specific processing applied if requested by the pressing plant",
@@ -211,8 +208,8 @@ export const en: Translations = {
         message: "message*",
       },
       options: {
-        indie: "Indie",
-        label: "Label",
+        indie: "indie",
+        label: "label",
       },
       send: "send",
       sending: "sending...",
@@ -220,26 +217,26 @@ export const en: Translations = {
       successMessage: "message sent successfully.",
       backToHome: "go back to homepage",
       validation: {
-        nameRequired: "Name is required",
-        familyNameRequired: "Family name is required",
-        emailRequired: "Email is required",
-        emailInvalid: "Please enter a valid email address",
-        phoneRequired: "Phone number is required",
-        messageRequired: "Message is required",
-        submitError: "An error occurred. Please try again.",
-        submitSuccess: "Your message has been sent successfully!",
+        nameRequired: "name is required",
+        familyNameRequired: "family name is required",
+        emailRequired: "email is required",
+        emailInvalid: "please enter a valid email address",
+        phoneRequired: "phone number is required",
+        messageRequired: "message is required",
+        submitError: "an error occurred. Please try again.",
+        submitSuccess: "your message has been sent successfully!",
       },
     },
   },
   footer: {
-    legalnotice: "Legal Notices",
-    terms: "Terms and Conditions",
+    legalnotice: "legal Notices",
+    terms: "terms and Conditions",
     faq: "FAQ",
   },
   notFound: {
     oops: "Oops...",
     error: "error try again",
-    backHome: "Back Home",
+    backHome: "back home",
   },
   termsAndConditions: {
     title: "terms and conditions.",
@@ -253,40 +250,40 @@ export const en: Translations = {
     ratesPayments: {
       quotationTitle: "quotation and price confirmation : ",
       quotationContent:
-        "All prices for our mastering services are quoted and confirmed before the beginning of the mastering process. These quotes are based on the client's specific requirements and the scope of the project at the time of agreement.",
+        "all prices for our mastering services are quoted or/and confirmed before the beginning of the mastering process. These quotes are based on the client's specific requirements and the scope of the project at the time of agreement.",
       adjustmentsTitle: "price adjustments : ",
       adjustmentsContent:
-        "Prices are subject to adjustment in response to the evolution of the studio and inflation. However, once a project has been quoted and agreed upon, the quoted price remains fixed and will not be affected by subsequent studio price changes or inflation.",
+        "prices are subject to adjustment in response to the evolution of the studio and inflation. However, once a project has been quoted and agreed upon, the quoted price remains fixed and will not be affected by subsequent studio price changes or inflation.",
       paymentTitle: "payment terms and methods : ",
       paymentContent:
-        "Payments for our services are to be settled within 30 days after the invoice is delivered. The invoice will be issued on the day of the final delivery of masters. ",
+        "payments for our services are to be settled within 30 days after the invoice is delivered. The invoice will be issued on the day of the final delivery of masters. ",
       paymentContent2:
-        "Invoices can be payed using the following methods : Bank transfer (SEPA & SWIFT), Wise Transfer or online Credit Card payment. ",
+        "invoices can be payed using the following methods : Bank transfer (SEPA & SWIFT), Wise Transfer or online Credit Card payment. ",
     },
     revisionsVersions: {
       includedTitle: "included revisions : ",
       includedContent:
-        "My approach to mastering revisions is as follows: since the artist’s satisfaction matters more than instant results, I don’t charge for revisions. As a rule, the rate includes as many revisions as needed — and in 99% of cases, it only takes one or two versions!",
+        "my approach to mastering revisions is as follows: since the artist’s satisfaction matters more than instant results, I don’t charge for revisions. As a rule, the rate includes as many revisions as needed — and in 99% of cases, it only takes one or two versions!",
       newMixTitle: "sending of a new mix : ",
       newMixContent:
-        "If a client decides to send a new mix after the initial mastering process has started, it will incur additional charges. These charges cover the time and resources needed to adjust the mastering process according to the new mix.",
+        "if a client decides to send a new mix after the initial mastering process has started, it will incur additional charges. These charges cover the time and resources needed to adjust the mastering process according to the new mix.",
       additionalTitle: "additional versions : ",
       additionalContent:
-        "Before starting the mastering process, it will always be confirmed whether alternative versions are needed (instrumental, PBO, radio edit, a cappella, etc.). These alternate versions will be billed according to the studio’s pricing in effect at the time the masters are delivered. ",
+        "before starting the mastering process, it will always be confirmed whether alternative versions are needed (instrumental, PBO, radio edit, a cappella, etc.). These alternate versions will be billed according to the studio’s pricing in effect at the time the masters are delivered. ",
       masterRequestsTitle: "additional master requests : ",
       masterRequestsContent:
-        "Any requests for an additional alternative master after the final delivery will be charged separately. ",
+        "any requests for an additional alternative master after the final delivery will be charged separately. ",
     },
     dataFiles: {
       transferTitle: "file transfer protocol : ",
       transferContent:
-        "At the studio, we strongly believe in a single, unified interface designed to make everyone’s life easier — all in a secure and reliable way. That is why all file transfers, including sending and receiving, are exclusively conducted through Dropbox. ",
+        "at the studio, we strongly believe in a single, unified interface designed to make everyone’s life easier — all in a secure and reliable way. That is why all file transfers, including sending and receiving, are exclusively conducted through Dropbox. ",
       retentionTitle: "data retention period : ",
       retentionContent:
-        "essions and related files will be archived for a period of 2 years from the date of the final delivery. After this period, only the master file will be retained. The duration of retention for master files is undetermined.",
+        "sessions and related files will be archived for a period of 2 years from the date of the final delivery. After this period, only the master file will be retained. The duration of retention for master files is undetermined.",
       securityTitle: "security and confidentiality : ",
       securityContent:
-        "Mastered by Edouard guarantees the confidentiality and security of all client files. We do not share or distribute any client data without explicit consent.",
+        "mastered by Edouard guarantees the confidentiality and security of all client files. We do not share or distribute any client data without explicit consent.",
       finalNote:
         "reliability regarding confidentiality is also a core value in any mastering studio. In keeping with this principle, every project handled in the studio — even without a signed NDA — will never be leaked or shared with anyone other than the person directly involved in the mastering process.",
     },
@@ -302,10 +299,10 @@ export const en: Translations = {
     },
     website: {
       creditsDesign:
-        "Logo, web design & illustrations : valentinegrasphisme and edouard carbonne ",
-      webHosting: "Web hosting : Vercel",
-      creditsDevelopmentAuthor: "Development by Martin Cavil",
-      creditsPhotographyAuthor: "Photography by Théo Burette",
+        "logo, web design & illustrations : valentinegrasphisme and edouard carbonne ",
+      webHosting: "web hosting : Vercel",
+      creditsDevelopmentAuthor: "development by Martin Cavil",
+      creditsPhotographyAuthor: "photography by Théo Burette",
     },
     masteredByEdouard: {
       companyName:
@@ -327,8 +324,7 @@ export const en: Translations = {
   },
   faq: {
     title: "FAQ.",
-    illustrationTitle1: "most of your questions in",
-    illustrationTitle2: "one place.",
+    illustrationTitle: "most of your questions in one place.",
     questions: {
       question1: "1. what is Mastering ?",
       answer1:

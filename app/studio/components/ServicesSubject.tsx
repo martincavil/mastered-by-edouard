@@ -84,7 +84,7 @@ export function ServicesSubject() {
       </div>
       <div className="relative w-full flex justify-center order-0 md:order-1 mb-5 md:mb-0">
         <Image
-          src="https://www.dropbox.com/scl/fi/ei7d0lyb69266wxl8ipxi/studio-services.webp?rlkey=8w779w3baq9dcedexwa44dthb&st=hhztqil6&dl=1"
+          src="https://www.dropbox.com/scl/fi/40tprumg74yj867w8n0jp/services.jpg?rlkey=g8xedvw29i9zmyfz5urc6r0xf&st=fzz76cb6&dl=1"
           alt="Studio MasteredByEdouard"
           width={584}
           height={651}
