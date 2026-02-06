@@ -96,8 +96,11 @@ export const en: Translations = {
       sendDocument: "send document",
       successMessage: "documents sent successfully.",
       backToHome: "back to home",
-      termsAndConditions:
-        "by sending this production sheet, you accept our terms and conditions.",
+      termsAndConditions: {
+        beforeLink: "by sending this production sheet, you accept our",
+        linkText: "terms and conditions",
+        afterLink: ".",
+      },
       errorCoverFormat: "Only JPEG and PNG formats are allowed for cover",
       errorCoverSize: "Cover image must be at least 500x500 pixels",
       errorOtherFilesFormat:
@@ -324,7 +327,8 @@ export const en: Translations = {
   },
   faq: {
     title: "FAQ.",
-    illustrationTitle: "most of your questions in one place.",
+    illustrationTitle1: "most of your questions",
+    illustrationTitle2: "in one place.",
     questions: {
       question1: "1. what is Mastering ?",
       answer1:
