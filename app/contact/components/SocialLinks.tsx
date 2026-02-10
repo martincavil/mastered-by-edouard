@@ -43,7 +43,7 @@ export function SocialLinks() {
           href={link.href}
           target="_blank"
           rel="noopener noreferrer"
-          className="group border border-white rounded-full px-6 py-2 hover:bg-white hover:scale-105 transition-all duration-500"
+          className="group border border-white rounded-full px-6 py-2 hover:bg-white hover:scale-105 ml-0.5 transition-all duration-500"
           aria-label={link.label}
         >
           <Image

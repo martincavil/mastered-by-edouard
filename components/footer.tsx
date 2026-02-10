@@ -43,7 +43,7 @@ export function Footer({ color = "white", hoverColor = "red" }: FooterProps) {
       {/* Policies links */}
       <div className="flex items-center gap-8 font-poppins">
         <p className={textColor}>
-          Mastered by Edouard 2026 © |{" "}
+          mastered by edouard 2026 © |{" "}
           <Link
             href="/legal-notice/"
             className={`${hoverColorClass} transition-colors`}

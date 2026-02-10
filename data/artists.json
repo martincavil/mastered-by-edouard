@@ -1,290 +1,362 @@
 [
   {
     "id": 1,
-    "name": "ANNA KOVA",
-    "picture": "https://www.dropbox.com/scl/fi/mif851gzl3s7kl2v5n0i4/anna-kova.webp?rlkey=rgoywvtnjxl87yy7tiz5zq54h&st=g6kjwv4h&dl=1",
-    "link": "https://tidal.com/browse/artist/6943589"
+    "name": "4NOTHING",
+    "picture": "https://www.dropbox.com/scl/fi/96ljh8n2y4ck7i1c8y5oc/4nothing.webp?rlkey=zsgq1s8d4iqwndlp9qe2w9bvk&st=6w88z3yz&dl=1",
+    "link": "https://www.qobuz.com/fr-fr/interpreter/4nothing/11758878"
   },
   {
     "id": 2,
-    "name": "MAUREEN",
-    "picture": "https://www.dropbox.com/scl/fi/blgqwsk86utsavh2e2s3x/maureen.webp?rlkey=ytjpvooqj099z65o8w41z5y2w&st=t3ipzqsd&dl=1",
-    "link": ""
+    "name": "ANNA KOVA",
+    "picture": "https://www.dropbox.com/scl/fi/mif851gzl3s7kl2v5n0i4/anna-kova.webp?rlkey=rgoywvtnjxl87yy7tiz5zq54h&st=g6kjwv4h&dl=1",
+    "link": "https://www.qobuz.com/fr-fr/interpreter/anna-kova/2194372"
   },
   {
     "id": 3,
-    "name": "JOE LA PANIC",
-    "picture": "https://www.dropbox.com/scl/fi/5sopw5ufejjjlihfnynxj/joe-la-panic.webp?rlkey=18eu09ie8sojlcyciggr50j3l&st=xgevz1xq&dl=1",
-    "link": ""
+    "name": "AYA NAKAMURA",
+    "picture": "https://www.dropbox.com/scl/fi/p2ksz2zy8sanp2yjjtu4y/aya-nakamura.webp?rlkey=7h3rxwfq5p05ccm6mzgijzn8b&st=1r9w3lqy&dl=1",
+    "link": "https://www.qobuz.com/fr-fr/interpreter/aya-nakamura/2434631"
   },
   {
     "id": 4,
-    "name": "TRINIX",
-    "picture": "https://www.dropbox.com/scl/fi/lhc0wgxbolh2vzwcovvgw/trinix.webp?rlkey=94edl5kk0xb5fk7paj1slu6nm&st=20r90k56&dl=1",
-    "link": "https://tidal.com/browse/artist/7771842"
+    "name": "BRASS",
+    "picture": "https://www.dropbox.com/scl/fi/53tfd9ug9ktubr5miitei/brass.webp?rlkey=zbxrzuss18mw5y8mousseeahu&st=pmg0totd&dl=1",
+    "link": "https://www.qobuz.com/fr-fr/interpreter/brass/125761"
   },
   {
     "id": 5,
-    "name": "AYA NAKAMURA",
-    "picture": "https://www.dropbox.com/scl/fi/p2ksz2zy8sanp2yjjtu4y/aya-nakamura.webp?rlkey=7h3rxwfq5p05ccm6mzgijzn8b&st=1r9w3lqy&dl=1",
-    "link": "https://tidal.com/browse/artist/7238013"
+    "name": "CALEMA",
+    "picture": "https://www.dropbox.com/scl/fi/ie3gxvh2ve050tscsx51h/calema.webp?rlkey=xqxdypld6ozjbyg7yrggybelx&st=9gkn4u02&dl=1",
+    "link": "https://www.qobuz.com/fr-fr/interpreter/calema/698033"
   },
   {
     "id": 6,
-    "name": "XIXI",
-    "picture": "https://www.dropbox.com/scl/fi/4ukatt8x0lsdyqzlnmk6m/xixi.webp?rlkey=vqwfbsd55we41kxl44xtjhtj4&st=j8zn0nfs&dl=1",
-    "link": ""
+    "name": "CAMILLE ENO",
+    "picture": "https://www.dropbox.com/scl/fi/buct1vkr6duxkyz9bkean/camille-eno.png?rlkey=kp35wivjd6zaaathkuvhq9010&st=pq9d3vfz&dl=1",
+    "link": "https://www.qobuz.com/fr-fr/interpreter/camille-eno/21281406"
   },
   {
     "id": 7,
-    "name": "C-ROM",
-    "picture": "https://www.dropbox.com/scl/fi/ac2nnutqu7isjnkvq2349/c-rom.webp?rlkey=4qvqx9buzpy0d79yh0xun6aeo&st=ae5ow28t&dl=1",
-    "link": ""
+    "name": "CECILIA PASCAL",
+    "picture": "https://www.dropbox.com/scl/fi/u4a9410dfh2e7xdkz0ugx/cecilia-pascal.webp?rlkey=dx96syhvx0gtb5w7a823oqwrh&st=ccs33191&dl=1",
+    "link": "https://www.qobuz.com/fr-fr/interpreter/cecilia-pascal/1023181"
   },
   {
     "id": 8,
-    "name": "JOWEE OMICIL",
-    "picture": "https://www.dropbox.com/scl/fi/6bq8v40vkqlo0jcm9dvkx/jowee-omicil.webp?rlkey=3ypz8dr5yvipx7fcn0f4i6oqp&st=f14jmgtr&dl=1",
-    "link": ""
+    "name": "CHRIS SAM",
+    "picture": "https://www.dropbox.com/scl/fi/4oy8ppadme3xpr3cctw7b/chris-sam.webp?rlkey=0b2nzwgw8ucorkw5puxtemjkw&st=r0ifoblo&dl=1",
+    "link": "https://www.qobuz.com/fr-fr/interpreter/sam-chris/1087626"
   },
   {
     "id": 9,
-    "name": "HANNA",
-    "picture": "https://www.dropbox.com/scl/fi/c3u2y3vqk3cboe7y51n7d/hanna.webp?rlkey=4lg3d3rsl8ris1aun2uk63q0s&st=j4d2x907&dl=1",
-    "link": ""
+    "name": "C-ROM",
+    "picture": "https://www.dropbox.com/scl/fi/ac2nnutqu7isjnkvq2349/c-rom.webp?rlkey=4qvqx9buzpy0d79yh0xun6aeo&st=ae5ow28t&dl=1",
+    "link": "https://www.qobuz.com/fr-fr/interpreter/c-rom/1431366"
   },
   {
     "id": 10,
-    "name": "STANISLAS",
-    "picture": "https://www.dropbox.com/scl/fi/kzx1jfzq90xot6fnf3jhi/stanislas.webp?rlkey=xgr5s1td6cx2pkt5ldbcvh8o5&st=m74mlj24&dl=1",
-    "link": ""
+    "name": "CYRÈNE",
+    "picture": "",
+    "link": "https://www.qobuz.com/fr-fr/interpreter/cyrene-1/28863762"
   },
   {
     "id": 11,
-    "name": "TOVE LO",
-    "picture": "https://www.dropbox.com/scl/fi/ged7us4dcnehlie7lhncs/tove-lo.webp?rlkey=r2at5ur3u4d9j0emikzdt4bja&st=8378bnot&dl=1",
-    "link": ""
+    "name": "DE FLEUR",
+    "picture": "https://www.dropbox.com/scl/fi/0fh06pav3k83vz0wtv34u/de-fleur.webp?rlkey=8r1djykec06ctkiavsjftdwsj&st=lnd3y7dm&dl=1",
+    "link": "https://www.qobuz.com/fr-fr/interpreter/de-fleur/17372250"
   },
   {
     "id": 12,
-    "name": "BRASS",
-    "picture": "https://www.dropbox.com/scl/fi/53tfd9ug9ktubr5miitei/brass.webp?rlkey=zbxrzuss18mw5y8mousseeahu&st=pmg0totd&dl=1",
-    "link": ""
+    "name": "DEMAIN LES GARÇONS",
+    "picture": "https://www.dropbox.com/scl/fi/zs6l36xgkwpyxb88enq0x/demain-les-garcons.webp?rlkey=mvccqoqvuv1gam81g9dveizcg&st=wq42x9q2&dl=1",
+    "link": "https://www.qobuz.com/fr-fr/interpreter/demain-les-garcons/24053627"
   },
   {
     "id": 13,
-    "name": "GRISHA",
-    "picture": "https://www.dropbox.com/scl/fi/glxyn1xkrwrn0wiv5xfs0/grisha.webp?rlkey=gatllrcs7tn6coqi96pxitl3c&st=ilonfdgp&dl=1",
-    "link": ""
+    "name": "DJ YOUCEF",
+    "picture": "https://www.dropbox.com/scl/fi/wkbxfjveotb3oj23g0pmm/dj-youcef.webp?rlkey=oy0tbqxtgehnayvozqkg00mf0&st=wd0ynyha&dl=1",
+    "link": "https://www.qobuz.com/fr-fr/interpreter/dj-youcef/186971"
   },
   {
     "id": 14,
-    "name": "OUIDAD",
-    "picture": "https://www.dropbox.com/scl/fi/7rtyff3gean2zihgle2b8/ouidad.webp?rlkey=25dmo4qu6cp68aivh75uhtf7y&st=ckl22s5b&dl=1",
-    "link": ""
+    "name": "DRI$-I",
+    "picture": "https://www.dropbox.com/scl/fi/39hv78yj2zxhcmh5mqv12/dri-i.webp?rlkey=5ey5z8u9emgz5ojbzjgamtqfh&st=6j0oy9zq&dl=1",
+    "link": "https://www.qobuz.com/fr-fr/interpreter/dri-i/7671302"
   },
   {
     "id": 15,
-    "name": "RYU JUNIOR",
-    "picture": "https://www.dropbox.com/scl/fi/blbkaz64q4th8y4qtiap4/ryu-junior.webp?rlkey=7inaghhizdcxj0ps7nwd9gn6h&st=h4apdni1&dl=1",
-    "link": ""
+    "name": "DYD",
+    "picture": "",
+    "link": "https://www.qobuz.com/fr-fr/interpreter/dyd/374199"
   },
   {
     "id": 16,
-    "name": "CECILIA PASCAL",
-    "picture": "https://www.dropbox.com/scl/fi/u4a9410dfh2e7xdkz0ugx/cecilia-pascal.webp?rlkey=dx96syhvx0gtb5w7a823oqwrh&st=ccs33191&dl=1",
-    "link": ""
+    "name": "ÉNAÉ",
+    "picture": "",
+    "link": "https://www.qobuz.com/fr-fr/interpreter/enae/8908823"
   },
   {
     "id": 17,
-    "name": "LUNEDEL",
-    "picture": "https://www.dropbox.com/scl/fi/0yqe9ld74g8m8h5uezmxi/lunedel.webp?rlkey=i7m9gcj79i5f06hxfjhykj7zv&st=aepxmj7k&dl=1",
-    "link": ""
+    "name": "FULL GREEN",
+    "picture": "https://www.dropbox.com/scl/fi/1o9r7vav7tyly1tyx0fni/full-green.webp?rlkey=bhsc5yo2y80ndz304tr5letwu&st=7367x7ig&dl=1",
+    "link": "https://www.qobuz.com/fr-fr/interpreter/full-green/12957213"
   },
   {
     "id": 18,
-    "name": "PRICHIA",
-    "picture": "https://www.dropbox.com/scl/fi/5qwjt9yh2i49kj36nqdzl/prichia.webp?rlkey=j6qcv7w5xfn0bvmowlcx6ihpq&st=y1kbfzau&dl=1",
-    "link": ""
+    "name": "FYURA",
+    "picture": "https://www.dropbox.com/scl/fi/zhlqzfbd0j4beoky01o9t/fyura.png?rlkey=mzlu2eybyteggrr9vynkc5dfr&st=cxoo5sdn&dl=1",
+    "link": "https://www.qobuz.com/fr-fr/interpreter/fyura/26119811"
   },
   {
     "id": 19,
-    "name": "YONYON",
-    "picture": "https://www.dropbox.com/scl/fi/hgcevohfg2jwonlvg78p3/yonyon.webp?rlkey=1y2tcfyfb6z3n7n6ioxwdzuv3&st=4fvzuiql&dl=1",
-    "link": ""
+    "name": "GENIIE",
+    "picture": "",
+    "link": "https://www.qobuz.com/fr-fr/interpreter/geniie/5730957"
   },
   {
     "id": 20,
-    "name": "CHRIS SAM",
-    "picture": "https://www.dropbox.com/scl/fi/4oy8ppadme3xpr3cctw7b/chris-sam.webp?rlkey=0b2nzwgw8ucorkw5puxtemjkw&st=r0ifoblo&dl=1",
-    "link": ""
+    "name": "GRISHA",
+    "picture": "https://www.dropbox.com/scl/fi/glxyn1xkrwrn0wiv5xfs0/grisha.webp?rlkey=gatllrcs7tn6coqi96pxitl3c&st=ilonfdgp&dl=1",
+    "link": "https://www.qobuz.com/fr-fr/interpreter/grisha/2428921"
   },
   {
     "id": 21,
-    "name": "FULL GREEN",
-    "picture": "https://www.dropbox.com/scl/fi/1o9r7vav7tyly1tyx0fni/full-green.webp?rlkey=bhsc5yo2y80ndz304tr5letwu&st=7367x7ig&dl=1",
-    "link": ""
+    "name": "GUSTINE",
+    "picture": "",
+    "link": "https://www.qobuz.com/fr-fr/interpreter/gustine/7815576"
   },
   {
     "id": 22,
-    "name": "LÉ WILL & DEUSPI",
-    "picture": "https://www.dropbox.com/scl/fi/2gbyau65apywjdgtpbezd/le-will-deuspi.webp?rlkey=adtg80fyfyc132pg4eu3966m4&st=mfr6p4lm&dl=1",
-    "link": ""
+    "name": "HANNA",
+    "picture": "https://www.dropbox.com/scl/fi/c3u2y3vqk3cboe7y51n7d/hanna.webp?rlkey=4lg3d3rsl8ris1aun2uk63q0s&st=j4d2x907&dl=1",
+    "link": "https://www.qobuz.com/fr-fr/interpreter/hanna/25571"
   },
   {
     "id": 23,
-    "name": "IZKO",
-    "picture": "https://www.dropbox.com/scl/fi/yw2fvy1nv6pxsz1xv7qy4/izko.webp?rlkey=q6zy5xxaqtzdkf4kmpxhynfes&st=c2hmmr4y&dl=1",
-    "link": ""
+    "name": "JAMY NOX",
+    "picture": "https://www.dropbox.com/scl/fi/zlli6c8wujeuvyc77w7rn/jamy-nox.webp?rlkey=86123yoxb0q02kfbsbv0arssr&st=lhe7y3wm&dl=1",
+    "link": "https://www.qobuz.com/fr-fr/interpreter/jamy-nox/15041752"
   },
   {
     "id": 24,
-    "name": "NYU",
-    "picture": "https://www.dropbox.com/scl/fi/s12d7n7xmw5bmrzqwnr8y/nyu.webp?rlkey=dq3vk6l66hq5iqd67jxchgwp3&st=3kcqt29o&dl=1",
-    "link": ""
+    "name": "JEN",
+    "picture": "",
+    "link": "https://www.qobuz.com/fr-fr/interpreter/jen/332953"
   },
   {
     "id": 25,
-    "name": "RUNG HYANG",
-    "picture": "https://www.dropbox.com/scl/fi/anyo7cqh6eykgkmn5ijkc/rung-hyang.webp?rlkey=srqe7hduizjxqfynohyzypg9i&st=20gxe7jx&dl=1",
-    "link": ""
+    "name": "JIULIANA",
+    "picture": "",
+    "link": "https://www.qobuz.com/fr-fr/interpreter/jiuliana/23708328"
   },
   {
     "id": 26,
-    "name": "DE FLEUR",
-    "picture": "https://www.dropbox.com/scl/fi/0fh06pav3k83vz0wtv34u/de-fleur.webp?rlkey=8r1djykec06ctkiavsjftdwsj&st=lnd3y7dm&dl=1",
-    "link": ""
+    "name": "JOE LA PANIC",
+    "picture": "https://www.dropbox.com/scl/fi/5sopw5ufejjjlihfnynxj/joe-la-panic.webp?rlkey=18eu09ie8sojlcyciggr50j3l&st=xgevz1xq&dl=1",
+    "link": "https://www.qobuz.com/fr-fr/interpreter/joe-la-panic/13141049"
   },
   {
     "id": 27,
-    "name": "DRI$-I",
-    "picture": "https://www.dropbox.com/scl/fi/39hv78yj2zxhcmh5mqv12/dri-i.webp?rlkey=5ey5z8u9emgz5ojbzjgamtqfh&st=6j0oy9zq&dl=1",
-    "link": ""
+    "name": "JON NORRIS",
+    "picture": "",
+    "link": "https://www.qobuz.com/fr-fr/interpreter/jon-norris/2806211"
   },
   {
     "id": 28,
-    "name": "NUBE",
-    "picture": "https://www.dropbox.com/scl/fi/yy0s76n5kd8k3y29btixq/nube.webp?rlkey=87z6h8rjxr69d2h7o4bjn9bti&st=t6s0nlyx&dl=1",
-    "link": ""
+    "name": "JOWEE OMICIL",
+    "picture": "https://www.dropbox.com/scl/fi/6bq8v40vkqlo0jcm9dvkx/jowee-omicil.webp?rlkey=3ypz8dr5yvipx7fcn0f4i6oqp&st=f14jmgtr&dl=1",
+    "link": "https://www.qobuz.com/fr-fr/interpreter/jowee-omicil/975868"
   },
   {
     "id": 29,
-    "name": "LESTER",
-    "picture": "https://www.dropbox.com/scl/fi/ofz9410pdepwrl4nhezsd/lester.webp?rlkey=qnwqrmlq0ua6gbhj13rbi2495&st=eqzi5g6k&dl=1",
-    "link": ""
+    "name": "KAELES",
+    "picture": "",
+    "link": "https://www.qobuz.com/fr-fr/interpreter/kaeles/12552137"
   },
   {
     "id": 30,
-    "name": "LÉONIE BARBOT",
-    "picture": "https://www.dropbox.com/scl/fi/d2067kjymk23vb7f7y1od/leonie-barbot.webp?rlkey=nq83eba91mslz5859vlaeob7q&st=2hi2dte3&dl=1",
-    "link": ""
+    "name": "LADY O",
+    "picture": "https://www.dropbox.com/scl/fi/3r38by6hyakbjnzh3na9c/lady-o.png?rlkey=x7f948rfc2sr5tgd5gm0r098s&st=d9xly7ne&dl=1",
+    "link": "https://www.qobuz.com/fr-fr/interpreter/lady-o-1/2706824"
   },
   {
     "id": 31,
-    "name": "YXL TREV",
-    "picture": "https://www.dropbox.com/scl/fi/xm2ygjzvbmhuy13e1pduv/yxl-trev.webp?rlkey=riacasxanrq7yagfa0yy7a7az&st=bv1q2lu5&dl=1",
-    "link": ""
+    "name": "LÉ WILL & DEUSPI",
+    "picture": "https://www.dropbox.com/scl/fi/2gbyau65apywjdgtpbezd/le-will-deuspi.webp?rlkey=adtg80fyfyc132pg4eu3966m4&st=mfr6p4lm&dl=1",
+    "link": "https://www.qobuz.com/fr-fr/interpreter/le-will--deuspi/9484927"
   },
   {
     "id": 32,
-    "name": "DEMAIN LES GARÇONS",
-    "picture": "https://www.dropbox.com/scl/fi/zs6l36xgkwpyxb88enq0x/demain-les-garcons.webp?rlkey=mvccqoqvuv1gam81g9dveizcg&st=wq42x9q2&dl=1",
-    "link": ""
+    "name": "LÉONIE BARBOT",
+    "picture": "https://www.dropbox.com/scl/fi/d2067kjymk23vb7f7y1od/leonie-barbot.webp?rlkey=nq83eba91mslz5859vlaeob7q&st=2hi2dte3&dl=1",
+    "link": "https://www.qobuz.com/fr-fr/interpreter/leonie-barbot/3211094"
   },
   {
     "id": 33,
-    "name": "JEN",
-    "picture": "",
-    "link": ""
+    "name": "LESTER",
+    "picture": "https://www.dropbox.com/scl/fi/ofz9410pdepwrl4nhezsd/lester.webp?rlkey=qnwqrmlq0ua6gbhj13rbi2495&st=eqzi5g6k&dl=1",
+    "link": "https://www.qobuz.com/fr-fr/interpreter/lester/93037"
   },
   {
     "id": 34,
-    "name": "CALEMA",
-    "picture": "https://www.dropbox.com/scl/fi/ie3gxvh2ve050tscsx51h/calema.webp?rlkey=xqxdypld6ozjbyg7yrggybelx&st=9gkn4u02&dl=1",
-    "link": "https://tidal.com/browse/artist/4314525"
+    "name": "LUNEDEL",
+    "picture": "https://www.dropbox.com/scl/fi/0yqe9ld74g8m8h5uezmxi/lunedel.webp?rlkey=i7m9gcj79i5f06hxfjhykj7zv&st=aepxmj7k&dl=1",
+    "link": "https://www.qobuz.com/fr-fr/interpreter/lunedel/17400476"
   },
   {
     "id": 35,
-    "name": "MÉLINA TOBIANA",
-    "picture": "https://www.dropbox.com/scl/fi/jiq7ttc02k4i22tgq8utk/melina-tobiana.webp?rlkey=781y0mutekmk7u353uo6562dh&st=e0ne403s&dl=1",
-    "link": ""
+    "name": "MALTER",
+    "picture": "https://www.dropbox.com/scl/fi/v081khadf1vxgmf3up28a/malter.png?rlkey=tw78saveumnm0nlic9hy4g0dy&st=hjwqvjdw&dl=1",
+    "link": "https://www.qobuz.com/fr-fr/interpreter/malter/3480256"
   },
   {
     "id": 36,
-    "name": "NAMANA",
-    "picture": "https://www.dropbox.com/scl/fi/sre00zwzxmdjlkccup131/namana.webp?rlkey=cby5ztyt0xcmec3nsfrhy3t5b&st=oeklxxkq&dl=1",
-    "link": ""
+    "name": "MAUREEN",
+    "picture": "https://www.dropbox.com/scl/fi/blgqwsk86utsavh2e2s3x/maureen.webp?rlkey=ytjpvooqj099z65o8w41z5y2w&st=t3ipzqsd&dl=1",
+    "link": "https://www.qobuz.com/fr-fr/interpreter/maureen/729592"
   },
   {
     "id": 37,
-    "name": "4NOTHING",
-    "picture": "https://www.dropbox.com/scl/fi/96ljh8n2y4ck7i1c8y5oc/4nothing.webp?rlkey=zsgq1s8d4iqwndlp9qe2w9bvk&st=6w88z3yz&dl=1",
-    "link": ""
+    "name": "MAX GOMART",
+    "picture": "",
+    "link": "https://www.qobuz.com/fr-fr/interpreter/max-gomart/20991208"
   },
   {
     "id": 38,
-    "name": "JAMY NOX",
-    "picture": "https://www.dropbox.com/scl/fi/zlli6c8wujeuvyc77w7rn/jamy-nox.webp?rlkey=86123yoxb0q02kfbsbv0arssr&st=lhe7y3wm&dl=1",
-    "link": ""
+    "name": "MÉLINA TOBIANA",
+    "picture": "https://www.dropbox.com/scl/fi/jiq7ttc02k4i22tgq8utk/melina-tobiana.webp?rlkey=781y0mutekmk7u353uo6562dh&st=e0ne403s&dl=1",
+    "link": "https://www.qobuz.com/fr-fr/interpreter/melina-tobiana/2232192"
   },
   {
     "id": 39,
-    "name": "TIM PATH",
-    "picture": "https://www.dropbox.com/scl/fi/ibtjmz3cvbykzm7l2v7mo/tim-path.webp?rlkey=a3gzwpcm0xr18b8mzdifzf7ep&st=20icp11i&dl=1",
-    "link": ""
+    "name": "MOEUN",
+    "picture": "https://www.dropbox.com/scl/fi/pajven7t1ijw3zad2rq70/moeun.png?rlkey=ap0ozll9fhqqy1ml5v7bzof58&st=378oqi7i&dl=1",
+    "link": "https://www.qobuz.com/fr-fr/interpreter/moeun-10003258420/3258420"
   },
   {
     "id": 40,
-    "name": "SANTOS",
-    "picture": "https://www.dropbox.com/scl/fi/rn4akwjvw4c44a3hnwamm/santos.webp?rlkey=v7h8cxzj2mxipjegr7u2wm17w&st=l1gfhb26&dl=1",
-    "link": ""
+    "name": "NAMANA",
+    "picture": "https://www.dropbox.com/scl/fi/sre00zwzxmdjlkccup131/namana.webp?rlkey=cby5ztyt0xcmec3nsfrhy3t5b&st=oeklxxkq&dl=1",
+    "link": "https://www.qobuz.com/fr-fr/interpreter/namana-1/25887849"
   },
   {
     "id": 41,
-    "name": "YAMBOW",
-    "picture": "https://www.dropbox.com/scl/fi/hdghgheclu1phw3yhh6ct/yambow.webp?rlkey=4yq2betvy0rase0wpompkkect&st=izk27mwm&dl=1",
-    "link": ""
+    "name": "NIICAP",
+    "picture": "",
+    "link": "https://www.qobuz.com/fr-fr/interpreter/niicap/5426003"
   },
   {
     "id": 42,
-    "name": "DJ YOUCEF",
-    "picture": "https://www.dropbox.com/scl/fi/wkbxfjveotb3oj23g0pmm/dj-youcef.webp?rlkey=oy0tbqxtgehnayvozqkg00mf0&st=wd0ynyha&dl=1",
-    "link": ""
+    "name": "NINA BATTISTI",
+    "picture": "https://www.dropbox.com/scl/fi/5x8w9nzg5pljqbyjskdl5/nina-battisti.webp?rlkey=cxwmq0zplixunhx4i3h51y5sj&st=ib8s7gfy&dl=1",
+    "link": "https://www.qobuz.com/fr-fr/interpreter/nina-battisti/10658260"
   },
   {
     "id": 43,
-    "name": "LIMO",
-    "picture": "https://www.dropbox.com/scl/fi/kwgbfllb64u2cftf3zflo/limo.webp?rlkey=v84s3waqxb3dxplhtg3uqo3gc&st=iokvvb5s&dl=1",
-    "link": ""
+    "name": "NUBE",
+    "picture": "https://www.dropbox.com/scl/fi/xn0ne4w4xwu24310v1lb7/nube.png?rlkey=fsbxgi9jow2h3sc260l52y6pz&st=ieowmyg9&dl=1",
+    "link": "https://www.qobuz.com/fr-fr/interpreter/nube/951688"
   },
   {
     "id": 44,
-    "name": "L'ENFANT",
-    "picture": "https://www.dropbox.com/scl/fi/3a0qpg14nt7x2zmxdz6by/lenfant.webp?rlkey=4gvk6cvdaahcyzhyxb0uiemsi&st=i3kmivyo&dl=1",
-    "link": ""
+    "name": "NYU",
+    "picture": "https://www.dropbox.com/scl/fi/s12d7n7xmw5bmrzqwnr8y/nyu.webp?rlkey=dq3vk6l66hq5iqd67jxchgwp3&st=3kcqt29o&dl=1",
+    "link": "https://www.qobuz.com/fr-fr/interpreter/nyu/4924632"
   },
   {
     "id": 45,
-    "name": "NINA BATTISTI",
-    "picture": "https://www.dropbox.com/scl/fi/5x8w9nzg5pljqbyjskdl5/nina-battisti.webp?rlkey=cxwmq0zplixunhx4i3h51y5sj&st=ib8s7gfy&dl=1",
-    "link": ""
+    "name": "OUIDAD",
+    "picture": "https://www.dropbox.com/scl/fi/7rtyff3gean2zihgle2b8/ouidad.webp?rlkey=25dmo4qu6cp68aivh75uhtf7y&st=ckl22s5b&dl=1",
+    "link": "https://www.qobuz.com/fr-fr/interpreter/ouidad/1412825"
   },
   {
     "id": 46,
-    "name": "FYURA",
-    "picture": "https://www.dropbox.com/scl/fi/ymdpgw5z1ys8mxhhk9qg2/fyura.webp?rlkey=w6y3z8n1isjqxw28t3ub5oq94&st=0x0lqn6c&dl=1",
-    "link": ""
+    "name": "OZAK",
+    "picture": "",
+    "link": "https://www.qobuz.com/fr-fr/interpreter/ozak/2933254"
   },
   {
     "id": 47,
-    "name": "HONNOJ",
-    "picture": "https://www.dropbox.com/scl/fi/pjrqcj5jf7gqo7rjt1ehq/honnoj.webp?rlkey=5xt3ldfpz32e57gwwupbj1ouc&st=txsz9y53&dl=1",
-    "link": ""
+    "name": "PRICHIA",
+    "picture": "https://www.dropbox.com/scl/fi/5qwjt9yh2i49kj36nqdzl/prichia.webp?rlkey=j6qcv7w5xfn0bvmowlcx6ihpq&st=y1kbfzau&dl=1",
+    "link": "https://www.qobuz.com/fr-fr/interpreter/prichia-music/11015188"
   },
   {
     "id": 48,
-    "name": "ALEXIS GOMART",
-    "picture": "https://www.dropbox.com/scl/fi/raz7zjmoryt0a2zdico4n/alexis-gomart.webp?rlkey=2bsn60nonvbutk3u7i0t5au7b&st=e6gpv851&dl=1",
-    "link": ""
+    "name": "RUNG HYANG",
+    "picture": "https://www.dropbox.com/scl/fi/anyo7cqh6eykgkmn5ijkc/rung-hyang.webp?rlkey=srqe7hduizjxqfynohyzypg9i&st=20gxe7jx&dl=1",
+    "link": "https://www.qobuz.com/fr-fr/interpreter/runghyang-10003404421/3404421"
+  },
+  {
+    "id": 49,
+    "name": "RYU JUNIOR",
+    "picture": "https://www.dropbox.com/scl/fi/blbkaz64q4th8y4qtiap4/ryu-junior.webp?rlkey=7inaghhizdcxj0ps7nwd9gn6h&st=h4apdni1&dl=1",
+    "link": "https://www.qobuz.com/fr-fr/interpreter/ryu-junior/9783279"
+  },
+  {
+    "id": 50,
+    "name": "SANTOS",
+    "picture": "https://www.dropbox.com/scl/fi/91whl5rpe43aigkl6xo3l/santos.png?rlkey=lfgrtuxxukj428a96trc0vba0&st=4mg2jczy&dl=1",
+    "link": "https://www.qobuz.com/fr-fr/interpreter/santos/85223"
+  },
+  {
+    "id": 51,
+    "name": "SHAYDEE'S",
+    "picture": "",
+    "link": "https://www.qobuz.com/fr-fr/interpreter/shaydees/4092306"
+  },
+  {
+    "id": 52,
+    "name": "STANISLAS",
+    "picture": "https://www.dropbox.com/scl/fi/kzx1jfzq90xot6fnf3jhi/stanislas.webp?rlkey=xgr5s1td6cx2pkt5ldbcvh8o5&st=m74mlj24&dl=1",
+    "link": "https://www.qobuz.com/fr-fr/interpreter/stanislas/35268"
+  },
+  {
+    "id": 53,
+    "name": "TIMOTHÉE PATH",
+    "picture": "https://www.dropbox.com/scl/fi/qx35620050n9oa96jw2df/timoth-e-path.png?rlkey=lg5bexmdfcvyq1es89tdg1ilg&st=qeypy7vv&dl=1",
+    "link": "https://www.qobuz.com/fr-fr/interpreter/timothee-path/27042307"
+  },
+  {
+    "id": 54,
+    "name": "TOVE LO",
+    "picture": "https://www.dropbox.com/scl/fi/ged7us4dcnehlie7lhncs/tove-lo.webp?rlkey=r2at5ur3u4d9j0emikzdt4bja&st=8378bnot&dl=1",
+    "link": "https://www.qobuz.com/fr-fr/interpreter/tove-lo/928130"
+  },
+  {
+    "id": 55,
+    "name": "TRINIX",
+    "picture": "https://www.dropbox.com/scl/fi/lhc0wgxbolh2vzwcovvgw/trinix.webp?rlkey=94edl5kk0xb5fk7paj1slu6nm&st=20r90k56&dl=1",
+    "link": "https://www.qobuz.com/fr-fr/interpreter/trinix/2626072"
+  },
+  {
+    "id": 56,
+    "name": "VALENCIA",
+    "picture": "https://www.dropbox.com/scl/fi/hkbkq8bep0tb8l5ru3tux/valencia.png?rlkey=qohwx62kmbmqnbqcv4ea7uam8&st=308c9de3&dl=1",
+    "link": "https://www.qobuz.com/fr-fr/interpreter/valencia/185502"
+  },
+  {
+    "id": 57,
+    "name": "XIXI",
+    "picture": "https://www.dropbox.com/scl/fi/4ukatt8x0lsdyqzlnmk6m/xixi.webp?rlkey=vqwfbsd55we41kxl44xtjhtj4&st=j8zn0nfs&dl=1",
+    "link": "https://www.qobuz.com/fr-fr/interpreter/xixi-10003683326/3683326"
+  },
+  {
+    "id": 58,
+    "name": "YAMBOW",
+    "picture": "https://www.dropbox.com/scl/fi/hdghgheclu1phw3yhh6ct/yambow.webp?rlkey=4yq2betvy0rase0wpompkkect&st=izk27mwm&dl=1",
+    "link": "https://www.qobuz.com/fr-fr/interpreter/yambow/14428914"
+  },
+  {
+    "id": 59,
+    "name": "YONYON",
+    "picture": "https://www.dropbox.com/scl/fi/2q2ktcx7mwnunlb0v8g3d/yonyon.png?rlkey=m3ls6i6uglmecz2p90l2hy0pk&st=xw0w4dj3&dl=1",
+    "link": "https://www.qobuz.com/fr-fr/interpreter/yonyon/4555198"
+  },
+  {
+    "id": 60,
+    "name": "YXL TREV",
+    "picture": "https://www.dropbox.com/scl/fi/xm2ygjzvbmhuy13e1pduv/yxl-trev.webp?rlkey=riacasxanrq7yagfa0yy7a7az&st=bv1q2lu5&dl=1",
+    "link": "https://www.qobuz.com/fr-fr/interpreter/yxl-trev/9839085"
   }
 ]

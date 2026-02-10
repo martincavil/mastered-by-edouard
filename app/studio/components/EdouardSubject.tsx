@@ -27,8 +27,8 @@ export function EdouardSubject() {
         <div className="space-y-4 2xl:space-y-8">
           <p className="font-poppins">{t.studio.edouard.description1}</p>
           <p className="font-poppins">{t.studio.edouard.description2}</p>
-          <div className="flex flex-col gap-4 md:gap-0 lg:flex-row lg:items-center justify-between pt-2 2xl:pt-4">
-            <Link
+          <div className="flex flex-col gap-4 md:gap-0 lg:flex-row lg:items-center justify-end pt-2 2xl:pt-4">
+            {/* <Link
               href="https://credits.muso.ai/profile/83085fe9-a37a-493e-b0ac-1a62bf76590f"
               target="_blank"
               rel="noopener noreferrer"
@@ -46,7 +46,7 @@ export function EdouardSubject() {
                   />
                 </div>
               </Button>
-            </Link>
+            </Link> */}
             <div className="order-1 md:order-2">
               <Image
                 src="https://www.dropbox.com/scl/fi/03lgwozq7qis2g33xw8dr/edouard-signature.webp?rlkey=wj49avq2pcr32v9na2awx5gag&st=a02agqrd&dl=1"

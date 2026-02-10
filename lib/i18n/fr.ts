@@ -3,7 +3,8 @@ import { Translations } from "./types";
 export const fr: Translations = {
   common: {
     title: "mastered by edouard - studio de mastering professionnel",
-    description: "Services de mastering audio professionnels en France et dans le monde",
+    description:
+      "Services de mastering audio professionnels en France et dans le monde",
   },
   nav: {
     home: "accueil",
@@ -136,7 +137,8 @@ export const fr: Translations = {
           "si vous ne pouvez pas exporter en 32-bit float, le 24-bit reste excellent. Essayez d'éviter d'exporter en 16-bit, surtout si vos niveaux de crête sont assez bas.",
         step2Content2:
           "c'est très simple... la fréquence d'échantillonnage (sample rate) doit rester la même que celle utilisée pendant le mixage.",
-        step2Content3: "Les fichiers doivent être exportés au format .WAV ou .AIF.",
+        step2Content3:
+          "Les fichiers doivent être exportés au format .WAV ou .AIF.",
       },
       step3Title: "la nomenclature.",
       step3Content: {
@@ -148,7 +150,8 @@ export const fr: Translations = {
       step4Content: {
         step4Content1:
           "le stem mastering est souvent le signe d'un mixage qui n'est pas totalement finalisé : c'est pourquoi le studio ne privilégie pas nécessairement cette approche. Ma vision des choses : prenons le temps d'écouter le mix ensemble et de l'améliorer au maximum ! Mon travail d'ingénieur de mastering commence dès l'étape du mixage, en vous aidant à garder la bonne direction.",
-        step4Content2: "cependant, le stem mastering peut être utilisé dans certains cas particuliers.",
+        step4Content2:
+          "cependant, le stem mastering peut être utilisé dans certains cas particuliers.",
       },
     },
   },
@@ -234,7 +237,7 @@ export const fr: Translations = {
     },
   },
   footer: {
-    legalnotice: "Mentions Légales",
+    legalnotice: "mentions Légales",
     terms: "CGV",
     faq: "FAQ",
   },
@@ -350,8 +353,7 @@ export const fr: Translations = {
       answer3:
         "« Nous vivons une époque incroyable où l'IA permet, c'est certain, d'obtenir des résultats impressionnants ! Mais le rôle de l'ingénieur de mastering ne se limite pas à fournir des outils : il apporte une oreille humaine et son expérience ! Travailler avec un ingénieur permet une communication directe, des échanges constructifs et une vraie collaboration, garantissant ainsi le respect total de la vision et des attentes de l'artiste. Au final, tout est une question de lien humain et de confiance !",
       question4: "4. le studio propose-t-il de mastering CD / vinyle ?",
-      answer4:
-        "la réponse est simple : oui !",
+      answer4: "la réponse est simple : oui !",
       question5: "5. quels sont les délais de livraison ?",
       answer5:
         "Les délais varient naturellement selon la nature du projet. Pour un single, le délai de livraison standard est d'environ un à trois jours ouvrés. Pour les projets plus conséquents (EPs ou Albums), les délais vous seront communiqués une fois l'ampleur du projet définie.",

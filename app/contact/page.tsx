@@ -65,18 +65,20 @@ export default function ContactPage() {
             </div>
 
             {/* Right Column - Illustration */}
-            <div className="hidden md:flex flex-col items-center md:items-end justify-start space-y-4 2xl:space-y-20">
-              <div className="text-5xl lg:text-7xl xl:text-[90px] 2xl:text-[100px] font-bold text-white !leading-[0.8]">
-                <p>{t.contact.ctaTitle1}</p>
-                <p>{t.contact.ctaTitle2}</p>
+            <div className="hidden md:flex flex-col items-center md:items-end relative">
+              <div className="flex flex-col self-start">
+                <div className="text-5xl lg:text-7xl xl:text-[90px] 2xl:text-[100px] font-bold text-white !leading-[0.8]">
+                  <p>{t.contact.ctaTitle1}</p>
+                  <p>{t.contact.ctaTitle2}</p>
+                </div>
+                <Image
+                  src="https://www.dropbox.com/scl/fi/vcphub2lii62wkgckszn6/contact.webp?rlkey=iff7tnt6qg1gixxxm6rbgtt37&st=0jd4agpq&dl=1"
+                  alt="Edouard Contact Illustration"
+                  width={271}
+                  height={271}
+                  className="absolute bottom-0 right-0 object-cover w-48 h-48 xl:w-56 xl:h-56 2xl:w-[271px] 2xl:h-[271px]"
+                />
               </div>
-              <Image
-                src="https://www.dropbox.com/scl/fi/vcphub2lii62wkgckszn6/contact.webp?rlkey=iff7tnt6qg1gixxxm6rbgtt37&st=0jd4agpq&dl=1"
-                alt="Edouard Contact Illustration"
-                width={271}
-                height={271}
-                className="object-cover w-52 h-52 xl:w-60 xl:h-60 2xl:w-[271px] 2xl:h-[271px]"
-              />
             </div>
           </div>
 

@@ -388,12 +388,12 @@ export function AudioFiles() {
           </form>
         )}
         {!submitSuccess && (
-          <label className="flex items-start gap-2 cursor-pointer">
+          <label className="flex items-center gap-2 cursor-pointer">
             <input
               type="checkbox"
               checked={acceptTerms}
               onChange={(e) => setAcceptTerms(e.target.checked)}
-              className="mt-1 w-4 h-4 flex-shrink-0 cursor-pointer outline-none focus:outline-none"
+              className="w-4 h-4 flex-shrink-0 cursor-pointer outline-none focus:outline-none"
             />
             <p className="text-black font-light text-sm 2xl:text-base">
               you accept the{" "}

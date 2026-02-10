@@ -68,27 +68,6 @@ export default function StudioPage() {
                 </svg>
               </Link>
             </div>
-            {/* Subject buttons - Desktop */}
-            <div className="hidden md:flex flex-wrap items-center gap-2 md:gap-3 xl:gap-4 md:mb-3 xl:mb-5 2xl:mb-10">
-              {subjects.map((subject) => (
-                <button
-                  key={subject.key}
-                  onClick={() => setSelectedSubject(subject.key)}
-                  className={`py-1.5 px-4 border rounded-full text-xl md:text-lg lg:text-2xl xl:text-3xl font-extralight relative overflow-hidden
-                    ${
-                      selectedSubject === subject.key
-                        ? "bg-white text-black border-white"
-                        : "navigation-link bg-transparent text-white border-white"
-                    }`}
-                  // ${subject.key === "edouard" && "!min-w-36"}
-                >
-                  {selectedSubject !== subject.key && (
-                    <div className="nav-bg-hover" aria-hidden="true" />
-                  )}
-                  <span className="relative z-[2]">{subject.name}</span>
-                </button>
-              ))}
-            </div>
 
             {/* Subject menu - Mobile only */}
             <div className="md:hidden mb-8 relative">
@@ -141,6 +120,27 @@ export default function StudioPage() {
               key={selectedSubject}
               className="md:col-span-2 grid md:grid-cols-2 animate-fade-in flex-1 min-h-0"
             >
+              {/* Subject buttons - Desktop */}
+              <div className="hidden md:flex flex-wrap items-center gap-2 md:gap-3 xl:gap-4 md:mb-3 xl:mb-5 2xl:mb-10">
+                {subjects.map((subject) => (
+                  <button
+                    key={subject.key}
+                    onClick={() => setSelectedSubject(subject.key)}
+                    className={`py-1.5 px-4 border rounded-full text-xl md:text-lg lg:text-2xl xl:text-3xl font-extralight relative overflow-hidden
+                    ${
+                      selectedSubject === subject.key
+                        ? "bg-white text-black border-white"
+                        : "navigation-link bg-transparent text-white border-white"
+                    }`}
+                    // ${subject.key === "edouard" && "!min-w-36"}
+                  >
+                    {selectedSubject !== subject.key && (
+                      <div className="nav-bg-hover" aria-hidden="true" />
+                    )}
+                    <span className="relative z-[2]">{subject.name}</span>
+                  </button>
+                ))}
+              </div>
               {selectedSubject === "edouard" && <EdouardSubject />}
               {selectedSubject === "friends" && <FriendsSubject />}
               {selectedSubject === "services" && <ServicesSubject />}
