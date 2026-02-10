@@ -5,10 +5,13 @@ import Link from "next/link";
 import { useTranslations } from "@/lib/i18n/useTranslations";
 import { PageTransition } from "@/components/page-transition";
 import { Footer } from "@/components/footer";
-import { EdouardSubject } from "./components/EdouardSubject";
-import { FriendsSubject } from "./components/FriendsSubject";
-import { ServicesSubject } from "./components/ServicesSubject";
-import { GearSubject } from "./components/GearSubject";
+import { EdouardTextContent, EdouardImage } from "./components/EdouardSubject";
+import { FriendsTextContent, FriendsImage } from "./components/FriendsSubject";
+import {
+  ServicesTextContent,
+  ServicesImage,
+} from "./components/ServicesSubject";
+import { GearTextContent, GearImage } from "./components/GearSubject";
 import "../navigation-link.css";
 
 type SubjectKey = "edouard" | "friends" | "services" | "gear";
@@ -116,35 +119,50 @@ export default function StudioPage() {
               )}
             </div>
             {/* Content */}
-            <div
-              key={selectedSubject}
-              className="md:col-span-2 grid md:grid-cols-2 animate-fade-in flex-1 min-h-0"
-            >
-              {/* Subject buttons - Desktop */}
-              <div className="hidden md:flex flex-wrap items-center gap-2 md:gap-3 xl:gap-4 md:mb-3 xl:mb-5 2xl:mb-10">
-                {subjects.map((subject) => (
-                  <button
-                    key={subject.key}
-                    onClick={() => setSelectedSubject(subject.key)}
-                    className={`py-1.5 px-4 border rounded-full text-xl md:text-lg lg:text-2xl xl:text-3xl font-extralight relative overflow-hidden
-                    ${
-                      selectedSubject === subject.key
-                        ? "bg-white text-black border-white"
-                        : "navigation-link bg-transparent text-white border-white"
-                    }`}
-                    // ${subject.key === "edouard" && "!min-w-36"}
-                  >
-                    {selectedSubject !== subject.key && (
-                      <div className="nav-bg-hover" aria-hidden="true" />
-                    )}
-                    <span className="relative z-[2]">{subject.name}</span>
-                  </button>
-                ))}
+            <div className="md:col-span-2 grid md:grid-cols-2 md:gap-8 flex-1 min-h-0 items-center">
+              {/* Left column: buttons + text content */}
+              <div className="flex flex-col order-1 md:order-0 h-full">
+                {/* Subject buttons - Desktop (no animation) */}
+                <div className="hidden md:flex flex-wrap items-center gap-2 md:gap-3 xl:gap-4 md:mb-3 xl:mb-5 2xl:mb-10">
+                  {subjects.map((subject) => (
+                    <button
+                      key={subject.key}
+                      onClick={() => setSelectedSubject(subject.key)}
+                      className={`py-1.5 px-4 border rounded-full text-xl md:text-lg lg:text-2xl xl:text-3xl font-extralight relative overflow-hidden
+                      ${
+                        selectedSubject === subject.key
+                          ? "bg-white text-black border-white"
+                          : "navigation-link bg-transparent text-white border-white"
+                      }`}
+                    >
+                      {selectedSubject !== subject.key && (
+                        <div className="nav-bg-hover" aria-hidden="true" />
+                      )}
+                      <span className="relative z-[2]">{subject.name}</span>
+                    </button>
+                  ))}
+                </div>
+                {/* Text content (with animation) */}
+                <div
+                  key={selectedSubject}
+                  className="text-white animate-fade-in"
+                >
+                  {selectedSubject === "edouard" && <EdouardTextContent />}
+                  {selectedSubject === "friends" && <FriendsTextContent />}
+                  {selectedSubject === "services" && <ServicesTextContent />}
+                  {selectedSubject === "gear" && <GearTextContent />}
+                </div>
               </div>
-              {selectedSubject === "edouard" && <EdouardSubject />}
-              {selectedSubject === "friends" && <FriendsSubject />}
-              {selectedSubject === "services" && <ServicesSubject />}
-              {selectedSubject === "gear" && <GearSubject />}
+              {/* Right column: image (with animation) */}
+              <div
+                key={`${selectedSubject}-image`}
+                className="relative w-full h-full flex justify-center order-0 md:order-1 mb-5 md:mb-0 animate-fade-in"
+              >
+                {selectedSubject === "edouard" && <EdouardImage />}
+                {selectedSubject === "friends" && <FriendsImage />}
+                {selectedSubject === "services" && <ServicesImage />}
+                {selectedSubject === "gear" && <GearImage />}
+              </div>
             </div>
             <div className="mt-auto">
               <Footer color="white" />
