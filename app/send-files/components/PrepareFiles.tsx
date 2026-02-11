@@ -92,8 +92,8 @@ export function PrepareFiles() {
                 <Image
                   src={steps[currentStep - 1].image!}
                   alt={`Step ${currentStep} Illustration`}
-                  width={350}
-                  height={160}
+                  width={380}
+                  height={173}
                   className="object-cover shadow-md"
                 />
               </div>

@@ -121,13 +121,13 @@ export function GearImage() {
   );
 
   return (
-    <div className="relative group h-full">
+    <div className="relative group h-full flex">
       <Image
         src={GEAR_IMAGES[currentIndex]}
         alt={`Studio gear ${currentIndex + 1}`}
         width={584}
         height={651}
-        className="w-full h-full rounded-[10px] object-cover transition-opacity duration-500 xl:w-[440px] xl:h-[490px] 2xl:w-[584px] 2xl:h-[651px]"
+        className="w-full h-full rounded-[10px] object-cover transition-opacity duration-500 md:w-[330px] md:h-[368px] xl:w-[424px] xl:h-[472px] 2xl:w-[584px] 2xl:h-[651px]"
         priority={currentIndex === 0}
       />
       <CarouselNavButton direction="prev" onClick={goToPrevious} />

@@ -119,7 +119,7 @@ export default function StudioPage() {
               )}
             </div>
             {/* Content */}
-            <div className="md:col-span-2 grid md:grid-cols-2 md:gap-8 flex-1 min-h-0 items-center xl:max-h-[550px] 2xl:max-h-[600px]">
+            <div className="md:col-span-2 grid md:grid-cols-2 flex-1 min-h-0 items-center xl:max-h-[550px] 2xl:max-h-[600px]">
               {/* Left column: buttons + text content */}
               <div className="flex flex-col order-1 md:order-0 h-full">
                 {/* Subject buttons - Desktop (no animation) */}
@@ -156,7 +156,7 @@ export default function StudioPage() {
               {/* Right column: image (with animation) */}
               <div
                 key={`${selectedSubject}-image`}
-                className="relative w-full h-full flex items-center justify-center order-0 md:order-1 mb-5 md:mb-0 animate-fade-in"
+                className="relative w-full h-full flex items-center justify-end order-0 md:order-1 mb-5 md:mb-0 animate-fade-in"
               >
                 {selectedSubject === "edouard" && <EdouardImage />}
                 {selectedSubject === "friends" && <FriendsImage />}
