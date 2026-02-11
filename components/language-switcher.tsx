@@ -7,8 +7,8 @@ export function LanguageSwitcher() {
 
   return (
     <div
-      className="flex items-center gap-2"
-      style={{ fontFamily: "platform, sans-serif", fontSize: "25px" }}
+      className="flex items-center gap-0 md:gap-2 text-xl md:text-2xl"
+      style={{ fontFamily: "platform, sans-serif" }}
     >
       <span
         onClick={() => setLocale("fr")}

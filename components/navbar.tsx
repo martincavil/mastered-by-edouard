@@ -14,7 +14,7 @@ export function Navbar() {
           alt="Logo Mastered by Edouard"
           width={211}
           height={63}
-          className="h-full"
+          className="h-full md:w-[211px] w-[180px]"
         />
       </Link>
       {/* Language Switcher */}

@@ -10,7 +10,10 @@ interface MobileMenuProps {
   variant?: "default" | "red";
 }
 
-export function MobileMenu({ color = "white", variant = "default" }: MobileMenuProps) {
+export function MobileMenu({
+  color = "white",
+  variant = "default",
+}: MobileMenuProps) {
   const [isOpen, setIsOpen] = useState(false);
   const t = useTranslations();
 
@@ -106,11 +109,13 @@ export function MobileMenu({ color = "white", variant = "default" }: MobileMenuP
                   {t.footer.faq}
                 </Link>
               </div>
-              <div className={`h-[0.5px] w-full ${variant === "red" ? "bg-red" : "bg-white"} mt-10 mb-4`} />
+              <div
+                className={`h-[0.5px] w-full ${variant === "red" ? "bg-red" : "bg-white"} mt-10 mb-4`}
+              />
               <div className="flex justify-between items-end">
                 {/* Copyright */}
                 <p className={`${menuTextColor} text-sm`}>
-                  Mastered by Edouard 2026 ©
+                  mastered by edouard 2026 ©
                 </p>
                 <div className="flex flex-col justify-end space-y-2 text-right">
                   <Link

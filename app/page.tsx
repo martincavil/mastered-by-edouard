@@ -13,25 +13,21 @@ export default function HomePage() {
     {
       href: "/listen/",
       label: t.nav.listen,
-      order: 1,
       variant: "default" as const,
     },
     {
       href: "/send-files/",
       label: t.nav.sendFiles,
-      order: 2,
       variant: "accent" as const,
     },
     {
       href: "/studio/",
       label: t.nav.studio,
-      order: 3,
       variant: "default" as const,
     },
     {
       href: "/contact/",
       label: t.nav.contact,
-      order: 4,
       variant: "default" as const,
     },
   ];
@@ -73,26 +69,15 @@ export default function HomePage() {
               </h2>
             </div>
             {/* Navigation homepage */}
-            <div className="grid grid-cols-3 md:flex gap-[10px] mx-[10px] pb-[10px] md:pb-0">
-              {navigations
-                .sort((a, b) => a.order - b.order)
-                .map((nav) => (
-                  <NavigationCard
-                    key={nav.label}
-                    href={nav.href}
-                    label={nav.label}
-                    variant={nav.variant}
-                    className={
-                      nav.order === 2
-                        ? "col-span-3 order-4 md:order-2"
-                        : nav.order === 1
-                          ? "order-1 md:order-1"
-                          : nav.order === 3
-                            ? "order-2 md:order-3"
-                            : "order-3 md:order-4"
-                    }
-                  />
-                ))}
+            <div className="grid grid-cols-2 md:flex gap-[10px] mx-[10px] pb-[10px] md:pb-0">
+              {navigations.map((nav) => (
+                <NavigationCard
+                  key={nav.label}
+                  href={nav.href}
+                  label={nav.label}
+                  variant={nav.variant}
+                />
+              ))}
             </div>
           </div>
           <div className="relative z-10 w-full hidden md:block">

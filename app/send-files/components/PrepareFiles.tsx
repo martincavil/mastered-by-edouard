@@ -54,7 +54,7 @@ export function PrepareFiles() {
     <>
       <div className="flex flex-col space-y-3">
         {/* White container with carousel */}
-        <div className="relative bg-white overflow-hidden p-5 rounded-[10px] h-[350px] max-h-[350px] 2xl:h-full 2xl:max-h-[700px] flex flex-col">
+        <div className="relative bg-white overflow-hidden p-5 rounded-[10px] h-[350px] max-h-[350px] 2xl:h-full xl:min-h-[350px] 2xl:max-h-[700px] flex flex-col">
           {/* Content */}
           <div
             key={currentStep}
@@ -88,20 +88,20 @@ export function PrepareFiles() {
             )}
 
             {steps[currentStep - 1].image && (
-              <div className="md:hidden xl:flex absolute right-0 bottom-20 flex items-end justify-end">
+              <div className="md:hidden xl:block absolute right-0 bottom-16">
                 <Image
                   src={steps[currentStep - 1].image!}
                   alt={`Step ${currentStep} Illustration`}
                   width={350}
                   height={160}
-                  className="object-cover"
+                  className="object-cover shadow-md"
                 />
               </div>
             )}
           </div>
 
           {/* Step indicator */}
-          <div className="font-poppins absolute -left-2.5 -bottom-3 translate-y-[10%] leading-none">
+          <div className="hidden lg:flex font-poppins absolute -left-2.5 -bottom-3 translate-y-[10%] leading-none">
             <span className="text-[50px] text-black font-extrabold leading-none block">
               <span className="text-7xl lg:text-[200px] 2xl:text-[250px] leading-none">
                 {currentStep}
