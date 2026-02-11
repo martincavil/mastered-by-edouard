@@ -88,7 +88,7 @@ export default function FaqPage() {
             </div>
             {/* Content */}
             <div className="flex-1 grid md:grid-cols-2 2xl:gap-12 gap-6 min-h-0">
-              <div className="space-y-4 overflow-y-auto h-full pr-3">
+              <div className="space-y-4 overflow-y-auto h-full md:pr-6">
                 {questions.map((question, index) => (
                   <div key={index}>
                     <button
@@ -98,13 +98,13 @@ export default function FaqPage() {
                         )
                       }
                       className={`
-              } w-full text-left flex justify-between items-center hover:text-white transition-colors duration-300 mb-2`}
+              } w-full text-left flex justify-between items-start hover:text-white transition-colors duration-300 mb-2`}
                     >
-                      <span className="text-white text-4xl font-bold">
+                      <span className="text-white text-2xl md:text-4xl font-bold">
                         {question.question}
                       </span>
                       <ChevronDown
-                        className={`text-white transform transition-transform duration-300 w-9 h-9 ${
+                        className={`text-white transform transition-transform duration-300 w-9 h-9 flex-shrink-0 ${
                           expandedQuestion === index ? "rotate-180" : "rotate-0"
                         }`}
                       />
