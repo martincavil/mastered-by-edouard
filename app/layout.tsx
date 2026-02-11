@@ -17,8 +17,8 @@ export default function RootLayout({
   const gaId = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;
 
   return (
-    <html lang="fr" className="h-screen overflow-hidden">
-      <body className="antialiased h-screen overflow-hidden flex flex-col [&:not([data-not-found])]:px-[10px] [&:not([data-not-found])]:pb-[10px]">
+    <html lang="fr" className="h-dvh overflow-hidden">
+      <body className="antialiased h-dvh overflow-hidden flex flex-col [&:not([data-not-found])]:px-[10px] [&:not([data-not-found])]:pb-[10px]">
         {gaId && <GoogleAnalytics gaId={gaId} />}
         <LanguageProvider>
           <LayoutWrapper>{children}</LayoutWrapper>
