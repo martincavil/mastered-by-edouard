@@ -15,8 +15,10 @@ const GEAR_IMAGES = [
 ];
 
 const GEAR_EQUIPMENT = {
-  monitoring: "ATC SCM50a SL, TRINNOV NOVA, SPL DMC, Ollo audio S4x, APPLE AIRPODS MAX, GIK acoustics",
-  hardware: "SPL PQ MASTERING, NEVE MASTER BUSS PROCESSOR, DANGEROUS BAX EQ, SPL Gemini",
+  monitoring:
+    "ATC SCM50a SL, TRINNOV NOVA, SPL DMC, Ollo audio S4x, APPLE AIRPODS MAX, GIK acoustics",
+  hardware:
+    "SPL PQ MASTERING, NEVE MASTER BUSS PROCESSOR, DANGEROUS BAX EQ, SPL Gemini",
   converter: "Grimm UC1, Lavry Savitr",
   software: "AVID Protools, iZotope, Fabfilter, TOKYO DAWN LAB, SOFTUBE...",
 };
@@ -73,7 +75,11 @@ interface CarouselIndicatorsProps {
   onSelect: (index: number) => void;
 }
 
-function CarouselIndicators({ count, currentIndex, onSelect }: CarouselIndicatorsProps) {
+function CarouselIndicators({
+  count,
+  currentIndex,
+  onSelect,
+}: CarouselIndicatorsProps) {
   return (
     <div className="flex absolute bottom-6 left-1/2 -translate-x-1/2 gap-2">
       {Array.from({ length: count }).map((_, index) => (
@@ -96,17 +102,23 @@ function CarouselIndicators({ count, currentIndex, onSelect }: CarouselIndicator
 export function GearTextContent() {
   return (
     <p className="uppercase leading-9 font-extralight text-2xl md:text-3xl xl:text-[40px]">
-      <span className="text-red font-bold">MONITORING</span> {GEAR_EQUIPMENT.monitoring}{" "}
-      <span className="text-red font-bold">HARDWARE</span> {GEAR_EQUIPMENT.hardware}
-      <span className="text-red font-bold"> CONVERTER</span> {GEAR_EQUIPMENT.converter}{" "}
-      <span className="text-red font-bold">SOFTWARE</span> {GEAR_EQUIPMENT.software}
+      <span className="text-red font-bold">MONITORING</span>{" "}
+      {GEAR_EQUIPMENT.monitoring}{" "}
+      <span className="text-red font-bold">HARDWARE</span>{" "}
+      {GEAR_EQUIPMENT.hardware}
+      <span className="text-red font-bold"> CONVERTER</span>{" "}
+      {GEAR_EQUIPMENT.converter}{" "}
+      <span className="text-red font-bold">SOFTWARE</span>{" "}
+      {GEAR_EQUIPMENT.software}
     </p>
   );
 }
 
 // Gear Image Carousel Component
 export function GearImage() {
-  const { currentIndex, setCurrentIndex, goToPrevious, goToNext } = useCarousel(GEAR_IMAGES.length);
+  const { currentIndex, setCurrentIndex, goToPrevious, goToNext } = useCarousel(
+    GEAR_IMAGES.length,
+  );
 
   return (
     <div className="relative group h-full">
@@ -115,7 +127,7 @@ export function GearImage() {
         alt={`Studio gear ${currentIndex + 1}`}
         width={584}
         height={651}
-        className="md:w-full md:h-[350px] md:max-h-[350px] xl:h-[400px] xl:max-h-[400px] 2xl:w-[584px] 2xl:h-auto 2xl:max-h-[651px] rounded-[10px] object-cover transition-opacity duration-500"
+        className="w-full h-full rounded-[10px] object-cover transition-opacity duration-500 xl:w-[440px] xl:h-[490px] 2xl:w-[584px] 2xl:h-[651px]"
         priority={currentIndex === 0}
       />
       <CarouselNavButton direction="prev" onClick={goToPrevious} />

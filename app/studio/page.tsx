@@ -119,7 +119,7 @@ export default function StudioPage() {
               )}
             </div>
             {/* Content */}
-            <div className="md:col-span-2 grid md:grid-cols-2 md:gap-8 flex-1 min-h-0 items-center">
+            <div className="md:col-span-2 grid md:grid-cols-2 md:gap-8 flex-1 min-h-0 items-center xl:max-h-[550px] 2xl:max-h-[600px]">
               {/* Left column: buttons + text content */}
               <div className="flex flex-col order-1 md:order-0 h-full">
                 {/* Subject buttons - Desktop (no animation) */}

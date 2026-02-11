@@ -82,13 +82,13 @@ export function ServicesSubject() {
           </div>
         ))}
       </div>
-      <div className="relative w-full flex justify-center order-0 md:order-1 mb-5 md:mb-0 md:sticky md:top-0 md:self-start md:h-fit md:max-h-full">
+      <div className="relative w-full flex justify-center order-0 md:order-1 mb-5 md:mb-0">
         <Image
           src="https://www.dropbox.com/scl/fi/40tprumg74yj867w8n0jp/services.jpg?rlkey=g8xedvw29i9zmyfz5urc6r0xf&st=fzz76cb6&dl=1"
           alt="Studio MasteredByEdouard"
           width={584}
           height={651}
-          className="md:w-full md:h-[350px] md:max-h-[350px] xl:h-[400px] xl:max-h-[400px] 2xl:w-[584px] 2xl:h-auto 2xl:max-h-[650px] rounded-[10px] object-cover"
+          className="w-full h-full rounded-[10px] object-cover"
         />
       </div>
     </>
@@ -179,7 +179,7 @@ export function ServicesImage() {
       alt="Studio MasteredByEdouard"
       width={584}
       height={651}
-      className="md:w-full md:h-[350px] md:max-h-[350px] xl:h-[400px] xl:max-h-[400px] 2xl:w-[584px] 2xl:h-auto 2xl:max-h-[650px] rounded-[10px] object-cover"
+      className="w-full h-full rounded-[10px] object-cover transition-opacity duration-500 xl:w-[440px] xl:h-[490px] 2xl:w-[584px] 2xl:h-[651px]"
     />
   );
 }
