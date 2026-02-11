@@ -11,6 +11,7 @@ import { FormStep2 } from "./production-sheet/FormStep2";
 import { FormStep3 } from "./production-sheet/FormStep3";
 import { SuccessView } from "./production-sheet/SuccessView";
 import { NavigationButtons } from "./production-sheet/NavigationButtons";
+import { Button } from "@/components/button";
 
 interface FormData {
   name: string;
@@ -350,7 +351,7 @@ export function ProductionSheet() {
 
   return (
     <>
-      <div className="flex flex-col space-y-2 2xl:space-y-3">
+      <div className="hidden md:flex flex-col space-y-2 2xl:space-y-3">
         {submitSuccess ? (
           <SuccessView t={t} />
         ) : (
@@ -472,6 +473,24 @@ export function ProductionSheet() {
         />
       </div>
       {isSubmitting && <LoadingSpinner />}
+
+      {/* Mobile Disclaimer */}
+      <div className="md:hidden flex flex-col items-center justify-center  bg-black p-6 rounded-[10px] h-full overflow-y-auto text-xl text-center text-white space-y-4">
+        <p>{t.sendFiles.productionSheet.mobileDisclaimer}</p>
+        {/* Back home button */}
+        <Button
+          href="/"
+          variant="custom"
+          bgColor="#ffffff"
+          hoverBgColor="#e20600"
+          textColor="#000000"
+          hoverTextColor="#ffffff"
+          borderColor="#ffffff"
+          className="rounded-full text-xl"
+        >
+          {t.notFound.backHome}.
+        </Button>
+      </div>
     </>
   );
 }

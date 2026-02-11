@@ -3,7 +3,8 @@ import { Translations } from "./types";
 export const en: Translations = {
   common: {
     title: "mastered by edouard - professional mastering studio",
-    description: "Professional audio mastering services in France and worldwide",
+    description:
+      "Professional audio mastering services in France and worldwide",
   },
   nav: {
     home: "home",
@@ -114,6 +115,8 @@ export const en: Translations = {
       errorTracksRequired: "at least one track is required",
       errorTracksTitleRequired: "all tracks must have a title",
       errorCheckboxRequired: "please confirm all information are checked",
+      mobileDisclaimer:
+        "For an optimal experience, please fill out the production sheet on a computer. Thank you for your understanding!",
     },
     prepareFiles: {
       headline1: "mastering",

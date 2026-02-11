@@ -54,7 +54,7 @@ export function PrepareFiles() {
     <>
       <div className="flex flex-col space-y-3">
         {/* White container with carousel */}
-        <div className="relative bg-white overflow-hidden p-5 rounded-[10px] h-[350px] max-h-[350px] 2xl:h-full xl:min-h-[350px] 2xl:max-h-[700px] flex flex-col">
+        <div className="relative bg-white overflow-hidden p-5 rounded-[10px] min-h-[350px] max-h-[350px] 2xl:h-full xl:min-h-[350px] 2xl:max-h-[700px] flex flex-col">
           {/* Content */}
           <div
             key={currentStep}
@@ -88,7 +88,7 @@ export function PrepareFiles() {
             )}
 
             {steps[currentStep - 1].image && (
-              <div className="md:hidden xl:block absolute right-0 bottom-16">
+              <div className="hidden xl:block absolute right-0 bottom-16">
                 <Image
                   src={steps[currentStep - 1].image!}
                   alt={`Step ${currentStep} Illustration`}

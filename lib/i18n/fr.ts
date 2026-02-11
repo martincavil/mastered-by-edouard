@@ -117,6 +117,8 @@ export const fr: Translations = {
       errorTracksTitleRequired: "Tous les morceaux doivent avoir un titre",
       errorCheckboxRequired:
         "Veuillez confirmer que toutes les informations sont vérifiées",
+      mobileDisclaimer:
+        "Pour une expérience optimale, veuillez remplir la fiche de production sur un ordinateur. Merci de votre compréhension !",
     },
     prepareFiles: {
       headline1: "le mastering",

@@ -64,7 +64,7 @@ export default function HomePage() {
               <h1 className="text-6xl md:text-7xl font-medium tracking-tight text-white text-shadow-lg">
                 {t.home.title}
               </h1>
-              <h2 className="text-[45px]/9 md:text-7xl/11 lg:text-6xl/9 text-white text-shadow-lg font-extralight">
+              <h2 className="text-[35px]/9 md:text-7xl/11 lg:text-6xl/9 text-white text-shadow-lg font-extralight">
                 {t.home.subtitle}
               </h2>
             </div>

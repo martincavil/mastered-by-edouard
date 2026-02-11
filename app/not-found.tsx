@@ -24,8 +24,7 @@ export default function NotFound() {
           {[...Array(3)].map((_, lineIndex) => (
             <div
               key={lineIndex}
-              className="flex text-red font-bold gap-8"
-              style={{ fontSize: "420px", lineHeight: "0.8" }}
+              className="flex text-red font-bold gap-8 text-[320px] md:text-[420px] leading-[0.8]"
             >
               {[...Array(10)].map((_, i) => {
                 const digit = i % 2 === 0 ? "4" : "0";
@@ -36,7 +35,7 @@ export default function NotFound() {
         </div>
 
         {/* Center content */}
-        <div className="relative z-10 bg-black rounded-3xl py-20 flex flex-col items-center gap-6 w-[560px] max-w-90">
+        <div className="relative z-10 bg-black rounded-3xl py-8 px-20 md:px-0 md:py-20 flex flex-col items-center gap-6 md:w-[560px] md:max-w-90">
           {/* Logo */}
           <div className="flex items-center justify-center mb-16">
             <Image

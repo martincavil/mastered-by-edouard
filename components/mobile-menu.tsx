@@ -119,7 +119,7 @@ export function MobileMenu({
                 </p>
                 <div className="flex flex-col justify-end space-y-2 text-right">
                   <Link
-                    href="/general-terms-and-conditions/"
+                    href="/terms-and-conditions/"
                     className={`${menuTextColor} ${hoverColor} transition-colors text-sm underline`}
                     onClick={() => setIsOpen(false)}
                   >

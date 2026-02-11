@@ -110,6 +110,7 @@ export type Translations = {
       errorTracksRequired: string;
       errorTracksTitleRequired: string;
       errorCheckboxRequired: string;
+      mobileDisclaimer: string;
     };
     prepareFiles: {
       headline1: string;

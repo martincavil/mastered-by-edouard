@@ -76,17 +76,17 @@ export default function StudioPage() {
             <div className="md:hidden mb-8 relative">
               <button
                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                className={`w-full bg-white text-black py-3 px-4 rounded-full flex items-center justify-between${
+                className={`w-full bg-white text-black py-2 px-3 rounded-full flex items-center justify-between${
                   isMobileMenuOpen ? " rounded-b-none rounded-t-[20px]" : ""
                 }`}
               >
                 <div />
-                <span className="text-3xl font-extralight flex items-center justify-between">
+                <span className="text-xl font-extralight flex items-center justify-between">
                   {subjects.find((s) => s.key === selectedSubject)?.name}
                 </span>
                 <svg
-                  width="24"
-                  height="24"
+                  width="20"
+                  height="20"
                   viewBox="0 0 24 24"
                   fill="none"
                   stroke="currentColor"
@@ -110,7 +110,7 @@ export default function StudioPage() {
                           setSelectedSubject(subject.key);
                           setIsMobileMenuOpen(false);
                         }}
-                        className="w-full bg-black text-white py-3 px-4 rounded-full text-3xl font-extralight flex items-center justify-center"
+                        className="w-full bg-black text-white py-2 px-3 rounded-full text-xl font-extralight flex items-center justify-center"
                       >
                         {subject.name}
                       </button>
