@@ -61,11 +61,6 @@ export default function ListenPage() {
     "SANTOS",
     "STANISLAS",
     "TIMOTHÉE PATH",
-    "TOVE LO",
-    "TRINIX",
-    "VALENCIA",
-    "XIXI",
-    "YONYON",
   ];
 
   // Filtrer les artistes qui ont une image valide et qui sont dans la liste
@@ -92,24 +87,24 @@ export default function ListenPage() {
     }[] = [];
 
     // Tailles disponibles en pixels
-    const sizes = [70];
+    const sizes = [90];
 
     // Pattern de la grille (nombre d'images par ligne)
-    const rowPattern = [3, 4, 5, 6, 5, 4, 3];
+    const rowPattern = [3, 4, 5, 6, 5, 4];
     const totalRows = rowPattern.length;
 
     let artistIndex = 0;
 
     rowPattern.forEach((itemsInRow, rowIndex) => {
-      const yPosition = 10 + (rowIndex / (totalRows - 1)) * 100; // Répartir de 10% à 90%
+      const yPosition = 10 + (rowIndex / (totalRows - 1)) * 85; // Répartir de 10% à 95%
 
       for (let col = 0; col < itemsInRow; col++) {
         if (artistIndex >= gridArtists.length) break;
 
         // Centrer chaque ligne
-        const rowWidth = (itemsInRow - 1) * 20; // Espacement entre images
+        const rowWidth = (itemsInRow - 1) * 16; // Espacement entre images
         const startX = 50 - rowWidth / 2;
-        const xPosition = startX + col * 18;
+        const xPosition = startX + col * 16;
 
         const size = sizes[sizes.length - 1];
 
@@ -134,8 +129,8 @@ export default function ListenPage() {
     const pos1 = artistPositions[index1];
     const pos2 = artistPositions[index2];
 
-    // Estimer les pixels basés sur une largeur de container de ~600px
-    const containerSize = 600;
+    // Estimer les pixels basés sur une largeur de container de ~700px
+    const containerSize = 700;
     const pixelX1 = (pos1.x / 100) * containerSize;
     const pixelY1 = (pos1.y / 100) * containerSize;
     const pixelX2 = (pos2.x / 100) * containerSize;
@@ -148,15 +143,15 @@ export default function ListenPage() {
 
   // Calculer le scale basé sur la distance en pixels
   const getScaleForDistance = (index: number, hoveredIdx: number) => {
-    if (index === hoveredIdx) return 1.3; // L'image survolée
+    if (index === hoveredIdx) return 1.3; // L'image survolée grossit
 
     const distance = calculatePixelDistance(index, hoveredIdx);
-    const proximityRadius = 200; // Rayon d'effet en pixels
+    const proximityRadius = 160; // Rayon d'effet en pixels pour les images adjacentes (verticales et horizontales)
 
     if (distance > proximityRadius) return 1; // Pas d'effet si trop loin
 
-    // Les images adjacentes deviennent plus petites
-    return 0.65;
+    // Les images qui touchent l'image en hover rétrécissent
+    return 0.55;
   };
 
   // Strapi fetch temporairement commenté
@@ -303,7 +298,7 @@ export default function ListenPage() {
               </div>
               {/* Artists pictures - Constellation organique avec effet hover de proximité */}
               <div className="hidden xl:flex w-full justify-center relative">
-                <div className="hidden md:block w-3/4 relative h-[250px] lg:h-[280px] xl:h-[320px] 2xl:h-[350px]">
+                <div className="hidden md:block w-full relative h-[280px] lg:h-[320px] xl:h-[360px] 2xl:h-[400px]">
                   {artistPositions.map((position, index) => {
                     let scale = 1;
                     let zIndex = 1;
