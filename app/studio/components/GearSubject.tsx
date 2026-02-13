@@ -122,7 +122,7 @@ export function GearImage() {
   );
 
   return (
-    <div className="relative group h-full flex">
+    <div className="relative group">
       <Image
         src={GEAR_IMAGES[currentIndex]}
         alt={`Studio gear ${currentIndex + 1}`}

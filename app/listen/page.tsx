@@ -347,7 +347,7 @@ export default function ListenPage() {
                 </div>
               </div>
             </div>
-            <div className="2xl:mt-auto">
+            <div className="mt-auto">
               <Footer color="white" />
             </div>
           </div>
