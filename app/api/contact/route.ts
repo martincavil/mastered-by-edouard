@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
+import { Resend } from "resend";
 
-// TODO: Implement with Resend or another email service
+// Initialize Resend (optional)
+const resend = process.env.RESEND_API_KEY ? new Resend(process.env.RESEND_API_KEY) : null;
 
 export async function POST(request: NextRequest) {
   try {
@@ -34,30 +36,30 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Prepare email content
-    const emailContent = {
-      to: process.env.SENDGRID_TO_EMAIL || "contact@masteredbyedouard.com",
-      from: process.env.SENDGRID_FROM_EMAIL || "contact@masteredbyedouard.com",
+    // Check if Resend is configured
+    if (!resend) {
+      console.error("Resend is not configured");
+      return NextResponse.json(
+        { error: "Email service not configured" },
+        { status: 500 },
+      );
+    }
+
+    const clientEmail = process.env.RESEND_TO_EMAIL || "contact@masteredbyedouard.com";
+    const fromEmail = process.env.RESEND_FROM_EMAIL || "onboarding@resend.dev";
+
+    console.log("Sending contact form email with config:", {
+      from: fromEmail,
+      to: clientEmail,
+      replyTo: email,
+    });
+
+    // Send email via Resend
+    const emailResult = await resend.emails.send({
+      from: fromEmail,
+      to: clientEmail,
       replyTo: email,
       subject: `Nouveau message de contact - ${name} ${familyName}`,
-      text: `
-Nouveau message de contact
-
-INFORMATIONS PERSONNELLES :
-- Nom : ${name}
-- Prénom : ${familyName}
-- Email : ${email}
-- Téléphone : ${phone}
-
-INFORMATIONS PROJET :
-- Nom d'artiste : ${artistName || "Non renseigné"}
-- Nom du projet : ${projectName || "Non renseigné"}
-- Type : ${type || "Non renseigné"}
-- Nombre de chansons : ${numberOfSongs || "Non renseigné"}
-
-MESSAGE :
-${message}
-      `.trim(),
       html: `
 <!DOCTYPE html>
 <html>
@@ -103,13 +105,20 @@ ${message}
 </body>
 </html>
       `.trim(),
-    };
+    });
 
-    // TODO: Send email with Resend
-    console.log("Contact form submission:", emailContent);
+    console.log("Contact form email result:", emailResult);
+
+    if (emailResult.error) {
+      console.error("Resend error:", emailResult.error);
+      return NextResponse.json(
+        { error: "Failed to send email", details: emailResult.error },
+        { status: 500 },
+      );
+    }
 
     return NextResponse.json(
-      { success: true, message: "Contact form received (email sending not yet implemented)" },
+      { success: true, message: "Email sent successfully" },
       { status: 200 },
     );
   } catch (error: any) {

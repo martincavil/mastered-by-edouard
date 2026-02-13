@@ -165,8 +165,15 @@ async function sendNotificationEmails(
   const clientEmail = process.env.RESEND_TO_EMAIL || 'contact@masteredbyedouard.com';
   const fromEmail = process.env.RESEND_FROM_EMAIL || 'onboarding@resend.dev';
 
+  console.log('Sending emails with config:', {
+    from: fromEmail,
+    toClient: clientEmail,
+    toUploader: uploaderEmail,
+    resendConfigured: !!resend,
+  });
+
   // Email pour le client (Edouard)
-  await resend.emails.send({
+  const clientEmailResult = await resend.emails.send({
     from: fromEmail,
     to: clientEmail,
     subject: `Nouveaux fichiers uploadés - ${uploaderName}`,
@@ -214,8 +221,10 @@ async function sendNotificationEmails(
     `,
   });
 
+  console.log('Client email result:', clientEmailResult);
+
   // Email pour l'uploader (confirmation)
-  await resend.emails.send({
+  const uploaderEmailResult = await resend.emails.send({
     from: fromEmail,
     to: uploaderEmail,
     subject: 'Confirmation de votre upload - Mastered by Edouard',
@@ -260,6 +269,8 @@ async function sendNotificationEmails(
 </html>
     `,
   });
+
+  console.log('Uploader email result:', uploaderEmailResult);
 }
 
 export async function POST(request: NextRequest) {
@@ -323,19 +334,6 @@ export async function POST(request: NextRequest) {
 
     await Promise.all(uploadPromises);
 
-    // Create a Dropbox File Request for reference/tracking
-    let fileRequestUrl: string | undefined;
-    try {
-      fileRequestUrl = await createFileRequest(
-        `Upload from ${name}`,
-        folderPath
-      );
-      console.log('File request created:', fileRequestUrl);
-    } catch (error) {
-      console.error('Failed to create file request (non-blocking):', error);
-      // Don't fail the entire request if file request creation fails
-    }
-
     // Send notification emails
     try {
       const fileNames = files.map(file => file.name);
@@ -344,8 +342,7 @@ export async function POST(request: NextRequest) {
         email,
         files.length,
         fileNames,
-        folderPath,
-        fileRequestUrl
+        folderPath
       );
       console.log('Notification emails sent successfully');
     } catch (emailError) {
@@ -357,7 +354,6 @@ export async function POST(request: NextRequest) {
       success: true,
       message: 'Files uploaded successfully',
       folder: folderPath,
-      fileRequestUrl,
     });
   } catch (error) {
     console.error('Upload error:', error);
