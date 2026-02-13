@@ -100,7 +100,7 @@ export function FriendsImage() {
       alt="World Map"
       width={683}
       height={339}
-      className="object-cover w-full"
+      className="object-cover w-full max-w-full"
     />
   );
 }

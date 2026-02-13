@@ -475,7 +475,7 @@ export function ProductionSheet() {
       {isSubmitting && <LoadingSpinner />}
 
       {/* Mobile Disclaimer */}
-      <div className="md:hidden flex flex-col items-center justify-center  bg-black p-6 rounded-[10px] h-full overflow-y-auto text-xl text-center text-white space-y-4">
+      <div className="md:hidden flex flex-col items-center justify-center  bg-black p-6 rounded-[10px] h-full overflow-y-auto text-center text-white space-y-4">
         <p>{t.sendFiles.productionSheet.mobileDisclaimer}</p>
         {/* Back home button */}
         <Button
@@ -486,7 +486,7 @@ export function ProductionSheet() {
           textColor="#000000"
           hoverTextColor="#ffffff"
           borderColor="#ffffff"
-          className="rounded-full text-xl"
+          className="rounded-full text-base !py-1"
         >
           {t.notFound.backHome}.
         </Button>

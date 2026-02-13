@@ -8,10 +8,7 @@ import { PageTransition } from "@/components/page-transition";
 import { Footer } from "@/components/footer";
 import { Button } from "@/components/button";
 import { ArrowUpRight } from "@/components/icons/ArrowUpRight";
-import { AppleMusicIcon } from "@/components/icons/AppleMusicIcon";
-import { SpotifyIcon } from "@/components/icons/SpotifyIcon";
-import { DeezerIcon } from "@/components/icons/DeezerIcon";
-import { TidalIcon } from "@/components/icons/TidalIcon";
+
 // Strapi temporairement commenté
 // import { getArtists, getStrapiImageUrl } from "@/lib/strapi/api";
 // import { Artist } from "@/lib/strapi/types";
@@ -174,22 +171,22 @@ export default function ListenPage() {
     {
       name: "apple music",
       url: "https://music.apple.com/fr/playlist/mastered-by-edouard/pl.u-MDAWkl3FG5bqDJ",
-      icon: AppleMusicIcon,
+      icon: "/images/platforms/apple-music.svg",
     },
     {
       name: "spotify",
       url: "https://open.spotify.com/playlist/7fXjq8tKmUNAsN6D0VRgnb?si=TUP7CUAYR8KBLichWnUTZA",
-      icon: SpotifyIcon,
+      icon: "/images/platforms/spotify.svg",
     },
     {
       name: "deezer",
       url: "https://www.deezer.com/fr/playlist/8826952102?deferredFl=1&host=44690471",
-      icon: DeezerIcon,
+      icon: "/images/platforms/deezer.svg",
     },
     {
       name: "tidal",
       url: "https://tidal.com/playlist/f14880a7-d8db-402f-8326-e8cb338e285d",
-      icon: TidalIcon,
+      icon: "/images/platforms/tidal.svg",
     },
   ];
 
@@ -225,35 +222,39 @@ export default function ListenPage() {
             </div>
             {/* Streaming platforms links */}
             <div className="flex flex-wrap items-center gap-2 md:gap-3 xl:gap-4 mb-3 md:mb-3 xl:mb-5 2xl:mb-10">
-              {platforms.map((platform) => {
-                const Icon = platform.icon;
-                return (
-                  <Link
-                    key={platform.name}
-                    href={platform.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    <Button className="!py-1.5 !px-4 !border border-white rounded-full text-white hover:text-red transition-all duration-300">
-                      {/* Mobile: Icon only */}
-                      <div className="flex md:hidden items-center justify-center">
-                        <Icon size={32} />
-                      </div>
-                      {/* Desktop: Text + Arrow */}
-                      <div className="hidden md:flex items-center gap-2 xl:gap-4">
-                        <span className="text-xl md:text-lg lg:text-2xl xl:text-3xl font-extralight">
-                          {platform.name}
-                        </span>
-                        <ArrowUpRight
-                          size={24}
-                          className="lg:w-5 lg:h-5"
-                          strokeWidth={1.5}
-                        />
-                      </div>
-                    </Button>
-                  </Link>
-                );
-              })}
+              {platforms.map((platform) => (
+                <Link
+                  key={platform.name}
+                  href={platform.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group"
+                >
+                  <Button className="!py-1.5 !px-4 !border border-white rounded-full text-white hover:text-red transition-all duration-300">
+                    {/* Mobile: Icon only */}
+                    <div className="flex md:hidden items-center justify-center">
+                      <Image
+                        src={platform.icon}
+                        alt={platform.name}
+                        width={32}
+                        height={32}
+                        className="w-8 h-8 transition-all duration-300 group-hover:brightness-0"
+                      />
+                    </div>
+                    {/* Desktop: Text + Arrow */}
+                    <div className="hidden md:flex items-center gap-2 xl:gap-4">
+                      <span className="text-xl md:text-lg lg:text-2xl xl:text-3xl font-extralight">
+                        {platform.name}
+                      </span>
+                      <ArrowUpRight
+                        size={24}
+                        className="lg:w-5 lg:h-5"
+                        strokeWidth={1.5}
+                      />
+                    </div>
+                  </Button>
+                </Link>
+              ))}
             </div>
             {/* Content */}
             <div className="grid xl:grid-cols-2 gap-4">
