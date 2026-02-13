@@ -1,11 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import * as sgMail from "@sendgrid/mail";
 
-// Initialize SendGrid with API key
-if (!process.env.SENDGRID_API_KEY) {
-  console.error("SENDGRID_API_KEY is not set in environment variables");
-}
-sgMail.setApiKey(process.env.SENDGRID_API_KEY || "");
+// TODO: Implement with Resend or another email service
 
 export async function POST(request: NextRequest) {
   try {
@@ -110,27 +105,15 @@ ${message}
       `.trim(),
     };
 
-    // Send email
-    await sgMail.send(emailContent);
+    // TODO: Send email with Resend
+    console.log("Contact form submission:", emailContent);
 
     return NextResponse.json(
-      { success: true, message: "Email sent successfully" },
+      { success: true, message: "Contact form received (email sending not yet implemented)" },
       { status: 200 },
     );
   } catch (error: any) {
-    console.error("Error sending email:", error);
-
-    // Check if it's a SendGrid error
-    if (error.response) {
-      console.error("SendGrid error response:", error.response.body);
-      return NextResponse.json(
-        {
-          error: "Failed to send email",
-          details: error.response.body.errors || "Unknown SendGrid error",
-        },
-        { status: 500 },
-      );
-    }
+    console.error("Error processing contact form:", error);
 
     return NextResponse.json(
       { error: "Internal server error", details: error.message },

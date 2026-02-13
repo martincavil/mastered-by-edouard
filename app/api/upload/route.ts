@@ -1,8 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { Resend } from 'resend';
 
 const DROPBOX_ACCESS_TOKEN = process.env.DROPBOX_ACCESS_TOKEN;
 const CHUNK_SIZE = 8 * 1024 * 1024; // 8MB chunks
 const LARGE_FILE_THRESHOLD = 150 * 1024 * 1024; // 150MB
+
+// Initialize Resend
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 async function createFolder(path: string): Promise<void> {
   const response = await fetch('https://api.dropboxapi.com/2/files/create_folder_v2', {
@@ -114,6 +118,138 @@ async function uploadLargeFile(file: Buffer, path: string): Promise<void> {
   }
 }
 
+async function createFileRequest(title: string, destination: string): Promise<string> {
+  const response = await fetch('https://api.dropboxapi.com/2/file_requests/create', {
+    method: 'POST',
+    headers: {
+      'Authorization': `Bearer ${DROPBOX_ACCESS_TOKEN}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      title,
+      destination,
+      open: true,
+    }),
+  });
+
+  if (!response.ok) {
+    const errorData = await response.text();
+    console.error('Failed to create file request:', errorData);
+    throw new Error('Failed to create file request');
+  }
+
+  const data = await response.json();
+  return data.url;
+}
+
+async function sendNotificationEmails(
+  uploaderName: string,
+  uploaderEmail: string,
+  filesCount: number,
+  fileNames: string[],
+  folderPath: string,
+  fileRequestUrl?: string
+): Promise<void> {
+  const clientEmail = process.env.RESEND_TO_EMAIL || 'contact@masteredbyedouard.com';
+  const fromEmail = process.env.RESEND_FROM_EMAIL || 'onboarding@resend.dev';
+
+  // Email pour le client (Edouard)
+  await resend.emails.send({
+    from: fromEmail,
+    to: clientEmail,
+    subject: `Nouveaux fichiers uploadés - ${uploaderName}`,
+    html: `
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+    .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+    .header { background-color: #000; color: #fff; padding: 20px; text-align: center; }
+    .section { margin: 20px 0; padding: 15px; background-color: #f9f9f9; border-radius: 5px; }
+    .section-title { font-weight: bold; color: #000; margin-bottom: 10px; font-size: 16px; }
+    .field { margin: 8px 0; }
+    .label { font-weight: bold; color: #666; }
+    .file-list { background-color: #fff; border-left: 4px solid #000; padding: 15px; margin-top: 20px; }
+    .file-item { padding: 5px 0; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>Nouveaux fichiers audio uploadés</h1>
+    </div>
+
+    <div class="section">
+      <div class="section-title">INFORMATIONS CLIENT</div>
+      <div class="field"><span class="label">Nom :</span> ${uploaderName}</div>
+      <div class="field"><span class="label">Email :</span> <a href="mailto:${uploaderEmail}">${uploaderEmail}</a></div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">DÉTAILS DE L'UPLOAD</div>
+      <div class="field"><span class="label">Nombre de fichiers :</span> ${filesCount}</div>
+      <div class="field"><span class="label">Dossier Dropbox :</span> ${folderPath}</div>
+    </div>
+
+    <div class="file-list">
+      <div class="section-title">LISTE DES FICHIERS</div>
+      ${fileNames.map((fileName, index) => `<div class="file-item">${index + 1}. ${fileName}</div>`).join('')}
+    </div>
+  </div>
+</body>
+</html>
+    `,
+  });
+
+  // Email pour l'uploader (confirmation)
+  await resend.emails.send({
+    from: fromEmail,
+    to: uploaderEmail,
+    subject: 'Confirmation de votre upload - Mastered by Edouard',
+    html: `
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+    .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+    .header { background-color: #000; color: #fff; padding: 20px; text-align: center; }
+    .section { margin: 20px 0; padding: 15px; background-color: #f9f9f9; border-radius: 5px; }
+    .section-title { font-weight: bold; color: #000; margin-bottom: 10px; font-size: 16px; }
+    .field { margin: 8px 0; }
+    .file-list { background-color: #fff; border-left: 4px solid #000; padding: 15px; margin-top: 20px; }
+    .file-item { padding: 5px 0; }
+    .footer { margin-top: 30px; padding: 15px; text-align: center; color: #666; font-size: 14px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>Upload confirmé !</h1>
+    </div>
+
+    <div class="section">
+      <p>Bonjour ${uploaderName},</p>
+      <p>Vos fichiers ont été uploadés avec succès sur Mastered by Edouard.</p>
+    </div>
+
+    <div class="file-list">
+      <div class="section-title">FICHIERS UPLOADÉS (${filesCount})</div>
+      ${fileNames.map((fileName, index) => `<div class="file-item">${index + 1}. ${fileName}</div>`).join('')}
+    </div>
+
+    <div class="footer">
+      <p>Merci de votre confiance !</p>
+      <p><strong>Mastered by Edouard</strong></p>
+    </div>
+  </div>
+</body>
+</html>
+    `,
+  });
+}
+
 export async function POST(request: NextRequest) {
   try {
     if (!DROPBOX_ACCESS_TOKEN) {
@@ -175,10 +311,41 @@ export async function POST(request: NextRequest) {
 
     await Promise.all(uploadPromises);
 
+    // Create a Dropbox File Request for reference/tracking
+    let fileRequestUrl: string | undefined;
+    try {
+      fileRequestUrl = await createFileRequest(
+        `Upload from ${name}`,
+        folderPath
+      );
+      console.log('File request created:', fileRequestUrl);
+    } catch (error) {
+      console.error('Failed to create file request (non-blocking):', error);
+      // Don't fail the entire request if file request creation fails
+    }
+
+    // Send notification emails
+    try {
+      const fileNames = files.map(file => file.name);
+      await sendNotificationEmails(
+        name,
+        email,
+        files.length,
+        fileNames,
+        folderPath,
+        fileRequestUrl
+      );
+      console.log('Notification emails sent successfully');
+    } catch (emailError) {
+      console.error('Failed to send notification emails (non-blocking):', emailError);
+      // Don't fail the entire request if email sending fails
+    }
+
     return NextResponse.json({
       success: true,
       message: 'Files uploaded successfully',
       folder: folderPath,
+      fileRequestUrl,
     });
   } catch (error) {
     console.error('Upload error:', error);
