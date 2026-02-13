@@ -5,8 +5,8 @@ const DROPBOX_ACCESS_TOKEN = process.env.DROPBOX_ACCESS_TOKEN;
 const CHUNK_SIZE = 8 * 1024 * 1024; // 8MB chunks
 const LARGE_FILE_THRESHOLD = 150 * 1024 * 1024; // 150MB
 
-// Initialize Resend
-const resend = new Resend(process.env.RESEND_API_KEY);
+// Initialize Resend (optional)
+const resend = process.env.RESEND_API_KEY ? new Resend(process.env.RESEND_API_KEY) : null;
 
 async function createFolder(path: string): Promise<void> {
   const response = await fetch('https://api.dropboxapi.com/2/files/create_folder_v2', {
@@ -150,6 +150,11 @@ async function sendNotificationEmails(
   folderPath: string,
   fileRequestUrl?: string
 ): Promise<void> {
+  if (!resend) {
+    console.warn('Resend not configured, skipping email notifications');
+    return;
+  }
+
   const clientEmail = process.env.RESEND_TO_EMAIL || 'contact@masteredbyedouard.com';
   const fromEmail = process.env.RESEND_FROM_EMAIL || 'onboarding@resend.dev';
 
