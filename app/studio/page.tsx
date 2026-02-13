@@ -156,7 +156,7 @@ export default function StudioPage() {
               {/* Right column: image (with animation) */}
               <div
                 key={`${selectedSubject}-image`}
-                className={`relative w-full h-full flex items-center ${selectedSubject === "edouard" ? "justify-center" : "justify-center md:justify-end md:pr-12"} order-0 md:order-1 mb-5 md:mb-0 animate-fade-in`}
+                className={`relative w-full h-full flex items-center ${selectedSubject === "edouard" ? "justify-center" : "md:justify-end md:pr-12"} order-0 md:order-1 mb-5 md:mb-0 animate-fade-in`}
               >
                 {selectedSubject === "edouard" && <EdouardImage />}
                 {selectedSubject === "friends" && <FriendsImage />}
