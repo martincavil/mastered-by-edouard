@@ -19,7 +19,14 @@ async function createFolder(path: string): Promise<void> {
   });
 
   if (!response.ok && response.status !== 409) {
-    throw new Error('Failed to create folder in Dropbox');
+    const errorText = await response.text();
+    console.error('Dropbox folder creation error:', {
+      status: response.status,
+      statusText: response.statusText,
+      error: errorText,
+      path,
+    });
+    throw new Error(`Failed to create folder in Dropbox: ${response.status} - ${errorText}`);
   }
 }
 
