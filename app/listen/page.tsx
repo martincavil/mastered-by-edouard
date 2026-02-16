@@ -236,9 +236,9 @@ export default function ListenPage() {
                       <Image
                         src={platform.icon}
                         alt={platform.name}
-                        width={32}
-                        height={32}
-                        className="w-8 h-8 transition-all duration-300 group-hover:brightness-0"
+                        width={24}
+                        height={24}
+                        className="w-6 h-6 transition-all duration-300 group-hover:brightness-0"
                       />
                     </div>
                     {/* Desktop: Text + Arrow */}
