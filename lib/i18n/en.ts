@@ -9,7 +9,7 @@ export const en: Translations = {
   nav: {
     home: "home",
     listen: "listen.",
-    sendFiles: "send Files.",
+    sendFiles: "send files.",
     studio: "studio.",
     contact: "contact.",
   },
@@ -125,16 +125,16 @@ export const en: Translations = {
       step1Title: "the mix.",
       step1Content: {
         step1Content1:
-          "make sure the audio is clean : no clicks, noise, or other audio artifacts. pay attention to the beginning and end of the track; avoid cutting the audio too abruptly.",
+          "make sure the audio is clean : no clicks, noise, audio artifacts. Also make sure the audio is not cutting too abruptly.",
         step1Content2:
-          " true Peak (TP) level doesn’t really matter in the digital world, whether it’s at -0.1 or -6, as long as the sound doesn’t clip! just avoid peaks and distortions.",
+          " true Peak (TP) level doesn’t really matter in the digital world, whether it’s at -0.1 or -6, as long as the sound doesn’t have audible distortions.",
         step1Content3:
-          "the mix is THE MIX : please  keep all your mix bus processing  (including limiters and clippers).",
+          "the mix is THE MIX : keep all your mix bus processing (limiters & clippers included). You can also export an additional version without them ",
       },
       step2Title: "the bounce.",
       step2Content: {
         step2Content1:
-          "if you can’t export at 32-bit floating point, then 24-bit is still excellent. Try to avoid exporting at 16-bit, especially if your peak levels are quite low.",
+          "you can export in 32-bit floating point or 24-bit, it's excellent. Avoid exporting at 16-bit, especially if your peak levels are quite low.",
         step2Content2:
           "this is very simple... sample rate must remain the same as during mixing.",
         step2Content3: "Files must be exported in .WAV or .AIF format.",
@@ -149,7 +149,7 @@ export const en: Translations = {
       step4Content: {
         step4Content1:
           "stem mastering is often a sign of a mix not fully finalized : this is why the studio doesn’t necessarily favor this approach. My vision : let’s take time together to listen to the mix and improve it to its best! My job as a mastering engineer starts at the mixing stage, helping you keep to good direction.",
-        step4Content2: "However, stem mastering can be used in certain cases.",
+        step4Content2: "However, stem mastering can be discussed in certain cases.",
       },
     },
   },
@@ -170,12 +170,12 @@ export const en: Translations = {
     friends: {
       title1: "music has to be shared.",
       description1:
-        "It’s about people, stories, and cultures connecting.I feel lucky to already work with artists and engineers from so many different places — Japan, Belgium, South Africa, Argentina, and beyond.",
+        "It’s about people, stories, and cultures connecting. I feel lucky to already work with artists and engineers from so many different places: Japan, Belgium, South Africa, Argentina, and beyond.",
       description2:
-        "Every project is a dialogue, a mix of identities that creates something unique.That’s what music really is to me — a language we all speak differently, but that brings us together.",
+        "Every project is a dialogue, a mix of identities that creates something unique. That’s what music really is to me: a language we all speak differently, that brings us together.",
       title2: "connection and trust.",
       description3:
-        "It’s about people, but also about collaboration and team work! Here are some of the following partnership grown years after years:",
+        "Here are some of the following partnership grown years after years:",
     },
     services: {
       title1: "digital mastering",
@@ -322,7 +322,7 @@ export const en: Translations = {
     },
     thanks: {
       description1:
-        "Mastered by Edouard would be nothing without the incredible friends, engineers, artists I met all the way here.",
+        "Mastered by Edouard would be nothing without the incredible friends, engineers and artists I met all the way here.",
       description2:
         "A special thanks to the following humans who really brought me here : Pierre Ottway, Jowee Omicil, Jordan Kouby, Grégory Germain, Frédéric Perrin, Eric Perez-Björkman, Fabio Morgado, Antoine Castaldi, Fred Vectol, Alexis Cayrouse, Elliott Bastide, Joachim Mike, Nathan Cocherie, Théo Burette, Valentine Gras, my family, and all the others who got involved one way or another to this journey. ",
       thankYou: "Thank you!",
@@ -350,7 +350,7 @@ export const en: Translations = {
       question3: "3. why human mastering in the A.I era ? ",
       answer3:
         "We live in an amazing era where A.I can achieve for sure great results ! But the purpose of the mastering engineer is not only to provide tools, but also a human ear and experience ! It allows direct communication, feedback, and collaboration, ensuring that the artist's intentions and expectations are met. It’s all about human connection and trust!",
-      question4: "4. do you provide CD and Vinyl mastering ?",
+      question4: "4. do you provide CD/Vinyl mastering ?",
       answer4:
         "The studio offers professional CD and vinyl mastering options, ensuring your music sounds good on every format. CD and/or vinyl mastering will be made or request !",
       question5: "5. turnaround  time ?",

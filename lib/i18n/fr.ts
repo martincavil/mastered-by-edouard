@@ -127,16 +127,16 @@ export const fr: Translations = {
       step1Title: "le mix.",
       step1Content: {
         step1Content1:
-          "veillez à la propreté du signal : aucun clic, bruit de fond ou artefact. Soignez l'entrée et la sortie de la piste ; évitez les coupures trop brutales (ou cut trop secs).",
+          "assurez vous que le mix soit propre : aucun clic, bruit de fond ou artefact. Soignez l'entrée et la sortie de la piste ; évitez les coupures trop brutales.",
         step1Content2:
-          " le niveau de True Peak (TP) n'a pas vraiment d'importance dans le monde numérique, qu'il soit à -0,1 ou -6, tant que le son ne sature pas ! Évitez simplement les crêtes et les distorsions.",
+          " le niveau de True Peak (TP) n'a pas d'importance dans le monde numérique, qu'il soit à -0,1 ou -6, tant que le son ne contient pas de distortion audible.",
         step1Content3:
-          "le mix, c'est LE MIX : merci de conserver tous vos traitements sur le bus de mixage (y compris les limiteurs et les clippers).",
+          "le mix est LE MIX : merci de conserver tous vos traitements sur le bus master (clipper/limiteur compris).",
       },
       step2Title: "l'export.",
       step2Content: {
         step2Content1:
-          "si vous ne pouvez pas exporter en 32-bit float, le 24-bit reste excellent. Essayez d'éviter d'exporter en 16-bit, surtout si vos niveaux de crête sont assez bas.",
+          "exportez en 32-bit flottant ou 24-bits. Évitez d'exporter en 16-bit, surtout si vos niveaux de crête sont assez bas.",
         step2Content2:
           "c'est très simple... la fréquence d'échantillonnage (sample rate) doit rester la même que celle utilisée pendant le mixage.",
         step2Content3:
@@ -153,7 +153,7 @@ export const fr: Translations = {
         step4Content1:
           "le stem mastering est souvent le signe d'un mixage qui n'est pas totalement finalisé : c'est pourquoi le studio ne privilégie pas nécessairement cette approche. Ma vision des choses : prenons le temps d'écouter le mix ensemble et de l'améliorer au maximum ! Mon travail d'ingénieur de mastering commence dès l'étape du mixage, en vous aidant à garder la bonne direction.",
         step4Content2:
-          "cependant, le stem mastering peut être utilisé dans certains cas particuliers.",
+          "cependant, le stem mastering peut se discuter dans certains cas.",
       },
     },
   },
@@ -164,7 +164,7 @@ export const fr: Translations = {
     servicesTitle: "services",
     gearTitle: "matériel",
     edouard: {
-      title: "rencontrez votre ingénieur du son.",
+      title: "rencontrez votre ingénieur mastering.",
       description1:
         "Salut. Je suis Edouard, ingénieur de mastering basé à Paris. Pour moi, le mastering ne se résume pas à une simple étape technique ; c'est avant tout une histoire de confiance et de lien humain. J'aime que les choses soient claires, organisées et fiables, afin que les artistes puissent aborder cette ultime étape de leur production avec sérénité et précision.",
       description2:
@@ -174,12 +174,12 @@ export const fr: Translations = {
     friends: {
       title1: "la musique doit être partagée",
       description1:
-        "Pour moi, tout est question de connexions, d’histoires et de rencontres culturelles. Je me sens chanceux de collaborer avec des artistes et des ingénieurs venant d'horizons aussi variés que le Japon, la Belgique, l’Afrique du Sud, l’Argentine et bien d’autres pays encore.",
+        "Pour moi, tout est question de connexions, d’histoires, de cultures et de rencontres. Je me sens chanceux de collaborer avec des artistes et des ingénieurs venant des quatre coins du monde.",
       description2:
-        "Chaque projet est un dialogue, un croisement d'identités qui donne naissance à quelque chose d'unique. Pour moi, c'est ça l'essence de la musique : un langage que nous parlons tous avec nos propres accents, mais qui finit toujours par nous rassembler.",
+        "Chaque projet est un dialogue, un croisement d'identités qui donne naissance à quelque chose d'unique. C'est ça l'essence de la musique : un langage que nous parlons tous différemment, mais qui finit par tous nous rassembler.",
       title2: "collaboration et confiance.",
       description3:
-        "C’est une aventure humaine, mais c'est aussi une histoire de collaboration et de travail d'équipe ! Voici quelques-uns des partenariats qui se sont construits au fil des années :",
+        "Voici quelques-uns des partenariats qui se sont construits au fil des années :",
     },
     services: {
       title1: "mastering digital",
@@ -250,8 +250,8 @@ export const fr: Translations = {
   },
   termsAndConditions: {
     title: "conditions générales.",
-    illustrationTitle1: "pour une relation",
-    illustrationTitle2: "des plus saines.",
+    illustrationTitle1: "les bases d'une",
+    illustrationTitle2: "relation saine.",
     tabs: {
       ratesPayments: "tarifs & paiements",
       revisionsVersions: "révisions & versions",
@@ -295,7 +295,7 @@ export const fr: Translations = {
       securityContent:
         "Mastered by Edouard garantit la confidentialité et la sécurité de tous les fichiers clients. Nous ne partageons ni ne diffusons aucune donnée sans votre consentement explicite.",
       finalNote:
-        "La confidentialité est une valeur fondamentale pour tout studio de mastering digne de ce nom. Fidèle à ce principe, aucun projet traité au studio — même en l'absence de NDA signé — ne sera jamais divulgué ou partagé avec qui que ce soit, en dehors des personnes directement impliquées dans le processus.",
+        "La confidentialité est une valeur fondamentale pour tout studio de mastering. Fidèle à ce principe, aucun projet traité au studio — même en l'absence de NDA signé — ne sera jamais divulgué ou partagé avec qui que ce soit.",
     },
   },
   legalNotice: {
