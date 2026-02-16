@@ -33,7 +33,7 @@ export function FriendsSubject() {
               alt="labels row 2"
               width={342}
               height={56}
-              className="object-cover max-w-[320px] 2xl:max-w-[342px] max-h-14"
+              className="object-cover max-w-[300px] md:max-w-[320px] 2xl:max-w-[342px] md:max-h-14"
             />
           </div>
         </div>
@@ -84,7 +84,7 @@ export function FriendsTextContent() {
             alt="labels row 2"
             width={342}
             height={56}
-            className="object-cover max-w-[320px] 2xl:max-w-[342px] max-h-14"
+            className="object-cover max-w-[290px] md:max-w-[320px] 2xl:max-w-[342px] md:max-h-14"
           />
         </div>
       </div>

@@ -47,7 +47,14 @@ async function uploadSmallFile(file: Buffer, path: string): Promise<void> {
   });
 
   if (!response.ok) {
-    throw new Error(`Failed to upload file: ${path}`);
+    const errorText = await response.text();
+    console.error('Dropbox upload error:', {
+      status: response.status,
+      statusText: response.statusText,
+      error: errorText,
+      path,
+    });
+    throw new Error(`Failed to upload file ${path}: ${response.status} - ${errorText}`);
   }
 }
 
@@ -70,7 +77,12 @@ async function uploadLargeFile(file: Buffer, path: string): Promise<void> {
       });
 
       if (!startResponse.ok) {
-        throw new Error('Failed to start upload session');
+        const errorText = await startResponse.text();
+        console.error('Failed to start upload session:', {
+          status: startResponse.status,
+          error: errorText,
+        });
+        throw new Error(`Failed to start upload session: ${startResponse.status} - ${errorText}`);
       }
 
       const data = await startResponse.json();
@@ -92,7 +104,12 @@ async function uploadLargeFile(file: Buffer, path: string): Promise<void> {
       });
 
       if (!appendResponse.ok) {
-        throw new Error('Failed to append to upload session');
+        const errorText = await appendResponse.text();
+        console.error('Failed to append to upload session:', {
+          status: appendResponse.status,
+          error: errorText,
+        });
+        throw new Error(`Failed to append to upload session: ${appendResponse.status} - ${errorText}`);
       }
     } else {
       const finishResponse = await fetch('https://content.dropboxapi.com/2/files/upload_session/finish', {
@@ -117,7 +134,12 @@ async function uploadLargeFile(file: Buffer, path: string): Promise<void> {
       });
 
       if (!finishResponse.ok) {
-        throw new Error('Failed to finish upload session');
+        const errorText = await finishResponse.text();
+        console.error('Failed to finish upload session:', {
+          status: finishResponse.status,
+          error: errorText,
+        });
+        throw new Error(`Failed to finish upload session: ${finishResponse.status} - ${errorText}`);
       }
     }
 
@@ -357,8 +379,9 @@ export async function POST(request: NextRequest) {
     });
   } catch (error) {
     console.error('Upload error:', error);
+    const errorMessage = error instanceof Error ? error.message : 'Failed to upload files';
     return NextResponse.json(
-      { error: 'Failed to upload files' },
+      { error: errorMessage },
       { status: 500 }
     );
   }
