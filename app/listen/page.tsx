@@ -221,7 +221,7 @@ export default function ListenPage() {
               </Link>
             </div>
             {/* Streaming platforms links */}
-            <div className="flex flex-wrap items-center gap-2 md:gap-3 xl:gap-4 mb-3 md:mb-3 xl:mb-5 2xl:mb-10">
+            <div className="flex flex-wrap items-center gap-2 md:gap-3 xl:gap-4 mb-5 md:mb-3 xl:mb-5 2xl:mb-10">
               {platforms.map((platform) => (
                 <Link
                   key={platform.name}
@@ -236,9 +236,9 @@ export default function ListenPage() {
                       <Image
                         src={platform.icon}
                         alt={platform.name}
-                        width={24}
-                        height={24}
-                        className="w-6 h-6 transition-all duration-300 group-hover:brightness-0"
+                        width={20}
+                        height={20}
+                        className="w-5 h-5 transition-all duration-300 group-hover:brightness-0"
                       />
                     </div>
                     {/* Desktop: Text + Arrow */}
