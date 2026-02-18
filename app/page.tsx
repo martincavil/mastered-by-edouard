@@ -59,12 +59,12 @@ export default function HomePage() {
                 "linear-gradient(to top, rgba(0,0,0,1) 0%, rgba(0,0,0,0.85) 40%, rgba(0,0,0,0.5) 70%, transparent 100%)",
             }}
           />
-          <div className="space-y-10 md:space-y-13 relative z-10 w-full">
+          <div className="space-y-6 md:space-y-13 relative z-10 w-full">
             <div className="px-4 md:px-8">
-              <h1 className="text-4xl md:text-7xl font-medium tracking-tight text-white text-shadow-lg">
+              <h1 className="text-4xl md:text-7xl font-medium md:tracking-tight text-white text-shadow-lg">
                 {t.home.title}
               </h1>
-              <h2 className="text-2xl/9 md:text-7xl/11 lg:text-6xl/9 text-white text-shadow-lg font-extralight">
+              <h2 className="text-2xl md:text-7xl/11 lg:text-6xl/9 text-white text-shadow-lg font-extralight">
                 {t.home.subtitle}
               </h2>
             </div>
