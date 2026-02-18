@@ -25,7 +25,7 @@ export function SuccessView({ t }: SuccessViewProps) {
         </p>
         <div className="mt-auto w-full flex justify-center">
           <Image
-            src="https://www.dropbox.com/scl/fi/ngor9nsc5rl7gvd3ew5xp/files-sent.webp?rlkey=ghnns7vsh8743o0juqqb2iiz7&st=56wa1fv5&dl=0"
+            src="https://www.dropbox.com/scl/fi/ngor9nsc5rl7gvd3ew5xp/files-sent.webp?rlkey=ghnns7vsh8743o0juqqb2iiz7&st=56wa1fv5&dl=1"
             alt="Success illustration"
             width={271}
             height={271}

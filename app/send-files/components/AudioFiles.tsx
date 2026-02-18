@@ -11,6 +11,9 @@ import { LoadingSpinner } from "@/components/loading-spinner";
 interface SelectedFile {
   file: File;
   id: string;
+  progress?: number; // 0-100
+  uploading?: boolean;
+  error?: string;
 }
 
 export function AudioFiles() {
@@ -106,6 +109,95 @@ export function AudioFiles() {
   //   return Math.round((bytes / Math.pow(k, i)) * 100) / 100 + " " + sizes[i];
   // };
 
+  const uploadFileChunked = async (
+    file: File,
+    fileId: string,
+    folderPath: string,
+  ): Promise<void> => {
+    const CHUNK_SIZE = 8 * 1024 * 1024; // 8MB chunks
+    const totalChunks = Math.ceil(file.size / CHUNK_SIZE);
+
+    try {
+      // Update file as uploading
+      setSelectedFiles((prev) =>
+        prev.map((f) =>
+          f.id === fileId ? { ...f, uploading: true, progress: 0 } : f,
+        ),
+      );
+
+      // Start upload session
+      console.log("[Upload] Starting upload session for:", file.name);
+
+      const startResponse = await fetch("/api/upload-chunked", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          action: "start",
+          fileName: file.name,
+          folderPath, // Use existing folder
+        }),
+      });
+
+      if (!startResponse.ok) {
+        const errorData = await startResponse
+          .json()
+          .catch(() => ({ error: "Unknown error" }));
+        console.error("[Upload] Failed to start session:", {
+          status: startResponse.status,
+          error: errorData,
+        });
+        throw new Error(errorData.error || "Failed to start upload session");
+      }
+
+      const { uploadId } = await startResponse.json();
+      console.log("[Upload] Session started with ID:", uploadId);
+
+      // Upload chunks
+      for (let chunkIndex = 0; chunkIndex < totalChunks; chunkIndex++) {
+        const start = chunkIndex * CHUNK_SIZE;
+        const end = Math.min(start + CHUNK_SIZE, file.size);
+        const chunk = file.slice(start, end);
+
+        // Append chunk
+        const formData = new FormData();
+        formData.append("uploadId", uploadId);
+        formData.append("chunk", chunk);
+        formData.append("isLastChunk", String(chunkIndex === totalChunks - 1));
+
+        const appendResponse = await fetch("/api/upload-chunked", {
+          method: "POST",
+          body: formData,
+        });
+
+        if (!appendResponse.ok) {
+          throw new Error(`Failed to upload chunk ${chunkIndex + 1}`);
+        }
+
+        // Update progress
+        const progress = Math.round(((chunkIndex + 1) / totalChunks) * 100);
+        setSelectedFiles((prev) =>
+          prev.map((f) => (f.id === fileId ? { ...f, progress } : f)),
+        );
+      }
+
+      // Mark as complete
+      setSelectedFiles((prev) =>
+        prev.map((f) =>
+          f.id === fileId ? { ...f, uploading: false, progress: 100 } : f,
+        ),
+      );
+    } catch (error) {
+      const errorMessage =
+        error instanceof Error ? error.message : "Upload failed";
+      setSelectedFiles((prev) =>
+        prev.map((f) =>
+          f.id === fileId ? { ...f, uploading: false, error: errorMessage } : f,
+        ),
+      );
+      throw error;
+    }
+  };
+
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -134,22 +226,35 @@ export function AudioFiles() {
     setMessage(null);
 
     try {
-      const formData = new FormData();
-      formData.append("name", name);
-      formData.append("email", email);
-      selectedFiles.forEach(({ file }) => {
-        formData.append("files", file);
-      });
+      // Create folder once for all files
+      const timestamp = Date.now();
+      const artistName = name.replace(/[^a-z0-9]/gi, "_").toLowerCase();
+      const folderName = `${artistName}-${timestamp}`;
+      const folderPath = `/01_uploads/${folderName}`;
 
-      const response = await fetch("/api/upload", {
+      console.log("[Upload] Creating folder:", folderPath);
+
+      const folderResponse = await fetch("/api/upload-chunked", {
         method: "POST",
-        body: formData,
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          action: "create-folder",
+          folderPath,
+          name,
+          email,
+        }),
       });
 
-      const data = await response.json();
+      if (!folderResponse.ok) {
+        const errorData = await folderResponse
+          .json()
+          .catch(() => ({ error: "Unknown error" }));
+        throw new Error(errorData.error || "Failed to create folder");
+      }
 
-      if (!response.ok) {
-        throw new Error(data.error || "Upload failed");
+      // Upload files one by one with chunked upload in the same folder
+      for (const selectedFile of selectedFiles) {
+        await uploadFileChunked(selectedFile.file, selectedFile.id, folderPath);
       }
 
       setSubmitSuccess(true);
@@ -186,7 +291,7 @@ export function AudioFiles() {
               </p>
               <div className="mt-auto w-full flex justify-center">
                 <Image
-                  src="https://www.dropbox.com/scl/fi/ngor9nsc5rl7gvd3ew5xp/files-sent.webp?rlkey=ghnns7vsh8743o0juqqb2iiz7&st=56wa1fv5&dl=0"
+                  src="https://www.dropbox.com/scl/fi/ngor9nsc5rl7gvd3ew5xp/files-sent.webp?rlkey=ghnns7vsh8743o0juqqb2iiz7&st=56wa1fv5&dl=1"
                   alt="Success illustration"
                   width={271}
                   height={271}
@@ -254,29 +359,48 @@ export function AudioFiles() {
                       {t.sendFiles.audioFiles.uploadingFiles}
                     </h3>
                     <div className="space-y-2 max-h-[80px] overflow-y-scroll pr-1">
-                      {selectedFiles.map(({ file, id }) => (
-                        <div
-                          key={id}
-                          className="flex items-center justify-between rounded-[10px]"
-                        >
-                          <div className="flex items-center justify-between w-full min-w-0 border bg-[#ECECEC] border-black rounded-[10px] px-3 py-2">
-                            <p className="text-black text-xs truncate">
-                              {file.name}
-                            </p>
-                            {/* <p className="text-black/60 text-sm">
-                        {formatFileSize(file.size)}
-                      </p> */}
-                            <button
-                              type="button"
-                              onClick={() => handleRemoveFile(id)}
-                              className=" text-black hover:text-red transition-colors"
-                              disabled={isUploading}
-                            >
-                              <X size={20} />
-                            </button>
+                      {selectedFiles.map(
+                        ({ file, id, progress, uploading, error }) => (
+                          <div
+                            key={id}
+                            className="flex flex-col rounded-[10px]"
+                          >
+                            <div className="flex items-center justify-between w-full min-w-0 border bg-[#ECECEC] border-black rounded-[10px] px-3 py-2">
+                              <p className="text-black text-xs truncate">
+                                {file.name}
+                              </p>
+                              {!uploading && !error && (
+                                <button
+                                  type="button"
+                                  onClick={() => handleRemoveFile(id)}
+                                  className=" text-black hover:text-red transition-colors"
+                                  disabled={isUploading}
+                                >
+                                  <X size={20} />
+                                </button>
+                              )}
+                              {uploading && (
+                                <span className="text-xs text-black/60">
+                                  {progress}%
+                                </span>
+                              )}
+                            </div>
+                            {/* Progress bar */}
+                            {uploading && progress !== undefined && (
+                              <div className="w-full bg-gray-200 rounded-full h-1.5 mt-1">
+                                <div
+                                  className="bg-red-dark h-1.5 rounded-full transition-all duration-300"
+                                  style={{ width: `${progress}%` }}
+                                />
+                              </div>
+                            )}
+                            {/* Error message */}
+                            {error && (
+                              <p className="text-red text-xs mt-1">{error}</p>
+                            )}
                           </div>
-                        </div>
-                      ))}
+                        ),
+                      )}
                     </div>
                   </div>
                 )}
