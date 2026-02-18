@@ -87,7 +87,7 @@ export default function ListenPage() {
     const sizes = [90];
 
     // Pattern de la grille (nombre d'images par ligne)
-    const rowPattern = [3, 4, 5, 6, 5, 4];
+    const rowPattern = [3, 4, 5, 5, 4];
     const totalRows = rowPattern.length;
 
     let artistIndex = 0;
@@ -138,34 +138,44 @@ export default function ListenPage() {
     );
   };
 
-  // Calculer le scale basé sur la distance en pixels
-  const getScaleForDistance = (index: number, hoveredIdx: number) => {
-    if (index === hoveredIdx) return 1.3; // L'image survolée grossit
+  // Calculer le scale et l'offset basé sur la distance en pixels
+  const getTransformForDistance = (index: number, hoveredIdx: number) => {
+    if (index === hoveredIdx) {
+      return { scale: 1.45, offsetX: 0, offsetY: 0 }; // L'image hover grossit modérément
+    }
 
     const distance = calculatePixelDistance(index, hoveredIdx);
-    const proximityRadius = 160; // Rayon d'effet en pixels pour les images adjacentes (verticales et horizontales)
+    const proximityRadius = 160;
 
-    if (distance > proximityRadius) return 1; // Pas d'effet si trop loin
+    if (distance > proximityRadius) {
+      return { scale: 1, offsetX: 0, offsetY: 0 };
+    }
 
-    // Les images qui touchent l'image en hover rétrécissent
-    return 0.55;
+    // Les images adjacentes rétrécissent (augmenté pour toucher l'image hover)
+    const scale = 0.72;
+
+    // Calculer le vecteur pour pousser l'image adjacente vers l'extérieur
+    const pos1 = artistPositions[index];
+    const pos2 = artistPositions[hoveredIdx];
+    const containerSize = 700;
+
+    const dx = ((pos1.x - pos2.x) / 100) * containerSize; // Inversé : de hover vers adjacente
+    const dy = ((pos1.y - pos2.y) / 100) * containerSize;
+    const currentDistance = Math.sqrt(dx * dx + dy * dy);
+
+    // L'image hover grossit, donc elle "pousse" les adjacentes
+    const baseSize = 90;
+    const hoverExpansion = ((1.45 - 1) * baseSize) / 2; // Expansion du rayon : ~20.25px
+
+    // Pousser l'image adjacente vers l'extérieur, mais moins que l'expansion complète
+    // pour qu'elles touchent les autres images adjacentes sans se superposer
+    const pushDistance = hoverExpansion * 0.5; // ~10px pour éviter le chevauchement
+
+    const offsetX = (dx / currentDistance) * pushDistance;
+    const offsetY = (dy / currentDistance) * pushDistance;
+
+    return { scale, offsetX, offsetY };
   };
-
-  // Strapi fetch temporairement commenté
-  // useEffect(() => {
-  //   async function fetchArtists() {
-  //     try {
-  //       const data = await getArtists();
-  //       setArtists(data);
-  //     } catch (error) {
-  //       console.error("Failed to fetch artists:", error);
-  //     } finally {
-  //       setLoading(false);
-  //     }
-  //   }
-  //
-  //   fetchArtists();
-  // }, []);
 
   const platforms = [
     {
@@ -302,11 +312,20 @@ export default function ListenPage() {
                 <div className="hidden md:block w-full relative h-[280px] lg:h-[320px] xl:h-[360px] 2xl:h-[400px]">
                   {artistPositions.map((position, index) => {
                     let scale = 1;
+                    let offsetX = 0;
+                    let offsetY = 0;
                     let zIndex = 1;
 
-                    // Calculer le scale basé sur la distance si une image est en hover
+                    // Calculer le scale et l'offset basé sur la distance si une image est en hover
                     if (hoveredIndex !== null) {
-                      scale = getScaleForDistance(index, hoveredIndex);
+                      const transform = getTransformForDistance(
+                        index,
+                        hoveredIndex,
+                      );
+                      scale = transform.scale;
+                      offsetX = transform.offsetX;
+                      offsetY = transform.offsetY;
+
                       if (index === hoveredIndex) {
                         zIndex = 20;
                       } else if (scale !== 1) {
@@ -326,10 +345,10 @@ export default function ListenPage() {
                           top: `${position.y}%`,
                           width: `${position.size}px`,
                           height: `${position.size}px`,
-                          transform: `translate(-50%, -50%) scale(${scale})`,
+                          transform: `translate(calc(-50% + ${offsetX}px), calc(-50% + ${offsetY}px)) scale(${scale})`,
                           zIndex: zIndex,
                           transition:
-                            "transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)",
+                            "transform 1.2s cubic-bezier(0.34, 1.56, 0.64, 1)",
                         }}
                         onMouseEnter={() => setHoveredIndex(index)}
                         onMouseLeave={() => setHoveredIndex(null)}
