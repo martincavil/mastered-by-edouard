@@ -8,6 +8,18 @@ import { X, Upload, CircleCheckBig } from "lucide-react";
 import { ArrowUpRight } from "@/components/icons/ArrowUpRight";
 import { LoadingSpinner } from "@/components/loading-spinner";
 
+// Helper function to sanitize strings for Dropbox API (removes all non-ASCII characters)
+const sanitizeForDropbox = (str: string): string => {
+  return str
+    .normalize("NFD") // Decompose accented characters
+    .replace(/[\u0300-\u036f]/g, "") // Remove diacritics
+    .replace(/[^\x00-\x7F]/g, "_") // Replace any non-ASCII character with underscore
+    .replace(/[^\w\s.-]/g, "_") // Replace special chars except word chars, spaces, dots, dashes
+    .replace(/\s+/g, "_") // Replace spaces with underscores
+    .replace(/_+/g, "_") // Replace multiple underscores with single
+    .replace(/^_+|_+$/g, ""); // Trim underscores from start/end
+};
+
 interface SelectedFile {
   file: File;
   id: string;
@@ -119,13 +131,13 @@ export function AudioFiles() {
     const CHUNK_SIZE = 8 * 1024 * 1024; // 8MB chunks (no Vercel limit with direct upload)
     const totalChunks = Math.ceil(file.size / CHUNK_SIZE);
 
-    // Sanitize filename to remove accented characters for Dropbox API compatibility
-    const sanitizedFileName = file.name
-      .normalize("NFD") // Decompose accented characters
-      .replace(/[\u0300-\u036f]/g, "") // Remove diacritics
-      .replace(/[^\x00-\x7F]/g, "_"); // Replace non-ASCII with underscore
-
+    // Sanitize filename to remove ALL special characters for Dropbox API compatibility
+    const sanitizedFileName = sanitizeForDropbox(file.name);
     const filePath = `${folderPath}/${sanitizedFileName}`;
+
+    console.log("[Upload] Original filename:", file.name);
+    console.log("[Upload] Sanitized filename:", sanitizedFileName);
+    console.log("[Upload] Full path:", filePath);
 
     try {
       // Update file as uploading
@@ -298,10 +310,13 @@ export function AudioFiles() {
 
       // Create folder once for all files
       const timestamp = Date.now();
-      const artistName = name.replace(/[^a-z0-9]/gi, "_").toLowerCase();
-      const folderName = `${artistName}-${timestamp}`;
+      // Double sanitize to ensure NO special characters at all
+      const artistName = sanitizeForDropbox(name.toLowerCase());
+      const folderName = `${artistName}_${timestamp}`;
       const folderPath = `/01_uploads/${folderName}`;
 
+      console.log("[Upload] Artist name:", name);
+      console.log("[Upload] Sanitized artist:", artistName);
       console.log("[Upload] Creating folder:", folderPath);
 
       // Create folder directly with Dropbox API

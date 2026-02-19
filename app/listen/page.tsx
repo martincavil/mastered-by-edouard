@@ -87,7 +87,7 @@ export default function ListenPage() {
     const sizes = [90];
 
     // Pattern de la grille (nombre d'images par ligne)
-    const rowPattern = [3, 4, 5, 5, 4];
+    const rowPattern = [3, 4, 5, 4, 3];
     const totalRows = rowPattern.length;
 
     let artistIndex = 0;
