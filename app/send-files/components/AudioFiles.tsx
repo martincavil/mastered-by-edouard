@@ -114,9 +114,11 @@ export function AudioFiles() {
     file: File,
     fileId: string,
     folderPath: string,
+    dropboxToken: string,
   ): Promise<void> => {
-    const CHUNK_SIZE = 4 * 1024 * 1024; // 4MB chunks (Vercel limit is 4.5MB)
+    const CHUNK_SIZE = 8 * 1024 * 1024; // 8MB chunks (no Vercel limit with direct upload)
     const totalChunks = Math.ceil(file.size / CHUNK_SIZE);
+    const filePath = `${folderPath}/${file.name}`;
 
     try {
       // Update file as uploading
@@ -126,52 +128,95 @@ export function AudioFiles() {
         ),
       );
 
-      // Start upload session
-      console.log("[Upload] Starting upload session for:", file.name);
+      console.log("[Upload] Starting direct Dropbox upload for:", file.name);
 
-      const startResponse = await fetch("/api/upload-chunked", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          action: "start",
-          fileName: file.name,
-          folderPath, // Use existing folder
-        }),
-      });
+      // Start Dropbox upload session
+      const startResponse = await fetch(
+        "https://content.dropboxapi.com/2/files/upload_session/start",
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${dropboxToken}`,
+            "Content-Type": "application/octet-stream",
+          },
+          body: new Uint8Array(0), // Empty for start
+        }
+      );
 
       if (!startResponse.ok) {
-        const errorData = await startResponse
-          .json()
-          .catch(() => ({ error: "Unknown error" }));
-        console.error("[Upload] Failed to start session:", {
-          status: startResponse.status,
-          error: errorData,
-        });
-        throw new Error(errorData.error || "Failed to start upload session");
+        const errorText = await startResponse.text();
+        console.error("[Upload] Failed to start session:", errorText);
+        throw new Error("Failed to start upload session");
       }
 
-      const { uploadId } = await startResponse.json();
-      console.log("[Upload] Session started with ID:", uploadId);
+      const { session_id } = await startResponse.json();
+      console.log("[Upload] Session started with ID:", session_id);
+
+      let offset = 0;
 
       // Upload chunks
       for (let chunkIndex = 0; chunkIndex < totalChunks; chunkIndex++) {
         const start = chunkIndex * CHUNK_SIZE;
         const end = Math.min(start + CHUNK_SIZE, file.size);
         const chunk = file.slice(start, end);
+        const isLastChunk = chunkIndex === totalChunks - 1;
 
-        // Append chunk
-        const formData = new FormData();
-        formData.append("uploadId", uploadId);
-        formData.append("chunk", chunk);
-        formData.append("isLastChunk", String(chunkIndex === totalChunks - 1));
+        if (!isLastChunk) {
+          // Append chunk
+          const appendResponse = await fetch(
+            "https://content.dropboxapi.com/2/files/upload_session/append_v2",
+            {
+              method: "POST",
+              headers: {
+                Authorization: `Bearer ${dropboxToken}`,
+                "Content-Type": "application/octet-stream",
+                "Dropbox-API-Arg": JSON.stringify({
+                  cursor: {
+                    session_id: session_id,
+                    offset: offset,
+                  },
+                }),
+              },
+              body: chunk,
+            }
+          );
 
-        const appendResponse = await fetch("/api/upload-chunked", {
-          method: "POST",
-          body: formData,
-        });
+          if (!appendResponse.ok) {
+            const errorText = await appendResponse.text();
+            throw new Error(`Failed to upload chunk ${chunkIndex + 1}: ${errorText}`);
+          }
 
-        if (!appendResponse.ok) {
-          throw new Error(`Failed to upload chunk ${chunkIndex + 1}`);
+          offset += chunk.size;
+        } else {
+          // Finish upload with last chunk
+          const finishResponse = await fetch(
+            "https://content.dropboxapi.com/2/files/upload_session/finish",
+            {
+              method: "POST",
+              headers: {
+                Authorization: `Bearer ${dropboxToken}`,
+                "Content-Type": "application/octet-stream",
+                "Dropbox-API-Arg": JSON.stringify({
+                  cursor: {
+                    session_id: session_id,
+                    offset: offset,
+                  },
+                  commit: {
+                    path: filePath,
+                    mode: "add",
+                    autorename: true,
+                    mute: false,
+                  },
+                }),
+              },
+              body: chunk,
+            }
+          );
+
+          if (!finishResponse.ok) {
+            const errorText = await finishResponse.text();
+            throw new Error(`Failed to finish upload: ${errorText}`);
+          }
         }
 
         // Update progress
@@ -231,6 +276,17 @@ export function AudioFiles() {
     setUploadedFilesCount(0);
 
     try {
+      // Get temporary Dropbox token for direct upload
+      console.log("[Upload] Getting Dropbox token...");
+      const tokenResponse = await fetch("/api/dropbox-token");
+
+      if (!tokenResponse.ok) {
+        throw new Error("Failed to get Dropbox token");
+      }
+
+      const { accessToken } = await tokenResponse.json();
+      console.log("[Upload] Token received");
+
       // Create folder once for all files
       const timestamp = Date.now();
       const artistName = name.replace(/[^a-z0-9]/gi, "_").toLowerCase();
@@ -239,27 +295,34 @@ export function AudioFiles() {
 
       console.log("[Upload] Creating folder:", folderPath);
 
-      const folderResponse = await fetch("/api/upload-chunked", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          action: "create-folder",
-          folderPath,
-          name,
-          email,
-        }),
-      });
+      // Create folder directly with Dropbox API
+      const folderResponse = await fetch(
+        "https://api.dropboxapi.com/2/files/create_folder_v2",
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ path: folderPath, autorename: false }),
+        }
+      );
 
-      if (!folderResponse.ok) {
-        const errorData = await folderResponse
-          .json()
-          .catch(() => ({ error: "Unknown error" }));
-        throw new Error(errorData.error || "Failed to create folder");
+      if (!folderResponse.ok && folderResponse.status !== 409) {
+        const errorText = await folderResponse.text();
+        throw new Error(`Failed to create folder: ${errorText}`);
       }
 
-      // Upload files one by one with chunked upload in the same folder
+      console.log("[Upload] Folder created successfully");
+
+      // Upload files one by one with direct Dropbox upload
       for (const selectedFile of selectedFiles) {
-        await uploadFileChunked(selectedFile.file, selectedFile.id, folderPath);
+        await uploadFileChunked(
+          selectedFile.file,
+          selectedFile.id,
+          folderPath,
+          accessToken
+        );
       }
 
       setSubmitSuccess(true);
