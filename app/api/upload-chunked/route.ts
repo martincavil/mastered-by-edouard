@@ -28,16 +28,31 @@ export async function POST(request: NextRequest) {
 
       const session = uploadSessions.get(uploadId);
       if (!session) {
+        console.error('[Upload Chunked] Session not found:', {
+          uploadId,
+          availableSessions: Array.from(uploadSessions.keys()),
+        });
         return NextResponse.json(
-          { error: 'Upload session not found' },
+          { error: 'Upload session not found. This may be due to serverless function timeout or instance change.' },
           { status: 404 }
         );
       }
 
       const chunkBuffer = Buffer.from(await chunk.arrayBuffer());
+      console.log('[Upload Chunked] Processing chunk:', {
+        uploadId,
+        chunkSize: chunkBuffer.length,
+        isLastChunk,
+      });
 
       if (!isLastChunk) {
         // Append chunk
+        console.log('[Upload Chunked] Appending chunk:', {
+          sessionId: session.sessionId,
+          offset: session.offset,
+          chunkSize: chunkBuffer.length,
+        });
+
         const appendResponse = await fetch('https://content.dropboxapi.com/2/files/upload_session/append_v2', {
           method: 'POST',
           headers: {
@@ -55,8 +70,16 @@ export async function POST(request: NextRequest) {
 
         if (!appendResponse.ok) {
           const errorText = await appendResponse.text();
+          console.error('[Upload Chunked] Append chunk error:', {
+            status: appendResponse.status,
+            error: errorText,
+            sessionId: session.sessionId,
+            offset: session.offset,
+          });
           throw new Error(`Failed to append chunk: ${errorText}`);
         }
+
+        console.log('[Upload Chunked] Chunk appended successfully');
 
         // Update offset
         session.offset += chunkBuffer.length;
