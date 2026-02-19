@@ -115,7 +115,7 @@ export function AudioFiles() {
     fileId: string,
     folderPath: string,
   ): Promise<void> => {
-    const CHUNK_SIZE = 8 * 1024 * 1024; // 8MB chunks
+    const CHUNK_SIZE = 4 * 1024 * 1024; // 4MB chunks (Vercel limit is 4.5MB)
     const totalChunks = Math.ceil(file.size / CHUNK_SIZE);
 
     try {
