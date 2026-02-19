@@ -118,7 +118,14 @@ export function AudioFiles() {
   ): Promise<void> => {
     const CHUNK_SIZE = 8 * 1024 * 1024; // 8MB chunks (no Vercel limit with direct upload)
     const totalChunks = Math.ceil(file.size / CHUNK_SIZE);
-    const filePath = `${folderPath}/${file.name}`;
+
+    // Sanitize filename to remove accented characters for Dropbox API compatibility
+    const sanitizedFileName = file.name
+      .normalize("NFD") // Decompose accented characters
+      .replace(/[\u0300-\u036f]/g, "") // Remove diacritics
+      .replace(/[^\x00-\x7F]/g, "_"); // Replace non-ASCII with underscore
+
+    const filePath = `${folderPath}/${sanitizedFileName}`;
 
     try {
       // Update file as uploading
