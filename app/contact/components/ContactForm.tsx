@@ -6,11 +6,13 @@ import { Translations } from "@/lib/i18n/types";
 import { FormInput } from "./FormInput";
 import { FormTextarea } from "./FormTextarea";
 import { FormSelect } from "./FormSelect";
+import { CountryCodeSelect } from "./CountryCodeSelect";
 
 interface FormData {
   name: string;
   familyName: string;
   email: string;
+  countryCode: string;
   phone: string;
   artistName: string;
   projectName: string;
@@ -35,6 +37,7 @@ const INITIAL_FORM_DATA: FormData = {
   name: "",
   familyName: "",
   email: "",
+  countryCode: "+33",
   phone: "",
   artistName: "",
   projectName: "",
@@ -74,6 +77,9 @@ export function ContactForm({ t, onSuccess, onSubmitting }: ContactFormProps) {
       newErrors.email = t.contact.form.validation.emailRequired;
     } else if (!EMAIL_REGEX.test(formData.email)) {
       newErrors.email = t.contact.form.validation.emailInvalid;
+    }
+    if (!formData.countryCode) {
+      newErrors.countryCode = "Country code required";
     }
     if (!formData.phone.trim()) {
       newErrors.phone = t.contact.form.validation.phoneRequired;
@@ -163,15 +169,22 @@ export function ContactForm({ t, onSuccess, onSubmitting }: ContactFormProps) {
             error={errors.email}
             required
           />
-          <FormInput
-            type="tel"
-            name="phone"
-            value={formData.phone}
-            onChange={handleChange}
-            placeholder={t.contact.form.placeholders.phone}
-            error={errors.phone}
-            required
-          />
+          <div className="flex items-center space-x-2">
+            <CountryCodeSelect
+              value={formData.countryCode}
+              onChange={handleChange}
+              error={errors.countryCode}
+            />
+            <FormInput
+              type="tel"
+              name="phone"
+              value={formData.phone}
+              onChange={handleChange}
+              placeholder={t.contact.form.placeholders.phone}
+              error={errors.phone}
+              required
+            />
+          </div>
         </div>
       </div>
 
