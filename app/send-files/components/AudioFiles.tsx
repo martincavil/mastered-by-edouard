@@ -140,7 +140,7 @@ export function AudioFiles() {
             "Content-Type": "application/octet-stream",
           },
           body: new Uint8Array(0), // Empty for start
-        }
+        },
       );
 
       if (!startResponse.ok) {
@@ -178,12 +178,14 @@ export function AudioFiles() {
                 }),
               },
               body: chunk,
-            }
+            },
           );
 
           if (!appendResponse.ok) {
             const errorText = await appendResponse.text();
-            throw new Error(`Failed to upload chunk ${chunkIndex + 1}: ${errorText}`);
+            throw new Error(
+              `Failed to upload chunk ${chunkIndex + 1}: ${errorText}`,
+            );
           }
 
           offset += chunk.size;
@@ -210,7 +212,7 @@ export function AudioFiles() {
                 }),
               },
               body: chunk,
-            }
+            },
           );
 
           if (!finishResponse.ok) {
@@ -305,7 +307,7 @@ export function AudioFiles() {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({ path: folderPath, autorename: false }),
-        }
+        },
       );
 
       if (!folderResponse.ok && folderResponse.status !== 409) {
@@ -321,7 +323,7 @@ export function AudioFiles() {
           selectedFile.file,
           selectedFile.id,
           folderPath,
-          accessToken
+          accessToken,
         );
       }
 
@@ -351,7 +353,7 @@ export function AudioFiles() {
             <div className="bg-white max-h-[350px] 2xl:max-h-full rounded-[10px] pt-8 px-8 flex flex-col items-center relative flex-1">
               <CircleCheckBig
                 size={64}
-                className="text-white bg-red-dark rounded-full p-3"
+                className="text-white bg-red rounded-full p-3"
                 strokeWidth={2}
               />
               <p className="text-black text-center md:text-2xl 2xl:text-3xl mt-3">

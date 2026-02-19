@@ -17,7 +17,7 @@ export function SuccessView({ t }: SuccessViewProps) {
       <div className="bg-white max-h-[350px] 2xl:max-h-full rounded-[10px] pt-8 px-8 flex flex-col items-center relative flex-1">
         <CircleCheckBig
           size={64}
-          className="text-white bg-red-dark rounded-full p-3"
+          className="text-white bg-red rounded-full p-3"
           strokeWidth={2}
         />
         <p className="text-black text-center md:text-2xl 2xl:text-3xl mt-3">
