@@ -11,6 +11,7 @@ export async function POST(request: NextRequest) {
       name,
       familyName,
       email,
+      countryCode,
       phone,
       artistName,
       projectName,
@@ -20,7 +21,7 @@ export async function POST(request: NextRequest) {
     } = body;
 
     // Validate required fields
-    if (!name || !familyName || !email || !phone || !message) {
+    if (!name || !familyName || !email || !countryCode || !phone || !message) {
       return NextResponse.json(
         { error: "Missing required fields" },
         { status: 400 },
@@ -86,7 +87,7 @@ export async function POST(request: NextRequest) {
       <div class="field"><span class="label">Nom :</span> ${name}</div>
       <div class="field"><span class="label">Prénom :</span> ${familyName}</div>
       <div class="field"><span class="label">Email :</span> <a href="mailto:${email}">${email}</a></div>
-      <div class="field"><span class="label">Téléphone :</span> <a href="tel:${phone}">${phone}</a></div>
+      <div class="field"><span class="label">Téléphone :</span> <a href="tel:${countryCode}${phone}">${countryCode} ${phone}</a></div>
     </div>
 
     <div class="section">
