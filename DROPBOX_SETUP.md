@@ -23,14 +23,36 @@ Ce document explique comment configurer l'intégration Dropbox pour permettre l'
    - `files.content.read`
 2. Cliquez sur "Submit" en bas de la page
 
-### 3. Générer un access token
+### 3. Générer un refresh token (recommandé)
+
+Pour une application en production, il est recommandé d'utiliser un refresh token qui ne expire pas et permet de générer automatiquement de nouveaux access tokens.
+
+1. Allez dans l'onglet "Settings"
+2. Notez votre **App key** et **App secret**
+3. Activez "Access token expiration" si ce n'est pas déjà fait
+4. Construisez l'URL d'autorisation suivante (remplacez `YOUR_APP_KEY` par votre App key) :
+   ```
+   https://www.dropbox.com/oauth2/authorize?client_id=YOUR_APP_KEY&token_access_type=offline&response_type=code
+   ```
+5. Visitez cette URL dans votre navigateur et autorisez l'application
+6. Vous serez redirigé vers une page avec un code d'autorisation, copiez-le
+7. Utilisez ce code pour obtenir un refresh token en exécutant cette commande curl (remplacez les valeurs) :
+   ```bash
+   curl https://api.dropbox.com/oauth2/token \
+     -d code=YOUR_AUTHORIZATION_CODE \
+     -d grant_type=authorization_code \
+     -u YOUR_APP_KEY:YOUR_APP_SECRET
+   ```
+8. La réponse contiendra un `refresh_token` - conservez-le précieusement !
+
+**Alternative : Générer un access token simple (expirera)**
 
 1. Allez dans l'onglet "Settings"
 2. Descendez jusqu'à "OAuth 2"
 3. Sous "Generated access token", cliquez sur "Generate"
 4. Copiez le token généré
 
-**⚠️ Important**: Ce token ne sera affiché qu'une seule fois. Conservez-le en lieu sûr.
+**⚠️ Important**: Les access tokens simples expirent. Pour la production, utilisez un refresh token.
 
 ## Configuration de l'environnement
 
@@ -38,8 +60,24 @@ Ce document explique comment configurer l'intégration Dropbox pour permettre l'
 
 Créez un fichier `.env.local` à la racine du projet et ajoutez :
 
+**Option 1 : Avec refresh token (recommandé pour production)**
+
 ```env
-# Dropbox Access Token
+# Dropbox Refresh Token Configuration
+DROPBOX_APP_KEY=your_app_key_here
+DROPBOX_APP_SECRET=your_app_secret_here
+DROPBOX_REFRESH_TOKEN=your_refresh_token_here
+
+# Email configuration (optionnel pour les notifications)
+RESEND_API_KEY=your_resend_api_key
+RESEND_TO_EMAIL=contact@masteredbyedouard.com
+RESEND_FROM_EMAIL=noreply@yourdomain.com
+```
+
+**Option 2 : Avec access token simple (développement uniquement)**
+
+```env
+# Dropbox Access Token (expirera)
 DROPBOX_ACCESS_TOKEN=your_access_token_here
 
 # Email configuration (optionnel pour les notifications)
@@ -47,6 +85,8 @@ RESEND_API_KEY=your_resend_api_key
 RESEND_TO_EMAIL=contact@masteredbyedouard.com
 RESEND_FROM_EMAIL=noreply@yourdomain.com
 ```
+
+**Note** : Le système utilisera automatiquement le refresh token s'il est disponible, sinon il utilisera l'access token statique en fallback.
 
 ### Vérification
 
@@ -112,9 +152,20 @@ En production, il est recommandé de :
 - Ajouter une authentification pour l'API
 - Monitorer les uploads et ajouter des logs
 
-### Tokens expirés
+### Gestion automatique des tokens
 
-Les access tokens générés manuellement n'expirent pas, mais pour une application en production, il est recommandé d'implémenter OAuth 2.0 avec refresh tokens.
+L'application gère automatiquement le rafraîchissement des tokens expirés :
+
+1. Si `DROPBOX_REFRESH_TOKEN` est configuré, il sera utilisé pour générer automatiquement de nouveaux access tokens
+2. Les tokens sont mis en cache et rafraîchis 5 minutes avant leur expiration
+3. Si le refresh échoue, le système bascule automatiquement sur `DROPBOX_ACCESS_TOKEN` (si disponible)
+
+### Que faire si vous avez l'erreur "expired_access_token"
+
+Si vous voyez cette erreur, cela signifie que votre access token a expiré. Deux solutions :
+
+1. **Solution recommandée** : Configurez un refresh token (voir section "Générer un refresh token" ci-dessus)
+2. **Solution temporaire** : Générez un nouveau access token simple (mais il expirera à nouveau)
 
 ## Support
 

@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { Resend } from 'resend';
+import { getDropboxToken } from '@/lib/dropbox-token';
 
-const DROPBOX_ACCESS_TOKEN = process.env.DROPBOX_ACCESS_TOKEN;
 const CHUNK_SIZE = 8 * 1024 * 1024; // 8MB chunks
 const LARGE_FILE_THRESHOLD = 150 * 1024 * 1024; // 150MB
 
@@ -9,10 +9,11 @@ const LARGE_FILE_THRESHOLD = 150 * 1024 * 1024; // 150MB
 const resend = process.env.RESEND_API_KEY ? new Resend(process.env.RESEND_API_KEY) : null;
 
 async function createFolder(path: string): Promise<void> {
+  const token = await getDropboxToken();
   const response = await fetch('https://api.dropboxapi.com/2/files/create_folder_v2', {
     method: 'POST',
     headers: {
-      'Authorization': `Bearer ${DROPBOX_ACCESS_TOKEN}`,
+      'Authorization': `Bearer ${token}`,
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({ path, autorename: false }),
@@ -31,10 +32,11 @@ async function createFolder(path: string): Promise<void> {
 }
 
 async function uploadSmallFile(file: Buffer, path: string): Promise<void> {
+  const token = await getDropboxToken();
   const response = await fetch('https://content.dropboxapi.com/2/files/upload', {
     method: 'POST',
     headers: {
-      'Authorization': `Bearer ${DROPBOX_ACCESS_TOKEN}`,
+      'Authorization': `Bearer ${token}`,
       'Content-Type': 'application/octet-stream',
       'Dropbox-API-Arg': JSON.stringify({
         path,
@@ -59,6 +61,7 @@ async function uploadSmallFile(file: Buffer, path: string): Promise<void> {
 }
 
 async function uploadLargeFile(file: Buffer, path: string): Promise<void> {
+  const token = await getDropboxToken();
   let offset = 0;
   let sessionId: string | null = null;
 
@@ -70,7 +73,7 @@ async function uploadLargeFile(file: Buffer, path: string): Promise<void> {
       const startResponse = await fetch('https://content.dropboxapi.com/2/files/upload_session/start', {
         method: 'POST',
         headers: {
-          'Authorization': `Bearer ${DROPBOX_ACCESS_TOKEN}`,
+          'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/octet-stream',
         },
         body: new Uint8Array(chunk),
@@ -91,7 +94,7 @@ async function uploadLargeFile(file: Buffer, path: string): Promise<void> {
       const appendResponse = await fetch('https://content.dropboxapi.com/2/files/upload_session/append_v2', {
         method: 'POST',
         headers: {
-          'Authorization': `Bearer ${DROPBOX_ACCESS_TOKEN}`,
+          'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/octet-stream',
           'Dropbox-API-Arg': JSON.stringify({
             cursor: {
@@ -115,7 +118,7 @@ async function uploadLargeFile(file: Buffer, path: string): Promise<void> {
       const finishResponse = await fetch('https://content.dropboxapi.com/2/files/upload_session/finish', {
         method: 'POST',
         headers: {
-          'Authorization': `Bearer ${DROPBOX_ACCESS_TOKEN}`,
+          'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/octet-stream',
           'Dropbox-API-Arg': JSON.stringify({
             cursor: {
@@ -148,10 +151,11 @@ async function uploadLargeFile(file: Buffer, path: string): Promise<void> {
 }
 
 async function createFileRequest(title: string, destination: string): Promise<string> {
+  const token = await getDropboxToken();
   const response = await fetch('https://api.dropboxapi.com/2/file_requests/create', {
     method: 'POST',
     headers: {
-      'Authorization': `Bearer ${DROPBOX_ACCESS_TOKEN}`,
+      'Authorization': `Bearer ${token}`,
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
@@ -297,13 +301,6 @@ async function sendNotificationEmails(
 
 export async function POST(request: NextRequest) {
   try {
-    if (!DROPBOX_ACCESS_TOKEN) {
-      return NextResponse.json(
-        { error: 'DROPBOX_ACCESS_TOKEN is not configured' },
-        { status: 500 }
-      );
-    }
-
     const formData = await request.formData();
     const name = formData.get('name') as string;
     const email = formData.get('email') as string;

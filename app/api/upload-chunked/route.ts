@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-
-const DROPBOX_ACCESS_TOKEN = process.env.DROPBOX_ACCESS_TOKEN;
+import { getDropboxToken } from '@/lib/dropbox-token';
 
 // Store upload sessions in memory (in production, use Redis or database)
 const uploadSessions = new Map<string, {
@@ -12,15 +11,10 @@ const uploadSessions = new Map<string, {
 
 export async function POST(request: NextRequest) {
   try {
-    if (!DROPBOX_ACCESS_TOKEN) {
-      console.error('[Upload Chunked] DROPBOX_ACCESS_TOKEN is not configured');
-      return NextResponse.json(
-        { error: 'DROPBOX_ACCESS_TOKEN is not configured' },
-        { status: 500 }
-      );
-    }
+    // Get a valid access token (will refresh if needed)
+    const accessToken = await getDropboxToken();
 
-    console.log('[Upload Chunked] Token configured:', DROPBOX_ACCESS_TOKEN ? 'YES' : 'NO');
+    console.log('[Upload Chunked] Token obtained successfully');
 
     // Check if request is FormData (for append action with chunk)
     const contentType = request.headers.get('content-type');
@@ -47,7 +41,7 @@ export async function POST(request: NextRequest) {
         const appendResponse = await fetch('https://content.dropboxapi.com/2/files/upload_session/append_v2', {
           method: 'POST',
           headers: {
-            'Authorization': `Bearer ${DROPBOX_ACCESS_TOKEN}`,
+            'Authorization': `Bearer ${accessToken}`,
             'Content-Type': 'application/octet-stream',
             'Dropbox-API-Arg': JSON.stringify({
               cursor: {
@@ -79,7 +73,7 @@ export async function POST(request: NextRequest) {
         const finishResponse = await fetch('https://content.dropboxapi.com/2/files/upload_session/finish', {
           method: 'POST',
           headers: {
-            'Authorization': `Bearer ${DROPBOX_ACCESS_TOKEN}`,
+            'Authorization': `Bearer ${accessToken}`,
             'Content-Type': 'application/octet-stream',
             'Dropbox-API-Arg': JSON.stringify({
               cursor: {
@@ -124,7 +118,7 @@ export async function POST(request: NextRequest) {
       const folderResponse = await fetch('https://api.dropboxapi.com/2/files/create_folder_v2', {
         method: 'POST',
         headers: {
-          'Authorization': `Bearer ${DROPBOX_ACCESS_TOKEN}`,
+          'Authorization': `Bearer ${accessToken}`,
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({ path: folderPath, autorename: false }),
@@ -150,7 +144,7 @@ export async function POST(request: NextRequest) {
       const startResponse = await fetch('https://content.dropboxapi.com/2/files/upload_session/start', {
         method: 'POST',
         headers: {
-          'Authorization': `Bearer ${DROPBOX_ACCESS_TOKEN}`,
+          'Authorization': `Bearer ${accessToken}`,
           'Content-Type': 'application/octet-stream',
         },
         body: new Uint8Array(0), // Empty for start

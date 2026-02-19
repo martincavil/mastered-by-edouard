@@ -1,16 +1,16 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { Resend } from 'resend';
-
-const DROPBOX_ACCESS_TOKEN = process.env.DROPBOX_ACCESS_TOKEN;
+import { getDropboxToken } from '@/lib/dropbox-token';
 
 // Initialize Resend (optional)
 const resend = process.env.RESEND_API_KEY ? new Resend(process.env.RESEND_API_KEY) : null;
 
 async function createFolder(path: string): Promise<void> {
+  const token = await getDropboxToken();
   const response = await fetch('https://api.dropboxapi.com/2/files/create_folder_v2', {
     method: 'POST',
     headers: {
-      'Authorization': `Bearer ${DROPBOX_ACCESS_TOKEN}`,
+      'Authorization': `Bearer ${token}`,
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({ path, autorename: false }),
@@ -28,10 +28,11 @@ async function createFolder(path: string): Promise<void> {
 }
 
 async function uploadFile(file: Buffer, path: string): Promise<void> {
+  const token = await getDropboxToken();
   const response = await fetch('https://content.dropboxapi.com/2/files/upload', {
     method: 'POST',
     headers: {
-      'Authorization': `Bearer ${DROPBOX_ACCESS_TOKEN}`,
+      'Authorization': `Bearer ${token}`,
       'Content-Type': 'application/octet-stream',
       'Dropbox-API-Arg': JSON.stringify({
         path,
@@ -182,13 +183,6 @@ async function sendProductionSheetNotificationEmails(
 
 export async function POST(request: NextRequest) {
   try {
-    if (!DROPBOX_ACCESS_TOKEN) {
-      return NextResponse.json(
-        { error: 'DROPBOX_ACCESS_TOKEN is not configured' },
-        { status: 500 }
-      );
-    }
-
     const formData = await request.formData();
     const formDataString = formData.get('formData') as string;
     const parsedData = JSON.parse(formDataString);

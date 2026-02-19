@@ -28,6 +28,7 @@ export function AudioFiles() {
     type: "success" | "error";
     text: string;
   } | null>(null);
+  const [uploadedFilesCount, setUploadedFilesCount] = useState(0);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const tooltipButtonRef = useRef<HTMLDivElement>(null);
   const [tooltipPosition, setTooltipPosition] = useState({ top: 0, left: 0 });
@@ -186,6 +187,9 @@ export function AudioFiles() {
           f.id === fileId ? { ...f, uploading: false, progress: 100 } : f,
         ),
       );
+
+      // Increment uploaded files count
+      setUploadedFilesCount((prev) => prev + 1);
     } catch (error) {
       const errorMessage =
         error instanceof Error ? error.message : "Upload failed";
@@ -224,6 +228,7 @@ export function AudioFiles() {
 
     setIsUploading(true);
     setMessage(null);
+    setUploadedFilesCount(0);
 
     try {
       // Create folder once for all files
@@ -566,7 +571,12 @@ export function AudioFiles() {
           className="absolute bottom-0 right-0 object-cover w-48 h-48 xl:w-56 xl:h-56 2xl:w-[271px] 2xl:h-[271px]"
         />
       </div>
-      {isUploading && <LoadingSpinner />}
+      {isUploading && (
+        <LoadingSpinner
+          currentFile={uploadedFilesCount}
+          totalFiles={selectedFiles.length}
+        />
+      )}
     </>
   );
 }
