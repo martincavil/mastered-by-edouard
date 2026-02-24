@@ -332,9 +332,8 @@ export async function POST(request: NextRequest) {
       }
     }
 
-    const timestamp = Date.now();
     const artistName = name.replace(/[^a-z0-9]/gi, '_').toLowerCase();
-    const folderName = `${artistName}-${timestamp}`;
+    const folderName = artistName;
     const folderPath = `/01_uploads/${folderName}`;
 
     await createFolder(folderPath);

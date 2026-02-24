@@ -192,9 +192,8 @@ export async function POST(request: NextRequest) {
     const productionSheetPdf = formData.get('productionSheetPdf') as File | null;
 
     // Create folder name
-    const timestamp = Date.now();
     const artistName = parsedData.artist.replace(/[^a-z0-9]/gi, '_').toLowerCase();
-    const folderName = `${artistName}-${timestamp}`;
+    const folderName = artistName;
     const basePath = `/01_uploads/${folderName}`;
 
     // Create folder in Dropbox

@@ -99,7 +99,7 @@ export function EdouardTextContent() {
               alt="Signature Edouard"
               width={241}
               height={81}
-              className="h-auto w-[241px] xl:w-48 2xl:w-[241px]"
+              className="h-auto w-full max-w-[241px] xl:w-48 2xl:w-[241px]"
             />
           </div>
         </div>

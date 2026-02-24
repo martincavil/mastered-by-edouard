@@ -43,7 +43,7 @@ export const en: Translations = {
       backToHome: "back to home",
       namingTooltipTitle: "folder organization",
       namingTooltipHints: [
-        ". your files will be organized in a folder named: artist_name-timestamp",
+        ". your files will be organized in a folder named: artist_name",
         ". all your audio files will be stored in this folder",
         ". this ensures easy tracking and organization",
       ],
@@ -180,7 +180,8 @@ export const en: Translations = {
     services: {
       title1: "digital mastering",
       description1:
-        "Hi-resolution digital master file (for digital streaming platforms and video clip).  All masters are Apple Digital Masters certified. > up to 192kHz/24-bit.",
+        "Hi-resolution digital master file (for digital streaming platforms and video clip). All masters are Apple Digital Masters certified.",
+      description1_2: "> up to 192kHz/24-bit.",
       title2: "vinyl mastering",
       description2:
         "24-bit WAV masters per side of vinyl with a cue sheet PDF. Vinyl-specific processing applied if requested by the pressing plant",

@@ -45,7 +45,7 @@ export default function StudioPage() {
     <>
       <PageTransition>
         <main className="h-full flex flex-col bg-black pb-8 md:pb-0 pt-8 md:pt-4 xl:pt-6 2xl:pt-8 px-8 overflow-hidden">
-          <div className="flex-1 flex flex-col overflow-y-auto md:overflow-y-hidden">
+          <div className="flex-1 flex flex-col overflow-y-auto overflow-x-hidden md:overflow-y-hidden">
             {/* Header */}
             <div className="flex items-center justify-between mb-3 md:mb-3 xl:mb-5 2xl:mb-10">
               <h1 className="text-4xl md:text-5xl xl:text-6xl 2xl:text-[80px] font-bold text-white">

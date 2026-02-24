@@ -6,6 +6,7 @@ import Image from "next/image";
 interface Service {
   title: string;
   description: string;
+  description2?: string;
   logo?: string;
 }
 
@@ -16,6 +17,7 @@ export function ServicesSubject() {
     {
       title: t.studio.services.title1,
       description: t.studio.services.description1,
+      description2: t.studio.services.description1_2,
       logo: "https://www.dropbox.com/scl/fi/74lzu7bxk5xcirokpbqk6/adm.webp?rlkey=v52dklfrntt9zme4u3m3yclj7&st=e1xvcw0v&dl=1",
     },
     {
@@ -64,8 +66,9 @@ export function ServicesSubject() {
                   : "max-h-0 opacity-0 -translate-y-2"
               }`}
             >
-              <div className="2xl:text-lg text-white font-poppins">
-                {service.description}
+              <div className="2xl:text-lg text-white font-poppins space-y-2">
+                <p>{service.description}</p>
+                {service.description2 && <p>{service.description2}</p>}
               </div>
               {service.logo && (
                 <div className="flex justify-end mt-4">
@@ -103,6 +106,7 @@ export function ServicesTextContent() {
     {
       title: t.studio.services.title1,
       description: t.studio.services.description1,
+      description2: t.studio.services.description1_2,
       logo: "https://www.dropbox.com/scl/fi/74lzu7bxk5xcirokpbqk6/adm.webp?rlkey=v52dklfrntt9zme4u3m3yclj7&st=e1xvcw0v&dl=1",
     },
     {
@@ -150,8 +154,9 @@ export function ServicesTextContent() {
                 : "max-h-0 opacity-0 -translate-y-2"
             }`}
           >
-            <div className="2xl:text-lg text-white font-poppins">
-              {service.description}
+            <div className="2xl:text-lg text-white font-poppins space-y-2">
+              <p>{service.description}</p>
+              {service.description2 && <p>{service.description2}</p>}
             </div>
             {service.logo && (
               <div className="flex justify-end mt-4">

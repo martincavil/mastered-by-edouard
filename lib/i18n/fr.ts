@@ -43,7 +43,7 @@ export const fr: Translations = {
       backToHome: "retour à l'accueil",
       namingTooltipTitle: "organisation des dossiers",
       namingTooltipHints: [
-        ". vos fichiers seront organisés dans un dossier nommé : nom_artiste-timestamp",
+        ". vos fichiers seront organisés dans un dossier nommé : nom_artiste",
         ". tous vos fichiers audio seront stockés dans ce dossier",
         ". cela garantit un suivi et une organisation faciles",
       ],
@@ -184,7 +184,8 @@ export const fr: Translations = {
     services: {
       title1: "mastering digital",
       description1:
-        "fichier master haute résolution (pour les plateformes de streaming et les clips vidéo). Tous les masters sont certifiés Apple Digital Masters. Masters jusqu'à 192 kHz / 24 bits.",
+        "fichier master haute résolution (pour les plateformes de streaming et les clips vidéo). Tous les masters sont certifiés Apple Digital Masters.",
+      description1_2: "> jusqu'à 192 kHz / 24 bits.",
       title2: "mastering vinyle",
       description2:
         "adaptation des masters pour le pressage vinyle. Fichiers audio .WAV / 24 bits, fournis avec une Cue sheet PDF. Application des traitements spécifiques au vinyle si l'usine de pressage le demande.",
