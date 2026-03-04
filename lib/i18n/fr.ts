@@ -341,7 +341,7 @@ export const fr: Translations = {
       question1: "1. qu'est-ce que le mastering ?",
       answer1:
         "C'est l'étape finale du processus de production musicale. Les principaux objectifs du mastering sont de garantir un son cohérent, équilibré et homogène sur tous les systèmes d'écoute, tout en optimisant ses caractéristiques sonores globales.",
-      question2: "2. Qu'est-ce que l'Apple Digital Masters ?",
+      question2: "2. qu'est-ce que l'Apple Digital Masters ?",
       answer2:
         "Apple Digital Masters (ADM) est une programme introduit par Apple qui a pour but de garatnir la qualité des fichiers musicaux accessibles sur Apple Music. Le studio est certifié ADM, il vous suffit simplement de transmettre les coordonnées suivantes au distributeur lors de l'upload :",
       answer2Credits: {
