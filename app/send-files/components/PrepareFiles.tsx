@@ -3,7 +3,7 @@
 import { useTranslations } from "@/lib/i18n/useTranslations";
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { ArrowUpRight } from "@/components/icons/ArrowUpRight";
 
@@ -49,6 +49,20 @@ export function PrepareFiles() {
   const goToStep = (step: number) => {
     setCurrentStep(step);
   };
+
+  // Navigation au clavier
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "ArrowLeft") {
+        setCurrentStep((prev) => Math.max(1, prev - 1));
+      } else if (e.key === "ArrowRight") {
+        setCurrentStep((prev) => Math.min(4, prev + 1));
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, []); // Pas de dépendances nécessaires car on utilise la forme fonctionnelle de setState
 
   return (
     <>
