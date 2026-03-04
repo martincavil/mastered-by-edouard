@@ -34,24 +34,26 @@ export default function LegalNoticePage() {
               {t.legalNotice.title}
             </h1>
             {/* Close button */}
-            <Link
-              href="/"
-              className="text-white hover:text-red transition-all hover:rotate-90 duration-300"
-              aria-label="Back to home"
-            >
-              <svg
-                className="w-10 h-10 md:w-12 md:h-12"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="1"
-                strokeLinecap="round"
-                strokeLinejoin="round"
+            <div className="overflow-hidden flex-shrink-0">
+              <Link
+                href="/"
+                className="text-white hover:text-red transition-all hover:rotate-90 duration-300 block"
+                aria-label="Back to home"
               >
-                <line x1="18" y1="6" x2="6" y2="18" />
-                <line x1="6" y1="6" x2="18" y2="18" />
-              </svg>
-            </Link>
+                <svg
+                  className="w-10 h-10 md:w-12 md:h-12"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="1"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <line x1="18" y1="6" x2="6" y2="18" />
+                  <line x1="6" y1="6" x2="18" y2="18" />
+                </svg>
+              </Link>
+            </div>
           </div>
 
           {/* Tabs - Desktop */}

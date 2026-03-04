@@ -52,24 +52,26 @@ export default function StudioPage() {
                 {t.studio.title}
               </h1>
               {/* Close button */}
-              <Link
-                href="/"
-                className="text-white hover:text-red transition-all hover:rotate-90 duration-300"
-                aria-label="Retour à l'accueil"
-              >
-                <svg
-                  className="w-10 h-10 md:w-12 md:h-12 xl:w-14 xl:h-14 2xl:w-[58px] 2xl:h-[58px]"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="1"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
+              <div className="overflow-hidden flex-shrink-0">
+                <Link
+                  href="/"
+                  className="text-white hover:text-red transition-all hover:rotate-90 duration-300 block"
+                  aria-label="Retour à l'accueil"
                 >
-                  <line x1="18" y1="6" x2="6" y2="18" />
-                  <line x1="6" y1="6" x2="18" y2="18" />
-                </svg>
-              </Link>
+                  <svg
+                    className="w-10 h-10 md:w-12 md:h-12 xl:w-14 xl:h-14 2xl:w-[58px] 2xl:h-[58px]"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="1"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <line x1="18" y1="6" x2="6" y2="18" />
+                    <line x1="6" y1="6" x2="18" y2="18" />
+                  </svg>
+                </Link>
+              </div>
             </div>
 
             {/* Subject menu - Mobile only */}
