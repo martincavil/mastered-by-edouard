@@ -13,12 +13,28 @@ import { PrepareFiles } from "./components/PrepareFiles";
 
 type SubjectKey = "audio-files" | "production-sheet" | "prepare-files";
 
+interface SelectedFile {
+  file: File;
+  id: string;
+  progress?: number;
+  uploading?: boolean;
+  error?: string;
+}
+
 function SendFilesContent() {
   const t = useTranslations();
   const searchParams = useSearchParams();
   const [selectedSubject, setSelectedSubject] =
     useState<SubjectKey>("audio-files");
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  // State partagé pour les fichiers audio
+  const [audioFiles, setAudioFiles] = useState<SelectedFile[]>([]);
+  const [audioFormData, setAudioFormData] = useState({
+    name: "",
+    email: "",
+    acceptTerms: false,
+  });
 
   useEffect(() => {
     const tab = searchParams.get("tab");
@@ -145,13 +161,32 @@ function SendFilesContent() {
               )}
             </div>
             {/* Content */}
-            <div
-              key={selectedSubject}
-              className="md:col-span-2 grid md:grid-cols-2 md:gap-6 xl:gap-16 2xl:gap-16 animate-fade-in flex-1 min-h-0"
-            >
-              {selectedSubject === "audio-files" && <AudioFiles />}
-              {selectedSubject === "production-sheet" && <ProductionSheet />}
-              {selectedSubject === "prepare-files" && <PrepareFiles />}
+            <div className="md:col-span-2 flex-1 min-h-0">
+              {/* AudioFiles - Always mounted to preserve state */}
+              <div
+                className={`${
+                  selectedSubject === "audio-files" ? "grid" : "hidden"
+                } md:grid-cols-2 md:gap-6 xl:gap-16 2xl:gap-16 animate-fade-in h-full`}
+              >
+                <AudioFiles
+                  selectedFiles={audioFiles}
+                  setSelectedFiles={setAudioFiles}
+                  formData={audioFormData}
+                  setFormData={setAudioFormData}
+                />
+              </div>
+
+              {/* Other tabs - Conditional rendering is fine */}
+              {selectedSubject === "production-sheet" && (
+                <div className="grid md:grid-cols-2 md:gap-6 xl:gap-16 2xl:gap-16 animate-fade-in h-full">
+                  <ProductionSheet />
+                </div>
+              )}
+              {selectedSubject === "prepare-files" && (
+                <div className="grid md:grid-cols-2 md:gap-6 xl:gap-16 2xl:gap-16 animate-fade-in h-full">
+                  <PrepareFiles />
+                </div>
+              )}
             </div>
             <div className="mt-auto">
               <Footer color="white" hoverColor="black" />

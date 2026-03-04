@@ -28,14 +28,32 @@ interface SelectedFile {
   error?: string;
 }
 
-export function AudioFiles() {
+interface AudioFilesProps {
+  selectedFiles: SelectedFile[];
+  setSelectedFiles: React.Dispatch<React.SetStateAction<SelectedFile[]>>;
+  formData: {
+    name: string;
+    email: string;
+    acceptTerms: boolean;
+  };
+  setFormData: React.Dispatch<
+    React.SetStateAction<{
+      name: string;
+      email: string;
+      acceptTerms: boolean;
+    }>
+  >;
+}
+
+export function AudioFiles({
+  selectedFiles,
+  setSelectedFiles,
+  formData,
+  setFormData,
+}: AudioFilesProps) {
   const t = useTranslations();
-  const [selectedFiles, setSelectedFiles] = useState<SelectedFile[]>([]);
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
   const [isUploading, setIsUploading] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
-  const [acceptTerms, setAcceptTerms] = useState(false);
   const [message, setMessage] = useState<{
     type: "success" | "error";
     text: string;
@@ -276,18 +294,18 @@ export function AudioFiles() {
       return;
     }
 
-    if (!name.trim()) {
+    if (!formData.name.trim()) {
       setMessage({ type: "error", text: "Please enter your name" });
       return;
     }
 
-    if (!email.trim()) {
+    if (!formData.email.trim()) {
       setMessage({ type: "error", text: "Please enter your email" });
       return;
     }
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
+    if (!emailRegex.test(formData.email)) {
       setMessage({ type: "error", text: "Please enter a valid email address" });
       return;
     }
@@ -311,11 +329,11 @@ export function AudioFiles() {
       // Create folder once for all files
       const timestamp = Date.now();
       // Double sanitize to ensure NO special characters at all
-      const artistName = sanitizeForDropbox(name.toLowerCase());
+      const artistName = sanitizeForDropbox(formData.name.toLowerCase());
       const folderName = `${artistName}_${timestamp}`;
       const folderPath = `/01_uploads/${folderName}`;
 
-      console.log("[Upload] Artist name:", name);
+      console.log("[Upload] Artist name:", formData.name);
       console.log("[Upload] Sanitized artist:", artistName);
       console.log("[Upload] Creating folder:", folderPath);
 
@@ -351,8 +369,7 @@ export function AudioFiles() {
 
       setSubmitSuccess(true);
       setSelectedFiles([]);
-      setName("");
-      setEmail("");
+      setFormData({ name: "", email: "", acceptTerms: false });
       if (fileInputRef.current) {
         fileInputRef.current.value = "";
       }
@@ -570,8 +587,10 @@ export function AudioFiles() {
                 <input
                   id="email"
                   type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  value={formData.email}
+                  onChange={(e) =>
+                    setFormData({ ...formData, email: e.target.value })
+                  }
                   disabled={isUploading}
                   placeholder="mail*"
                   aria-required="true"
@@ -583,8 +602,10 @@ export function AudioFiles() {
                 <input
                   id="name"
                   type="text"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
+                  value={formData.name}
+                  onChange={(e) =>
+                    setFormData({ ...formData, name: e.target.value })
+                  }
                   disabled={isUploading}
                   className="focus:ml-1 w-full py-1.5 px-8 2xl:py-3 bg-white rounded-[10px] text-black placeholder:text-black"
                   placeholder="name*"
@@ -593,7 +614,7 @@ export function AudioFiles() {
                 {/* Submit Button */}
                 <button
                   type="submit"
-                  disabled={isUploading || !acceptTerms}
+                  disabled={isUploading || !formData.acceptTerms}
                   className="bg-red-dark text-white font-bold text-center w-full py-1.5 2xl:py-3 rounded-[10px] hover:bg-red-dark/90 hover:scale-[1.03] transition-all duration-300 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
                 >
                   {isUploading ? "Uploading…" : "send files"}
@@ -607,8 +628,10 @@ export function AudioFiles() {
           <label className="flex items-center gap-2 cursor-pointer">
             <input
               type="checkbox"
-              checked={acceptTerms}
-              onChange={(e) => setAcceptTerms(e.target.checked)}
+              checked={formData.acceptTerms}
+              onChange={(e) =>
+                setFormData({ ...formData, acceptTerms: e.target.checked })
+              }
               className="w-4 h-4 flex-shrink-0 cursor-pointer outline-none focus:outline-none"
             />
             <p className="text-black font-light text-sm 2xl:text-base">
