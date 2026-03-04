@@ -6,7 +6,7 @@ import { Translations } from "@/lib/i18n/types";
 import { FormInput } from "./FormInput";
 import { FormTextarea } from "./FormTextarea";
 import { FormSelect } from "./FormSelect";
-import { CountryCodeSelect } from "./CountryCodeSelect";
+import { PhoneInput } from "./PhoneInput";
 
 interface FormData {
   name: string;
@@ -169,22 +169,15 @@ export function ContactForm({ t, onSuccess, onSubmitting }: ContactFormProps) {
             error={errors.email}
             required
           />
-          <div className="flex items-center space-x-2">
-            <CountryCodeSelect
-              value={formData.countryCode}
-              onChange={handleChange}
-              error={errors.countryCode}
-            />
-            <FormInput
-              type="tel"
-              name="phone"
-              value={formData.phone}
-              onChange={handleChange}
-              placeholder={t.contact.form.placeholders.phone}
-              error={errors.phone}
-              required
-            />
-          </div>
+          <PhoneInput
+            countryCode={formData.countryCode}
+            phoneNumber={formData.phone}
+            onCountryCodeChange={handleChange}
+            onPhoneNumberChange={handleChange}
+            placeholder={t.contact.form.placeholders.phone}
+            error={errors.phone || errors.countryCode}
+            required
+          />
         </div>
       </div>
 

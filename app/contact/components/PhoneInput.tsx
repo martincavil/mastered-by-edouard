@@ -1,5 +1,7 @@
 "use client";
 
+import { ChangeEvent } from "react";
+
 interface Country {
   code: string;
   dialCode: string;
@@ -7,10 +9,14 @@ interface Country {
   name: string;
 }
 
-interface CountryCodeSelectProps {
-  value: string;
-  onChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
+interface PhoneInputProps {
+  countryCode: string;
+  phoneNumber: string;
+  onCountryCodeChange: (e: ChangeEvent<HTMLSelectElement>) => void;
+  onPhoneNumberChange: (e: ChangeEvent<HTMLInputElement>) => void;
+  placeholder: string;
   error?: string;
+  required?: boolean;
 }
 
 const COUNTRIES: Country[] = [
@@ -266,34 +272,58 @@ const COUNTRIES: Country[] = [
   { code: "ZW", dialCode: "+263", flag: "🇿🇼", name: "Zimbabwe" },
 ];
 
-export function CountryCodeSelect({
-  value,
-  onChange,
+export function PhoneInput({
+  countryCode,
+  phoneNumber,
+  onCountryCodeChange,
+  onPhoneNumberChange,
+  placeholder,
   error,
-}: CountryCodeSelectProps) {
+  required = false,
+}: PhoneInputProps) {
+  const selectedCountry = COUNTRIES.find((c) => c.dialCode === countryCode);
+
   return (
     <div>
-      <select
-        name="countryCode"
-        value={value}
-        onChange={onChange}
-        className={`w-full bg-white text-black rounded-[10px] px-4 py-2 text-base 2xl:text-lg appearance-none cursor-pointer focus:ring-2 focus:ring-inset focus:ring-red outline-none ${
+      <div
+        className={`flex items-center bg-white rounded-[10px] overflow-hidden ${
           error ? "ring-2 ring-inset ring-red" : ""
         }`}
-        style={{
-          paddingRight: "2rem",
-          backgroundImage: `url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%23000' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e")`,
-          backgroundPosition: "right 0.5rem center",
-          backgroundRepeat: "no-repeat",
-          backgroundSize: "1.5em 1.5em",
-        }}
       >
-        {COUNTRIES.map((country) => (
-          <option key={country.code} value={country.dialCode}>
-            {country.flag} {country.dialCode} - {country.name}
-          </option>
-        ))}
-      </select>
+        {/* Country Code Selector */}
+        <div className="relative flex-shrink-0">
+          <select
+            name="countryCode"
+            value={countryCode}
+            onChange={onCountryCodeChange}
+            className="bg-transparent text-black px-3 py-2 text-base 2xl:text-lg appearance-none cursor-pointer focus:outline-none border-r border-gray-300"
+            style={{
+              paddingRight: "2rem",
+              backgroundImage: `url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%23000' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e")`,
+              backgroundPosition: "right 0.25rem center",
+              backgroundRepeat: "no-repeat",
+              backgroundSize: "1.25em 1.25em",
+            }}
+          >
+            {COUNTRIES.map((country) => (
+              <option key={country.code} value={country.dialCode}>
+                {country.flag} {country.dialCode}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        {/* Phone Number Input */}
+        <input
+          type="tel"
+          name="phone"
+          value={phoneNumber}
+          onChange={onPhoneNumberChange}
+          placeholder={placeholder}
+          className="flex-1 bg-transparent text-black placeholder-black px-4 py-2 text-base 2xl:text-lg focus:outline-none"
+          required={required}
+        />
+      </div>
       {error && (
         <p className="text-red text-sm 2xl:text-base mt-1 font-poppins">
           {error}
