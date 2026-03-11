@@ -1,7 +1,8 @@
 import { Metadata } from "next";
 import { Locale } from "@/lib/i18n";
 
-const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || "https://your-domain.com";
+const BASE_URL =
+  process.env.NEXT_PUBLIC_BASE_URL || "https://masteredbyedouard.com/";
 
 interface SEOConfig {
   title: string;
@@ -94,7 +95,7 @@ export function generateSitemap() {
       lastModified: new Date(),
       changeFrequency: page.changeFrequency,
       priority: page.priority,
-    }))
+    })),
   );
 
   return routes;
