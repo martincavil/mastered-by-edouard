@@ -4,7 +4,7 @@ import { useTranslations } from "@/lib/i18n/useTranslations";
 import Image from "next/image";
 import Link from "next/link";
 import { useState, ChangeEvent, FormEvent } from "react";
-import { LoadingSpinner } from "@/components/loading-spinner";
+import { UploadProgressScreen } from "@/components/upload-progress-screen";
 import { Track } from "./production-sheet/TrackListSection";
 import { FormStep1 } from "./production-sheet/FormStep1";
 import { FormStep2 } from "./production-sheet/FormStep2";
@@ -12,6 +12,18 @@ import { FormStep3 } from "./production-sheet/FormStep3";
 import { SuccessView } from "./production-sheet/SuccessView";
 import { NavigationButtons } from "./production-sheet/NavigationButtons";
 import { Button } from "@/components/button";
+
+// Helper function to sanitize strings for Dropbox API
+const sanitizeForDropbox = (str: string): string => {
+  return str
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^\x00-\x7F]/g, "_")
+    .replace(/[^\w\s.-]/g, "_")
+    .replace(/\s+/g, "_")
+    .replace(/_+/g, "_")
+    .replace(/^_+|_+$/g, "");
+};
 
 interface FormData {
   name: string;
@@ -44,6 +56,9 @@ export function ProductionSheet() {
   const [allInfoChecked, setAllInfoChecked] = useState(false);
   const [isAlternativeVersionsOpen, setIsAlternativeVersionsOpen] =
     useState(false);
+  const [uploadProgress, setUploadProgress] = useState(0);
+  const [uploadedFiles, setUploadedFiles] = useState<string[]>([]);
+  const [totalFiles, setTotalFiles] = useState(0);
 
   const [formData, setFormData] = useState<FormData>({
     name: "",
@@ -285,6 +300,44 @@ export function ProductionSheet() {
     setErrors({});
   };
 
+  // Upload file to Dropbox
+  const uploadFileToDropbox = async (
+    file: File | Blob,
+    fileName: string,
+    folderPath: string,
+    dropboxToken: string,
+  ): Promise<void> => {
+    const sanitizedFileName = sanitizeForDropbox(fileName);
+    const filePath = `${folderPath}/${sanitizedFileName}`;
+
+    console.log("[Upload] Uploading file:", fileName);
+
+    const response = await fetch(
+      "https://content.dropboxapi.com/2/files/upload",
+      {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${dropboxToken}`,
+          "Content-Type": "application/octet-stream",
+          "Dropbox-API-Arg": JSON.stringify({
+            path: filePath,
+            mode: "add",
+            autorename: true,
+            mute: false,
+          }),
+        },
+        body: file,
+      },
+    );
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(`Failed to upload ${fileName}: ${errorText}`);
+    }
+
+    console.log("[Upload] File uploaded successfully:", fileName);
+  };
+
   // Submit
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -295,7 +348,61 @@ export function ProductionSheet() {
     setMessage(null);
 
     try {
-      // Generate filled PDF using template
+      // Count total files to upload
+      let filesToUpload = 1; // Production sheet PDF
+      if (coverFile) filesToUpload++;
+      filesToUpload += otherFiles.length;
+
+      setTotalFiles(filesToUpload);
+      setUploadedFiles([]);
+      setUploadProgress(0);
+
+      let uploadedCount = 0;
+
+      const updateProgress = (fileName: string) => {
+        uploadedCount++;
+        setUploadedFiles((prev) => [...prev, fileName]);
+        setUploadProgress((uploadedCount / filesToUpload) * 100);
+      };
+
+      // Get Dropbox token
+      console.log("[Upload] Getting Dropbox token...");
+      const tokenResponse = await fetch("/api/dropbox-token");
+
+      if (!tokenResponse.ok) {
+        throw new Error("Failed to get Dropbox token");
+      }
+
+      const { accessToken } = await tokenResponse.json();
+      console.log("[Upload] Token received");
+
+      // Create folder
+      const artistName = sanitizeForDropbox(formData.artist.toLowerCase());
+      const folderPath = `/01_uploads/${artistName}`;
+
+      console.log("[Upload] Creating folder:", folderPath);
+
+      const folderResponse = await fetch(
+        "https://api.dropboxapi.com/2/files/create_folder_v2",
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ path: folderPath, autorename: false }),
+        },
+      );
+
+      if (!folderResponse.ok && folderResponse.status !== 409) {
+        const errorText = await folderResponse.text();
+        throw new Error(`Failed to create folder: ${errorText}`);
+      }
+
+      console.log("[Upload] Folder created successfully");
+
+      // Generate and upload PDF
+      console.log("[Upload] Generating PDF...");
       const pdfResponse = await fetch("/api/production-sheet-fill", {
         method: "POST",
         headers: {
@@ -312,32 +419,33 @@ export function ProductionSheet() {
       }
 
       const pdfBlob = await pdfResponse.blob();
+      await uploadFileToDropbox(
+        pdfBlob,
+        `${artistName}-production_sheet.pdf`,
+        folderPath,
+        accessToken,
+      );
+      updateProgress(`${artistName}-production_sheet.pdf`);
 
-      const submitData = new FormData();
-      submitData.append("formData", JSON.stringify({ ...formData, tracks }));
-
+      // Upload cover if exists
       if (coverFile) {
-        submitData.append("cover", coverFile);
+        const coverExtension = coverFile.name.split(".").pop();
+        await uploadFileToDropbox(
+          coverFile,
+          `cover.${coverExtension}`,
+          folderPath,
+          accessToken,
+        );
+        updateProgress(`cover.${coverExtension}`);
       }
 
-      otherFiles.forEach((file) => {
-        submitData.append("otherFiles", file);
-      });
-
-      // Add generated PDF
-      submitData.append("productionSheetPdf", pdfBlob, "production-sheet.pdf");
-
-      const response = await fetch("/api/production-sheet", {
-        method: "POST",
-        body: submitData,
-      });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.error || "Upload failed");
+      // Upload other files
+      for (const file of otherFiles) {
+        await uploadFileToDropbox(file, file.name, folderPath, accessToken);
+        updateProgress(file.name);
       }
 
+      console.log("[Upload] All files uploaded successfully");
       setSubmitSuccess(true);
     } catch (error) {
       setMessage({
@@ -472,7 +580,18 @@ export function ProductionSheet() {
           className="absolute bottom-0 right-0 object-cover w-48 h-48 xl:w-56 xl:h-56 2xl:w-[271px] 2xl:h-[271px]"
         />
       </div>
-      {isSubmitting && <LoadingSpinner />}
+      {isSubmitting && (
+        <UploadProgressScreen
+          uploadProgress={uploadProgress}
+          uploadedFiles={uploadedFiles}
+          totalFiles={totalFiles}
+          onClose={() => {
+            setIsSubmitting(false);
+            setUploadedFiles([]);
+            setUploadProgress(0);
+          }}
+        />
+      )}
 
       {/* Mobile Disclaimer */}
       <div className="md:hidden flex flex-col items-center justify-center  bg-black p-6 rounded-[10px] h-full overflow-y-auto text-center text-white space-y-4">

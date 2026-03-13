@@ -6,7 +6,7 @@ import Link from "next/link";
 import { useState, useRef, DragEvent, ChangeEvent, FormEvent } from "react";
 import { X, Upload, CircleCheckBig } from "lucide-react";
 import { ArrowUpRight } from "@/components/icons/ArrowUpRight";
-import { LoadingSpinner } from "@/components/loading-spinner";
+import { UploadProgressScreen } from "@/components/upload-progress-screen";
 
 // Helper function to sanitize strings for Dropbox API (removes all non-ASCII characters)
 const sanitizeForDropbox = (str: string): string => {
@@ -59,6 +59,9 @@ export function AudioFiles({
     text: string;
   } | null>(null);
   const [uploadedFilesCount, setUploadedFilesCount] = useState(0);
+  const [uploadedFileNames, setUploadedFileNames] = useState<string[]>([]);
+  const [totalFilesCount, setTotalFilesCount] = useState(0);
+  const [uploadProgress, setUploadProgress] = useState(0);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const tooltipButtonRef = useRef<HTMLDivElement>(null);
   const [tooltipPosition, setTooltipPosition] = useState({ top: 0, left: 0 });
@@ -272,8 +275,16 @@ export function AudioFiles({
         ),
       );
 
-      // Increment uploaded files count
-      setUploadedFilesCount((prev) => prev + 1);
+      // Increment uploaded files count and add file name to list
+      setUploadedFilesCount((prev) => {
+        const newCount = prev + 1;
+        // Calculate global progress
+        setUploadProgress((newCount / totalFilesCount) * 100);
+        return newCount;
+      });
+
+      // Add file name to uploaded list
+      setUploadedFileNames((prev) => [...prev, file.name]);
     } catch (error) {
       const errorMessage =
         error instanceof Error ? error.message : "Upload failed";
@@ -313,6 +324,9 @@ export function AudioFiles({
     setIsUploading(true);
     setMessage(null);
     setUploadedFilesCount(0);
+    setUploadedFileNames([]);
+    setTotalFilesCount(selectedFiles.length);
+    setUploadProgress(0);
 
     try {
       // Get temporary Dropbox token for direct upload
@@ -682,9 +696,16 @@ export function AudioFiles({
         />
       </div>
       {isUploading && (
-        <LoadingSpinner
-          currentFile={uploadedFilesCount}
-          totalFiles={selectedFiles.length}
+        <UploadProgressScreen
+          uploadProgress={uploadProgress}
+          uploadedFiles={uploadedFileNames}
+          totalFiles={totalFilesCount}
+          onClose={() => {
+            setIsUploading(false);
+            setUploadedFilesCount(0);
+            setUploadedFileNames([]);
+            setUploadProgress(0);
+          }}
         />
       )}
     </>
