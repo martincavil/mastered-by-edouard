@@ -431,7 +431,7 @@ export function AudioFiles({
 
   return (
     <>
-      {!isUploading ? (
+      {isUploading ? (
         <UploadProgressScreen
           uploadProgress={uploadProgress}
           uploadedFiles={uploadedFileNames}
