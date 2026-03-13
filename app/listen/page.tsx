@@ -196,7 +196,7 @@ export default function ListenPage() {
   return (
     <>
       <PageTransition>
-        <main className="h-full flex flex-col bg-black pb-8 md:pb-0 pt-8 md:pt-4 xl:pt-6 2xl:pt-8 px-8 overflow-hidden">
+        <main className="h-full flex flex-col bg-black pb-8 md:pb-0 pt-8 md:pt-4 xl:pt-6 2xl:pt-8 md:px-8 px-5 overflow-hidden">
           <div className="flex-1 flex flex-col overflow-y-auto xl:overflow-y-visible">
             {/* Header */}
             <div className="flex items-center justify-between mb-3 md:mb-3 xl:mb-5 2xl:mb-10">

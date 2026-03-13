@@ -107,7 +107,6 @@
   body {
     @apply text-black bg-white font-platform antialiased;
   }
-
   /* Paragraphes en Poppins */
   p {
     @apply font-poppins;
@@ -119,7 +118,7 @@
 
   /* Checkboxes en rouge */
   input[type="checkbox"] {
-    accent-color: #E20600;
+    accent-color: #e20600;
     cursor: pointer;
   }
 
@@ -134,44 +133,53 @@
 @layer utilities {
   /* Bordure en pointillés avec espacement personnalisé */
   .border-dashed-custom {
-    background-image: repeating-linear-gradient(
-      0deg,
-      transparent 0,
-      transparent 5px,
-      #161616 5px,
-      #161616 15px,
-      transparent 15px,
-      transparent 20px
-    ),
-    repeating-linear-gradient(
-      90deg,
-      transparent 0,
-      transparent 5px,
-      #161616 5px,
-      #161616 15px,
-      transparent 15px,
-      transparent 20px
-    ),
-    repeating-linear-gradient(
-      180deg,
-      transparent 0,
-      transparent 5px,
-      #161616 5px,
-      #161616 15px,
-      transparent 15px,
-      transparent 20px
-    ),
-    repeating-linear-gradient(
-      270deg,
-      transparent 0,
-      transparent 5px,
-      #161616 5px,
-      #161616 15px,
-      transparent 15px,
-      transparent 20px
-    );
-    background-size: 1px 100%, 100% 1px, 1px 100%, 100% 1px;
-    background-position: 0 0, 0 0, 100% 0, 0 100%;
+    background-image:
+      repeating-linear-gradient(
+        0deg,
+        transparent 0,
+        transparent 5px,
+        #161616 5px,
+        #161616 15px,
+        transparent 15px,
+        transparent 20px
+      ),
+      repeating-linear-gradient(
+        90deg,
+        transparent 0,
+        transparent 5px,
+        #161616 5px,
+        #161616 15px,
+        transparent 15px,
+        transparent 20px
+      ),
+      repeating-linear-gradient(
+        180deg,
+        transparent 0,
+        transparent 5px,
+        #161616 5px,
+        #161616 15px,
+        transparent 15px,
+        transparent 20px
+      ),
+      repeating-linear-gradient(
+        270deg,
+        transparent 0,
+        transparent 5px,
+        #161616 5px,
+        #161616 15px,
+        transparent 15px,
+        transparent 20px
+      );
+    background-size:
+      1px 100%,
+      100% 1px,
+      1px 100%,
+      100% 1px;
+    background-position:
+      0 0,
+      0 0,
+      100% 0,
+      0 100%;
     background-repeat: no-repeat;
   }
 }
