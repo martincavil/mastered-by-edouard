@@ -20,7 +20,7 @@ interface FormData {
   type: string;
   numberOfSongs: string;
   message: string;
-  acceptTerms: boolean;
+  allInfoChecked: boolean;
 }
 
 interface FormErrors {
@@ -46,7 +46,7 @@ const INITIAL_FORM_DATA: FormData = {
   type: "",
   numberOfSongs: "",
   message: "",
-  acceptTerms: false,
+  allInfoChecked: false,
 };
 
 export function ContactForm({ t, onSuccess, onSubmitting }: ContactFormProps) {
@@ -90,10 +90,9 @@ export function ContactForm({ t, onSuccess, onSubmitting }: ContactFormProps) {
     if (!formData.message.trim()) {
       newErrors.message = t.contact.form.validation.messageRequired;
     }
-    if (!formData.acceptTerms) {
-      newErrors.acceptTerms = t.contact.form.validation.termsRequired;
+    if (!formData.allInfoChecked) {
+      newErrors.allInfoChecked = "Please check all informations";
     }
-
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -235,20 +234,36 @@ export function ContactForm({ t, onSuccess, onSubmitting }: ContactFormProps) {
         </div>
       </div>
 
-      {/* Form Footer */}
-      <div className="grid grid-cols-1 md:grid-cols-2 items-end gap-3">
-        <p className="text-sm 2xl:text-base text-white font-poppins">
-          {t.contact.form.requiredNote}
-        </p>
+      {/* Checkbox and Submit Button */}
+      <div className="flex items-center justify-between gap-3 w-full">
+        <label className="w-full flex items-center gap-2 bg-white px-4 py-2 rounded-[10px] cursor-pointer">
+          <input
+            type="checkbox"
+            checked={formData.allInfoChecked}
+            onChange={(e) =>
+              setFormData({ ...formData, allInfoChecked: e.target.checked })
+            }
+            className="w-4 h-4 flex-shrink-0"
+          />
+          <span className="text-sm 2xl:text-base text-black">
+            all informations are checked
+          </span>
+        </label>
+
         <button
           type="submit"
-          disabled={!formData.acceptTerms}
-          className="bg-red text-black font-bold text-lg px-6 xl:px-8 py-2.5 rounded-[10px] hover:bg-red/90 transition-all duration-500 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer w-full hover:scale-[1.03] disabled:hover:scale-100"
+          disabled={!formData.allInfoChecked}
+          className="w-full bg-red-dark text-white font-bold text-base 2xl:text-lg px-6 py-2 2xl:py-2.5 rounded-[10px] hover:bg-red-dark/90 hover:scale-[1.03] transition-all duration-300 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
         >
-          {t.contact.form.send}
+          send
           <ArrowUpRight size={20} />
         </button>
       </div>
+
+      {/* Required fields text */}
+      <p className="text-white text-sm 2xl:text-base font-light">
+        fields marked with * are required.
+      </p>
 
       {/* Submit Error */}
       {errors.submit && (
@@ -258,7 +273,7 @@ export function ContactForm({ t, onSuccess, onSubmitting }: ContactFormProps) {
       )}
 
       {/* Terms and Conditions */}
-      <label className="flex items-center gap-2 cursor-pointer">
+      {/* <label className="flex items-center gap-2 cursor-pointer">
         <input
           type="checkbox"
           checked={formData.acceptTerms}
@@ -278,7 +293,7 @@ export function ContactForm({ t, onSuccess, onSubmitting }: ContactFormProps) {
           </Link>{" "}
           {t.contact.form.termsAndConditions.suffix}
         </p>
-      </label>
+      </label> */}
     </form>
   );
 }
