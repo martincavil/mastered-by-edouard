@@ -428,7 +428,23 @@ export function AudioFiles({
 
   return (
     <>
-      <div className="flex flex-col space-y-3">
+      {isUploading ? (
+        <UploadProgressScreen
+          uploadProgress={uploadProgress}
+          uploadedFiles={uploadedFileNames}
+          totalFiles={totalFilesCount}
+          allFiles={allFileNames}
+          onClose={() => {
+            setIsUploading(false);
+            setUploadedFilesCount(0);
+            setUploadedFileNames([]);
+            setAllFileNames([]);
+            setUploadProgress(0);
+          }}
+        />
+      ) : (
+        <>
+          <div className="flex flex-col space-y-3">
         {submitSuccess ? (
           <div className="flex flex-col h-full">
             {/* White success container */}
@@ -724,20 +740,7 @@ export function AudioFiles({
           className="absolute bottom-0 right-0 object-cover w-48 h-48 xl:w-56 xl:h-56 2xl:w-[271px] 2xl:h-[271px]"
         />
       </div>
-      {isUploading && (
-        <UploadProgressScreen
-          uploadProgress={uploadProgress}
-          uploadedFiles={uploadedFileNames}
-          totalFiles={totalFilesCount}
-          allFiles={allFileNames}
-          onClose={() => {
-            setIsUploading(false);
-            setUploadedFilesCount(0);
-            setUploadedFileNames([]);
-            setAllFileNames([]);
-            setUploadProgress(0);
-          }}
-        />
+        </>
       )}
     </>
   );

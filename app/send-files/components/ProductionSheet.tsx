@@ -469,7 +469,22 @@ export function ProductionSheet() {
 
   return (
     <>
-      <div className="hidden md:flex flex-col space-y-2 2xl:space-y-3">
+      {isSubmitting ? (
+        <UploadProgressScreen
+          uploadProgress={uploadProgress}
+          uploadedFiles={uploadedFiles}
+          totalFiles={totalFiles}
+          allFiles={allFiles}
+          onClose={() => {
+            setIsSubmitting(false);
+            setUploadedFiles([]);
+            setUploadProgress(0);
+            setAllFiles([]);
+          }}
+        />
+      ) : (
+        <>
+          <div className="hidden md:flex flex-col space-y-2 2xl:space-y-3">
         {submitSuccess ? (
           <SuccessView t={t} />
         ) : (
@@ -590,20 +605,6 @@ export function ProductionSheet() {
           className="absolute bottom-0 right-0 object-cover w-48 h-48 xl:w-56 xl:h-56 2xl:w-[271px] 2xl:h-[271px]"
         />
       </div>
-      {isSubmitting && (
-        <UploadProgressScreen
-          uploadProgress={uploadProgress}
-          uploadedFiles={uploadedFiles}
-          totalFiles={totalFiles}
-          allFiles={allFiles}
-          onClose={() => {
-            setIsSubmitting(false);
-            setUploadedFiles([]);
-            setUploadProgress(0);
-            setAllFiles([]);
-          }}
-        />
-      )}
 
       {/* Mobile Disclaimer */}
       <div className="md:hidden flex flex-col items-center justify-center  bg-black p-6 rounded-[10px] h-full overflow-y-auto text-center text-white space-y-4">
@@ -622,6 +623,8 @@ export function ProductionSheet() {
           {t.notFound.backHome}.
         </Button>
       </div>
+        </>
+      )}
     </>
   );
 }
