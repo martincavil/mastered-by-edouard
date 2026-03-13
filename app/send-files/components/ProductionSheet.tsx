@@ -48,10 +48,14 @@ interface FormData {
   otherCredits: string;
 }
 
-export function ProductionSheet() {
+interface ProductionSheetProps {
+  isUploading: boolean;
+  setIsUploading: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+export function ProductionSheet({ isUploading, setIsUploading }: ProductionSheetProps) {
   const t = useTranslations();
   const [currentStep, setCurrentStep] = useState(1);
-  const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
   const [allInfoChecked, setAllInfoChecked] = useState(false);
   const [isAlternativeVersionsOpen, setIsAlternativeVersionsOpen] =
@@ -345,7 +349,7 @@ export function ProductionSheet() {
 
     if (!validateStep3()) return;
 
-    setIsSubmitting(true);
+    setIsUploading(true);
     setMessage(null);
 
     try {
@@ -463,20 +467,20 @@ export function ProductionSheet() {
         text: error instanceof Error ? error.message : "Failed to submit",
       });
     } finally {
-      setIsSubmitting(false);
+      setIsUploading(false);
     }
   };
 
   return (
     <>
-      {isSubmitting ? (
+      {isUploading ? (
         <UploadProgressScreen
           uploadProgress={uploadProgress}
           uploadedFiles={uploadedFiles}
           totalFiles={totalFiles}
           allFiles={allFiles}
           onClose={() => {
-            setIsSubmitting(false);
+            setIsUploading(false);
             setUploadedFiles([]);
             setUploadProgress(0);
             setAllFiles([]);
@@ -559,7 +563,7 @@ export function ProductionSheet() {
             <NavigationButtons
               currentStep={currentStep}
               allInfoChecked={allInfoChecked}
-              isSubmitting={isSubmitting}
+              isSubmitting={isUploading}
               t={t}
               onAllInfoCheckedChange={setAllInfoChecked}
               onStep2Click={goToStep2}

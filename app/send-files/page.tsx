@@ -35,6 +35,8 @@ function SendFilesContent() {
     email: "",
     acceptTerms: false,
   });
+  const [isAudioUploading, setIsAudioUploading] = useState(false);
+  const [isProductionUploading, setIsProductionUploading] = useState(false);
 
   useEffect(() => {
     const tab = searchParams.get("tab");
@@ -166,20 +168,25 @@ function SendFilesContent() {
               <div
                 className={`${
                   selectedSubject === "audio-files" ? "grid" : "hidden"
-                } md:grid-cols-2 md:gap-6 xl:gap-16 2xl:gap-16 animate-fade-in h-full`}
+                } ${isAudioUploading ? "md:grid-cols-1" : "md:grid-cols-2"} md:gap-6 xl:gap-16 2xl:gap-16 animate-fade-in h-full`}
               >
                 <AudioFiles
                   selectedFiles={audioFiles}
                   setSelectedFiles={setAudioFiles}
                   formData={audioFormData}
                   setFormData={setAudioFormData}
+                  isUploading={isAudioUploading}
+                  setIsUploading={setIsAudioUploading}
                 />
               </div>
 
               {/* Other tabs - Conditional rendering is fine */}
               {selectedSubject === "production-sheet" && (
-                <div className="grid md:grid-cols-2 md:gap-6 xl:gap-16 2xl:gap-16 animate-fade-in h-full">
-                  <ProductionSheet />
+                <div className={`grid ${isProductionUploading ? "md:grid-cols-1" : "md:grid-cols-2"} md:gap-6 xl:gap-16 2xl:gap-16 animate-fade-in h-full`}>
+                  <ProductionSheet
+                    isUploading={isProductionUploading}
+                    setIsUploading={setIsProductionUploading}
+                  />
                 </div>
               )}
               {selectedSubject === "prepare-files" && (

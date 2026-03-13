@@ -4,7 +4,7 @@ import { useTranslations } from "@/lib/i18n/useTranslations";
 import Image from "next/image";
 import Link from "next/link";
 import { useState, useRef, DragEvent, ChangeEvent, FormEvent } from "react";
-import { X, Upload, CircleCheckBig } from "lucide-react";
+import { X, CircleCheckBig } from "lucide-react";
 import { ArrowUpRight } from "@/components/icons/ArrowUpRight";
 import { UploadProgressScreen } from "@/components/upload-progress-screen";
 
@@ -43,6 +43,8 @@ interface AudioFilesProps {
       acceptTerms: boolean;
     }>
   >;
+  isUploading: boolean;
+  setIsUploading: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export function AudioFiles({
@@ -50,9 +52,10 @@ export function AudioFiles({
   setSelectedFiles,
   formData,
   setFormData,
+  isUploading,
+  setIsUploading,
 }: AudioFilesProps) {
   const t = useTranslations();
-  const [isUploading, setIsUploading] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
   const [message, setMessage] = useState<{
     type: "success" | "error";
@@ -327,7 +330,7 @@ export function AudioFiles({
     setUploadedFilesCount(0);
     setUploadedFileNames([]);
     setTotalFilesCount(selectedFiles.length);
-    setAllFileNames(selectedFiles.map(f => f.file.name));
+    setAllFileNames(selectedFiles.map((f) => f.file.name));
     setUploadProgress(0);
 
     try {
@@ -428,7 +431,7 @@ export function AudioFiles({
 
   return (
     <>
-      {isUploading ? (
+      {!isUploading ? (
         <UploadProgressScreen
           uploadProgress={uploadProgress}
           uploadedFiles={uploadedFileNames}
@@ -445,301 +448,306 @@ export function AudioFiles({
       ) : (
         <>
           <div className="flex flex-col space-y-3">
-        {submitSuccess ? (
-          <div className="flex flex-col h-full">
-            {/* White success container */}
-            <div className="bg-white max-h-[350px] 2xl:max-h-full rounded-[10px] pt-8 px-8 flex flex-col items-center relative flex-1">
-              <CircleCheckBig
-                size={64}
-                className="text-white bg-red rounded-full p-3"
-                strokeWidth={2}
-              />
-              <p className="text-black text-center md:text-2xl 2xl:text-3xl mt-3">
-                {t.sendFiles.audioFiles.successMessage}
-              </p>
-              <div className="mt-auto w-full flex justify-center">
-                <Image
-                  src="https://www.dropbox.com/scl/fi/ngor9nsc5rl7gvd3ew5xp/files-sent.webp?rlkey=ghnns7vsh8743o0juqqb2iiz7&st=56wa1fv5&dl=1"
-                  alt="Success illustration"
-                  width={271}
-                  height={271}
-                  className="object-cover w-full"
-                />
-              </div>
-            </div>
-            <div className="flex items-center w-full gap-2 mt-2 2xl:mt-3">
-              <Link
-                href="/send-files?tab=production-sheet"
-                className="bg-white text-black font-bold text-base 2xl:text-lg py-1.5 2xl:py-3 rounded-[10px] hover:bg-black/90 hover:text-white  transition-colors duration-300 flex items-center justify-center gap-2 w-full"
-              >
-                {t.sendFiles.audioFiles.sendProductionSheet}
-                <ArrowUpRight size={20} />
-              </Link>
-              <Link
-                href="/"
-                className="bg-red-dark text-white font-bold text-base 2xl:text-lg py-1.5 2xl:py-3 rounded-[10px] hover:bg-black/90 transition-colors duration-300 flex items-center justify-center gap-2 w-full"
-              >
-                {t.sendFiles.audioFiles.backToHome}
-                <ArrowUpRight size={20} />
-              </Link>
-            </div>
-          </div>
-        ) : (
-          <form
-            onSubmit={handleSubmit}
-            className="flex flex-col space-y-2 2xl:space-y-4"
-          >
-            <div className="bg-white px-4 py-6 2xl:py-8 2xl:px-6 rounded-[10px] min-h-[300px] h-[300px] max-h-[300px] 2xl:h-full 2xl:max-h-[700px] relative flex flex-col justify-between">
-              <div className="mb-2">
-                <div className="w-full">
-                  <p className="text-center font-medium mb-3 2xl:mb-5">
-                    {t.sendFiles.audioFiles.draganddrop}
-                  </p>
-                </div>
-                {/* Drag & Drop Zone */}
-                <div
-                  onDragOver={handleDragOver}
-                  onDrop={handleDrop}
-                  onClick={() => fileInputRef.current?.click()}
-                  className="border-dashed-custom rounded-[10px] p-8 text-center cursor-pointer bg-[#ECECEC] transition-colors "
-                >
-                  <input
-                    ref={fileInputRef}
-                    type="file"
-                    multiple
-                    accept=".wav,.aif"
-                    onChange={handleFileInputChange}
-                    className="hidden"
+            {submitSuccess ? (
+              <div className="flex flex-col h-full">
+                {/* White success container */}
+                <div className="bg-white max-h-[350px] 2xl:max-h-full rounded-[10px] pt-8 px-8 flex flex-col items-center relative flex-1">
+                  <CircleCheckBig
+                    size={64}
+                    className="text-white bg-red rounded-full p-3"
+                    strokeWidth={2}
                   />
-                  <div className="flex items-center justify-center gap-2">
-                    <p className="">{t.sendFiles.audioFiles.clickordrag}</p>
-                    <ArrowUpRight
-                      size={24}
-                      className="font-extralight inline-block"
+                  <p className="text-black text-center md:text-2xl 2xl:text-3xl mt-3">
+                    {t.sendFiles.audioFiles.successMessage}
+                  </p>
+                  <div className="mt-auto w-full flex justify-center">
+                    <Image
+                      src="https://www.dropbox.com/scl/fi/ngor9nsc5rl7gvd3ew5xp/files-sent.webp?rlkey=ghnns7vsh8743o0juqqb2iiz7&st=56wa1fv5&dl=1"
+                      alt="Success illustration"
+                      width={271}
+                      height={271}
+                      className="object-cover w-full"
                     />
                   </div>
                 </div>
-
-                {/* Selected Files List */}
-                {selectedFiles.length > 0 && (
-                  <div className="mt-2">
-                    <h3 className="text-black font-extralight mb-2">
-                      {t.sendFiles.audioFiles.uploadingFiles}
-                    </h3>
-                    <div className="space-y-2 max-h-[80px] overflow-y-scroll pr-1">
-                      {selectedFiles.map(
-                        ({ file, id, progress, uploading, error }) => (
-                          <div
-                            key={id}
-                            className="flex flex-col rounded-[10px]"
-                          >
-                            <div className="flex items-center justify-between w-full min-w-0 border bg-[#ECECEC] border-black rounded-[10px] px-3 py-2">
-                              <p className="text-black text-xs truncate">
-                                {file.name}
-                              </p>
-                              {!uploading && !error && (
-                                <button
-                                  type="button"
-                                  onClick={() => handleRemoveFile(id)}
-                                  className=" text-black hover:text-red transition-colors"
-                                  disabled={isUploading}
-                                >
-                                  <X size={20} />
-                                </button>
-                              )}
-                              {uploading && (
-                                <span className="text-xs text-black/60">
-                                  {progress}%
-                                </span>
-                              )}
-                            </div>
-                            {/* Progress bar */}
-                            {uploading && progress !== undefined && (
-                              <div className="w-full bg-gray-200 rounded-full h-1.5 mt-1">
-                                <div
-                                  className="bg-red-dark h-1.5 rounded-full transition-all duration-300"
-                                  style={{ width: `${progress}%` }}
-                                />
-                              </div>
-                            )}
-                            {/* Error message */}
-                            {error && (
-                              <p className="text-red text-xs mt-1">{error}</p>
-                            )}
-                          </div>
-                        ),
-                      )}
-                    </div>
-                  </div>
-                )}
-                {/* Message Display */}
-                {message && (
-                  <div
-                    className={`mt-2 py-1.5 px-4 rounded-lg text-xs ${
-                      message.type === "success"
-                        ? "bg-green-500/20 text-green-700"
-                        : "bg-red-500/20 text-red"
-                    }`}
+                <div className="flex items-center w-full gap-2 mt-2 2xl:mt-3">
+                  <Link
+                    href="/send-files?tab=production-sheet"
+                    className="bg-white text-black font-bold text-base 2xl:text-lg py-1.5 2xl:py-3 rounded-[10px] hover:bg-black/90 hover:text-white  transition-colors duration-300 flex items-center justify-center gap-2 w-full"
                   >
-                    {message.text}
-                  </div>
-                )}
+                    {t.sendFiles.audioFiles.sendProductionSheet}
+                    <ArrowUpRight size={20} />
+                  </Link>
+                  <Link
+                    href="/"
+                    className="bg-red-dark text-white font-bold text-base 2xl:text-lg py-1.5 2xl:py-3 rounded-[10px] hover:bg-black/90 transition-colors duration-300 flex items-center justify-center gap-2 w-full"
+                  >
+                    {t.sendFiles.audioFiles.backToHome}
+                    <ArrowUpRight size={20} />
+                  </Link>
+                </div>
+              </div>
+            ) : (
+              <form
+                onSubmit={handleSubmit}
+                className="flex flex-col space-y-2 2xl:space-y-4"
+              >
+                <div className="bg-white px-4 py-6 2xl:py-8 2xl:px-6 rounded-[10px] min-h-[300px] h-[300px] max-h-[300px] 2xl:h-full 2xl:max-h-[700px] relative flex flex-col justify-between">
+                  <div className="mb-2">
+                    <div className="w-full">
+                      <p className="text-center font-medium mb-3 2xl:mb-5">
+                        {t.sendFiles.audioFiles.draganddrop}
+                      </p>
+                    </div>
+                    {/* Drag & Drop Zone */}
+                    <div
+                      onDragOver={handleDragOver}
+                      onDrop={handleDrop}
+                      onClick={() => fileInputRef.current?.click()}
+                      className="border-dashed-custom rounded-[10px] p-8 text-center cursor-pointer bg-[#ECECEC] transition-colors "
+                    >
+                      <input
+                        ref={fileInputRef}
+                        type="file"
+                        multiple
+                        accept=".wav,.aif"
+                        onChange={handleFileInputChange}
+                        className="hidden"
+                      />
+                      <div className="flex items-center justify-center gap-2">
+                        <p className="">{t.sendFiles.audioFiles.clickordrag}</p>
+                        <ArrowUpRight
+                          size={24}
+                          className="font-extralight inline-block"
+                        />
+                      </div>
+                    </div>
 
-                {/* Tooltip button - bottom right */}
-                <div
-                  ref={tooltipButtonRef}
-                  className="absolute right-4 bottom-6 2xl:right-6 2xl:bottom-8"
-                  onMouseEnter={handleTooltipHover}
-                  onMouseLeave={() => setShowTooltip(false)}
-                >
-                  <div className="w-5 h-5 rounded-full border border-black flex items-center justify-center cursor-help bg-transparent hover:bg-black hover:text-white transition-colors shadow-md shadow-black/30">
-                    <span className="text-xs font-medium">i</span>
+                    {/* Selected Files List */}
+                    {selectedFiles.length > 0 && (
+                      <div className="mt-2">
+                        <h3 className="text-black font-extralight mb-2">
+                          {t.sendFiles.audioFiles.uploadingFiles}
+                        </h3>
+                        <div className="space-y-2 max-h-[80px] overflow-y-scroll pr-1">
+                          {selectedFiles.map(
+                            ({ file, id, progress, uploading, error }) => (
+                              <div
+                                key={id}
+                                className="flex flex-col rounded-[10px]"
+                              >
+                                <div className="flex items-center justify-between w-full min-w-0 border bg-[#ECECEC] border-black rounded-[10px] px-3 py-2">
+                                  <p className="text-black text-xs truncate">
+                                    {file.name}
+                                  </p>
+                                  {!uploading && !error && (
+                                    <button
+                                      type="button"
+                                      onClick={() => handleRemoveFile(id)}
+                                      className=" text-black hover:text-red transition-colors"
+                                      disabled={isUploading}
+                                    >
+                                      <X size={20} />
+                                    </button>
+                                  )}
+                                  {uploading && (
+                                    <span className="text-xs text-black/60">
+                                      {progress}%
+                                    </span>
+                                  )}
+                                </div>
+                                {/* Progress bar */}
+                                {uploading && progress !== undefined && (
+                                  <div className="w-full bg-gray-200 rounded-full h-1.5 mt-1">
+                                    <div
+                                      className="bg-red-dark h-1.5 rounded-full transition-all duration-300"
+                                      style={{ width: `${progress}%` }}
+                                    />
+                                  </div>
+                                )}
+                                {/* Error message */}
+                                {error && (
+                                  <p className="text-red text-xs mt-1">
+                                    {error}
+                                  </p>
+                                )}
+                              </div>
+                            ),
+                          )}
+                        </div>
+                      </div>
+                    )}
+                    {/* Message Display */}
+                    {message && (
+                      <div
+                        className={`mt-2 py-1.5 px-4 rounded-lg text-xs ${
+                          message.type === "success"
+                            ? "bg-green-500/20 text-green-700"
+                            : "bg-red-500/20 text-red"
+                        }`}
+                      >
+                        {message.text}
+                      </div>
+                    )}
+
+                    {/* Tooltip button - bottom right */}
+                    <div
+                      ref={tooltipButtonRef}
+                      className="absolute right-4 bottom-6 2xl:right-6 2xl:bottom-8"
+                      onMouseEnter={handleTooltipHover}
+                      onMouseLeave={() => setShowTooltip(false)}
+                    >
+                      <div className="w-5 h-5 rounded-full border border-black flex items-center justify-center cursor-help bg-transparent hover:bg-black hover:text-white transition-colors shadow-md shadow-black/30">
+                        <span className="text-xs font-medium">i</span>
+                      </div>
+                    </div>
+
+                    {/* Tooltip with fixed positioning */}
+                    {showTooltip && (
+                      <div
+                        className="fixed text-white rounded-lg p-5 text-xs border border-white z-[9999] w-max max-w-[200px] md:max-w-xs"
+                        style={{
+                          backgroundColor: "#161616",
+                          opacity: 1,
+                          top: `${tooltipPosition.top - 10}px`,
+                          left:
+                            window.innerWidth < 768
+                              ? `${tooltipPosition.left - 100}px`
+                              : `${tooltipPosition.left + 30}px`,
+                          transform:
+                            window.innerWidth < 768
+                              ? "translateY(-100%)"
+                              : "translateY(-50%)",
+                        }}
+                        onMouseEnter={() => setShowTooltip(true)}
+                        onMouseLeave={() => setShowTooltip(false)}
+                      >
+                        <div className="flex flex-col gap-2">
+                          <span className="text-lg font-bold">
+                            {t.sendFiles.audioFiles.namingTooltipTitle}
+                          </span>
+                          {t.sendFiles.audioFiles.namingTooltipHints.map(
+                            (hint, index) => (
+                              <span
+                                key={index}
+                                className="font-poppins text-xs"
+                              >
+                                {hint}
+                              </span>
+                            ),
+                          )}
+                        </div>
+                      </div>
+                    )}
                   </div>
+                  <Image
+                    src="https://www.dropbox.com/scl/fi/387ne9zdsto43otkmktg8/powered-by-Dropbox.png?rlkey=2n2na2rux64ivpluv1tmochuq&st=ovcr5mp5&dl=1"
+                    alt=""
+                    width={120}
+                    height={120}
+                  />
                 </div>
 
-                {/* Tooltip with fixed positioning */}
-                {showTooltip && (
-                  <div
-                    className="fixed text-white rounded-lg p-5 text-xs border border-white z-[9999] w-max max-w-[200px] md:max-w-xs"
-                    style={{
-                      backgroundColor: "#161616",
-                      opacity: 1,
-                      top: `${tooltipPosition.top - 10}px`,
-                      left:
-                        window.innerWidth < 768
-                          ? `${tooltipPosition.left - 100}px`
-                          : `${tooltipPosition.left + 30}px`,
-                      transform:
-                        window.innerWidth < 768
-                          ? "translateY(-100%)"
-                          : "translateY(-50%)",
-                    }}
-                    onMouseEnter={() => setShowTooltip(true)}
-                    onMouseLeave={() => setShowTooltip(false)}
-                  >
-                    <div className="flex flex-col gap-2">
-                      <span className="text-lg font-bold">
-                        {t.sendFiles.audioFiles.namingTooltipTitle}
-                      </span>
-                      {t.sendFiles.audioFiles.namingTooltipHints.map(
-                        (hint, index) => (
-                          <span key={index} className="font-poppins text-xs">
-                            {hint}
-                          </span>
-                        ),
-                      )}
-                    </div>
+                {/* Form Inputs */}
+                <div className="space-y-2 2xl:space-y-3">
+                  <div>
+                    <input
+                      id="email"
+                      type="email"
+                      value={formData.email}
+                      onChange={(e) =>
+                        setFormData({ ...formData, email: e.target.value })
+                      }
+                      disabled={isUploading}
+                      placeholder="mail*"
+                      aria-required="true"
+                      className="focus:ml-1 w-full py-1.5 px-8 2xl:py-3 bg-white rounded-[10px] text-black placeholder:text-black"
+                      required
+                    />
                   </div>
-                )}
-              </div>
-              <Image
-                src="https://www.dropbox.com/scl/fi/387ne9zdsto43otkmktg8/powered-by-Dropbox.png?rlkey=2n2na2rux64ivpluv1tmochuq&st=ovcr5mp5&dl=1"
-                alt=""
-                width={120}
-                height={120}
-              />
-            </div>
+                  <div className="flex items-center space-x-2 2xl:space-x-3">
+                    <input
+                      id="name"
+                      type="text"
+                      value={formData.name}
+                      onChange={(e) =>
+                        setFormData({ ...formData, name: e.target.value })
+                      }
+                      disabled={isUploading}
+                      className="focus:ml-1 w-full py-1.5 px-8 2xl:py-3 bg-white rounded-[10px] text-black placeholder:text-black"
+                      placeholder="name*"
+                      required
+                    />
+                    {/* Submit Button */}
+                    <button
+                      type="submit"
+                      disabled={isUploading || !formData.acceptTerms}
+                      className="bg-red-dark text-white font-bold text-center w-full py-1.5 2xl:py-3 rounded-[10px] hover:bg-red-dark/90 hover:scale-[1.03] transition-all duration-300 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
+                    >
+                      {isUploading ? "Uploading…" : "send files"}
+                      <ArrowUpRight size={20} />
+                    </button>
+                  </div>
+                </div>
+              </form>
+            )}
+            {!submitSuccess && (
+              <label className="flex items-center gap-2 cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={formData.acceptTerms}
+                  onChange={(e) =>
+                    setFormData({ ...formData, acceptTerms: e.target.checked })
+                  }
+                  className="w-4 h-4 flex-shrink-0 cursor-pointer outline-none focus:outline-none"
+                />
+                <p className="text-black font-light text-sm 2xl:text-base">
+                  {t.sendFiles.audioFiles.termsAndConditions.text}{" "}
+                  <Link
+                    href="/terms-and-conditions"
+                    target="_blank"
+                    className="font-medium hover:underline"
+                  >
+                    {t.sendFiles.audioFiles.termsAndConditions.link}
+                  </Link>{" "}
+                  {t.sendFiles.audioFiles.termsAndConditions.suffix}
+                </p>
+              </label>
+            )}
+          </div>
 
-            {/* Form Inputs */}
-            <div className="space-y-2 2xl:space-y-3">
-              <div>
-                <input
-                  id="email"
-                  type="email"
-                  value={formData.email}
-                  onChange={(e) =>
-                    setFormData({ ...formData, email: e.target.value })
-                  }
-                  disabled={isUploading}
-                  placeholder="mail*"
-                  aria-required="true"
-                  className="focus:ml-1 w-full py-1.5 px-8 2xl:py-3 bg-white rounded-[10px] text-black placeholder:text-black"
-                  required
-                />
+          {/* Right Column - Illustration */}
+          <div className="hidden md:flex flex-col items-center md:items-end relative">
+            {submitSuccess ? (
+              <div className="flex flex-col self-start">
+                <span className="text-5xl lg:text-7xl xl:text-[90px] 2xl:text-[100px] font-bold text-white !leading-[0.8]">
+                  {t.sendFiles.audioFiles.successHeadline1}
+                </span>
+                <span className="text-5xl lg:text-7xl xl:text-[90px] 2xl:text-[100px] font-bold text-black !leading-[0.8]">
+                  {t.sendFiles.audioFiles.successHeadline2}
+                </span>
               </div>
-              <div className="flex items-center space-x-2 2xl:space-x-3">
-                <input
-                  id="name"
-                  type="text"
-                  value={formData.name}
-                  onChange={(e) =>
-                    setFormData({ ...formData, name: e.target.value })
-                  }
-                  disabled={isUploading}
-                  className="focus:ml-1 w-full py-1.5 px-8 2xl:py-3 bg-white rounded-[10px] text-black placeholder:text-black"
-                  placeholder="name*"
-                  required
-                />
-                {/* Submit Button */}
-                <button
-                  type="submit"
-                  disabled={isUploading || !formData.acceptTerms}
-                  className="bg-red-dark text-white font-bold text-center w-full py-1.5 2xl:py-3 rounded-[10px] hover:bg-red-dark/90 hover:scale-[1.03] transition-all duration-300 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
-                >
-                  {isUploading ? "Uploading…" : "send files"}
-                  <ArrowUpRight size={20} />
-                </button>
+            ) : (
+              <div className="flex flex-col self-start">
+                <span className="text-5xl lg:text-7xl xl:text-[90px] 2xl:text-[100px] font-bold text-white !leading-[0.8]">
+                  {t.sendFiles.audioFiles.headline1}
+                </span>
+                <span className="text-5xl lg:text-7xl xl:text-[90px] 2xl:text-[100px] font-bold text-black !leading-[0.8]">
+                  {t.sendFiles.audioFiles.headline2}
+                </span>
+                <span className="text-5xl lg:text-7xl xl:text-[90px] 2xl:text-[100px] font-bold text-black !leading-[0.8]">
+                  {t.sendFiles.audioFiles.headline3}
+                </span>
               </div>
-            </div>
-          </form>
-        )}
-        {!submitSuccess && (
-          <label className="flex items-center gap-2 cursor-pointer">
-            <input
-              type="checkbox"
-              checked={formData.acceptTerms}
-              onChange={(e) =>
-                setFormData({ ...formData, acceptTerms: e.target.checked })
-              }
-              className="w-4 h-4 flex-shrink-0 cursor-pointer outline-none focus:outline-none"
+            )}
+            <Image
+              src="https://www.dropbox.com/scl/fi/iwj6fuky5hk2my2qa0pa7/send-files.webp?rlkey=ucreqy7vx1p7mhahrv6hatzgc&st=3u0iinfy&dl=1"
+              alt="Edouard SendFiles Illustration"
+              width={271}
+              height={271}
+              className="absolute bottom-0 right-0 object-cover w-48 h-48 xl:w-56 xl:h-56 2xl:w-[271px] 2xl:h-[271px]"
             />
-            <p className="text-black font-light text-sm 2xl:text-base">
-              {t.sendFiles.audioFiles.termsAndConditions.text}{" "}
-              <Link
-                href="/terms-and-conditions"
-                target="_blank"
-                className="font-medium hover:underline"
-              >
-                {t.sendFiles.audioFiles.termsAndConditions.link}
-              </Link>{" "}
-              {t.sendFiles.audioFiles.termsAndConditions.suffix}
-            </p>
-          </label>
-        )}
-      </div>
-
-      {/* Right Column - Illustration */}
-      <div className="hidden md:flex flex-col items-center md:items-end relative">
-        {submitSuccess ? (
-          <div className="flex flex-col self-start">
-            <span className="text-5xl lg:text-7xl xl:text-[90px] 2xl:text-[100px] font-bold text-white !leading-[0.8]">
-              {t.sendFiles.audioFiles.successHeadline1}
-            </span>
-            <span className="text-5xl lg:text-7xl xl:text-[90px] 2xl:text-[100px] font-bold text-black !leading-[0.8]">
-              {t.sendFiles.audioFiles.successHeadline2}
-            </span>
           </div>
-        ) : (
-          <div className="flex flex-col self-start">
-            <span className="text-5xl lg:text-7xl xl:text-[90px] 2xl:text-[100px] font-bold text-white !leading-[0.8]">
-              {t.sendFiles.audioFiles.headline1}
-            </span>
-            <span className="text-5xl lg:text-7xl xl:text-[90px] 2xl:text-[100px] font-bold text-black !leading-[0.8]">
-              {t.sendFiles.audioFiles.headline2}
-            </span>
-            <span className="text-5xl lg:text-7xl xl:text-[90px] 2xl:text-[100px] font-bold text-black !leading-[0.8]">
-              {t.sendFiles.audioFiles.headline3}
-            </span>
-          </div>
-        )}
-        <Image
-          src="https://www.dropbox.com/scl/fi/iwj6fuky5hk2my2qa0pa7/send-files.webp?rlkey=ucreqy7vx1p7mhahrv6hatzgc&st=3u0iinfy&dl=1"
-          alt="Edouard SendFiles Illustration"
-          width={271}
-          height={271}
-          className="absolute bottom-0 right-0 object-cover w-48 h-48 xl:w-56 xl:h-56 2xl:w-[271px] 2xl:h-[271px]"
-        />
-      </div>
         </>
       )}
     </>
