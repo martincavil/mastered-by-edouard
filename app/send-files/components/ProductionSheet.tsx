@@ -479,12 +479,7 @@ export function ProductionSheet({ isUploading, setIsUploading }: ProductionSheet
           uploadedFiles={uploadedFiles}
           totalFiles={totalFiles}
           allFiles={allFiles}
-          onClose={() => {
-            setIsUploading(false);
-            setUploadedFiles([]);
-            setUploadProgress(0);
-            setAllFiles([]);
-          }}
+          onClose={() => {}}
         />
       ) : (
         <>

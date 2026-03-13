@@ -437,13 +437,7 @@ export function AudioFiles({
           uploadedFiles={uploadedFileNames}
           totalFiles={totalFilesCount}
           allFiles={allFileNames}
-          onClose={() => {
-            setIsUploading(false);
-            setUploadedFilesCount(0);
-            setUploadedFileNames([]);
-            setAllFileNames([]);
-            setUploadProgress(0);
-          }}
+          onClose={() => {}}
         />
       ) : (
         <>
