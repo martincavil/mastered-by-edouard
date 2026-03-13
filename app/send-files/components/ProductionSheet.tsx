@@ -59,6 +59,7 @@ export function ProductionSheet() {
   const [uploadProgress, setUploadProgress] = useState(0);
   const [uploadedFiles, setUploadedFiles] = useState<string[]>([]);
   const [totalFiles, setTotalFiles] = useState(0);
+  const [allFiles, setAllFiles] = useState<string[]>([]);
 
   const [formData, setFormData] = useState<FormData>({
     name: "",
@@ -348,12 +349,22 @@ export function ProductionSheet() {
     setMessage(null);
 
     try {
+      // Build list of all file names
+      const artistName = sanitizeForDropbox(formData.artist.toLowerCase());
+      const fileNames: string[] = [];
+
+      fileNames.push(`${artistName}-production_sheet.pdf`);
+      if (coverFile) {
+        const coverExtension = coverFile.name.split(".").pop();
+        fileNames.push(`cover.${coverExtension}`);
+      }
+      otherFiles.forEach(file => fileNames.push(file.name));
+
       // Count total files to upload
-      let filesToUpload = 1; // Production sheet PDF
-      if (coverFile) filesToUpload++;
-      filesToUpload += otherFiles.length;
+      const filesToUpload = fileNames.length;
 
       setTotalFiles(filesToUpload);
+      setAllFiles(fileNames);
       setUploadedFiles([]);
       setUploadProgress(0);
 
@@ -377,7 +388,6 @@ export function ProductionSheet() {
       console.log("[Upload] Token received");
 
       // Create folder
-      const artistName = sanitizeForDropbox(formData.artist.toLowerCase());
       const folderPath = `/01_uploads/${artistName}`;
 
       console.log("[Upload] Creating folder:", folderPath);
@@ -585,10 +595,12 @@ export function ProductionSheet() {
           uploadProgress={uploadProgress}
           uploadedFiles={uploadedFiles}
           totalFiles={totalFiles}
+          allFiles={allFiles}
           onClose={() => {
             setIsSubmitting(false);
             setUploadedFiles([]);
             setUploadProgress(0);
+            setAllFiles([]);
           }}
         />
       )}

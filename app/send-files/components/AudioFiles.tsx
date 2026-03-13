@@ -62,6 +62,7 @@ export function AudioFiles({
   const [uploadedFileNames, setUploadedFileNames] = useState<string[]>([]);
   const [totalFilesCount, setTotalFilesCount] = useState(0);
   const [uploadProgress, setUploadProgress] = useState(0);
+  const [allFileNames, setAllFileNames] = useState<string[]>([]);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const tooltipButtonRef = useRef<HTMLDivElement>(null);
   const [tooltipPosition, setTooltipPosition] = useState({ top: 0, left: 0 });
@@ -326,6 +327,7 @@ export function AudioFiles({
     setUploadedFilesCount(0);
     setUploadedFileNames([]);
     setTotalFilesCount(selectedFiles.length);
+    setAllFileNames(selectedFiles.map(f => f.file.name));
     setUploadProgress(0);
 
     try {
@@ -727,10 +729,12 @@ export function AudioFiles({
           uploadProgress={uploadProgress}
           uploadedFiles={uploadedFileNames}
           totalFiles={totalFilesCount}
+          allFiles={allFileNames}
           onClose={() => {
             setIsUploading(false);
             setUploadedFilesCount(0);
             setUploadedFileNames([]);
+            setAllFileNames([]);
             setUploadProgress(0);
           }}
         />
