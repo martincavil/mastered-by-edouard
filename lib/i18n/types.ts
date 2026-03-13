@@ -202,6 +202,7 @@ export type Translations = {
       };
       send: string;
       sending: string;
+      allInfoChecked: string;
       requiredNote: string;
       successMessage: string;
       backToHome: string;
