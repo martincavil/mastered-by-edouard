@@ -383,6 +383,31 @@ export function AudioFiles({
         );
       }
 
+      // Send notification emails
+      try {
+        console.log("[Upload] Sending notification emails...");
+        const fileNames = selectedFiles.map((f) => f.file.name);
+        await fetch("/api/audio-files-notification", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            name: formData.name,
+            email: formData.email,
+            fileNames,
+            folderPath,
+          }),
+        });
+        console.log("[Upload] Notification emails sent");
+      } catch (emailError) {
+        console.error(
+          "[Upload] Failed to send notification emails (non-blocking):",
+          emailError,
+        );
+        // Don't fail the entire upload if email sending fails
+      }
+
       setSubmitSuccess(true);
       setSelectedFiles([]);
       setFormData({ name: "", email: "", acceptTerms: false });
