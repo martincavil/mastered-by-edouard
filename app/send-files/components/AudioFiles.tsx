@@ -341,10 +341,12 @@ export function AudioFiles({
       console.log("[Upload] Token received");
 
       // Create folder once for all files
-      const timestamp = Date.now();
-      // Double sanitize to ensure NO special characters at all
-      const artistName = sanitizeForDropbox(formData.name.toLowerCase());
-      const folderName = `${artistName}_${timestamp}`;
+      // Format: YYYYMMDD_Nom_Mail
+      const now = new Date();
+      const dateStr = now.toISOString().slice(0, 10).replace(/-/g, ""); // YYYYMMDD
+      const artistName = sanitizeForDropbox(formData.name);
+      const artistEmail = sanitizeForDropbox(formData.email);
+      const folderName = `${dateStr}_${artistName}_${artistEmail}`;
       const folderPath = `/01_uploads/${folderName}`;
 
       console.log("[Upload] Artist name:", formData.name);
@@ -425,7 +427,7 @@ export function AudioFiles({
             <div className="flex items-center w-full gap-2 mt-2 2xl:mt-3">
               <Link
                 href="/send-files?tab=production-sheet"
-                className="bg-white text-black font-bold text-base 2xl:text-lg py-1.5 2xl:py-3 rounded-[10px] hover:bg-black/90 transition-colors duration-300 flex items-center justify-center gap-2 w-full"
+                className="bg-white text-black font-bold text-base 2xl:text-lg py-1.5 2xl:py-3 rounded-[10px] hover:bg-black/90 hover:text-white  transition-colors duration-300 flex items-center justify-center gap-2 w-full"
               >
                 {t.sendFiles.audioFiles.sendProductionSheet}
                 <ArrowUpRight size={20} />
