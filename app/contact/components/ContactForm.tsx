@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, FormEvent } from "react";
+import Link from "next/link";
 import { ArrowUpRight } from "@/components/icons/ArrowUpRight";
 import { Translations } from "@/lib/i18n/types";
 import { FormInput } from "./FormInput";
@@ -19,6 +20,7 @@ interface FormData {
   type: string;
   numberOfSongs: string;
   message: string;
+  acceptTerms: boolean;
 }
 
 interface FormErrors {
@@ -44,6 +46,7 @@ const INITIAL_FORM_DATA: FormData = {
   type: "",
   numberOfSongs: "",
   message: "",
+  acceptTerms: false,
 };
 
 export function ContactForm({ t, onSuccess, onSubmitting }: ContactFormProps) {
@@ -86,6 +89,9 @@ export function ContactForm({ t, onSuccess, onSubmitting }: ContactFormProps) {
     }
     if (!formData.message.trim()) {
       newErrors.message = t.contact.form.validation.messageRequired;
+    }
+    if (!formData.acceptTerms) {
+      newErrors.acceptTerms = t.contact.form.validation.termsRequired;
     }
 
     setErrors(newErrors);
@@ -230,13 +236,14 @@ export function ContactForm({ t, onSuccess, onSubmitting }: ContactFormProps) {
       </div>
 
       {/* Form Footer */}
-      <div className="grid grid-cols-2 items-end gap-x-3">
+      <div className="grid grid-cols-1 md:grid-cols-2 items-end gap-3">
         <p className="text-sm 2xl:text-base text-white font-poppins">
           {t.contact.form.requiredNote}
         </p>
         <button
           type="submit"
-          className="bg-red text-black font-bold text-lg px-6 xl:px-8 py-2.5 rounded-[10px] hover:bg-red/90 transition-all duration-500 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer w-full hover:scale-[1.03]"
+          disabled={!formData.acceptTerms}
+          className="bg-red text-black font-bold text-lg px-6 xl:px-8 py-2.5 rounded-[10px] hover:bg-red/90 transition-all duration-500 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer w-full hover:scale-[1.03] disabled:hover:scale-100"
         >
           {t.contact.form.send}
           <ArrowUpRight size={20} />
@@ -249,6 +256,29 @@ export function ContactForm({ t, onSuccess, onSubmitting }: ContactFormProps) {
           {errors.submit}
         </div>
       )}
+
+      {/* Terms and Conditions */}
+      <label className="flex items-center gap-2 cursor-pointer">
+        <input
+          type="checkbox"
+          checked={formData.acceptTerms}
+          onChange={(e) =>
+            setFormData({ ...formData, acceptTerms: e.target.checked })
+          }
+          className="w-4 h-4 flex-shrink-0 cursor-pointer outline-none focus:outline-none"
+        />
+        <p className="text-white font-light text-sm 2xl:text-base">
+          {t.contact.form.termsAndConditions.text}{" "}
+          <Link
+            href="/terms-and-conditions"
+            target="_blank"
+            className="font-medium hover:underline"
+          >
+            {t.contact.form.termsAndConditions.link}
+          </Link>{" "}
+          {t.contact.form.termsAndConditions.suffix}
+        </p>
+      </label>
     </form>
   );
 }

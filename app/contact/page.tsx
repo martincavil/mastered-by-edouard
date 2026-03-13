@@ -19,7 +19,7 @@ export default function ContactPage() {
   return (
     <PageTransition>
       <main className="h-full flex flex-col bg-black pb-8 md:pb-0 pt-8 md:pt-4 xl:pt-6 2xl:pt-8 md:px-8 px-5 overflow-hidden">
-        <div className="flex-1 flex flex-col overflow-y-auto md:overflow-y-hidden md:pr-0 px-3">
+        <div className="flex-1 flex flex-col overflow-y-auto md:overflow-y-hidden md:pr-0">
           {/* Header */}
           <div className="flex items-center justify-between mb-3 md:mb-3 xl:mb-5 2xl:mb-10">
             <h1 className="text-4xl md:text-5xl xl:text-6xl 2xl:text-[80px] font-bold text-white">
@@ -54,7 +54,7 @@ export default function ContactPage() {
           {/* Content Grid */}
           <div className="grid md:grid-cols-2 md:gap-6 xl:gap-10 2xl:gap-16 gap-8 flex-1 min-h-0">
             {/* Left Column - Contact Form or Success Message */}
-            <div className="overflow-y-auto md:overflow-y-visible">
+            <div className="overflow-y-auto md:overflow-y-visible md:px-0 px-3">
               {submitSuccess ? (
                 <SuccessMessage t={t} />
               ) : (

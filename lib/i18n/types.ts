@@ -42,7 +42,11 @@ export type Translations = {
       headline3: string;
       successHeadline1: string;
       successHeadline2: string;
-      termsAndConditions: string;
+      termsAndConditions: {
+        text: string;
+        link: string;
+        suffix: string;
+      };
       successMessage: string;
       sendProductionSheet: string;
       backToHome: string;
@@ -201,6 +205,11 @@ export type Translations = {
       requiredNote: string;
       successMessage: string;
       backToHome: string;
+      termsAndConditions: {
+        text: string;
+        link: string;
+        suffix: string;
+      };
       validation: {
         nameRequired: string;
         familyNameRequired: string;
@@ -208,6 +217,7 @@ export type Translations = {
         emailInvalid: string;
         phoneRequired: string;
         messageRequired: string;
+        termsRequired: string;
         submitError: string;
         submitSuccess: string;
       };

@@ -635,15 +635,15 @@ export function AudioFiles({
               className="w-4 h-4 flex-shrink-0 cursor-pointer outline-none focus:outline-none"
             />
             <p className="text-black font-light text-sm 2xl:text-base">
-              you accept the{" "}
+              {t.sendFiles.audioFiles.termsAndConditions.text}{" "}
               <Link
                 href="/terms-and-conditions"
                 target="_blank"
                 className="font-medium hover:underline"
               >
-                terms and conditions
+                {t.sendFiles.audioFiles.termsAndConditions.link}
               </Link>{" "}
-              of the studio when sending files.
+              {t.sendFiles.audioFiles.termsAndConditions.suffix}
             </p>
           </label>
         )}

@@ -36,8 +36,11 @@ export const fr: Translations = {
       headline3: "sécurisé.",
       successHeadline1: "vos fichiers",
       successHeadline2: "sont entre de bonnes mains.",
-      termsAndConditions:
-        "en envoyant vos fichiers, vous acceptez nos conditions générales.",
+      termsAndConditions: {
+        text: "vous acceptez les",
+        link: "conditions générales",
+        suffix: "du studio lors de l'envoi de fichiers.",
+      },
       successMessage: "fichiers envoyés avec succès.",
       sendProductionSheet: "envoyer la fiche de production",
       backToHome: "retour à l'accueil",
@@ -227,6 +230,11 @@ export const fr: Translations = {
       requiredNote: "les champs marqués d'un * sont obligatoires.",
       successMessage: "message envoyé avec succès.",
       backToHome: "retour à l'accueil",
+      termsAndConditions: {
+        text: "vous acceptez les",
+        link: "conditions générales",
+        suffix: "du studio lors de l'envoi de fichiers.",
+      },
       validation: {
         nameRequired: "Le prénom est obligatoire",
         familyNameRequired: "Le nom est obligatoire",
@@ -234,6 +242,7 @@ export const fr: Translations = {
         emailInvalid: "Veuillez entrer une adresse email valide",
         phoneRequired: "Le numéro de téléphone est obligatoire",
         messageRequired: "Le message est obligatoire",
+        termsRequired: "Vous devez accepter les conditions générales",
         submitError: "Une erreur s'est produite. Veuillez réessayer.",
         submitSuccess: "Votre message a été envoyé avec succès !",
       },

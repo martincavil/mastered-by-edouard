@@ -36,8 +36,11 @@ export const en: Translations = {
       headline3: "secure.",
       successHeadline1: "your files",
       successHeadline2: "are now in good hands.",
-      termsAndConditions:
-        "you accept the terms and conditions of the studio when sending files.",
+      termsAndConditions: {
+        text: "you accept the",
+        link: "terms and conditions",
+        suffix: "of the studio when sending files.",
+      },
       successMessage: "audio files sent successfully.",
       sendProductionSheet: "send production sheet",
       backToHome: "back to home",
@@ -223,6 +226,11 @@ export const en: Translations = {
       requiredNote: "fields marked with * are required.",
       successMessage: "message sent successfully.",
       backToHome: "go back to homepage",
+      termsAndConditions: {
+        text: "you accept the",
+        link: "terms and conditions",
+        suffix: "of the studio when sending files.",
+      },
       validation: {
         nameRequired: "name is required",
         familyNameRequired: "family name is required",
@@ -230,6 +238,7 @@ export const en: Translations = {
         emailInvalid: "please enter a valid email address",
         phoneRequired: "phone number is required",
         messageRequired: "message is required",
+        termsRequired: "you must accept the terms and conditions",
         submitError: "an error occurred. Please try again.",
         submitSuccess: "your message has been sent successfully!",
       },
