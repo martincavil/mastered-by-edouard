@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, FormEvent } from "react";
-import Link from "next/link";
+
 import { ArrowUpRight } from "@/components/icons/ArrowUpRight";
 import { Translations } from "@/lib/i18n/types";
 import { FormInput } from "./FormInput";
@@ -66,6 +66,19 @@ export function ContactForm({ t, onSuccess, onSubmitting }: ContactFormProps) {
     }
   };
 
+  const isFormValid = (): boolean => {
+    return (
+      formData.name.trim() !== "" &&
+      formData.familyName.trim() !== "" &&
+      formData.email.trim() !== "" &&
+      EMAIL_REGEX.test(formData.email) &&
+      formData.countryCode !== "" &&
+      formData.phone.trim() !== "" &&
+      formData.message.trim() !== "" &&
+      formData.allInfoChecked
+    );
+  };
+
   const validateForm = (): boolean => {
     const newErrors: FormErrors = {};
 
@@ -91,7 +104,8 @@ export function ContactForm({ t, onSuccess, onSubmitting }: ContactFormProps) {
       newErrors.message = t.contact.form.validation.messageRequired;
     }
     if (!formData.allInfoChecked) {
-      newErrors.allInfoChecked = "Please check all informations";
+      newErrors.allInfoChecked =
+        t.contact.form.validation.allInfoCheckedRequired;
     }
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -246,23 +260,23 @@ export function ContactForm({ t, onSuccess, onSubmitting }: ContactFormProps) {
             className="w-4 h-4 flex-shrink-0"
           />
           <span className="text-sm 2xl:text-base text-black">
-            all informations are checked
+            {t.contact.form.allInfoChecked}
           </span>
         </label>
 
         <button
           type="submit"
-          disabled={!formData.allInfoChecked}
-          className="w-full bg-red-dark text-white font-bold text-base 2xl:text-lg px-6 py-2 2xl:py-2.5 rounded-[10px] hover:bg-red-dark/90 hover:scale-[1.03] transition-all duration-300 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
+          disabled={!isFormValid()}
+          className="w-full bg-red text-white font-bold text-base 2xl:text-lg px-6 py-2 2xl:py-2.5 rounded-[10px] hover:bg-red-dark/90 hover:scale-[1.03] transition-all duration-300 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
         >
-          send
+          {t.contact.form.send}
           <ArrowUpRight size={20} />
         </button>
       </div>
 
       {/* Required fields text */}
       <p className="text-white text-sm 2xl:text-base font-light">
-        fields marked with * are required.
+        {t.contact.form.requiredNote}
       </p>
 
       {/* Submit Error */}

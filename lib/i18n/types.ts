@@ -211,6 +211,7 @@ export type Translations = {
         suffix: string;
       };
       validation: {
+        allInfoCheckedRequired: string;
         nameRequired: string;
         familyNameRequired: string;
         emailRequired: string;
