@@ -285,29 +285,6 @@ export function ContactForm({ t, onSuccess, onSubmitting }: ContactFormProps) {
           {errors.submit}
         </div>
       )}
-
-      {/* Terms and Conditions */}
-      {/* <label className="flex items-center gap-2 cursor-pointer">
-        <input
-          type="checkbox"
-          checked={formData.acceptTerms}
-          onChange={(e) =>
-            setFormData({ ...formData, acceptTerms: e.target.checked })
-          }
-          className="w-4 h-4 flex-shrink-0 cursor-pointer outline-none focus:outline-none"
-        />
-        <p className="text-white font-light text-sm 2xl:text-base">
-          {t.contact.form.termsAndConditions.text}{" "}
-          <Link
-            href="/terms-and-conditions"
-            target="_blank"
-            className="font-medium hover:underline"
-          >
-            {t.contact.form.termsAndConditions.link}
-          </Link>{" "}
-          {t.contact.form.termsAndConditions.suffix}
-        </p>
-      </label> */}
     </form>
   );
 }

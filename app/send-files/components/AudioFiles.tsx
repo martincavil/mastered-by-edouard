@@ -139,14 +139,6 @@ export function AudioFiles({
     setSelectedFiles((prev) => prev.filter((f) => f.id !== id));
   };
 
-  // const formatFileSize = (bytes: number): string => {
-  //   if (bytes === 0) return "0 Bytes";
-  //   const k = 1024;
-  //   const sizes = ["Bytes", "KB", "MB", "GB"];
-  //   const i = Math.floor(Math.log(bytes) / Math.log(k));
-  //   return Math.round((bytes / Math.pow(k, i)) * 100) / 100 + " " + sizes[i];
-  // };
-
   const uploadFileChunked = async (
     file: File,
     fileId: string,
@@ -160,10 +152,6 @@ export function AudioFiles({
     const sanitizedFileName = sanitizeForDropbox(file.name);
     const filePath = `${folderPath}/${sanitizedFileName}`;
 
-    console.log("[Upload] Original filename:", file.name);
-    console.log("[Upload] Sanitized filename:", sanitizedFileName);
-    console.log("[Upload] Full path:", filePath);
-
     try {
       // Update file as uploading
       setSelectedFiles((prev) =>
@@ -171,8 +159,6 @@ export function AudioFiles({
           f.id === fileId ? { ...f, uploading: true, progress: 0 } : f,
         ),
       );
-
-      console.log("[Upload] Starting direct Dropbox upload for:", file.name);
 
       // Start Dropbox upload session
       const startResponse = await fetch(
@@ -189,12 +175,10 @@ export function AudioFiles({
 
       if (!startResponse.ok) {
         const errorText = await startResponse.text();
-        console.error("[Upload] Failed to start session:", errorText);
         throw new Error("Failed to start upload session");
       }
 
       const { session_id } = await startResponse.json();
-      console.log("[Upload] Session started with ID:", session_id);
 
       let offset = 0;
 
@@ -347,7 +331,6 @@ export function AudioFiles({
 
     try {
       // Get temporary Dropbox token for direct upload
-      console.log("[Upload] Getting Dropbox token...");
       const tokenResponse = await fetch("/api/dropbox-token");
 
       if (!tokenResponse.ok) {
@@ -355,7 +338,6 @@ export function AudioFiles({
       }
 
       const { accessToken } = await tokenResponse.json();
-      console.log("[Upload] Token received");
 
       // Create folder once for all files
       // Format: YYYYMMDD_Nom_Mail
@@ -365,10 +347,6 @@ export function AudioFiles({
       const artistEmail = sanitizeForDropbox(formData.email);
       const folderName = `${dateStr}_${artistName}_${artistEmail}`;
       const folderPath = `/01_uploads/${folderName}`;
-
-      console.log("[Upload] Artist name:", formData.name);
-      console.log("[Upload] Sanitized artist:", artistName);
-      console.log("[Upload] Creating folder:", folderPath);
 
       // Create folder directly with Dropbox API
       const folderResponse = await fetch(
@@ -388,8 +366,6 @@ export function AudioFiles({
         throw new Error(`Failed to create folder: ${errorText}`);
       }
 
-      console.log("[Upload] Folder created successfully");
-
       // Upload files one by one with direct Dropbox upload
       for (const selectedFile of selectedFiles) {
         await uploadFileChunked(
@@ -402,7 +378,6 @@ export function AudioFiles({
 
       // Send notification emails
       try {
-        console.log("[Upload] Sending notification emails...");
         const fileNames = selectedFiles.map((f) => f.file.name);
         await fetch("/api/audio-files-notification", {
           method: "POST",
@@ -416,12 +391,7 @@ export function AudioFiles({
             folderPath,
           }),
         });
-        console.log("[Upload] Notification emails sent");
       } catch (emailError) {
-        console.error(
-          "[Upload] Failed to send notification emails (non-blocking):",
-          emailError,
-        );
         // Don't fail the entire upload if email sending fails
       }
 

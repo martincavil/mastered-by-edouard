@@ -8,10 +8,6 @@ import { PageTransition } from "@/components/page-transition";
 import { Footer } from "@/components/footer";
 import { Button } from "@/components/button";
 import { ArrowUpRight } from "@/components/icons/ArrowUpRight";
-
-// Strapi temporairement commenté
-// import { getArtists, getStrapiImageUrl } from "@/lib/strapi/api";
-// import { Artist } from "@/lib/strapi/types";
 import artistsData from "@/data/artists.json";
 import "../navigation-link.css";
 

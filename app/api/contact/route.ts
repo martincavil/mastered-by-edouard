@@ -49,12 +49,6 @@ export async function POST(request: NextRequest) {
     const clientEmail = process.env.RESEND_TO_EMAIL || "contact@masteredbyedouard.com";
     const fromEmail = process.env.RESEND_FROM_EMAIL || "onboarding@resend.dev";
 
-    console.log("Sending contact form email with config:", {
-      from: fromEmail,
-      to: clientEmail,
-      replyTo: email,
-    });
-
     // Send email via Resend
     const emailResult = await resend.emails.send({
       from: fromEmail,
@@ -107,8 +101,6 @@ export async function POST(request: NextRequest) {
 </html>
       `.trim(),
     });
-
-    console.log("Contact form email result:", emailResult);
 
     if (emailResult.error) {
       console.error("Resend error:", emailResult.error);

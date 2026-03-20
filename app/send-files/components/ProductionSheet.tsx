@@ -315,8 +315,6 @@ export function ProductionSheet({ isUploading, setIsUploading }: ProductionSheet
     const sanitizedFileName = sanitizeForDropbox(fileName);
     const filePath = `${folderPath}/${sanitizedFileName}`;
 
-    console.log("[Upload] Uploading file:", fileName);
-
     const response = await fetch(
       "https://content.dropboxapi.com/2/files/upload",
       {
@@ -339,8 +337,6 @@ export function ProductionSheet({ isUploading, setIsUploading }: ProductionSheet
       const errorText = await response.text();
       throw new Error(`Failed to upload ${fileName}: ${errorText}`);
     }
-
-    console.log("[Upload] File uploaded successfully:", fileName);
   };
 
   // Submit
@@ -381,7 +377,6 @@ export function ProductionSheet({ isUploading, setIsUploading }: ProductionSheet
       };
 
       // Get Dropbox token
-      console.log("[Upload] Getting Dropbox token...");
       const tokenResponse = await fetch("/api/dropbox-token");
 
       if (!tokenResponse.ok) {
@@ -389,12 +384,9 @@ export function ProductionSheet({ isUploading, setIsUploading }: ProductionSheet
       }
 
       const { accessToken } = await tokenResponse.json();
-      console.log("[Upload] Token received");
 
       // Create folder
       const folderPath = `/01_uploads/${artistName}`;
-
-      console.log("[Upload] Creating folder:", folderPath);
 
       const folderResponse = await fetch(
         "https://api.dropboxapi.com/2/files/create_folder_v2",
@@ -413,10 +405,7 @@ export function ProductionSheet({ isUploading, setIsUploading }: ProductionSheet
         throw new Error(`Failed to create folder: ${errorText}`);
       }
 
-      console.log("[Upload] Folder created successfully");
-
       // Generate and upload PDF
-      console.log("[Upload] Generating PDF...");
       const pdfResponse = await fetch("/api/production-sheet-fill", {
         method: "POST",
         headers: {
@@ -465,7 +454,6 @@ export function ProductionSheet({ isUploading, setIsUploading }: ProductionSheet
         updateProgress(file.name);
       }
 
-      console.log("[Upload] All files uploaded successfully");
       setSubmitSuccess(true);
     } catch (error) {
       setMessage({

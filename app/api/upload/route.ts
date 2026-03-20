@@ -191,13 +191,6 @@ async function sendNotificationEmails(
   const clientEmail = process.env.RESEND_TO_EMAIL || 'contact@masteredbyedouard.com';
   const fromEmail = process.env.RESEND_FROM_EMAIL || 'onboarding@resend.dev';
 
-  console.log('Sending emails with config:', {
-    from: fromEmail,
-    toClient: clientEmail,
-    toUploader: uploaderEmail,
-    resendConfigured: !!resend,
-  });
-
   // Email pour le client (Edouard)
   const clientEmailResult = await resend.emails.send({
     from: fromEmail,
@@ -247,8 +240,6 @@ async function sendNotificationEmails(
     `,
   });
 
-  console.log('Client email result:', clientEmailResult);
-
   // Email pour l'uploader (confirmation)
   const uploaderEmailResult = await resend.emails.send({
     from: fromEmail,
@@ -295,8 +286,6 @@ async function sendNotificationEmails(
 </html>
     `,
   });
-
-  console.log('Uploader email result:', uploaderEmailResult);
 }
 
 export async function POST(request: NextRequest) {
@@ -362,7 +351,6 @@ export async function POST(request: NextRequest) {
         fileNames,
         folderPath
       );
-      console.log('Notification emails sent successfully');
     } catch (emailError) {
       console.error('Failed to send notification emails (non-blocking):', emailError);
       // Don't fail the entire request if email sending fails

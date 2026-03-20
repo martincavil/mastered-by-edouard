@@ -29,8 +29,6 @@ export async function getDropboxToken(): Promise<string> {
 
   // If we have refresh token credentials, use them to get a new token
   if (refreshToken && appKey && appSecret) {
-    console.log('[Dropbox] Refreshing access token...');
-
     try {
       const response = await fetch('https://api.dropbox.com/oauth2/token', {
         method: 'POST',
@@ -56,8 +54,6 @@ export async function getDropboxToken(): Promise<string> {
       // Cache the new token (expires_in is in seconds)
       cachedAccessToken = data.access_token;
       tokenExpiresAt = Date.now() + (data.expires_in - 300) * 1000; // Refresh 5 minutes before expiry
-
-      console.log('[Dropbox] Token refreshed successfully, expires in', data.expires_in, 'seconds');
 
       return cachedAccessToken;
     } catch (error) {

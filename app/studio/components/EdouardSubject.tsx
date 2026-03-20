@@ -25,25 +25,6 @@ export function EdouardSubject() {
           <p className="font-poppins">{t.studio.edouard.description1}</p>
           <p className="font-poppins">{t.studio.edouard.description2}</p>
           <div className="flex flex-col gap-4 md:gap-0 lg:flex-row lg:items-center justify-end pt-2 2xl:pt-4">
-            {/* <Link
-              href="https://credits.muso.ai/profile/83085fe9-a37a-493e-b0ac-1a62bf76590f"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="order-2 md:order-1"
-            >
-              <Button className="!py-1.5 !px-4 !border border-white rounded-full text-white hover:text-red transition-all duration-300">
-                <div className="flex items-center gap-2 xl:gap-4">
-                  <span className="text-xl font-normal">
-                    {t.studio.edouard.fullDiscography}
-                  </span>
-                  <ArrowUpRight
-                    size={24}
-                    className="lg:w-5 lg:h-5"
-                    strokeWidth={1.5}
-                  />
-                </div>
-              </Button>
-            </Link> */}
             <div className="order-1 md:order-2">
               <Image
                 src="https://www.dropbox.com/scl/fi/03lgwozq7qis2g33xw8dr/edouard-signature.webp?rlkey=wj49avq2pcr32v9na2awx5gag&st=a02agqrd&dl=1"

@@ -71,13 +71,6 @@ async function sendProductionSheetNotificationEmails(
   const clientEmail = process.env.RESEND_TO_EMAIL || 'contact@masteredbyedouard.com';
   const fromEmail = process.env.RESEND_FROM_EMAIL || 'onboarding@resend.dev';
 
-  console.log('Sending production sheet emails with config:', {
-    from: fromEmail,
-    toClient: clientEmail,
-    toUploader: uploaderEmail,
-    resendConfigured: !!resend,
-  });
-
   // Email pour le client (Edouard)
   const clientEmailResult = await resend.emails.send({
     from: fromEmail,
@@ -129,8 +122,6 @@ async function sendProductionSheetNotificationEmails(
     `,
   });
 
-  console.log('Client email result:', clientEmailResult);
-
   // Email pour l'uploader (confirmation)
   const uploaderEmailResult = await resend.emails.send({
     from: fromEmail,
@@ -177,8 +168,6 @@ async function sendProductionSheetNotificationEmails(
 </html>
     `,
   });
-
-  console.log('Uploader email result:', uploaderEmailResult);
 }
 
 export async function POST(request: NextRequest) {
@@ -240,7 +229,6 @@ export async function POST(request: NextRequest) {
         filesUploaded,
         basePath
       );
-      console.log('Production sheet notification emails sent successfully');
     } catch (emailError) {
       console.error('Failed to send production sheet notification emails (non-blocking):', emailError);
       // Don't fail the entire request if email sending fails

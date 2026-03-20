@@ -14,8 +14,6 @@ export async function POST(request: NextRequest) {
     // Get a valid access token (will refresh if needed)
     const accessToken = await getDropboxToken();
 
-    console.log('[Upload Chunked] Token obtained successfully');
-
     // Check if request is FormData (for append action with chunk)
     const contentType = request.headers.get('content-type');
 
@@ -39,20 +37,9 @@ export async function POST(request: NextRequest) {
       }
 
       const chunkBuffer = Buffer.from(await chunk.arrayBuffer());
-      console.log('[Upload Chunked] Processing chunk:', {
-        uploadId,
-        chunkSize: chunkBuffer.length,
-        isLastChunk,
-      });
 
       if (!isLastChunk) {
         // Append chunk
-        console.log('[Upload Chunked] Appending chunk:', {
-          sessionId: session.sessionId,
-          offset: session.offset,
-          chunkSize: chunkBuffer.length,
-        });
-
         const appendResponse = await fetch('https://content.dropboxapi.com/2/files/upload_session/append_v2', {
           method: 'POST',
           headers: {
@@ -78,8 +65,6 @@ export async function POST(request: NextRequest) {
           });
           throw new Error(`Failed to append chunk: ${errorText}`);
         }
-
-        console.log('[Upload Chunked] Chunk appended successfully');
 
         // Update offset
         session.offset += chunkBuffer.length;
@@ -136,7 +121,6 @@ export async function POST(request: NextRequest) {
     // Create folder action
     if (action === 'create-folder') {
       const { folderPath } = body;
-      console.log('[Upload Chunked] Creating folder:', folderPath);
 
       const folderResponse = await fetch('https://api.dropboxapi.com/2/files/create_folder_v2', {
         method: 'POST',
@@ -153,7 +137,6 @@ export async function POST(request: NextRequest) {
         throw new Error(`Failed to create folder: ${errorText}`);
       }
 
-      console.log('[Upload Chunked] Folder created successfully');
       return NextResponse.json({ success: true, folderPath });
     }
 
@@ -162,8 +145,6 @@ export async function POST(request: NextRequest) {
       const { fileName, folderPath } = body;
 
       // Start Dropbox upload session
-      console.log('[Upload Chunked] Starting Dropbox upload session for:', fileName);
-
       const startResponse = await fetch('https://content.dropboxapi.com/2/files/upload_session/start', {
         method: 'POST',
         headers: {
@@ -184,7 +165,6 @@ export async function POST(request: NextRequest) {
       }
 
       const { session_id } = await startResponse.json();
-      console.log('[Upload Chunked] Session started successfully:', session_id);
       const uploadId = `${session_id}-${Date.now()}`;
 
       // Store session info

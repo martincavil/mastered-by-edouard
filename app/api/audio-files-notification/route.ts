@@ -19,13 +19,6 @@ async function sendAudioFilesNotificationEmails(
   const clientEmail = process.env.RESEND_TO_EMAIL || 'contact@masteredbyedouard.com';
   const fromEmail = process.env.RESEND_FROM_EMAIL || 'onboarding@resend.dev';
 
-  console.log('Sending audio files notification emails with config:', {
-    from: fromEmail,
-    toClient: clientEmail,
-    toUploader: uploaderEmail,
-    resendConfigured: !!resend,
-  });
-
   // Email pour le client (Edouard)
   const clientEmailResult = await resend.emails.send({
     from: fromEmail,
@@ -75,8 +68,6 @@ async function sendAudioFilesNotificationEmails(
     `,
   });
 
-  console.log('Client email result:', clientEmailResult);
-
   // Email pour l'uploader (confirmation)
   const uploaderEmailResult = await resend.emails.send({
     from: fromEmail,
@@ -123,8 +114,6 @@ async function sendAudioFilesNotificationEmails(
 </html>
     `,
   });
-
-  console.log('Uploader email result:', uploaderEmailResult);
 }
 
 export async function POST(request: NextRequest) {
@@ -147,8 +136,6 @@ export async function POST(request: NextRequest) {
       fileNames,
       folderPath
     );
-
-    console.log('Audio files notification emails sent successfully');
 
     return NextResponse.json({
       success: true,
