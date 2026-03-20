@@ -419,6 +419,11 @@ export function AudioFiles({
           uploadedFiles={uploadedFileNames}
           totalFiles={totalFilesCount}
           allFiles={allFileNames}
+          filesWithProgress={selectedFiles.map(f => ({
+            name: f.file.name,
+            progress: f.progress,
+            uploading: f.uploading
+          }))}
           onClose={() => {}}
         />
       ) : (

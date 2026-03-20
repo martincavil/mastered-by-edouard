@@ -31,7 +31,7 @@ export const fr: Translations = {
       draganddrop: "glissez ou déposez vos fichiers ici",
       clickordrag: "uploader des fichiers *",
       uploadingFiles: "fichiers uploadés",
-      uploadInProgress: "envoi en cours...",
+      uploadInProgress: "envoi en cours",
       headline1: "simple.",
       headline2: "rapide.",
       headline3: "sécurisé.",
@@ -245,7 +245,8 @@ export const fr: Translations = {
         phoneRequired: "Le numéro de téléphone est obligatoire",
         messageRequired: "Le message est obligatoire",
         termsRequired: "Vous devez accepter les conditions générales",
-        allInfoCheckedRequired: "veuillez confirmer que toutes les informations sont vérifiées",
+        allInfoCheckedRequired:
+          "veuillez confirmer que toutes les informations sont vérifiées",
         submitError: "Une erreur s'est produite. Veuillez réessayer.",
         submitSuccess: "Votre message a été envoyé avec succès !",
       },

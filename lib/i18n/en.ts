@@ -31,7 +31,7 @@ export const en: Translations = {
       draganddrop: "simply drop the file(s) below :",
       clickordrag: "upload file(s) *",
       uploadingFiles: "uploaded file(s)",
-      uploadInProgress: "upload in progress...",
+      uploadInProgress: "upload in progress",
       headline1: "simple.",
       headline2: "fast.",
       headline3: "secure.",
@@ -153,7 +153,8 @@ export const en: Translations = {
       step4Content: {
         step4Content1:
           "stem mastering is often a sign of a mix not fully finalized : this is why the studio doesn’t necessarily favor this approach. My vision : let’s take time together to listen to the mix and improve it to its best! My job as a mastering engineer starts at the mixing stage, helping you keep to good direction.",
-        step4Content2: "However, stem mastering can be discussed in certain cases.",
+        step4Content2:
+          "However, stem mastering can be discussed in certain cases.",
       },
     },
   },
@@ -241,7 +242,8 @@ export const en: Translations = {
         phoneRequired: "phone number is required",
         messageRequired: "message is required",
         termsRequired: "you must accept the terms and conditions",
-        allInfoCheckedRequired: "please confirm that all information is checked",
+        allInfoCheckedRequired:
+          "please confirm that all information is checked",
         submitError: "an error occurred. Please try again.",
         submitSuccess: "your message has been sent successfully!",
       },

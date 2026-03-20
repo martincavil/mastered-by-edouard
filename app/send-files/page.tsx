@@ -11,6 +11,24 @@ import { AudioFiles } from "./components/AudioFiles";
 import { ProductionSheet } from "./components/ProductionSheet";
 import { PrepareFiles } from "./components/PrepareFiles";
 
+// Composant pour l'animation des points
+function AnimatedDots() {
+  const [dots, setDots] = useState("");
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setDots(prev => {
+        if (prev === "...") return "";
+        return prev + ".";
+      });
+    }, 500);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  return <span>{dots}</span>;
+}
+
 type SubjectKey = "audio-files" | "production-sheet" | "prepare-files";
 
 interface SelectedFile {
@@ -72,7 +90,14 @@ function SendFilesContent() {
             {/* Header */}
             <div className="flex items-center justify-between mb-3 md:mb-3 xl:mb-5 2xl:mb-10">
               <h1 className="text-4xl md:text-5xl xl:text-6xl 2xl:text-[80px] font-bold text-red-dark">
-                {isAudioUploading || isProductionUploading ? t.sendFiles.audioFiles.uploadInProgress : t.sendFiles.title}
+                {isAudioUploading || isProductionUploading ? (
+                  <>
+                    {t.sendFiles.audioFiles.uploadInProgress}
+                    <AnimatedDots />
+                  </>
+                ) : (
+                  t.sendFiles.title
+                )}
               </h1>
               {/* Close button */}
               <div className="overflow-hidden flex-shrink-0">
