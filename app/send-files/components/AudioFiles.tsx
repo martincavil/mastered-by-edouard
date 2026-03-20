@@ -267,25 +267,34 @@ export function AudioFiles({
 
         // Update progress
         const progress = Math.round(((chunkIndex + 1) / totalChunks) * 100);
-        setSelectedFiles((prev) =>
-          prev.map((f) => (f.id === fileId ? { ...f, progress } : f)),
-        );
+        setSelectedFiles((prev) => {
+          const updatedFiles = prev.map((f) => (f.id === fileId ? { ...f, progress } : f));
+
+          // Calculate global progress based on all files' individual progress
+          const totalProgress = updatedFiles.reduce((sum, f) => sum + (f.progress || 0), 0);
+          const globalProgress = updatedFiles.length > 0 ? totalProgress / updatedFiles.length : 0;
+          setUploadProgress(globalProgress);
+
+          return updatedFiles;
+        });
       }
 
       // Mark as complete
-      setSelectedFiles((prev) =>
-        prev.map((f) =>
+      setSelectedFiles((prev) => {
+        const updatedFiles = prev.map((f) =>
           f.id === fileId ? { ...f, uploading: false, progress: 100 } : f,
-        ),
-      );
+        );
+
+        // Calculate global progress
+        const totalProgress = updatedFiles.reduce((sum, f) => sum + (f.progress || 0), 0);
+        const globalProgress = updatedFiles.length > 0 ? totalProgress / updatedFiles.length : 0;
+        setUploadProgress(globalProgress);
+
+        return updatedFiles;
+      });
 
       // Increment uploaded files count and add file name to list
-      setUploadedFilesCount((prev) => {
-        const newCount = prev + 1;
-        // Calculate global progress
-        setUploadProgress((newCount / totalFilesCount) * 100);
-        return newCount;
-      });
+      setUploadedFilesCount((prev) => prev + 1);
 
       // Add file name to uploaded list
       setUploadedFileNames((prev) => [...prev, file.name]);
@@ -332,6 +341,9 @@ export function AudioFiles({
     setTotalFilesCount(selectedFiles.length);
     setAllFileNames(selectedFiles.map((f) => f.file.name));
     setUploadProgress(0);
+
+    // Initialize all files with progress: 0
+    setSelectedFiles((prev) => prev.map((f) => ({ ...f, progress: 0 })));
 
     try {
       // Get temporary Dropbox token for direct upload

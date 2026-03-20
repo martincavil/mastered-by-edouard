@@ -37,6 +37,7 @@ export type Translations = {
       draganddrop: string;
       clickordrag: string;
       uploadingFiles: string;
+      uploadInProgress: string;
       headline1: string;
       headline2: string;
       headline3: string;

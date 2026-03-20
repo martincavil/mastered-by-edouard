@@ -377,7 +377,7 @@ export function ProductionSheet({ isUploading, setIsUploading }: ProductionSheet
       const updateProgress = (fileName: string) => {
         uploadedCount++;
         setUploadedFiles((prev) => [...prev, fileName]);
-        setUploadProgress((uploadedCount / filesToUpload) * 100);
+        setUploadProgress(filesToUpload > 0 ? (uploadedCount / filesToUpload) * 100 : 0);
       };
 
       // Get Dropbox token
@@ -433,6 +433,8 @@ export function ProductionSheet({ isUploading, setIsUploading }: ProductionSheet
       }
 
       const pdfBlob = await pdfResponse.blob();
+      // Start progress for PDF
+      setUploadProgress(filesToUpload > 0 ? ((uploadedCount + 0.5) / filesToUpload) * 100 : 0);
       await uploadFileToDropbox(
         pdfBlob,
         `${artistName}-production_sheet.pdf`,
@@ -444,6 +446,8 @@ export function ProductionSheet({ isUploading, setIsUploading }: ProductionSheet
       // Upload cover if exists
       if (coverFile) {
         const coverExtension = coverFile.name.split(".").pop();
+        // Start progress for cover
+        setUploadProgress(filesToUpload > 0 ? ((uploadedCount + 0.5) / filesToUpload) * 100 : 0);
         await uploadFileToDropbox(
           coverFile,
           `cover.${coverExtension}`,
@@ -455,6 +459,8 @@ export function ProductionSheet({ isUploading, setIsUploading }: ProductionSheet
 
       // Upload other files
       for (const file of otherFiles) {
+        // Start progress for each file
+        setUploadProgress(filesToUpload > 0 ? ((uploadedCount + 0.5) / filesToUpload) * 100 : 0);
         await uploadFileToDropbox(file, file.name, folderPath, accessToken);
         updateProgress(file.name);
       }

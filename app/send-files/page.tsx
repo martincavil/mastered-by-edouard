@@ -72,7 +72,7 @@ function SendFilesContent() {
             {/* Header */}
             <div className="flex items-center justify-between mb-3 md:mb-3 xl:mb-5 2xl:mb-10">
               <h1 className="text-4xl md:text-5xl xl:text-6xl 2xl:text-[80px] font-bold text-red-dark">
-                {t.sendFiles.title}
+                {isAudioUploading || isProductionUploading ? t.sendFiles.audioFiles.uploadInProgress : t.sendFiles.title}
               </h1>
               {/* Close button */}
               <div className="overflow-hidden flex-shrink-0">
@@ -97,71 +97,75 @@ function SendFilesContent() {
               </div>
             </div>
             {/* Subject buttons - Desktop */}
-            <div className="hidden md:flex flex-wrap items-center gap-2 md:gap-3 xl:gap-4 md:mb-3 xl:mb-5 2xl:mb-10">
-              {subjects.map((subject) => (
-                <button
-                  key={subject.key}
-                  onClick={() => setSelectedSubject(subject.key)}
-                  className={`py-1.5 px-4 border rounded-full text-xl md:text-lg lg:text-xl xl:text-2xl 2xl:text-3xl font-extralight relative overflow-hidden ${
-                    selectedSubject === subject.key
-                      ? "bg-black text-white border-black"
-                      : "navigation-link bg-transparent text-black border-black"
-                  }`}
-                >
-                  {selectedSubject !== subject.key && (
-                    <div className="nav-bg-hover" aria-hidden="true" />
-                  )}
-                  <span className="relative z-[2]">{subject.name}</span>
-                </button>
-              ))}
-            </div>
+            {!isAudioUploading && !isProductionUploading && (
+              <div className="hidden md:flex flex-wrap items-center gap-2 md:gap-3 xl:gap-4 md:mb-3 xl:mb-5 2xl:mb-10">
+                {subjects.map((subject) => (
+                  <button
+                    key={subject.key}
+                    onClick={() => setSelectedSubject(subject.key)}
+                    className={`py-1.5 px-4 border rounded-full text-xl md:text-lg lg:text-xl xl:text-2xl 2xl:text-3xl font-extralight relative overflow-hidden ${
+                      selectedSubject === subject.key
+                        ? "bg-black text-white border-black"
+                        : "navigation-link bg-transparent text-black border-black"
+                    }`}
+                  >
+                    {selectedSubject !== subject.key && (
+                      <div className="nav-bg-hover" aria-hidden="true" />
+                    )}
+                    <span className="relative z-[2]">{subject.name}</span>
+                  </button>
+                ))}
+              </div>
+            )}
 
             {/* Subject menu - Mobile only */}
-            <div className="md:hidden mb-8 relative">
-              <button
-                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                className={`w-full bg-white text-black py-2 px-3 rounded-full flex items-center justify-between${
-                  isMobileMenuOpen ? " rounded-b-none rounded-t-[20px]" : ""
-                }`}
-              >
-                <div />
-                <span className="text-xl font-extralight flex items-center justify-between">
-                  {subjects.find((s) => s.key === selectedSubject)?.name}
-                </span>
-                <svg
-                  width="20"
-                  height="20"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  className={`transition-transform duration-300 ${
-                    isMobileMenuOpen ? "rotate-180" : ""
+            {!isAudioUploading && !isProductionUploading && (
+              <div className="md:hidden mb-8 relative">
+                <button
+                  onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                  className={`w-full bg-white text-black py-2 px-3 rounded-full flex items-center justify-between${
+                    isMobileMenuOpen ? " rounded-b-none rounded-t-[20px]" : ""
                   }`}
                 >
-                  <polyline points="6 9 12 15 18 9" />
-                </svg>
-              </button>
+                  <div />
+                  <span className="text-xl font-extralight flex items-center justify-between">
+                    {subjects.find((s) => s.key === selectedSubject)?.name}
+                  </span>
+                  <svg
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    className={`transition-transform duration-300 ${
+                      isMobileMenuOpen ? "rotate-180" : ""
+                    }`}
+                  >
+                    <polyline points="6 9 12 15 18 9" />
+                  </svg>
+                </button>
 
-              {isMobileMenuOpen && (
-                <div className="absolute top-full left-0 right-0 bg-white rounded-b-[20px] p-[10px] z-50 space-y-2">
-                  {subjects
-                    .filter((subject) => subject.key !== selectedSubject)
-                    .map((subject) => (
-                      <button
-                        key={subject.key}
-                        onClick={() => {
-                          setSelectedSubject(subject.key);
-                          setIsMobileMenuOpen(false);
-                        }}
-                        className="w-full bg-black text-white py-2 px-3 rounded-full text-xl font-extralight flex items-center justify-center"
-                      >
-                        {subject.name}
-                      </button>
-                    ))}
-                </div>
-              )}
-            </div>
+                {isMobileMenuOpen && (
+                  <div className="absolute top-full left-0 right-0 bg-white rounded-b-[20px] p-[10px] z-50 space-y-2">
+                    {subjects
+                      .filter((subject) => subject.key !== selectedSubject)
+                      .map((subject) => (
+                        <button
+                          key={subject.key}
+                          onClick={() => {
+                            setSelectedSubject(subject.key);
+                            setIsMobileMenuOpen(false);
+                          }}
+                          className="w-full bg-black text-white py-2 px-3 rounded-full text-xl font-extralight flex items-center justify-center"
+                        >
+                          {subject.name}
+                        </button>
+                      ))}
+                  </div>
+                )}
+              </div>
+            )}
             {/* Content */}
             <div className="md:col-span-2 flex-1 min-h-0">
               {/* AudioFiles - Always mounted to preserve state */}

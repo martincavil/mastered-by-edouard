@@ -31,6 +31,7 @@ export const en: Translations = {
       draganddrop: "simply drop the file(s) below :",
       clickordrag: "upload file(s) *",
       uploadingFiles: "uploaded file(s)",
+      uploadInProgress: "upload in progress...",
       headline1: "simple.",
       headline2: "fast.",
       headline3: "secure.",

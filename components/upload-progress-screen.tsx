@@ -1,5 +1,7 @@
 "use client";
 
+import { useTranslations } from "@/lib/i18n/useTranslations";
+
 interface UploadProgressScreenProps {
   uploadProgress: number;
   uploadedFiles: string[];
@@ -10,35 +12,30 @@ interface UploadProgressScreenProps {
 
 export function UploadProgressScreen({
   uploadProgress,
-  uploadedFiles,
-  totalFiles,
+  allFiles,
 }: UploadProgressScreenProps) {
+  const t = useTranslations();
   // Calculate safe progress percentage
-  const safeProgress = totalFiles > 0 ? Math.round(uploadProgress) : 0;
+  const safeProgress =
+    !isNaN(uploadProgress) && isFinite(uploadProgress)
+      ? Math.round(uploadProgress)
+      : 0;
 
   return (
     <div className="flex flex-col items-center justify-center h-full space-y-8">
-      {/* Titre */}
-      <h1 className="text-3xl md:text-4xl font-bold text-white">
-        upload in progress
-      </h1>
-
       {/* Pourcentage */}
-      <div className="bg-white rounded-[10px] px-8 py-2">
+      <div className="bg-white rounded-[10px] border-black px-12 py-2">
         <span className="text-2xl font-bold text-black">{safeProgress}%</span>
       </div>
 
-      {/* Liste des fichiers uploadés */}
-      {uploadedFiles.length > 0 && (
-        <div className="w-full max-w-md space-y-2">
-          <p className="text-white text-sm font-medium mb-2">
-            Uploaded files ({uploadedFiles.length}/{totalFiles})
-          </p>
-          <div className="space-y-2 max-h-[300px] overflow-y-auto">
-            {uploadedFiles.map((file, index) => (
+      {/* Liste de tous les fichiers */}
+      {allFiles.length > 0 && (
+        <div className="w-full max-w-7xl flex flex-col items-center space-y-2">
+          <div className="w-full space-y-2 max-h-[300px] overflow-y-auto">
+            {allFiles.map((file, index) => (
               <div
                 key={index}
-                className="border-2 border-white bg-transparent rounded-[10px] py-2 px-4"
+                className="border border-white bg-white/5 rounded-md py-2 px-4 w-full"
               >
                 <span className="text-white text-sm truncate block">
                   {file}
