@@ -2,7 +2,7 @@ import { Metadata } from "next";
 import { Locale } from "@/lib/i18n";
 
 const BASE_URL =
-  process.env.NEXT_PUBLIC_BASE_URL || "https://masteredbyedouard.com/";
+  process.env.NEXT_PUBLIC_BASE_URL || "https://masteredbyedouard.com";
 
 interface SEOConfig {
   title: string;
@@ -39,7 +39,7 @@ export function generateMetadata({
       title,
       description,
       url,
-      siteName: title,
+      siteName: "MasteredByEdouard",
       images: [
         {
           url: ogImage,

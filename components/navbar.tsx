@@ -11,7 +11,7 @@ export function Navbar() {
       <Link href="/">
         <Image
           src="https://www.dropbox.com/scl/fi/mzniqk11bcx0w0ozl25wh/logo_Mastered-by-Edouard_v3.webp?rlkey=2td8sgwoonneic113dsn3h1f1&st=b7uz5q2i&dl=1"
-          alt="Logo Mastered by Edouard"
+          alt="MasteredByEdouard"
           width={211}
           height={63}
           className="h-full md:w-[211px] w-[180px]"
