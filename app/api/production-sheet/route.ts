@@ -69,12 +69,14 @@ async function sendProductionSheetNotificationEmails(
   }
 
   const clientEmail = process.env.RESEND_TO_EMAIL || 'contact@masteredbyedouard.com';
+  // TODO: Remettre from: 'contact@masteredbyedouard.com' quand DNS vérifié
   const fromEmail = process.env.RESEND_FROM_EMAIL || 'onboarding@resend.dev';
 
   // Email pour le client (Edouard)
   const clientEmailResult = await resend.emails.send({
     from: fromEmail,
     to: clientEmail,
+    replyTo: 'contact@masteredbyedouard.com',
     subject: `Nouvelle Production Sheet uploadée - ${artistName}`,
     html: `
 <!DOCTYPE html>
@@ -126,6 +128,7 @@ async function sendProductionSheetNotificationEmails(
   const uploaderEmailResult = await resend.emails.send({
     from: fromEmail,
     to: uploaderEmail,
+    replyTo: 'contact@masteredbyedouard.com',
     subject: 'Confirmation de votre Production Sheet - Mastered by Edouard',
     html: `
 <!DOCTYPE html>

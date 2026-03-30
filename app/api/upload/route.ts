@@ -189,12 +189,14 @@ async function sendNotificationEmails(
   }
 
   const clientEmail = process.env.RESEND_TO_EMAIL || 'contact@masteredbyedouard.com';
+  // TODO: Remettre from: 'contact@masteredbyedouard.com' quand DNS vérifié
   const fromEmail = process.env.RESEND_FROM_EMAIL || 'onboarding@resend.dev';
 
   // Email pour le client (Edouard)
   const clientEmailResult = await resend.emails.send({
     from: fromEmail,
     to: clientEmail,
+    replyTo: 'contact@masteredbyedouard.com',
     subject: `Nouveaux fichiers uploadés - ${uploaderName}`,
     html: `
 <!DOCTYPE html>
@@ -244,6 +246,7 @@ async function sendNotificationEmails(
   const uploaderEmailResult = await resend.emails.send({
     from: fromEmail,
     to: uploaderEmail,
+    replyTo: 'contact@masteredbyedouard.com',
     subject: 'Confirmation de votre upload - Mastered by Edouard',
     html: `
 <!DOCTYPE html>

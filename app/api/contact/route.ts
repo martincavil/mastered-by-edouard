@@ -47,13 +47,14 @@ export async function POST(request: NextRequest) {
     }
 
     const clientEmail = process.env.RESEND_TO_EMAIL || "contact@masteredbyedouard.com";
+    // TODO: Remettre from: 'contact@masteredbyedouard.com' quand DNS vérifié
     const fromEmail = process.env.RESEND_FROM_EMAIL || "onboarding@resend.dev";
 
     // Send email via Resend
     const emailResult = await resend.emails.send({
       from: fromEmail,
       to: clientEmail,
-      replyTo: email,
+      replyTo: email, // L'email de l'expéditeur pour que Edouard puisse répondre directement
       subject: `Nouveau message de contact - ${name} ${familyName}`,
       html: `
 <!DOCTYPE html>
