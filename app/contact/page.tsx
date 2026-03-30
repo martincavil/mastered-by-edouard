@@ -84,7 +84,9 @@ export default function ContactPage() {
             </div>
           </div>
 
-          <Footer color="white" hoverColor="red" />
+          <div className="mt-auto">
+            <Footer color="white" hoverColor="red" />
+          </div>
         </div>
       </main>
       {isSubmitting && <LoadingSpinner />}

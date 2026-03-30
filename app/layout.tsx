@@ -3,6 +3,7 @@ import { LanguageProvider } from "@/lib/i18n/LanguageProvider";
 import "./globals.css";
 import { LayoutWrapper } from "@/components/layout-wrapper";
 import GoogleAnalytics from "@/components/GoogleAnalytics";
+import { LandscapeWarning } from "@/components/landscape-warning";
 
 export const metadata: Metadata = {
   title: {
@@ -50,6 +51,7 @@ export default function RootLayout({
       <body className="antialiased h-dvh overflow-hidden overflow-x-hidden flex flex-col [&:not([data-not-found])]:px-[10px] [&:not([data-not-found])]:pb-[10px]">
         {gaId && <GoogleAnalytics gaId={gaId} />}
         <LanguageProvider>
+          <LandscapeWarning />
           <LayoutWrapper>{children}</LayoutWrapper>
         </LanguageProvider>
       </body>

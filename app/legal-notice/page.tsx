@@ -124,7 +124,7 @@ export default function LegalNoticePage() {
           </div>
 
           {/* Content Grid */}
-          <div className="flex-1 grid md:grid-cols-2 2xl:gap-12 gap-6 min-h-0">
+          <div className="flex-1 grid md:grid-cols-2 2xl:gap-12 gap-6 min-h-0 overflow-y-auto">
             {/* Left Column - Content */}
             <div className="text-white font-extralight text-base 2xl:text-lg font-poppins">
               {activeTab === "website" && (
@@ -228,7 +228,9 @@ export default function LegalNoticePage() {
             </div>
           </div>
 
-          <Footer color="white" />
+          <div className="mt-auto">
+            <Footer color="white" />
+          </div>
         </div>
       </main>
     </PageTransition>

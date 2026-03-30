@@ -364,7 +364,7 @@ export const en: Translations = {
       },
       question3: "3. why human mastering in the A.I era ? ",
       answer3:
-        "We live in an amazing era where A.I can achieve for sure great results ! But the purpose of the mastering engineer is not only to provide tools, but also a human ear and experience ! It allows direct communication, feedback, and collaboration, ensuring that the artist's intentions and expectations are met. It’s all about human connection and trust!",
+        "We live in an amazing era where A.I can achieve for sure great results ! But the purpose of the mastering engineer is not only to provide tools, but also a human ear and experience ! It allows direct communication, feedback, and collaboration, ensuring that the artist's intentions and expectations are met. It's all about human connection and trust!",
       question4: "4. do you provide CD/Vinyl mastering ?",
       answer4:
         "The studio offers professional CD and vinyl mastering options, ensuring your music sounds good on every format. CD and/or vinyl mastering will be made or request !",
@@ -373,7 +373,10 @@ export const en: Translations = {
         "Turnaround times naturally vary depending on the type of project. For a single, the standard delivery time is around two to three business days. An express delivery (within 24 hours) is available at an additional cost. For larger projects (EPs or LPs), delivery times will be communicated once the full scope of the project has been defined.",
       question6: "6. mastered by Edouard : logo, identity ",
       answer6:
-        "Being passionate about design and user experience, I put a lot of care into shaping the studio’s creative and visual identity. That’s why I strive to maintain a consistent image across all platforms — website, social media, and email. And as for the logo — yes, it does have a meaning! Here it is:",
+        "Being passionate about design and user experience, I put a lot of care into shaping the studio's creative and visual identity. That's why I strive to maintain a consistent image across all platforms — website, social media, and email. And as for the logo — yes, it does have a meaning! Here it is:",
     },
+  },
+  landscapeWarning: {
+    message: "Please rotate your device to portrait mode",
   },
 };

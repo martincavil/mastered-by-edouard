@@ -378,4 +378,7 @@ export const fr: Translations = {
         "Passionné par le design et l'expérience utilisateur, j'apporte un soin tout particulier à l'identité visuelle et créative du studio. C'est pourquoi je veille à maintenir une image cohérente sur tous les supports : site web, réseaux sociaux et emails. Quant au logo… oui, il a bien une signification ! La voici :",
     },
   },
+  landscapeWarning: {
+    message: "Veuillez tourner votre appareil en mode portrait",
+  },
 };

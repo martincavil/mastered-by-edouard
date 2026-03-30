@@ -331,4 +331,7 @@ export type Translations = {
       answer6: string;
     };
   };
+  landscapeWarning: {
+    message: string;
+  };
 };

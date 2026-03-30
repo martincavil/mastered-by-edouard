@@ -171,7 +171,9 @@ export default function FaqPage() {
               </div>
             </div>
 
-            <Footer color="white" />
+            <div className="mt-auto">
+              <Footer color="white" />
+            </div>
           </div>
         </main>
       </PageTransition>
