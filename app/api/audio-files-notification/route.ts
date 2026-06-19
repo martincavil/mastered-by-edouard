@@ -9,7 +9,9 @@ async function sendAudioFilesNotificationEmails(
   uploaderEmail: string,
   filesCount: number,
   fileNames: string[],
-  folderPath: string
+  folderPath: string,
+  projectName?: string,
+  message?: string,
 ): Promise<void> {
   if (!resend) {
     console.warn('Resend not configured, skipping email notifications');
@@ -49,6 +51,7 @@ async function sendAudioFilesNotificationEmails(
       <div class="section-title">INFORMATIONS CLIENT</div>
       <div class="field"><span class="label">Nom :</span> ${uploaderName}</div>
       <div class="field"><span class="label">Email :</span> <a href="mailto:${uploaderEmail}">${uploaderEmail}</a></div>
+      <div class="field"><span class="label">Nom du projet :</span> ${projectName || "Non renseigné"}</div>
     </div>
 
     <div class="section">
@@ -56,6 +59,8 @@ async function sendAudioFilesNotificationEmails(
       <div class="field"><span class="label">Nombre de fichiers :</span> ${filesCount}</div>
       <div class="field"><span class="label">Dossier Dropbox :</span> ${folderPath}</div>
     </div>
+
+    ${message ? `<div class="file-list"><div class="section-title">MESSAGE</div><p>${message.replace(/\n/g, "<br>")}</p></div>` : ""}
 
     <div class="file-list">
       <div class="section-title">LISTE DES FICHIERS</div>
@@ -118,7 +123,7 @@ async function sendAudioFilesNotificationEmails(
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { name, email, fileNames, folderPath } = body;
+    const { name, email, fileNames, folderPath, projectName, message } = body;
 
     if (!name || !email || !fileNames || !folderPath) {
       return NextResponse.json(
@@ -133,7 +138,9 @@ export async function POST(request: NextRequest) {
       email,
       fileNames.length,
       fileNames,
-      folderPath
+      folderPath,
+      projectName,
+      message
     );
 
     return NextResponse.json({

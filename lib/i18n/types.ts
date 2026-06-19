@@ -38,6 +38,8 @@ export type Translations = {
       clickordrag: string;
       uploadingFiles: string;
       uploadInProgress: string;
+      projectNamePlaceholder: string;
+      messagePlaceholder: string;
       headline1: string;
       headline2: string;
       headline3: string;
@@ -221,6 +223,7 @@ export type Translations = {
         phoneRequired: string;
         messageRequired: string;
         termsRequired: string;
+        captchaRequired: string;
         submitError: string;
         submitSuccess: string;
       };

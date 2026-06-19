@@ -32,6 +32,8 @@ export const en: Translations = {
       clickordrag: "upload file(s) *",
       uploadingFiles: "uploaded file(s)",
       uploadInProgress: "upload in progress",
+      projectNamePlaceholder: "project name*",
+      messagePlaceholder: "message",
       headline1: "simple.",
       headline2: "fast.",
       headline3: "secure.",
@@ -47,7 +49,7 @@ export const en: Translations = {
       backToHome: "back to home",
       namingTooltipTitle: "folder organization",
       namingTooltipHints: [
-        ". your files will be organized in a folder named: artist_name",
+        ". your files will be organized in a folder named: date_name_project-name",
         ". all your audio files will be stored in this folder",
         ". this ensures easy tracking and organization",
       ],
@@ -242,6 +244,7 @@ export const en: Translations = {
         phoneRequired: "phone number is required",
         messageRequired: "message is required",
         termsRequired: "you must accept the terms and conditions",
+        captchaRequired: "please complete the captcha before sending",
         allInfoCheckedRequired:
           "please confirm that all information is checked",
         submitError: "an error occurred. Please try again.",

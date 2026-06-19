@@ -4,6 +4,23 @@ import { Resend } from "resend";
 // Initialize Resend (optional)
 const resend = process.env.RESEND_API_KEY ? new Resend(process.env.RESEND_API_KEY) : null;
 
+async function verifyCaptcha(token: string, ip: string | null): Promise<boolean> {
+  const secretKey = process.env.TURNSTILE_SECRET_KEY;
+  if (!secretKey) return true; // Captcha not configured, skip verification
+
+  const formData = new URLSearchParams();
+  formData.append("secret", secretKey);
+  formData.append("response", token);
+  if (ip) formData.append("remoteip", ip);
+
+  const verifyResponse = await fetch(
+    "https://challenges.cloudflare.com/turnstile/v0/siteverify",
+    { method: "POST", body: formData },
+  );
+  const verifyResult = await verifyResponse.json();
+  return verifyResult.success === true;
+}
+
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
@@ -18,6 +35,7 @@ export async function POST(request: NextRequest) {
       type,
       numberOfSongs,
       message,
+      captchaToken,
     } = body;
 
     // Validate required fields
@@ -26,6 +44,24 @@ export async function POST(request: NextRequest) {
         { error: "Missing required fields" },
         { status: 400 },
       );
+    }
+
+    // Validate captcha (if Turnstile is configured)
+    if (process.env.TURNSTILE_SECRET_KEY) {
+      if (!captchaToken) {
+        return NextResponse.json(
+          { error: "Missing captcha token" },
+          { status: 400 },
+        );
+      }
+      const ip = request.headers.get("x-forwarded-for");
+      const captchaValid = await verifyCaptcha(captchaToken, ip);
+      if (!captchaValid) {
+        return NextResponse.json(
+          { error: "Captcha verification failed" },
+          { status: 400 },
+        );
+      }
     }
 
     // Validate email format

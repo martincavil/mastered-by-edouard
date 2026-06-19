@@ -34,12 +34,16 @@ interface AudioFilesProps {
   formData: {
     name: string;
     email: string;
+    projectName: string;
+    message: string;
     acceptTerms: boolean;
   };
   setFormData: React.Dispatch<
     React.SetStateAction<{
       name: string;
       email: string;
+      projectName: string;
+      message: string;
       acceptTerms: boolean;
     }>
   >;
@@ -139,13 +143,65 @@ export function AudioFiles({
     setSelectedFiles((prev) => prev.filter((f) => f.id !== id));
   };
 
+  // XHR wrapper exposing upload.onprogress for smooth, continuous progress
+  // (fetch() gives no upload progress events, only per-chunk completion)
+  const xhrUpload = (
+    url: string,
+    headers: Record<string, string>,
+    body: Blob,
+    onProgress: (loaded: number) => void,
+  ): Promise<void> => {
+    return new Promise((resolve, reject) => {
+      const xhr = new XMLHttpRequest();
+      xhr.open("POST", url);
+      Object.entries(headers).forEach(([key, value]) =>
+        xhr.setRequestHeader(key, value),
+      );
+      xhr.upload.onprogress = (e) => onProgress(e.loaded);
+      xhr.onload = () => {
+        if (xhr.status >= 200 && xhr.status < 300) {
+          resolve();
+        } else {
+          reject(
+            new Error(
+              xhr.responseText || `Upload failed with status ${xhr.status}`,
+            ),
+          );
+        }
+      };
+      xhr.onerror = () => reject(new Error("Network error during upload"));
+      xhr.send(body);
+    });
+  };
+
+  const updateFileProgress = (fileId: string, progress: number) => {
+    setSelectedFiles((prev) => {
+      const updatedFiles = prev.map((f) =>
+        f.id === fileId ? { ...f, progress } : f,
+      );
+
+      // Calculate global progress based on all files' individual progress
+      const totalProgress = updatedFiles.reduce(
+        (sum, f) => sum + (f.progress || 0),
+        0,
+      );
+      const globalProgress =
+        updatedFiles.length > 0 ? totalProgress / updatedFiles.length : 0;
+      setUploadProgress(globalProgress);
+
+      return updatedFiles;
+    });
+  };
+
   const uploadFileChunked = async (
     file: File,
     fileId: string,
     folderPath: string,
     dropboxToken: string,
   ): Promise<void> => {
-    const CHUNK_SIZE = 8 * 1024 * 1024; // 8MB chunks (no Vercel limit with direct upload)
+    // 32MB chunks: fewer round trips than the previous 8MB, so large WAV/AIF
+    // files upload noticeably faster (Dropbox allows up to 150MB per chunk)
+    const CHUNK_SIZE = 32 * 1024 * 1024;
     const totalChunks = Math.ceil(file.size / CHUNK_SIZE);
 
     // Sanitize filename to remove ALL special characters for Dropbox API compatibility
@@ -182,85 +238,64 @@ export function AudioFiles({
 
       let offset = 0;
 
-      // Upload chunks
+      // Upload chunks, tracking byte-level progress within each chunk for a
+      // smooth progress bar instead of jumping once per chunk
       for (let chunkIndex = 0; chunkIndex < totalChunks; chunkIndex++) {
         const start = chunkIndex * CHUNK_SIZE;
         const end = Math.min(start + CHUNK_SIZE, file.size);
         const chunk = file.slice(start, end);
         const isLastChunk = chunkIndex === totalChunks - 1;
+        const chunkOffset = offset;
+
+        const reportProgress = (loaded: number) => {
+          const progress = Math.round(
+            ((chunkOffset + loaded) / file.size) * 100,
+          );
+          updateFileProgress(fileId, progress);
+        };
 
         if (!isLastChunk) {
-          // Append chunk
-          const appendResponse = await fetch(
+          await xhrUpload(
             "https://content.dropboxapi.com/2/files/upload_session/append_v2",
             {
-              method: "POST",
-              headers: {
-                Authorization: `Bearer ${dropboxToken}`,
-                "Content-Type": "application/octet-stream",
-                "Dropbox-API-Arg": JSON.stringify({
-                  cursor: {
-                    session_id: session_id,
-                    offset: offset,
-                  },
-                }),
-              },
-              body: chunk,
+              Authorization: `Bearer ${dropboxToken}`,
+              "Content-Type": "application/octet-stream",
+              "Dropbox-API-Arg": JSON.stringify({
+                cursor: {
+                  session_id: session_id,
+                  offset: offset,
+                },
+              }),
             },
+            chunk,
+            reportProgress,
           );
-
-          if (!appendResponse.ok) {
-            const errorText = await appendResponse.text();
-            throw new Error(
-              `Failed to upload chunk ${chunkIndex + 1}: ${errorText}`,
-            );
-          }
 
           offset += chunk.size;
         } else {
           // Finish upload with last chunk
-          const finishResponse = await fetch(
+          await xhrUpload(
             "https://content.dropboxapi.com/2/files/upload_session/finish",
             {
-              method: "POST",
-              headers: {
-                Authorization: `Bearer ${dropboxToken}`,
-                "Content-Type": "application/octet-stream",
-                "Dropbox-API-Arg": JSON.stringify({
-                  cursor: {
-                    session_id: session_id,
-                    offset: offset,
-                  },
-                  commit: {
-                    path: filePath,
-                    mode: "add",
-                    autorename: true,
-                    mute: false,
-                  },
-                }),
-              },
-              body: chunk,
+              Authorization: `Bearer ${dropboxToken}`,
+              "Content-Type": "application/octet-stream",
+              "Dropbox-API-Arg": JSON.stringify({
+                cursor: {
+                  session_id: session_id,
+                  offset: offset,
+                },
+                commit: {
+                  path: filePath,
+                  mode: "add",
+                  autorename: true,
+                  mute: false,
+                },
+              }),
             },
+            chunk,
+            reportProgress,
           );
-
-          if (!finishResponse.ok) {
-            const errorText = await finishResponse.text();
-            throw new Error(`Failed to finish upload: ${errorText}`);
-          }
         }
-
-        // Update progress
-        const progress = Math.round(((chunkIndex + 1) / totalChunks) * 100);
-        setSelectedFiles((prev) => {
-          const updatedFiles = prev.map((f) => (f.id === fileId ? { ...f, progress } : f));
-
-          // Calculate global progress based on all files' individual progress
-          const totalProgress = updatedFiles.reduce((sum, f) => sum + (f.progress || 0), 0);
-          const globalProgress = updatedFiles.length > 0 ? totalProgress / updatedFiles.length : 0;
-          setUploadProgress(globalProgress);
-
-          return updatedFiles;
-        });
       }
 
       // Mark as complete
@@ -270,8 +305,12 @@ export function AudioFiles({
         );
 
         // Calculate global progress
-        const totalProgress = updatedFiles.reduce((sum, f) => sum + (f.progress || 0), 0);
-        const globalProgress = updatedFiles.length > 0 ? totalProgress / updatedFiles.length : 0;
+        const totalProgress = updatedFiles.reduce(
+          (sum, f) => sum + (f.progress || 0),
+          0,
+        );
+        const globalProgress =
+          updatedFiles.length > 0 ? totalProgress / updatedFiles.length : 0;
         setUploadProgress(globalProgress);
 
         return updatedFiles;
@@ -318,6 +357,11 @@ export function AudioFiles({
       return;
     }
 
+    if (!formData.projectName.trim()) {
+      setMessage({ type: "error", text: "Please enter your project name" });
+      return;
+    }
+
     setIsUploading(true);
     setMessage(null);
     setUploadedFilesCount(0);
@@ -340,12 +384,12 @@ export function AudioFiles({
       const { accessToken } = await tokenResponse.json();
 
       // Create folder once for all files
-      // Format: YYYYMMDD_Nom_Mail
+      // Format: YYYYMMDD_Nom_NomDuProjet
       const now = new Date();
       const dateStr = now.toISOString().slice(0, 10).replace(/-/g, ""); // YYYYMMDD
       const artistName = sanitizeForDropbox(formData.name);
-      const artistEmail = sanitizeForDropbox(formData.email);
-      const folderName = `${dateStr}_${artistName}_${artistEmail}`;
+      const projectName = sanitizeForDropbox(formData.projectName);
+      const folderName = `${dateStr}_${artistName}_${projectName}`;
       const folderPath = `/01_uploads/${folderName}`;
 
       // Create folder directly with Dropbox API
@@ -366,15 +410,27 @@ export function AudioFiles({
         throw new Error(`Failed to create folder: ${errorText}`);
       }
 
-      // Upload files one by one with direct Dropbox upload
-      for (const selectedFile of selectedFiles) {
+      // Upload files with direct Dropbox upload, a few in parallel to make
+      // better use of available bandwidth instead of uploading strictly one by one
+      const CONCURRENT_UPLOADS = 3;
+      const queue = [...selectedFiles];
+      const runNext = async (): Promise<void> => {
+        const nextFile = queue.shift();
+        if (!nextFile) return;
         await uploadFileChunked(
-          selectedFile.file,
-          selectedFile.id,
+          nextFile.file,
+          nextFile.id,
           folderPath,
           accessToken,
         );
-      }
+        await runNext();
+      };
+      await Promise.all(
+        Array.from(
+          { length: Math.min(CONCURRENT_UPLOADS, selectedFiles.length) },
+          runNext,
+        ),
+      );
 
       // Send notification emails
       try {
@@ -387,6 +443,8 @@ export function AudioFiles({
           body: JSON.stringify({
             name: formData.name,
             email: formData.email,
+            projectName: formData.projectName,
+            message: formData.message,
             fileNames,
             folderPath,
           }),
@@ -397,7 +455,13 @@ export function AudioFiles({
 
       setSubmitSuccess(true);
       setSelectedFiles([]);
-      setFormData({ name: "", email: "", acceptTerms: false });
+      setFormData({
+        name: "",
+        email: "",
+        projectName: "",
+        message: "",
+        acceptTerms: false,
+      });
       if (fileInputRef.current) {
         fileInputRef.current.value = "";
       }
@@ -419,16 +483,16 @@ export function AudioFiles({
           uploadedFiles={uploadedFileNames}
           totalFiles={totalFilesCount}
           allFiles={allFileNames}
-          filesWithProgress={selectedFiles.map(f => ({
+          filesWithProgress={selectedFiles.map((f) => ({
             name: f.file.name,
             progress: f.progress,
-            uploading: f.uploading
+            uploading: f.uploading,
           }))}
           onClose={() => {}}
         />
       ) : (
         <>
-          <div className="flex flex-col space-y-3">
+          <div className="flex flex-col space-y-3 min-h-0 md:overflow-y-auto md:pr-1">
             {submitSuccess ? (
               <div className="flex flex-col h-full">
                 {/* White success container */}
@@ -473,7 +537,7 @@ export function AudioFiles({
                 onSubmit={handleSubmit}
                 className="flex flex-col space-y-2 2xl:space-y-4"
               >
-                <div className="bg-white px-4 py-6 2xl:py-8 2xl:px-6 rounded-[10px] min-h-[300px] h-[300px] max-h-[300px] 2xl:h-full 2xl:max-h-[700px] relative flex flex-col justify-between">
+                <div className="bg-white px-4 py-6 2xl:py-8 2xl:px-6 rounded-[10px] min-h-[250px] h-[250px] max-h-[250px] 2xl:h-full 2xl:max-h-[700px] relative flex flex-col justify-between">
                   <div className="mb-2">
                     <div className="w-full">
                       <p className="text-center font-medium mb-3 2xl:mb-5">
@@ -631,19 +695,54 @@ export function AudioFiles({
 
                 {/* Form Inputs */}
                 <div className="space-y-2 2xl:space-y-3">
+                  <div className="grid grid-cols-2 gap-3">
+                    <div>
+                      <input
+                        id="email"
+                        type="email"
+                        value={formData.email}
+                        onChange={(e) =>
+                          setFormData({ ...formData, email: e.target.value })
+                        }
+                        disabled={isUploading}
+                        placeholder="mail*"
+                        aria-required="true"
+                        className="focus:ml-1 w-full py-1.5 px-8 2xl:py-3 bg-white rounded-[10px] text-black placeholder:text-black"
+                        required
+                      />
+                    </div>
+                    <div>
+                      <input
+                        id="projectName"
+                        type="text"
+                        value={formData.projectName}
+                        onChange={(e) =>
+                          setFormData({
+                            ...formData,
+                            projectName: e.target.value,
+                          })
+                        }
+                        disabled={isUploading}
+                        placeholder={
+                          t.sendFiles.audioFiles.projectNamePlaceholder
+                        }
+                        aria-required="true"
+                        className="focus:ml-1 w-full py-1.5 px-8 2xl:py-3 bg-white rounded-[10px] text-black placeholder:text-black"
+                        required
+                      />
+                    </div>
+                  </div>
                   <div>
-                    <input
-                      id="email"
-                      type="email"
-                      value={formData.email}
+                    <textarea
+                      id="message"
+                      value={formData.message}
                       onChange={(e) =>
-                        setFormData({ ...formData, email: e.target.value })
+                        setFormData({ ...formData, message: e.target.value })
                       }
                       disabled={isUploading}
-                      placeholder="mail*"
-                      aria-required="true"
-                      className="focus:ml-1 w-full py-1.5 px-8 2xl:py-3 bg-white rounded-[10px] text-black placeholder:text-black"
-                      required
+                      placeholder={t.sendFiles.audioFiles.messagePlaceholder}
+                      rows={2}
+                      className="focus:ml-1 w-full py-1.5 px-8 2xl:py-3 bg-white rounded-[10px] text-black placeholder:text-black resize-none"
                     />
                   </div>
                   <div className="flex items-center space-x-2 2xl:space-x-3">

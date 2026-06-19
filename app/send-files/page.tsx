@@ -43,7 +43,7 @@ function SendFilesContent() {
   const t = useTranslations();
   const searchParams = useSearchParams();
   const [selectedSubject, setSelectedSubject] =
-    useState<SubjectKey>("audio-files");
+    useState<SubjectKey>("prepare-files");
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   // State partagé pour les fichiers audio
@@ -51,6 +51,8 @@ function SendFilesContent() {
   const [audioFormData, setAudioFormData] = useState({
     name: "",
     email: "",
+    projectName: "",
+    message: "",
     acceptTerms: false,
   });
   const [isAudioUploading, setIsAudioUploading] = useState(false);
@@ -69,16 +71,16 @@ function SendFilesContent() {
 
   const subjects: { key: SubjectKey; name: string }[] = [
     {
+      key: "prepare-files",
+      name: t.sendFiles.prepareFilesTitle,
+    },
+    {
       key: "audio-files",
       name: t.sendFiles.audioFilesTitle,
     },
     {
       key: "production-sheet",
       name: t.sendFiles.productionSheetTitle,
-    },
-    {
-      key: "prepare-files",
-      name: t.sendFiles.prepareFilesTitle,
     },
   ];
 

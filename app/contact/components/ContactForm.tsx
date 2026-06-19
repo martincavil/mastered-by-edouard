@@ -8,6 +8,7 @@ import { FormInput } from "./FormInput";
 import { FormTextarea } from "./FormTextarea";
 import { FormSelect } from "./FormSelect";
 import { PhoneInput } from "./PhoneInput";
+import { TurnstileWidget } from "./TurnstileWidget";
 
 interface FormData {
   name: string;
@@ -52,6 +53,8 @@ const INITIAL_FORM_DATA: FormData = {
 export function ContactForm({ t, onSuccess, onSubmitting }: ContactFormProps) {
   const [formData, setFormData] = useState<FormData>(INITIAL_FORM_DATA);
   const [errors, setErrors] = useState<FormErrors>({});
+  const [captchaToken, setCaptchaToken] = useState<string | null>(null);
+  const captchaEnabled = Boolean(process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY);
 
   const handleChange = (
     e: React.ChangeEvent<
@@ -75,7 +78,8 @@ export function ContactForm({ t, onSuccess, onSubmitting }: ContactFormProps) {
       formData.countryCode !== "" &&
       formData.phone.trim() !== "" &&
       formData.message.trim() !== "" &&
-      formData.allInfoChecked
+      formData.allInfoChecked &&
+      (!captchaEnabled || captchaToken !== null)
     );
   };
 
@@ -107,6 +111,9 @@ export function ContactForm({ t, onSuccess, onSubmitting }: ContactFormProps) {
       newErrors.allInfoChecked =
         t.contact.form.validation.allInfoCheckedRequired;
     }
+    if (captchaEnabled && !captchaToken) {
+      newErrors.captcha = t.contact.form.validation.captchaRequired;
+    }
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -126,7 +133,7 @@ export function ContactForm({ t, onSuccess, onSubmitting }: ContactFormProps) {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({ ...formData, captchaToken }),
       });
 
       const data = await response.json();
@@ -137,9 +144,11 @@ export function ContactForm({ t, onSuccess, onSubmitting }: ContactFormProps) {
 
       onSuccess();
       setFormData(INITIAL_FORM_DATA);
+      setCaptchaToken(null);
     } catch (error) {
       console.error("Error submitting form:", error);
       setErrors({ submit: t.contact.form.validation.submitError });
+      setCaptchaToken(null);
     } finally {
       onSubmitting(false);
     }
@@ -247,6 +256,21 @@ export function ContactForm({ t, onSuccess, onSubmitting }: ContactFormProps) {
           />
         </div>
       </div>
+
+      {/* Captcha */}
+      {captchaEnabled && (
+        <div>
+          <TurnstileWidget
+            onVerify={setCaptchaToken}
+            onExpire={() => setCaptchaToken(null)}
+          />
+          {errors.captcha && (
+            <p className="text-red text-sm mt-1 text-center">
+              {errors.captcha}
+            </p>
+          )}
+        </div>
+      )}
 
       {/* Checkbox and Submit Button */}
       <div className="flex items-center justify-between gap-3 w-full">
