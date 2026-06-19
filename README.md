@@ -8,7 +8,7 @@ Production-grade Next.js website for a professional music mastering studio in Fr
 - **TypeScript**
 - **Tailwind CSS**
 - **Framer Motion** for page transitions
-- **Strapi CMS** (headless) for dynamic content
+- **Sanity CMS** (headless) for editable content (artists, legal pages, FAQ)
 - **Dropbox API** for file uploads
 - **Vercel** for hosting
 
@@ -19,7 +19,7 @@ Production-grade Next.js website for a professional music mastering studio in Fr
 - ✅ Smooth page transitions
 - ✅ SEO optimized (meta tags, sitemap, robots.txt)
 - ✅ Cookie-based language persistence
-- ✅ Dynamic content via Strapi
+- ✅ Dynamic content via Sanity
 - ✅ File upload system (audio files & production sheets)
 - ✅ PDF generation for production sheets
 - ✅ Dropbox integration for client file management
@@ -38,8 +38,9 @@ Create `.env.local` file with:
 
 ```env
 NEXT_PUBLIC_BASE_URL=http://localhost:3000
-NEXT_PUBLIC_STRAPI_URL=your-strapi-url
-STRAPI_API_TOKEN=your-strapi-token
+NEXT_PUBLIC_SANITY_PROJECT_ID=your-sanity-project-id
+NEXT_PUBLIC_SANITY_DATASET=production
+NEXT_PUBLIC_SANITY_API_VERSION=2024-01-01
 DROPBOX_ACCESS_TOKEN=your-dropbox-token
 ```
 
@@ -57,9 +58,9 @@ Open http://localhost:3000 (language auto-detected from browser)
 
 See `ARCHITECTURE.md` for detailed technical documentation.
 
-## Strapi Setup
+## Sanity Setup
 
-See `strapi/README.md` for CMS configuration.
+The CMS Studio is embedded at `/admin`. Content schemas live in `sanity/schemaTypes/`.
 
 ## Scripts
 
@@ -77,8 +78,9 @@ npm run lint         # Run ESLint
 2. Import to Vercel
 3. Add environment variables in Vercel dashboard:
    - `NEXT_PUBLIC_BASE_URL`
-   - `NEXT_PUBLIC_STRAPI_URL`
-   - `STRAPI_API_TOKEN`
+   - `NEXT_PUBLIC_SANITY_PROJECT_ID`
+   - `NEXT_PUBLIC_SANITY_DATASET`
+   - `NEXT_PUBLIC_SANITY_API_VERSION`
    - `DROPBOX_ACCESS_TOKEN`
 
 ## Security

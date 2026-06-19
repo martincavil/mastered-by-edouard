@@ -274,46 +274,6 @@ export const fr: Translations = {
       revisionsVersions: "révisions & versions",
       dataFiles: "gestion des données",
     },
-    ratesPayments: {
-      quotationTitle: "devis et tarifs : ",
-      quotationContent:
-        "Tous les prix sont communiqués sur demande et confirmés avant le début de tout service. LA confirmation peut s'effectuer sur devis : le devis est alors valable 30 jours à compter de sa date d'émission.",
-      adjustmentsTitle: "ajustements de prix : ",
-      adjustmentsContent:
-        "Si l'étendue du travail change significativement par rapport au devis initial (ex. : nombre de morceaux, durée, services additionnels), un devis révisé sera fourni et devra être approuvé avant de continuer.",
-      paymentTitle: "conditions et méthodes de paiement : ",
-      paymentContent:
-        "Le paiement est dû à la fin du service de mastering, à la validation des fichiers finaux.",
-      paymentContent2:
-        "Les factures peuvent être réglées par les moyens suivants : transfert de banque (SEPA & SWIFT), Wise Transfer ou paiement par CB en ligne.",
-    },
-    revisionsVersions: {
-      includedTitle: "révisions : ",
-      includedContent:
-        "Voici mon approche concernant les révisions : parce que la satisfaction de l'artiste prime sur l'immédiateté du résultat, je ne facture pas les retouches. En règle générale, le tarif inclut autant de modifications que nécessaire — et dans 99 % des cas, une ou deux versions suffisent !",
-      newMixTitle: "envoi d'un nouveau mix : ",
-      newMixContent:
-        "Si un nouveau mix est fourni après le début du processus de mastering, il sera traité comme un nouveau projet et facturé en conséquence, sauf accord préalable.",
-      additionalTitle: "versions supplémentaires : ",
-      additionalContent:
-        "Les versions alternatives (instrumentale, TV mix, radio edit, etc.) peuvent être masterisées si elles sont demandées. Elles feront l'objet d'un surcoût.",
-      masterRequestsTitle: "masters supplémentaires : ",
-      masterRequestsContent:
-        "Toute demande de masters supplémentaires après la fin du projet (ex. : mastering vinyle après livraison du master numérique) fera l'objet d'un devis séparé.",
-    },
-    dataFiles: {
-      transferTitle: "transfert de fichiers : ",
-      transferContent:
-        "u studio, nous croyons fermement à l'importance d'une interface unique pour simplifier la vie de chacun, le tout de manière fiable et sécurisée. C'est pourquoi tous les transferts de fichiers (envois comme réceptions) passent exclusivement par Dropbox.	",
-      retentionTitle: "conservation des données : ",
-      retentionContent:
-        "Les sessions et les fichiers associés seront archivés pour une période de 2 ans à compter de la date de livraison finale. Passé ce délai, seul le fichier master sera conservé. La durée de conservation des masters est, quant à elle, indéterminée.",
-      securityTitle: "sécurité et confidentialité : ",
-      securityContent:
-        "Mastered by Edouard garantit la confidentialité et la sécurité de tous les fichiers clients. Nous ne partageons ni ne diffusons aucune donnée sans votre consentement explicite.",
-      finalNote:
-        "La confidentialité est une valeur fondamentale pour tout studio de mastering. Fidèle à ce principe, aucun projet traité au studio — même en l'absence de NDA signé — ne sera jamais divulgué ou partagé avec qui que ce soit.",
-    },
   },
   legalNotice: {
     title: "mentions légales.",
@@ -324,62 +284,11 @@ export const fr: Translations = {
       masteredbyedouard: "masteredbyedouard",
       thanks: "merci",
     },
-    website: {
-      creditsDesign:
-        "Logo, web design & illustrations : valentinegrasphisme et edouard carbonne",
-      webHosting: "hébergement web : Vercel",
-      creditsDevelopmentAuthor: "développement web par Martin Cavil",
-      creditsPhotographyAuthor: "Photos par Théo Burette",
-    },
-    masteredByEdouard: {
-      companyName:
-        "Mastered by Edouard est une société à responsabilité limité (SARL).",
-      startCapital: "Capital social : 700 euros]",
-      siretNumber: "Numéro SIRET : 948 971 569 00017",
-      vatNumber: "Numéro de TVA : FR27948971569",
-      rcsNumber: "Numéro RCS : Nanterre B 948 971 569",
-      companyManager: "Dirigeant : Edouard Carbonne",
-      contactTitle: "Contact",
-    },
-    thanks: {
-      description1:
-        "Mastered by Edouard ne serait rien sans les amis, ingénieurs et artistes incroyables que j'ai rencontrés tout au long de ce parcours.",
-      description2:
-        "Des remerciements tout particulier aux personnes suivantes qui m'ont permis d'en arriver là aujourd'hui : Pierre Ottway, Jowee Omicil, Jordan Kouby, Grégory Germain, Frédéric Perrin, Eric Perez-Björkman, Fabio Morgado, Antoine Castaldi, Fred Vectol, Alexis Cayrouse, Elliott Bastide, Joachim Mike, Nathan Cocherie, Théo Burette, Valentine Gras, ma famille, et toutes les autres personnes qui se sont impliqués d'une manière ou d'une autre dans ce projet. ",
-      thankYou: "Merci !",
-    },
   },
   faq: {
     title: "FAQ.",
     illustrationTitle1: "la réponse à presque",
     illustrationTitle2: "toutes vos questions.",
-    questions: {
-      question1: "1. qu'est-ce que le mastering ?",
-      answer1:
-        "C'est l'étape finale du processus de production musicale. Les principaux objectifs du mastering sont de garantir un son cohérent, équilibré et homogène sur tous les systèmes d'écoute, tout en optimisant ses caractéristiques sonores globales.",
-      question2: "2. qu'est-ce que l'Apple Digital Masters ?",
-      answer2:
-        "Apple Digital Masters (ADM) est une programme introduit par Apple qui a pour but de garatnir la qualité des fichiers musicaux accessibles sur Apple Music. Le studio est certifié ADM, il vous suffit simplement de transmettre les coordonnées suivantes au distributeur lors de l'upload :",
-      answer2Credits: {
-        engineerName: "Nom de l'ingénieur",
-        engineerValue: "Edouard Carbonne",
-        studioName: "Nom du studio",
-        studioValue: "Mastered by Edouard",
-        email: "Email",
-        emailValue: "contact@masteredbyedouard.com",
-      },
-      question3: "3. pourquoi le mastering à l'ère de l'I.A ? ",
-      answer3:
-        "« Nous vivons une époque incroyable où l'IA permet, c'est certain, d'obtenir des résultats impressionnants ! Mais le rôle de l'ingénieur de mastering ne se limite pas à fournir des outils : il apporte une oreille humaine et son expérience ! Travailler avec un ingénieur permet une communication directe, des échanges constructifs et une vraie collaboration, garantissant ainsi le respect total de la vision et des attentes de l'artiste. Au final, tout est une question de lien humain et de confiance !",
-      question4: "4. le studio propose-t-il de mastering CD / vinyle ?",
-      answer4: "la réponse est simple : oui !",
-      question5: "5. quels sont les délais de livraison ?",
-      answer5:
-        "Les délais varient naturellement selon la nature du projet. Pour un single, le délai de livraison standard est d'environ un à trois jours ouvrés. Pour les projets plus conséquents (EPs ou Albums), les délais vous seront communiqués une fois l'ampleur du projet définie.",
-      question6: "6. mastered by Edouard : logo, identité ",
-      answer6:
-        "Passionné par le design et l'expérience utilisateur, j'apporte un soin tout particulier à l'identité visuelle et créative du studio. C'est pourquoi je veille à maintenir une image cohérente sur tous les supports : site web, réseaux sociaux et emails. Quant au logo… oui, il a bien une signification ! La voici :",
-    },
   },
   landscapeWarning: {
     message: "Veuillez tourner votre appareil en mode portrait",

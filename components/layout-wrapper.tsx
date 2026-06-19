@@ -30,7 +30,7 @@ export function LayoutWrapper({ children }: { children: React.ReactNode }) {
   const redMenuPages = ["/listen", "/studio", "/contact", "/terms-and-conditions", "/legal-notice", "/faq"];
   const isRedMenuPage = redMenuPages.some(page => pathname?.startsWith(page));
 
-  if (isNotFoundPage) {
+  if (isNotFoundPage || pathname?.startsWith("/admin")) {
     return <>{children}</>;
   }
 

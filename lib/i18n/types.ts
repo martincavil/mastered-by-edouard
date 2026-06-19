@@ -248,34 +248,6 @@ export type Translations = {
       revisionsVersions: string;
       dataFiles: string;
     };
-    ratesPayments: {
-      quotationTitle: string;
-      quotationContent: string;
-      adjustmentsTitle: string;
-      adjustmentsContent: string;
-      paymentTitle: string;
-      paymentContent: string;
-      paymentContent2: string;
-    };
-    revisionsVersions: {
-      includedTitle: string;
-      includedContent: string;
-      newMixTitle: string;
-      newMixContent: string;
-      additionalTitle: string;
-      additionalContent: string;
-      masterRequestsTitle: string;
-      masterRequestsContent: string;
-    };
-    dataFiles: {
-      transferTitle: string;
-      transferContent: string;
-      retentionTitle: string;
-      retentionContent: string;
-      securityTitle: string;
-      securityContent: string;
-      finalNote: string;
-    };
   };
   legalNotice: {
     title: string;
@@ -286,53 +258,11 @@ export type Translations = {
       masteredbyedouard: string;
       thanks: string;
     };
-    website: {
-      creditsDesign: string;
-      webHosting: string;
-      creditsDevelopmentAuthor: string;
-      creditsPhotographyAuthor: string;
-    };
-    masteredByEdouard: {
-      companyName: string;
-      startCapital: string;
-      siretNumber: string;
-      vatNumber: string;
-      rcsNumber: string;
-      companyManager: string;
-      contactTitle: string;
-    };
-    thanks: {
-      description1: string;
-      description2: string;
-      thankYou: string;
-    };
   };
   faq: {
     title: string;
     illustrationTitle1: string;
     illustrationTitle2: string;
-    questions: {
-      question1: string;
-      answer1: string;
-      question2: string;
-      answer2: string;
-      answer2Credits: {
-        engineerName: string;
-        engineerValue: string;
-        studioName: string;
-        studioValue: string;
-        email: string;
-        emailValue: string;
-      };
-      question3: string;
-      answer3: string;
-      question4: string;
-      answer4: string;
-      question5: string;
-      answer5: string;
-      question6: string;
-      answer6: string;
-    };
   };
   landscapeWarning: {
     message: string;

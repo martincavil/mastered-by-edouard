@@ -15,7 +15,7 @@
 - **Génération PDF** : jsPDF 4.0, pdf-lib 1.17, jspdf-autotable 5.0.7
 - **Service Email** : Resend 6.9.2
 - **Stockage Cloud** : Dropbox API v2
-- **CMS** : Strapi (headless, partiellement intégré)
+- **CMS** : Sanity (headless, free tier, Studio embarqué sur `/admin`)
 - **Analytics** : Google Analytics
 - **Hébergement** : Vercel
 
@@ -170,7 +170,7 @@ Interface à 4 onglets thématiques :
 - ✅ Twitter cards
 - ✅ Optimisation des images (Next.js Image)
 - ✅ Lazy loading des composants
-- ✅ Cache Strapi avec revalidation (60s)
+- ✅ Contenu Sanity récupéré côté serveur à chaque requête
 - ✅ Google Analytics intégré
 - ✅ Memory optimization en dev (4GB max)
 
@@ -271,7 +271,7 @@ White: #FFFFFF
 ### 15. Gestion d'État et Cache
 - ✅ React hooks pour état local
 - ✅ Cookie pour langue (`NEXT_LOCALE`)
-- ✅ Cache Strapi avec revalidation ISR
+- ✅ Contenu Sanity (artistes, pages légales, FAQ) éditable sans déploiement
 - ✅ Memory cache pour uploads en cours
 - ✅ Loading states pour toutes les actions async
 
@@ -281,24 +281,21 @@ White: #FFFFFF
 - ✅ Validation API côté serveur
 - ✅ Sanitization des noms de fichiers
 - ✅ Validation des types MIME
-- ✅ Protection CORS via Strapi
 - ✅ Variables d'environnement pour secrets
 - ✅ Pas de `X-Powered-By` header exposé
 - ✅ Validation email avec regex
 - ✅ Limitation de taille de fichiers
 
-### 17. Strapi CMS (Partiellement Intégré)
-- ✅ Configuration Strapi headless
-- ✅ API client dans `/lib/strapi/api.ts`
+### 17. Sanity CMS
+- ✅ Studio embarqué sur `/admin` (`next-sanity`)
+- ✅ Client + requêtes GROQ dans `/lib/sanity/`
 - ✅ Types TypeScript pour content types
-- ✅ Bearer token authentication
-- ✅ Cache avec revalidation 60s
-- ✅ Support de plusieurs collection types :
-  - Artists
-  - FAQ items
-  - Studio content
-  - Legal pages
-- ⚠️ Actuellement les données sont principalement en dur, Strapi prêt pour évolution future
+- ✅ Dataset public en lecture (pas de token nécessaire côté front)
+- ✅ Types de contenu :
+  - Artists (`/listen`)
+  - FAQ
+  - Terms & Conditions
+  - Legal Notice
 
 ### 18. Responsive Design
 - ✅ Desktop : Full-screen, no scroll
@@ -373,9 +370,9 @@ mastered-by-edouard/
 │   │   ├── fr.ts               # Traductions françaises
 │   │   ├── en.ts               # Traductions anglaises
 │   │   └── useTranslations.ts  # Hook React
-│   ├── strapi/                  # Client Strapi
-│   │   ├── api.ts              # API calls
-│   │   └── types.ts            # Types content
+│   ├── sanity/                   # Client Sanity
+│   │   ├── client.ts            # Instance @sanity/client
+│   │   └── queries.ts           # Requêtes GROQ typées
 │   ├── pdf/                     # Génération PDF
 │   │   ├── generateProductionSheet.ts
 │   │   └── fillProductionSheet.ts
@@ -383,8 +380,9 @@ mastered-by-edouard/
 │   │   └── index.ts
 │   └── dropbox-token.ts         # Gestion tokens Dropbox
 │
-├── data/                         # Données statiques
-│   └── artists.json             # Liste des artistes
+├── sanity/                        # Schémas et Studio Sanity
+│   ├── schemaTypes/              # artist, termsAndConditions, legalNotice, faq
+│   └── structure.ts              # Structure du Studio
 │
 ├── public/                       # Assets statiques
 │   ├── images/                  # Images du site
@@ -395,9 +393,6 @@ mastered-by-edouard/
 │   │   └── terms/
 │   ├── svg/                     # SVG assets
 │   └── fonts/                   # Fonts personnalisées
-│
-├── cms/                          # Strapi CMS (optionnel)
-│   └── database/
 │
 ├── types/                        # Types TypeScript globaux
 │
@@ -426,7 +421,7 @@ mastered-by-edouard/
 #### 3. **Type Safety**
 - TypeScript strict mode
 - Interfaces pour tous les props
-- Types générés pour Strapi content
+- Types générés pour le contenu Sanity
 - Enums pour constantes
 
 #### 4. **Performance**
@@ -515,9 +510,10 @@ mastered-by-edouard/
 # Base URL de l'application
 NEXT_PUBLIC_BASE_URL=https://yourdomain.com
 
-# Strapi CMS
-NEXT_PUBLIC_STRAPI_URL=https://your-strapi-url.com
-STRAPI_API_TOKEN=your-strapi-bearer-token
+# Sanity CMS
+NEXT_PUBLIC_SANITY_PROJECT_ID=your-sanity-project-id
+NEXT_PUBLIC_SANITY_DATASET=production
+NEXT_PUBLIC_SANITY_API_VERSION=2024-01-01
 
 # Dropbox API
 DROPBOX_ACCESS_TOKEN=your-dropbox-access-token
@@ -565,7 +561,6 @@ npm run lint             # Vérification ESLint
 ## Améliorations Futures Possibles
 
 ### Court Terme
-- [ ] Migration complète des données vers Strapi CMS
 - [ ] Dashboard admin pour gérer les artistes
 - [ ] Système de notifications push
 - [ ] Dark mode (optionnel)
@@ -590,16 +585,16 @@ npm run lint             # Vérification ESLint
 2. **Performance Optimale** : SSG, ISR, image optimization, code splitting
 3. **UX Exceptionnelle** : Animations fluides, responsive parfait, navigation intuitive
 4. **Multilingue Native** : Support FR/EN avec auto-détection
-5. **Intégrations Professionnelles** : Dropbox, Resend, Strapi, Google Analytics
+5. **Intégrations Professionnelles** : Dropbox, Resend, Sanity, Google Analytics
 6. **Sécurité Renforcée** : Validation stricte, environment variables, type safety
 7. **Maintenabilité** : Code modulaire, composants réutilisables, documentation claire
-8. **Scalabilité** : Architecture prête pour croissance (Strapi CMS, API routes)
+8. **Scalabilité** : Architecture prête pour croissance (Sanity CMS, API routes)
 
 ## Conclusion
 
 Le projet **Mastered by Edouard** est une application web professionnelle de niveau production qui combine design moderne, fonctionnalités avancées et performance optimale. Avec plus de 50 commits de développement, l'application est mature et prête pour un usage client intensif.
 
-L'architecture modulaire et le code bien structuré permettent des évolutions futures facilitées, tandis que les intégrations tierces (Dropbox, Resend, Strapi) garantissent une scalabilité professionnelle.
+L'architecture modulaire et le code bien structuré permettent des évolutions futures facilitées, tandis que les intégrations tierces (Dropbox, Resend, Sanity) garantissent une scalabilité professionnelle.
 
 Le site offre une expérience utilisateur exceptionnelle tant pour les visiteurs (découverte du portfolio) que pour les clients (upload de fichiers, gestion de projets), le tout dans une interface bilingue fluide et élégante.
 

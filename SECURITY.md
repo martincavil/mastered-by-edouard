@@ -8,7 +8,7 @@
 
 These files contain sensitive API keys and secrets:
 - `DROPBOX_ACCESS_TOKEN`: Dropbox API access token
-- Strapi admin credentials and JWT secrets
+- Sanity API tokens (if a write token is ever added)
 - Database connection strings
 
 ### Setup

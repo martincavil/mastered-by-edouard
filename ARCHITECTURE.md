@@ -25,12 +25,11 @@ app/
 - **Utilities:** Locale validation, translation getters
 - **Default locale:** French (`fr`)
 
-### API Layer (`/lib/api`)
+### API Layer (`/lib/sanity`)
 
-- **Strapi client:** Type-safe API client with:
-  - Authentication via bearer token
-  - Locale-aware fetching
-  - Revalidation strategy (60s)
+- **Sanity client:** Type-safe GROQ query helpers with:
+  - Public read-only dataset (no token required)
+  - Bilingual (`fr`/`en`) field shapes fetched once per request
   - TypeScript interfaces for all content types
 
 ### SEO (`/lib/seo`)
@@ -47,12 +46,11 @@ app/
 - **PageTransition:** Framer Motion wrapper for page animations
 - **LanguageSwitcher:** Cookie-based language toggle
 
-### Strapi CMS (`/strapi`)
+### Sanity CMS (`/sanity`, Studio embedded at `/admin`)
 
-Content-type schemas with i18n support:
-- **Testimonials:** Client reviews with ratings
-- **FAQs:** Categorized questions/answers
-- **Pricing Blocks:** Service packages with features
+Schemas with bilingual (`localeString`/`localeText`) field support:
+- **Artist:** name, picture, link, order, featured (powers `/listen`)
+- **Terms & Conditions, Legal Notice, FAQ:** singleton documents holding editable prose
 
 ## Routing & Middleware
 
@@ -110,13 +108,13 @@ Content-type schemas with i18n support:
 ### Required
 
 - `NEXT_PUBLIC_BASE_URL` - Site URL (for SEO, sitemap)
-- `NEXT_PUBLIC_STRAPI_URL` - Strapi API endpoint
-- `STRAPI_API_TOKEN` - API authentication token
+- `NEXT_PUBLIC_SANITY_PROJECT_ID` - Sanity project ID
+- `NEXT_PUBLIC_SANITY_DATASET` - Sanity dataset (`production`)
+- `NEXT_PUBLIC_SANITY_API_VERSION` - Sanity API version
 
 ### Development Defaults
 
 - Base URL: `http://localhost:3000`
-- Strapi URL: `http://localhost:1337`
 
 ## Content Strategy
 
@@ -129,12 +127,12 @@ All page structure and navigation is in code:
 - Studio
 - Contact
 
-### Dynamic Content (Strapi)
+### Dynamic Content (Sanity)
 
 Only specific content blocks come from CMS:
-- Client testimonials
+- Artist list (`/listen`)
+- Terms & Conditions, Legal Notice prose
 - FAQ entries
-- Pricing tiers
 
 This separation ensures:
 - Fast page loads (static generation)
@@ -154,22 +152,21 @@ This separation ensures:
 
 - Static page generation
 - Image optimization via Next.js
-- 60s revalidation for Strapi content
+- Sanity content fetched server-side per request (no token, public dataset)
 - No runtime JS for static pages
 
 ## Security
 
 - No `X-Powered-By` header
-- Bearer token authentication for Strapi
+- Sanity Studio (`/admin`) gated by Sanity account login, disallowed in `robots.txt`
 - Environment variables for secrets
-- CORS handled by Strapi configuration
 
 ## Type Safety
 
 All major entities are typed:
 - Locale: `'en' | 'fr'`
 - Translations: Nested interface
-- Strapi responses: Generic typed wrapper
+- Sanity responses: Typed per query in `lib/sanity/queries.ts`
 - Content types: Interface per entity
 
 ## Extension Points
@@ -181,12 +178,11 @@ All major entities are typed:
 3. Update navigation in `app/[lang]/page.tsx`
 4. Add route to sitemap in `lib/seo/index.ts`
 
-### Adding a new Strapi content type
+### Adding a new Sanity content type
 
-1. Create schema in `strapi/content-types/[name]/schema.json`
-2. Add TypeScript interface in `lib/api/strapi.ts`
-3. Add fetcher function in `lib/api/strapi.ts`
-4. Use in page component
+1. Create schema in `sanity/schemaTypes/[name].ts`, register it in `sanity.config.ts`
+2. Add a GROQ query + fetcher in `lib/sanity/queries.ts`
+3. Use in a server component page, pass data down as props
 
 ### Modifying page transitions
 

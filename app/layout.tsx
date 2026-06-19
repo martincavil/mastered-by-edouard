@@ -47,8 +47,11 @@ export default function RootLayout({
   const gaId = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;
 
   return (
-    <html lang="fr" className="h-dvh overflow-hidden overflow-x-hidden">
-      <body className="antialiased h-dvh overflow-hidden overflow-x-hidden flex flex-col [&:not([data-not-found])]:px-[10px] [&:not([data-not-found])]:pb-[10px]">
+    <html
+      lang="fr"
+      className="h-dvh overflow-hidden overflow-x-hidden [&:has(body[data-admin])]:h-auto [&:has(body[data-admin])]:overflow-visible"
+    >
+      <body className="antialiased h-dvh overflow-hidden overflow-x-hidden flex flex-col [&:not([data-not-found]):not([data-admin])]:px-[10px] [&:not([data-not-found]):not([data-admin])]:pb-[10px] data-[admin]:h-auto data-[admin]:overflow-visible">
         {gaId && <GoogleAnalytics gaId={gaId} />}
         <LanguageProvider>
           <LandscapeWarning />
