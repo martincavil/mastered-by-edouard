@@ -3,7 +3,14 @@
 import { useTranslations } from "@/lib/i18n/useTranslations";
 import Image from "next/image";
 import Link from "next/link";
-import { useState, useRef, DragEvent, ChangeEvent, FormEvent } from "react";
+import {
+  useState,
+  useRef,
+  useEffect,
+  DragEvent,
+  ChangeEvent,
+  FormEvent,
+} from "react";
 import { X, CircleCheckBig } from "lucide-react";
 import { ArrowUpRight } from "@/components/icons/ArrowUpRight";
 import { UploadProgressScreen } from "@/components/upload-progress-screen";
@@ -74,6 +81,49 @@ export function AudioFiles({
   const tooltipButtonRef = useRef<HTMLDivElement>(null);
   const [tooltipPosition, setTooltipPosition] = useState({ top: 0, left: 0 });
   const [showTooltip, setShowTooltip] = useState(false);
+  // Real upload progress per file, written immediately by xhr.upload.onprogress.
+  // Displayed progress (selectedFiles[].progress / uploadProgress) is eased
+  // towards this target by the rAF loop below, so fast/small uploads animate
+  // smoothly instead of jumping straight from 0% to 100%.
+  const progressTargetsRef = useRef<Record<string, number>>({});
+
+  useEffect(() => {
+    if (!isUploading) return;
+
+    let frameId: number;
+    const tick = () => {
+      setSelectedFiles((prev) => {
+        let changed = false;
+        const updated = prev.map((f) => {
+          const target = progressTargetsRef.current[f.id] ?? 0;
+          const current = f.progress ?? 0;
+          if (target <= current) return f;
+          changed = true;
+          const next = Math.min(
+            target,
+            current + Math.max((target - current) * 0.12, 0.8),
+          );
+          return { ...f, progress: next };
+        });
+
+        if (!changed) return prev;
+
+        const totalProgress = updated.reduce(
+          (sum, f) => sum + (f.progress || 0),
+          0,
+        );
+        setUploadProgress(
+          updated.length > 0 ? totalProgress / updated.length : 0,
+        );
+
+        return updated;
+      });
+      frameId = requestAnimationFrame(tick);
+    };
+
+    frameId = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(frameId);
+  }, [isUploading]);
 
   const handleTooltipHover = () => {
     if (tooltipButtonRef.current) {
@@ -175,22 +225,7 @@ export function AudioFiles({
   };
 
   const updateFileProgress = (fileId: string, progress: number) => {
-    setSelectedFiles((prev) => {
-      const updatedFiles = prev.map((f) =>
-        f.id === fileId ? { ...f, progress } : f,
-      );
-
-      // Calculate global progress based on all files' individual progress
-      const totalProgress = updatedFiles.reduce(
-        (sum, f) => sum + (f.progress || 0),
-        0,
-      );
-      const globalProgress =
-        updatedFiles.length > 0 ? totalProgress / updatedFiles.length : 0;
-      setUploadProgress(globalProgress);
-
-      return updatedFiles;
-    });
+    progressTargetsRef.current[fileId] = progress;
   };
 
   const uploadFileChunked = async (
@@ -210,6 +245,7 @@ export function AudioFiles({
 
     try {
       // Update file as uploading
+      progressTargetsRef.current[fileId] = 0;
       setSelectedFiles((prev) =>
         prev.map((f) =>
           f.id === fileId ? { ...f, uploading: true, progress: 0 } : f,
@@ -298,23 +334,12 @@ export function AudioFiles({
         }
       }
 
-      // Mark as complete
-      setSelectedFiles((prev) => {
-        const updatedFiles = prev.map((f) =>
-          f.id === fileId ? { ...f, uploading: false, progress: 100 } : f,
-        );
-
-        // Calculate global progress
-        const totalProgress = updatedFiles.reduce(
-          (sum, f) => sum + (f.progress || 0),
-          0,
-        );
-        const globalProgress =
-          updatedFiles.length > 0 ? totalProgress / updatedFiles.length : 0;
-        setUploadProgress(globalProgress);
-
-        return updatedFiles;
-      });
+      // Mark as complete; the rAF loop above eases progress the rest of the
+      // way to 100 so the bar doesn't snap even on very fast uploads.
+      progressTargetsRef.current[fileId] = 100;
+      setSelectedFiles((prev) =>
+        prev.map((f) => (f.id === fileId ? { ...f, uploading: false } : f)),
+      );
 
       // Increment uploaded files count and add file name to list
       setUploadedFilesCount((prev) => prev + 1);
@@ -371,6 +396,7 @@ export function AudioFiles({
     setUploadProgress(0);
 
     // Initialize all files with progress: 0
+    progressTargetsRef.current = {};
     setSelectedFiles((prev) => prev.map((f) => ({ ...f, progress: 0 })));
 
     try {
@@ -597,7 +623,7 @@ export function AudioFiles({
                                   )}
                                   {uploading && (
                                     <span className="text-xs text-black/60">
-                                      {progress}%
+                                      {Math.round(progress ?? 0)}%
                                     </span>
                                   )}
                                 </div>
