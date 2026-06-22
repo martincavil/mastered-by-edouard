@@ -115,3 +115,53 @@ export async function getFaq(): Promise<Faq | null> {
     }`,
   );
 }
+
+export type StudioService = {
+  title: LocaleString;
+  description: LocaleText;
+  description2?: LocaleText;
+  logo?: string;
+};
+
+export type StudioPage = {
+  tabs: {
+    edouardLabel: LocaleString;
+    friendsLabel: LocaleString;
+    servicesLabel: LocaleString;
+    gearLabel: LocaleString;
+  };
+  edouard: {
+    title: LocaleString;
+    description1: LocaleText;
+    description2: LocaleText;
+    fullDiscography: LocaleString;
+    portraitImage: string;
+    signatureImage: string;
+  };
+  friends: {
+    title1: LocaleString;
+    description1: LocaleText;
+    description2: LocaleText;
+    title2: LocaleString;
+    description3: LocaleText;
+    labelsRow1Image: string;
+    labelsRow2Image: string;
+  };
+  services: StudioService[];
+  servicesImage: string;
+  gear: {
+    monitoring: LocaleString;
+    hardware: LocaleString;
+    converter: LocaleString;
+    software: LocaleString;
+    images: string[];
+  };
+};
+
+export async function getStudioPage(): Promise<StudioPage | null> {
+  return sanityClient.fetch(
+    `*[_type == "studioPage"][0] {
+      tabs, edouard, friends, services, servicesImage, gear
+    }`,
+  );
+}

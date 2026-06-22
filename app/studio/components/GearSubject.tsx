@@ -3,25 +3,9 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import type { StudioPage } from "@/lib/sanity/queries";
 
-// Constants
-const GEAR_IMAGES = [
-  "https://www.dropbox.com/scl/fi/sjaumbxdnxdafx11poetr/gear-1.jpg?rlkey=4p854nu7cqx5un5azkm1q2j5v&st=spxmuat5&dl=1",
-  "https://www.dropbox.com/scl/fi/rln1ujibt3wlzpdxep19i/gear-2.jpg?rlkey=aqrbj3dul11zlunxxt9jkotqj&st=zg6k8o76&dl=1",
-  "https://www.dropbox.com/scl/fi/s8bm4eulq5k62ve4e84y5/gear-3.jpg?rlkey=of8tcxos22nya48t3igs3uxhi&st=op83y5n9&dl=1",
-  "https://www.dropbox.com/scl/fi/egx642fdc5efdth7gdwal/gear-4.jpg?rlkey=ohmg198ufr1xzgpvi8p8jt2x5&st=anc9zspw&dl=1",
-  "https://www.dropbox.com/scl/fi/kb8xar99b2a8saff0hmzh/gear-5.jpg?rlkey=29fkfvl3wd6gy70ko8n2yeo35&st=25vgtmud&dl=1",
-  "https://www.dropbox.com/scl/fi/ppqsb4u5775tuadudjkg6/gear-6.jpg?rlkey=3u1jg5tcxwwzumwujmx4ed5t2&st=3pk1vo2w&dl=1",
-];
-
-const GEAR_EQUIPMENT = {
-  monitoring:
-    "ATC SCM50a SL, TRINNOV NOVA, SPL DMC, Ollo audio S4x, APPLE AIRPODS MAX, GIK acoustics",
-  hardware:
-    "SPL PQ MASTERING, NEVE MASTER BUSS PROCESSOR, DANGEROUS BAX EQ, SPL Gemini",
-  converter: "Grimm UC1, Lavry Savitr",
-  software: "AVID Protools, iZotope, Fabfilter, TOKYO DAWN LAB, SOFTUBE...",
-};
+type Locale = "fr" | "en";
 
 // Custom hook for carousel logic
 function useCarousel(itemsCount: number, autoScrollInterval = 4000) {
@@ -100,31 +84,36 @@ function CarouselIndicators({
 }
 
 // Gear Text Content Component
-export function GearTextContent() {
+interface GearTextContentProps {
+  gear: StudioPage["gear"];
+  locale: Locale;
+}
+
+export function GearTextContent({ gear, locale }: GearTextContentProps) {
   return (
     <p className="uppercase leading-9 font-extralight text-2xl md:text-3xl xl:text-[40px]">
       <span className="text-red font-bold">MONITORING</span>{" "}
-      {GEAR_EQUIPMENT.monitoring}{" "}
+      {gear.monitoring[locale]}{" "}
       <span className="text-red font-bold">HARDWARE</span>{" "}
-      {GEAR_EQUIPMENT.hardware}
+      {gear.hardware[locale]}
       <span className="text-red font-bold"> CONVERTER</span>{" "}
-      {GEAR_EQUIPMENT.converter}{" "}
+      {gear.converter[locale]}{" "}
       <span className="text-red font-bold">SOFTWARE</span>{" "}
-      {GEAR_EQUIPMENT.software}
+      {gear.software[locale]}
     </p>
   );
 }
 
 // Gear Image Carousel Component
-export function GearImage() {
+export function GearImage({ images }: { images: string[] }) {
   const { currentIndex, setCurrentIndex, goToPrevious, goToNext } = useCarousel(
-    GEAR_IMAGES.length,
+    images.length,
   );
 
   return (
     <div className="relative group">
       <Image
-        src={GEAR_IMAGES[currentIndex]}
+        src={images[currentIndex]}
         alt={`Studio gear ${currentIndex + 1}`}
         width={584}
         height={651}
@@ -134,7 +123,7 @@ export function GearImage() {
       <CarouselNavButton direction="prev" onClick={goToPrevious} />
       <CarouselNavButton direction="next" onClick={goToNext} />
       <CarouselIndicators
-        count={GEAR_IMAGES.length}
+        count={images.length}
         currentIndex={currentIndex}
         onSelect={setCurrentIndex}
       />

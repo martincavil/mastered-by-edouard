@@ -1,0 +1,181 @@
+"use client";
+
+import { useState } from "react";
+import Link from "next/link";
+import { useTranslations } from "@/lib/i18n/useTranslations";
+import { useLanguage } from "@/lib/i18n/LanguageProvider";
+import { PageTransition } from "@/components/page-transition";
+import { Footer } from "@/components/footer";
+import type { StudioPage } from "@/lib/sanity/queries";
+import { EdouardTextContent, EdouardImage } from "./components/EdouardSubject";
+import { FriendsTextContent, FriendsImage } from "./components/FriendsSubject";
+import {
+  ServicesTextContent,
+  ServicesImage,
+} from "./components/ServicesSubject";
+import { GearTextContent, GearImage } from "./components/GearSubject";
+import "../navigation-link.css";
+
+type SubjectKey = "edouard" | "friends" | "services" | "gear";
+
+export function StudioClient({ studio }: { studio: StudioPage }) {
+  const t = useTranslations();
+  const { locale } = useLanguage();
+  const [selectedSubject, setSelectedSubject] = useState<SubjectKey>("edouard");
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  const subjects: { key: SubjectKey; name: string }[] = [
+    { key: "edouard", name: studio.tabs.edouardLabel[locale] },
+    { key: "friends", name: studio.tabs.friendsLabel[locale] },
+    { key: "services", name: studio.tabs.servicesLabel[locale] },
+    { key: "gear", name: studio.tabs.gearLabel[locale] },
+  ];
+
+  return (
+    <>
+      <PageTransition>
+        <main className="h-full flex flex-col bg-black pb-8 md:pb-0 pt-8 md:pt-4 xl:pt-6 2xl:pt-8 md:px-8 px-5 overflow-hidden">
+          <div className="flex-1 flex flex-col overflow-y-auto overflow-x-hidden md:overflow-y-hidden md:pr-0 px-3">
+            {/* Header */}
+            <div className="flex items-center justify-between mb-3 md:mb-3 xl:mb-5 2xl:mb-10">
+              <h1 className="text-4xl md:text-5xl xl:text-6xl 2xl:text-[80px] font-bold text-white">
+                {t.studio.title}
+              </h1>
+              {/* Close button */}
+              <div className="overflow-hidden flex-shrink-0">
+                <Link
+                  href="/"
+                  className="text-white hover:text-red transition-all hover:rotate-90 duration-300 block"
+                  aria-label="Retour à l'accueil"
+                >
+                  <svg
+                    className="w-10 h-10 md:w-12 md:h-12 xl:w-14 xl:h-14 2xl:w-[58px] 2xl:h-[58px]"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="1"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <line x1="18" y1="6" x2="6" y2="18" />
+                    <line x1="6" y1="6" x2="18" y2="18" />
+                  </svg>
+                </Link>
+              </div>
+            </div>
+
+            {/* Subject menu - Mobile only */}
+            <div className="md:hidden mb-8 relative">
+              <button
+                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                className={`w-full bg-white text-black py-2 px-3 rounded-full flex items-center justify-between${
+                  isMobileMenuOpen ? " rounded-b-none rounded-t-[20px]" : ""
+                }`}
+              >
+                <div />
+                <span className="text-xl font-extralight flex items-center justify-between">
+                  {subjects.find((s) => s.key === selectedSubject)?.name}
+                </span>
+                <svg
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  className={`transition-transform duration-300 ${
+                    isMobileMenuOpen ? "rotate-180" : ""
+                  }`}
+                >
+                  <polyline points="6 9 12 15 18 9" />
+                </svg>
+              </button>
+
+              {isMobileMenuOpen && (
+                <div className="absolute top-full left-0 right-0 bg-white rounded-b-[20px] p-[10px] z-50 space-y-2">
+                  {subjects
+                    .filter((subject) => subject.key !== selectedSubject)
+                    .map((subject) => (
+                      <button
+                        key={subject.key}
+                        onClick={() => {
+                          setSelectedSubject(subject.key);
+                          setIsMobileMenuOpen(false);
+                        }}
+                        className="w-full bg-black text-white py-2 px-3 rounded-full text-xl font-extralight flex items-center justify-center"
+                      >
+                        {subject.name}
+                      </button>
+                    ))}
+                </div>
+              )}
+            </div>
+            {/* Content */}
+            <div className="md:col-span-2 grid md:grid-cols-2 flex-1 min-h-0 items-center xl:max-h-[550px] 2xl:max-h-[600px]">
+              {/* Left column: buttons + text content */}
+              <div className="flex flex-col order-1 md:order-0 h-full">
+                {/* Subject buttons - Desktop (no animation) */}
+                <div className="hidden md:flex flex-wrap items-center gap-2 md:gap-3 xl:gap-4 md:mb-3 xl:mb-5 2xl:mb-10">
+                  {subjects.map((subject) => (
+                    <button
+                      key={subject.key}
+                      onClick={() => setSelectedSubject(subject.key)}
+                      className={`py-1.5 px-4 border rounded-full text-xl md:text-lg lg:text-2xl xl:text-3xl font-extralight relative overflow-hidden
+                      ${
+                        selectedSubject === subject.key
+                          ? "bg-white text-black border-white"
+                          : "navigation-link bg-transparent text-white border-white"
+                      }`}
+                    >
+                      {selectedSubject !== subject.key && (
+                        <div className="nav-bg-hover" aria-hidden="true" />
+                      )}
+                      <span className="relative z-[2]">{subject.name}</span>
+                    </button>
+                  ))}
+                </div>
+                {/* Text content (with animation) */}
+                <div
+                  key={selectedSubject}
+                  className="text-white animate-fade-in"
+                >
+                  {selectedSubject === "edouard" && (
+                    <EdouardTextContent content={studio.edouard} locale={locale} />
+                  )}
+                  {selectedSubject === "friends" && (
+                    <FriendsTextContent content={studio.friends} locale={locale} />
+                  )}
+                  {selectedSubject === "services" && (
+                    <ServicesTextContent services={studio.services} locale={locale} />
+                  )}
+                  {selectedSubject === "gear" && (
+                    <GearTextContent gear={studio.gear} locale={locale} />
+                  )}
+                </div>
+              </div>
+              {/* Right column: image (with animation) */}
+              <div
+                key={`${selectedSubject}-image`}
+                className={`relative w-full h-full flex items-center ${selectedSubject === "edouard" ? "justify-center" : "md:justify-end md:pr-12"} order-0 md:order-1 mb-5 md:mb-0 animate-fade-in`}
+              >
+                {selectedSubject === "edouard" && (
+                  <EdouardImage src={studio.edouard.portraitImage} />
+                )}
+                {selectedSubject === "friends" && <FriendsImage />}
+                {selectedSubject === "services" && (
+                  <ServicesImage src={studio.servicesImage} />
+                )}
+                {selectedSubject === "gear" && (
+                  <GearImage images={studio.gear.images} />
+                )}
+              </div>
+            </div>
+            <div className="mt-auto">
+              <Footer color="white" />
+            </div>
+          </div>
+        </main>
+      </PageTransition>
+    </>
+  );
+}

@@ -1,6 +1,7 @@
 import type { StructureResolver } from "sanity/structure";
 
 const SINGLETONS = [
+  { id: "studioPage", title: "Page Studio" },
   { id: "termsAndConditions", title: "Conditions générales" },
   { id: "legalNotice", title: "Mentions légales" },
   { id: "faq", title: "FAQ" },

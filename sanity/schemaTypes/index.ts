@@ -4,6 +4,7 @@ import { artist } from "./artist";
 import { termsAndConditions } from "./termsAndConditions";
 import { legalNotice } from "./legalNotice";
 import { faq } from "./faq";
+import { studioPage } from "./studioPage";
 
 export const schemaTypes = [
   localeString,
@@ -12,4 +13,5 @@ export const schemaTypes = [
   termsAndConditions,
   legalNotice,
   faq,
+  studioPage,
 ];
