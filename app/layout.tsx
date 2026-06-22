@@ -7,8 +7,8 @@ import { LandscapeWarning } from "@/components/landscape-warning";
 
 export const metadata: Metadata = {
   title: {
-    default: "MasteredByEdouard",
-    template: "%s | MasteredByEdouard",
+    default: "mastered by edouard",
+    template: "%s | mastered by edouard",
   },
   description:
     "MasteredByEdouard, ingénieur de mastering international. Donne à tes morceaux un son professionnel.",
