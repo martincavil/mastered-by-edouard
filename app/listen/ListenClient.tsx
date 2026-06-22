@@ -3,7 +3,6 @@
 import { useMemo, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { motion } from "framer-motion";
 import { useTranslations } from "@/lib/i18n/useTranslations";
 import { PageTransition } from "@/components/page-transition";
 import { Footer } from "@/components/footer";
@@ -293,7 +292,7 @@ export function ListenClient({ artists }: { artists: Artist[] }) {
                     }
 
                     return (
-                      <motion.div
+                      <div
                         key={position.artist._id}
                         className="absolute"
                         style={{
@@ -302,13 +301,6 @@ export function ListenClient({ artists }: { artists: Artist[] }) {
                           width: `${position.size}px`,
                           height: `${position.size}px`,
                           zIndex,
-                        }}
-                        animate={{ y: [0, -8, 0] }}
-                        transition={{
-                          duration: 6 + (position.artist.order % 5) * 0.8,
-                          repeat: Infinity,
-                          ease: "easeInOut",
-                          delay: (position.artist.order % 7) * 0.3,
                         }}
                       >
                         <Link
@@ -332,7 +324,7 @@ export function ListenClient({ artists }: { artists: Artist[] }) {
                             className="w-full h-full object-cover rounded-full shadow-lg hover:shadow-2xl"
                           />
                         </Link>
-                      </motion.div>
+                      </div>
                     );
                   })}
                 </div>
