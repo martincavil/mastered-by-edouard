@@ -563,7 +563,7 @@ export function AudioFiles({
                 onSubmit={handleSubmit}
                 className="flex flex-col space-y-2 2xl:space-y-4"
               >
-                <div className="bg-white px-4 py-6 2xl:py-8 2xl:px-6 rounded-[10px] min-h-[250px] h-[250px] max-h-[250px] 2xl:h-full 2xl:max-h-[700px] relative flex flex-col justify-between">
+                <div className="bg-white px-4 py-6 2xl:py-8 2xl:px-6 rounded-[10px] min-h-[270px] h-[270px] max-h-[270px] 2xl:h-full 2xl:max-h-[700px] relative flex flex-col justify-between">
                   <div className="mb-2">
                     <div className="w-full">
                       <p className="text-center font-medium mb-3 2xl:mb-5">
@@ -575,7 +575,7 @@ export function AudioFiles({
                       onDragOver={handleDragOver}
                       onDrop={handleDrop}
                       onClick={() => fileInputRef.current?.click()}
-                      className="border-dashed-custom rounded-[10px] p-8 text-center cursor-pointer bg-[#ECECEC] transition-colors "
+                      className="border-dashed-custom rounded-[10px] p-4 2xl:p-8 text-center cursor-pointer bg-[#ECECEC] transition-colors "
                     >
                       <input
                         ref={fileInputRef}
@@ -600,7 +600,7 @@ export function AudioFiles({
                         <h3 className="text-black font-extralight mb-2">
                           {t.sendFiles.audioFiles.uploadingFiles}
                         </h3>
-                        <div className="space-y-2 max-h-[80px] overflow-y-scroll pr-1">
+                        <div className="space-y-2 max-h-[50px] overflow-y-scroll pr-1">
                           {selectedFiles.map(
                             ({ file, id, progress, uploading, error }) => (
                               <div
@@ -721,7 +721,7 @@ export function AudioFiles({
 
                 {/* Form Inputs */}
                 <div className="space-y-2 2xl:space-y-3">
-                  <div className="grid grid-cols-2 gap-3">
+                  <div className="grid grid-cols-2 gap-2">
                     <div>
                       <input
                         id="email"
@@ -733,7 +733,7 @@ export function AudioFiles({
                         disabled={isUploading}
                         placeholder="mail*"
                         aria-required="true"
-                        className="focus:ml-1 w-full py-1.5 px-8 2xl:py-3 bg-white rounded-[10px] text-black placeholder:text-black"
+                        className=" w-full py-1.5 px-8 2xl:py-3 bg-white rounded-[10px] text-black placeholder:text-black"
                         required
                       />
                     </div>
@@ -753,7 +753,7 @@ export function AudioFiles({
                           t.sendFiles.audioFiles.projectNamePlaceholder
                         }
                         aria-required="true"
-                        className="focus:ml-1 w-full py-1.5 px-8 2xl:py-3 bg-white rounded-[10px] text-black placeholder:text-black"
+                        className=" w-full py-1.5 px-8 2xl:py-3 bg-white rounded-[10px] text-black placeholder:text-black"
                         required
                       />
                     </div>
@@ -767,8 +767,8 @@ export function AudioFiles({
                       }
                       disabled={isUploading}
                       placeholder={t.sendFiles.audioFiles.messagePlaceholder}
-                      rows={2}
-                      className="focus:ml-1 w-full py-1.5 px-8 2xl:py-3 bg-white rounded-[10px] text-black placeholder:text-black resize-none"
+                      rows={1.5}
+                      className=" w-full py-1.5 px-8 2xl:py-3 bg-white rounded-[10px] text-black placeholder:text-black resize-none"
                     />
                   </div>
                   <div className="flex items-center space-x-2 2xl:space-x-3">
@@ -780,7 +780,7 @@ export function AudioFiles({
                         setFormData({ ...formData, name: e.target.value })
                       }
                       disabled={isUploading}
-                      className="focus:ml-1 w-full py-1.5 px-8 2xl:py-3 bg-white rounded-[10px] text-black placeholder:text-black"
+                      className=" w-full py-1.5 px-8 2xl:py-3 bg-white rounded-[10px] text-black placeholder:text-black"
                       placeholder="name*"
                       required
                     />
