@@ -36,7 +36,7 @@ const SOCIAL_LINKS: SocialLink[] = [
 
 export function SocialLinks() {
   return (
-    <div className="flex gap-3 md:gap-3 xl:gap-4 mb-6 md:mb-3 2xl:mb-10">
+    <div className="flex gap-3 md:gap-3 xl:gap-4 mb-6 md:mb-1.5 2xl:mb-10">
       {SOCIAL_LINKS.map((link) => (
         <a
           key={link.label}

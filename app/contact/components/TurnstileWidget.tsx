@@ -21,8 +21,7 @@ declare global {
   }
 }
 
-const SCRIPT_SRC =
-  "https://challenges.cloudflare.com/turnstile/v0/api.js";
+const SCRIPT_SRC = "https://challenges.cloudflare.com/turnstile/v0/api.js";
 
 interface TurnstileWidgetProps {
   onVerify: (token: string) => void;
@@ -44,9 +43,7 @@ export function TurnstileWidget({ onVerify, onExpire }: TurnstileWidgetProps) {
         callback: onVerify,
         "expired-callback": onExpire,
         "error-callback": onExpire,
-        // Stays invisible (0 height) unless Cloudflare needs an actual
-        // interactive challenge, so it doesn't add height to the form
-        appearance: "interaction-only",
+        appearance: "always",
       });
     };
 
@@ -79,5 +76,12 @@ export function TurnstileWidget({ onVerify, onExpire }: TurnstileWidgetProps) {
   const siteKey = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY;
   if (!siteKey) return null;
 
-  return <div ref={containerRef} className="flex justify-center" />;
+  return (
+    // Fixed, scaled-down wrapper so the widget keeps a small, predictable
+    // footprint in the form's layout (the page has no scroll, so the form
+    // must always fit within the viewport).
+    <div className="h-[40px] overflow-hidden flex justify-start">
+      <div ref={containerRef} className="origin-top-left scale-[0.56]" />
+    </div>
+  );
 }

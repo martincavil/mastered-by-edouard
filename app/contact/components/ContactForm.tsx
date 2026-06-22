@@ -166,7 +166,7 @@ export function ContactForm({ t, onSuccess, onSubmitting }: ContactFormProps) {
     >
       {/* YOUR INFO Section */}
       <div>
-        <h2 className="uppercase text-lg 2xl:text-3xl font-extralight text-white mb-1 md:mb-2 2xl:mb-6 pl-4">
+        <h2 className="uppercase text-lg 2xl:text-3xl font-extralight text-white mb-1 md:mb-1 2xl:mb-6 pl-4">
           {t.contact.form.sections.yourInfo}
         </h2>
         <div className="space-y-2">
@@ -211,7 +211,7 @@ export function ContactForm({ t, onSuccess, onSubmitting }: ContactFormProps) {
 
       {/* PROJECT INFO Section */}
       <div>
-        <h2 className="uppercase text-lg 2xl:text-3xl font-extralight text-white mb-1 md:mb-2 2xl:mb-6 pl-4">
+        <h2 className="uppercase text-lg 2xl:text-3xl font-extralight text-white mb-1 md:mb-1 2xl:mb-6 pl-4">
           {t.contact.form.sections.projectInfo}
         </h2>
         <div className="space-y-2">
