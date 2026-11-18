@@ -3,60 +3,57 @@
 import { useTranslations } from "@/lib/i18n/useTranslations";
 import Image from "next/image";
 import Link from "next/link";
-import {
-  useState,
-  useRef,
-  useEffect,
-  DragEvent,
-  ChangeEvent,
-  FormEvent,
-} from "react";
+import { useState, useRef, DragEvent, ChangeEvent, FormEvent } from "react";
 import { X, CircleCheckBig } from "lucide-react";
 import { ArrowUpRight } from "@/components/icons/ArrowUpRight";
 import { UploadProgressScreen } from "@/components/upload-progress-screen";
-
-// Helper function to sanitize strings for Dropbox API (removes all non-ASCII characters)
-const sanitizeForDropbox = (str: string): string => {
-  return str
-    .normalize("NFD") // Decompose accented characters
-    .replace(/[\u0300-\u036f]/g, "") // Remove diacritics
-    .replace(/[^\x00-\x7F]/g, "_") // Replace any non-ASCII character with underscore
-    .replace(/[^\w\s.-]/g, "_") // Replace special chars except word chars, spaces, dots, dashes
-    .replace(/\s+/g, "_") // Replace spaces with underscores
-    .replace(/_+/g, "_") // Replace multiple underscores with single
-    .replace(/^_+|_+$/g, ""); // Trim underscores from start/end
-};
+import { useUploadTracker } from "@/lib/use-upload-tracker";
+import {
+  UploadAbortedError,
+  createDropboxFolder,
+  getDropboxUploadToken,
+  runWithConcurrency,
+  sanitizeForDropbox,
+  uploadToDropbox,
+} from "@/lib/dropbox-upload";
 
 interface SelectedFile {
   file: File;
   id: string;
-  progress?: number; // 0-100
+  progress?: number;
   uploading?: boolean;
   error?: string;
+}
+
+interface AudioFormData {
+  name: string;
+  email: string;
+  projectName: string;
+  message: string;
+  acceptTerms: boolean;
 }
 
 interface AudioFilesProps {
   selectedFiles: SelectedFile[];
   setSelectedFiles: React.Dispatch<React.SetStateAction<SelectedFile[]>>;
-  formData: {
-    name: string;
-    email: string;
-    projectName: string;
-    message: string;
-    acceptTerms: boolean;
-  };
-  setFormData: React.Dispatch<
-    React.SetStateAction<{
-      name: string;
-      email: string;
-      projectName: string;
-      message: string;
-      acceptTerms: boolean;
-    }>
-  >;
+  formData: AudioFormData;
+  setFormData: React.Dispatch<React.SetStateAction<AudioFormData>>;
   isUploading: boolean;
   setIsUploading: React.Dispatch<React.SetStateAction<boolean>>;
 }
+
+// Files uploaded at the same time. Each file is chunked (32 MB) through an
+// upload session, chunks of one file are sequential (Dropbox requirement).
+const CONCURRENT_UPLOADS = 3;
+const VALID_EXTENSIONS = [".wav", ".aif", ".aiff"];
+
+const formatSize = (bytes: number) =>
+  bytes >= 1024 * 1024 * 1024
+    ? `${(bytes / 1024 / 1024 / 1024).toFixed(2)} GB`
+    : `${Math.max(0.1, bytes / 1024 / 1024).toFixed(1)} MB`;
+
+const inputClass =
+  "w-full py-2.5 px-5 2xl:py-3.5 bg-white rounded-[10px] text-black placeholder:text-black/70 outline-none focus:ring-2 focus:ring-black disabled:opacity-60";
 
 export function AudioFiles({
   selectedFiles,
@@ -67,411 +64,127 @@ export function AudioFiles({
   setIsUploading,
 }: AudioFilesProps) {
   const t = useTranslations();
+  const labels = t.sendFiles.audioFiles;
   const [submitSuccess, setSubmitSuccess] = useState(false);
-  const [message, setMessage] = useState<{
-    type: "success" | "error";
-    text: string;
-  } | null>(null);
-  const [uploadedFilesCount, setUploadedFilesCount] = useState(0);
-  const [uploadedFileNames, setUploadedFileNames] = useState<string[]>([]);
-  const [totalFilesCount, setTotalFilesCount] = useState(0);
-  const [uploadProgress, setUploadProgress] = useState(0);
-  const [allFileNames, setAllFileNames] = useState<string[]>([]);
-  const fileInputRef = useRef<HTMLInputElement>(null);
-  const tooltipButtonRef = useRef<HTMLDivElement>(null);
-  const [tooltipPosition, setTooltipPosition] = useState({ top: 0, left: 0 });
+  const [isDragging, setIsDragging] = useState(false);
+  const [message, setMessage] = useState<{ type: "success" | "error"; text: string } | null>(null);
   const [showTooltip, setShowTooltip] = useState(false);
-  // Real upload progress per file, written immediately by xhr.upload.onprogress.
-  // Displayed progress (selectedFiles[].progress / uploadProgress) is eased
-  // towards this target by the rAF loop below, so fast/small uploads animate
-  // smoothly instead of jumping straight from 0% to 100%.
-  const progressTargetsRef = useRef<Record<string, number>>({});
-
-  useEffect(() => {
-    if (!isUploading) return;
-
-    let frameId: number;
-    const tick = () => {
-      setSelectedFiles((prev) => {
-        let changed = false;
-        const updated = prev.map((f) => {
-          const target = progressTargetsRef.current[f.id] ?? 0;
-          const current = f.progress ?? 0;
-          if (target <= current) return f;
-          changed = true;
-          const next = Math.min(
-            target,
-            current + Math.max((target - current) * 0.12, 0.8),
-          );
-          return { ...f, progress: next };
-        });
-
-        if (!changed) return prev;
-
-        const totalProgress = updated.reduce(
-          (sum, f) => sum + (f.progress || 0),
-          0,
-        );
-        setUploadProgress(
-          updated.length > 0 ? totalProgress / updated.length : 0,
-        );
-
-        return updated;
-      });
-      frameId = requestAnimationFrame(tick);
-    };
-
-    frameId = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(frameId);
-  }, [isUploading]);
-
-  const handleTooltipHover = () => {
-    if (tooltipButtonRef.current) {
-      const rect = tooltipButtonRef.current.getBoundingClientRect();
-      setTooltipPosition({
-        top: rect.top,
-        left: rect.left,
-      });
-      setShowTooltip(true);
-    }
-  };
-
-  const validateFile = (file: File): boolean => {
-    const validExtensions = [".wav", ".aif"];
-    const ext = file.name.toLowerCase().slice(file.name.lastIndexOf("."));
-    return validExtensions.includes(ext);
-  };
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const abortRef = useRef<AbortController | null>(null);
+  const tracker = useUploadTracker();
 
   const handleFiles = (files: FileList | null) => {
     if (!files) return;
-
     const validFiles: SelectedFile[] = [];
     const invalidFiles: string[] = [];
 
     Array.from(files).forEach((file) => {
-      if (validateFile(file)) {
-        validFiles.push({
-          file,
-          id: `${file.name}-${Date.now()}-${Math.random()}`,
-        });
+      const ext = file.name.toLowerCase().slice(file.name.lastIndexOf("."));
+      if (VALID_EXTENSIONS.includes(ext)) {
+        validFiles.push({ file, id: `${file.name}-${Date.now()}-${Math.random()}` });
       } else {
         invalidFiles.push(file.name);
       }
     });
 
-    if (invalidFiles.length > 0) {
-      setMessage({
-        type: "error",
-        text: `Invalid file type(s): ${invalidFiles.join(
-          ", ",
-        )}. Only WAV and AIF files are allowed.`,
-      });
-    }
-
-    if (validFiles.length > 0) {
-      setSelectedFiles((prev) => [...prev, ...validFiles]);
-      setMessage(null);
-    }
+    setMessage(
+      invalidFiles.length > 0
+        ? { type: "error", text: labels.errorFileType.replace("{files}", invalidFiles.join(", ")) }
+        : null,
+    );
+    if (validFiles.length > 0) setSelectedFiles((prev) => [...prev, ...validFiles]);
   };
 
   const handleDragOver = (e: DragEvent<HTMLDivElement>) => {
     e.preventDefault();
     e.stopPropagation();
+    setIsDragging(true);
   };
 
   const handleDrop = (e: DragEvent<HTMLDivElement>) => {
     e.preventDefault();
     e.stopPropagation();
+    setIsDragging(false);
     handleFiles(e.dataTransfer.files);
   };
 
   const handleFileInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     handleFiles(e.target.files);
+    e.target.value = "";
   };
 
   const handleRemoveFile = (id: string) => {
     setSelectedFiles((prev) => prev.filter((f) => f.id !== id));
   };
 
-  // XHR wrapper exposing upload.onprogress for smooth, continuous progress
-  // (fetch() gives no upload progress events, only per-chunk completion)
-  const xhrUpload = (
-    url: string,
-    headers: Record<string, string>,
-    body: Blob,
-    onProgress: (loaded: number) => void,
-  ): Promise<void> => {
-    return new Promise((resolve, reject) => {
-      const xhr = new XMLHttpRequest();
-      xhr.open("POST", url);
-      Object.entries(headers).forEach(([key, value]) =>
-        xhr.setRequestHeader(key, value),
-      );
-      xhr.upload.onprogress = (e) => onProgress(e.loaded);
-      xhr.onload = () => {
-        if (xhr.status >= 200 && xhr.status < 300) {
-          resolve();
-        } else {
-          reject(
-            new Error(
-              xhr.responseText || `Upload failed with status ${xhr.status}`,
-            ),
-          );
-        }
-      };
-      xhr.onerror = () => reject(new Error("Network error during upload"));
-      xhr.send(body);
-    });
+  const validate = (): string | null => {
+    if (selectedFiles.length === 0) return labels.errorNoFiles;
+    if (!formData.name.trim()) return labels.errorName;
+    if (!formData.email.trim()) return labels.errorEmail;
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) return labels.errorEmailInvalid;
+    if (!formData.projectName.trim()) return labels.errorProjectName;
+    return null;
   };
 
-  const updateFileProgress = (fileId: string, progress: number) => {
-    progressTargetsRef.current[fileId] = progress;
-  };
-
-  const uploadFileChunked = async (
-    file: File,
-    fileId: string,
-    folderPath: string,
-    dropboxToken: string,
-  ): Promise<void> => {
-    // 32MB chunks: fewer round trips than the previous 8MB, so large WAV/AIF
-    // files upload noticeably faster (Dropbox allows up to 150MB per chunk)
-    const CHUNK_SIZE = 32 * 1024 * 1024;
-    const totalChunks = Math.ceil(file.size / CHUNK_SIZE);
-
-    // Sanitize filename to remove ALL special characters for Dropbox API compatibility
-    const sanitizedFileName = sanitizeForDropbox(file.name);
-    const filePath = `${folderPath}/${sanitizedFileName}`;
-
-    try {
-      // Update file as uploading
-      progressTargetsRef.current[fileId] = 0;
-      setSelectedFiles((prev) =>
-        prev.map((f) =>
-          f.id === fileId ? { ...f, uploading: true, progress: 0 } : f,
-        ),
-      );
-
-      // Start Dropbox upload session
-      const startResponse = await fetch(
-        "https://content.dropboxapi.com/2/files/upload_session/start",
-        {
-          method: "POST",
-          headers: {
-            Authorization: `Bearer ${dropboxToken}`,
-            "Content-Type": "application/octet-stream",
-          },
-          body: new Uint8Array(0), // Empty for start
-        },
-      );
-
-      if (!startResponse.ok) {
-        const errorText = await startResponse.text();
-        throw new Error("Failed to start upload session");
-      }
-
-      const { session_id } = await startResponse.json();
-
-      let offset = 0;
-
-      // Upload chunks, tracking byte-level progress within each chunk for a
-      // smooth progress bar instead of jumping once per chunk
-      for (let chunkIndex = 0; chunkIndex < totalChunks; chunkIndex++) {
-        const start = chunkIndex * CHUNK_SIZE;
-        const end = Math.min(start + CHUNK_SIZE, file.size);
-        const chunk = file.slice(start, end);
-        const isLastChunk = chunkIndex === totalChunks - 1;
-        const chunkOffset = offset;
-
-        const reportProgress = (loaded: number) => {
-          const progress = Math.round(
-            ((chunkOffset + loaded) / file.size) * 100,
-          );
-          updateFileProgress(fileId, progress);
-        };
-
-        if (!isLastChunk) {
-          await xhrUpload(
-            "https://content.dropboxapi.com/2/files/upload_session/append_v2",
-            {
-              Authorization: `Bearer ${dropboxToken}`,
-              "Content-Type": "application/octet-stream",
-              "Dropbox-API-Arg": JSON.stringify({
-                cursor: {
-                  session_id: session_id,
-                  offset: offset,
-                },
-              }),
-            },
-            chunk,
-            reportProgress,
-          );
-
-          offset += chunk.size;
-        } else {
-          // Finish upload with last chunk
-          await xhrUpload(
-            "https://content.dropboxapi.com/2/files/upload_session/finish",
-            {
-              Authorization: `Bearer ${dropboxToken}`,
-              "Content-Type": "application/octet-stream",
-              "Dropbox-API-Arg": JSON.stringify({
-                cursor: {
-                  session_id: session_id,
-                  offset: offset,
-                },
-                commit: {
-                  path: filePath,
-                  mode: "add",
-                  autorename: true,
-                  mute: false,
-                },
-              }),
-            },
-            chunk,
-            reportProgress,
-          );
-        }
-      }
-
-      // Mark as complete; the rAF loop above eases progress the rest of the
-      // way to 100 so the bar doesn't snap even on very fast uploads.
-      progressTargetsRef.current[fileId] = 100;
-      setSelectedFiles((prev) =>
-        prev.map((f) => (f.id === fileId ? { ...f, uploading: false } : f)),
-      );
-
-      // Increment uploaded files count and add file name to list
-      setUploadedFilesCount((prev) => prev + 1);
-
-      // Add file name to uploaded list
-      setUploadedFileNames((prev) => [...prev, file.name]);
-    } catch (error) {
-      const errorMessage =
-        error instanceof Error ? error.message : "Upload failed";
-      setSelectedFiles((prev) =>
-        prev.map((f) =>
-          f.id === fileId ? { ...f, uploading: false, error: errorMessage } : f,
-        ),
-      );
-      throw error;
-    }
-  };
+  const handleCancel = () => abortRef.current?.abort();
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
-    if (selectedFiles.length === 0) {
-      setMessage({ type: "error", text: "Please select at least one file" });
+    const error = validate();
+    if (error) {
+      setMessage({ type: "error", text: error });
       return;
     }
 
-    if (!formData.name.trim()) {
-      setMessage({ type: "error", text: "Please enter your name" });
-      return;
-    }
-
-    if (!formData.email.trim()) {
-      setMessage({ type: "error", text: "Please enter your email" });
-      return;
-    }
-
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(formData.email)) {
-      setMessage({ type: "error", text: "Please enter a valid email address" });
-      return;
-    }
-
-    if (!formData.projectName.trim()) {
-      setMessage({ type: "error", text: "Please enter your project name" });
-      return;
-    }
-
-    setIsUploading(true);
+    const files = [...selectedFiles];
+    const controller = new AbortController();
+    abortRef.current = controller;
     setMessage(null);
-    setUploadedFilesCount(0);
-    setUploadedFileNames([]);
-    setTotalFilesCount(selectedFiles.length);
-    setAllFileNames(selectedFiles.map((f) => f.file.name));
-    setUploadProgress(0);
-
-    // Initialize all files with progress: 0
-    progressTargetsRef.current = {};
-    setSelectedFiles((prev) => prev.map((f) => ({ ...f, progress: 0 })));
+    setIsUploading(true);
+    tracker.start(files.map((f) => ({ name: f.file.name, size: f.file.size })));
 
     try {
-      // Get temporary Dropbox token for direct upload
-      const tokenResponse = await fetch("/api/dropbox-token");
+      const accessToken = await getDropboxUploadToken();
 
-      if (!tokenResponse.ok) {
-        throw new Error("Failed to get Dropbox token");
-      }
-
-      const { accessToken } = await tokenResponse.json();
-
-      // Create folder once for all files
-      // Format: YYYYMMDD_Nom_NomDuProjet
-      const now = new Date();
-      const dateStr = now.toISOString().slice(0, 10).replace(/-/g, ""); // YYYYMMDD
-      const artistName = sanitizeForDropbox(formData.name);
-      const projectName = sanitizeForDropbox(formData.projectName);
-      const folderName = `${dateStr}_${artistName}_${projectName}`;
+      // Folder format: YYYYMMDD_Name_ProjectName
+      const dateStr = new Date().toISOString().slice(0, 10).replace(/-/g, "");
+      const folderName = `${dateStr}_${sanitizeForDropbox(formData.name)}_${sanitizeForDropbox(formData.projectName)}`;
       const folderPath = `/01_uploads/${folderName}`;
+      await createDropboxFolder(accessToken, folderPath);
 
-      // Create folder directly with Dropbox API
-      const folderResponse = await fetch(
-        "https://api.dropboxapi.com/2/files/create_folder_v2",
-        {
-          method: "POST",
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ path: folderPath, autorename: false }),
+      await runWithConcurrency(
+        files.map((f, index) => ({ f, index })),
+        CONCURRENT_UPLOADS,
+        async ({ f, index }) => {
+          tracker.setStatus(index, "uploading");
+          try {
+            await uploadToDropbox(f.file, {
+              token: accessToken,
+              path: `${folderPath}/${sanitizeForDropbox(f.file.name)}`,
+              onProgress: (bytes) => tracker.setLoaded(index, bytes),
+              signal: controller.signal,
+            });
+            tracker.setStatus(index, "done");
+          } catch (err) {
+            tracker.setStatus(index, "error");
+            // Stop the other uploads on the first hard failure
+            controller.abort();
+            throw err;
+          }
         },
       );
 
-      if (!folderResponse.ok && folderResponse.status !== 409) {
-        const errorText = await folderResponse.text();
-        throw new Error(`Failed to create folder: ${errorText}`);
-      }
-
-      // Upload files with direct Dropbox upload, a few in parallel to make
-      // better use of available bandwidth instead of uploading strictly one by one
-      const CONCURRENT_UPLOADS = 3;
-      const queue = [...selectedFiles];
-      const runNext = async (): Promise<void> => {
-        const nextFile = queue.shift();
-        if (!nextFile) return;
-        await uploadFileChunked(
-          nextFile.file,
-          nextFile.id,
-          folderPath,
-          accessToken,
-        );
-        await runNext();
-      };
-      await Promise.all(
-        Array.from(
-          { length: Math.min(CONCURRENT_UPLOADS, selectedFiles.length) },
-          runNext,
-        ),
-      );
-
-      // Send notification emails
+      // Notification + confirmation emails (non-blocking: files are on Dropbox)
       try {
-        const fileNames = selectedFiles.map((f) => f.file.name);
         const emailResponse = await fetch("/api/audio-files-notification", {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
+          headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             name: formData.name,
             email: formData.email,
             projectName: formData.projectName,
             message: formData.message,
-            fileNames,
+            fileNames: files.map((f) => f.file.name),
             folderPath,
           }),
         });
@@ -479,387 +192,269 @@ export function AudioFiles({
           console.error("Audio files notification failed:", await emailResponse.text());
         }
       } catch (emailError) {
-        // Don't fail the entire upload if email sending fails
         console.error("Audio files notification failed:", emailError);
       }
 
+      // Let the bar reach 100% before closing the progress screen
+      await new Promise((resolve) => setTimeout(resolve, 800));
+
       setSubmitSuccess(true);
       setSelectedFiles([]);
-      setFormData({
-        name: "",
-        email: "",
-        projectName: "",
-        message: "",
-        acceptTerms: false,
-      });
-      if (fileInputRef.current) {
-        fileInputRef.current.value = "";
-      }
-    } catch (error) {
+      setFormData({ name: "", email: "", projectName: "", message: "", acceptTerms: false });
+    } catch (err) {
+      const cancelled = err instanceof UploadAbortedError && controller.signal.aborted;
       setMessage({
         type: "error",
-        text: error instanceof Error ? error.message : "Failed to upload files",
+        text: cancelled
+          ? t.sendFiles.uploadScreen.cancelled
+          : err instanceof Error
+            ? err.message
+            : "Failed to upload files",
       });
     } finally {
+      abortRef.current = null;
+      tracker.stop();
       setIsUploading(false);
     }
   };
 
+  // Right column: small headline + illustration (the form dominates the page)
+  const aside = (
+    <div className="hidden md:flex flex-col justify-between items-end relative min-h-0">
+      <div className="flex flex-col self-start text-3xl lg:text-4xl xl:text-5xl 2xl:text-6xl font-bold !leading-[0.9]">
+        {submitSuccess ? (
+          <>
+            <span className="text-white">{labels.successHeadline1}</span>
+            <span className="text-black">{labels.successHeadline2}</span>
+          </>
+        ) : (
+          <>
+            <span className="text-white">{labels.headline1}</span>
+            <span className="text-black">{labels.headline2}</span>
+            <span className="text-black">{labels.headline3}</span>
+          </>
+        )}
+      </div>
+      <Image
+        src="https://www.dropbox.com/scl/fi/iwj6fuky5hk2my2qa0pa7/send-files.webp?rlkey=ucreqy7vx1p7mhahrv6hatzgc&st=3u0iinfy&dl=1"
+        alt="Edouard SendFiles Illustration"
+        width={271}
+        height={271}
+        className="object-cover w-28 h-28 xl:w-36 xl:h-36 2xl:w-44 2xl:h-44"
+      />
+    </div>
+  );
+
+  if (submitSuccess) {
+    return (
+      <>
+        <div className="flex flex-col h-full min-h-0 gap-2 2xl:gap-3">
+          <div className="bg-white rounded-[10px] p-8 flex flex-col items-center justify-center gap-4 flex-1 min-h-[260px]">
+            <CircleCheckBig size={64} className="text-white bg-red rounded-full p-3" strokeWidth={2} />
+            <p className="text-black text-center text-xl md:text-2xl 2xl:text-3xl">{labels.successMessage}</p>
+          </div>
+          <div className="flex flex-col sm:flex-row items-stretch w-full gap-2">
+            <Link
+              href="/send-files?tab=production-sheet"
+              className="bg-white text-black font-bold text-base 2xl:text-lg py-2.5 2xl:py-3.5 rounded-[10px] hover:bg-black hover:text-white transition-colors duration-300 flex items-center justify-center gap-2 w-full"
+            >
+              {labels.sendProductionSheet}
+              <ArrowUpRight size={20} />
+            </Link>
+            <Link
+              href="/"
+              className="bg-red-dark text-white font-bold text-base 2xl:text-lg py-2.5 2xl:py-3.5 rounded-[10px] hover:bg-black transition-colors duration-300 flex items-center justify-center gap-2 w-full"
+            >
+              {labels.backToHome}
+              <ArrowUpRight size={20} />
+            </Link>
+          </div>
+        </div>
+        {aside}
+      </>
+    );
+  }
+
   return (
     <>
-      {isUploading ? (
-        <UploadProgressScreen
-          uploadProgress={uploadProgress}
-          uploadedFiles={uploadedFileNames}
-          totalFiles={totalFilesCount}
-          allFiles={allFileNames}
-          filesWithProgress={selectedFiles.map((f) => ({
-            name: f.file.name,
-            progress: f.progress,
-            uploading: f.uploading,
-          }))}
-          onClose={() => {}}
-        />
-      ) : (
-        <>
-          <div className="flex flex-col space-y-3 min-h-0 md:overflow-y-auto md:pr-1">
-            {submitSuccess ? (
-              <div className="flex flex-col h-full">
-                {/* White success container */}
-                <div className="bg-white max-h-[350px] 2xl:max-h-full rounded-[10px] pt-8 px-8 flex flex-col items-center relative flex-1">
-                  <CircleCheckBig
-                    size={64}
-                    className="text-white bg-red rounded-full p-3"
-                    strokeWidth={2}
-                  />
-                  <p className="text-black text-center md:text-2xl 2xl:text-3xl mt-3">
-                    {t.sendFiles.audioFiles.successMessage}
-                  </p>
-                  <div className="mt-auto w-full flex justify-center">
-                    <Image
-                      src="https://www.dropbox.com/scl/fi/ngor9nsc5rl7gvd3ew5xp/files-sent.webp?rlkey=ghnns7vsh8743o0juqqb2iiz7&st=56wa1fv5&dl=1"
-                      alt="Success illustration"
-                      width={271}
-                      height={271}
-                      className="object-cover w-full"
-                    />
-                  </div>
-                </div>
-                <div className="flex items-center w-full gap-2 mt-2 2xl:mt-3">
-                  <Link
-                    href="/send-files?tab=production-sheet"
-                    className="bg-white text-black font-bold text-base 2xl:text-lg py-1.5 2xl:py-3 rounded-[10px] hover:bg-black/90 hover:text-white  transition-colors duration-300 flex items-center justify-center gap-2 w-full"
-                  >
-                    {t.sendFiles.audioFiles.sendProductionSheet}
-                    <ArrowUpRight size={20} />
-                  </Link>
-                  <Link
-                    href="/"
-                    className="bg-red-dark text-white font-bold text-base 2xl:text-lg py-1.5 2xl:py-3 rounded-[10px] hover:bg-black/90 transition-colors duration-300 flex items-center justify-center gap-2 w-full"
-                  >
-                    {t.sendFiles.audioFiles.backToHome}
-                    <ArrowUpRight size={20} />
-                  </Link>
-                </div>
-              </div>
-            ) : (
-              <form
-                onSubmit={handleSubmit}
-                className="flex flex-col space-y-2 2xl:space-y-4"
-              >
-                <div className="bg-white px-4 py-6 2xl:py-8 2xl:px-6 rounded-[10px] min-h-[270px] h-[270px] max-h-[270px] 2xl:h-full 2xl:max-h-[700px] relative flex flex-col justify-between">
-                  <div className="mb-2">
-                    <div className="w-full">
-                      <p className="text-center font-medium mb-3 2xl:mb-5">
-                        {t.sendFiles.audioFiles.draganddrop}
-                      </p>
-                    </div>
-                    {/* Drag & Drop Zone */}
-                    <div
-                      onDragOver={handleDragOver}
-                      onDrop={handleDrop}
-                      onClick={() => fileInputRef.current?.click()}
-                      className="border-dashed-custom rounded-[10px] p-4 2xl:p-8 text-center cursor-pointer bg-[#ECECEC] transition-colors "
-                    >
-                      <input
-                        ref={fileInputRef}
-                        type="file"
-                        multiple
-                        accept=".wav,.aif"
-                        onChange={handleFileInputChange}
-                        className="hidden"
-                      />
-                      <div className="flex items-center justify-center gap-2">
-                        <p className="">{t.sendFiles.audioFiles.clickordrag}</p>
-                        <ArrowUpRight
-                          size={24}
-                          className="font-extralight inline-block"
-                        />
-                      </div>
-                    </div>
-
-                    {/* Selected Files List */}
-                    {selectedFiles.length > 0 && (
-                      <div className="mt-2">
-                        <h3 className="text-black font-extralight mb-2">
-                          {t.sendFiles.audioFiles.uploadingFiles}
-                        </h3>
-                        <div className="space-y-2 max-h-[50px] overflow-y-scroll pr-1">
-                          {selectedFiles.map(
-                            ({ file, id, progress, uploading, error }) => (
-                              <div
-                                key={id}
-                                className="flex flex-col rounded-[10px]"
-                              >
-                                <div className="flex items-center justify-between w-full min-w-0 border bg-[#ECECEC] border-black rounded-[10px] px-3 py-2">
-                                  <p className="text-black text-xs truncate">
-                                    {file.name}
-                                  </p>
-                                  {!uploading && !error && (
-                                    <button
-                                      type="button"
-                                      onClick={() => handleRemoveFile(id)}
-                                      className=" text-black hover:text-red transition-colors"
-                                      disabled={isUploading}
-                                    >
-                                      <X size={20} />
-                                    </button>
-                                  )}
-                                  {uploading && (
-                                    <span className="text-xs text-black/60">
-                                      {Math.round(progress ?? 0)}%
-                                    </span>
-                                  )}
-                                </div>
-                                {/* Progress bar */}
-                                {uploading && progress !== undefined && (
-                                  <div className="w-full bg-gray-200 rounded-full h-1.5 mt-1">
-                                    <div
-                                      className="bg-red-dark h-1.5 rounded-full transition-all duration-300"
-                                      style={{ width: `${progress}%` }}
-                                    />
-                                  </div>
-                                )}
-                                {/* Error message */}
-                                {error && (
-                                  <p className="text-red text-xs mt-1">
-                                    {error}
-                                  </p>
-                                )}
-                              </div>
-                            ),
-                          )}
-                        </div>
-                      </div>
-                    )}
-                    {/* Message Display */}
-                    {message && (
-                      <div
-                        className={`mt-2 py-1.5 px-4 rounded-lg text-xs ${
-                          message.type === "success"
-                            ? "bg-green-500/20 text-green-700"
-                            : "bg-red-500/20 text-red"
-                        }`}
-                      >
-                        {message.text}
-                      </div>
-                    )}
-
-                    {/* Tooltip button - bottom right */}
-                    <div
-                      ref={tooltipButtonRef}
-                      className="absolute right-4 bottom-6 2xl:right-6 2xl:bottom-8"
-                      onMouseEnter={handleTooltipHover}
-                      onMouseLeave={() => setShowTooltip(false)}
-                    >
-                      <div className="w-5 h-5 rounded-full border border-black flex items-center justify-center cursor-help bg-transparent hover:bg-black hover:text-white transition-colors shadow-md shadow-black/30">
-                        <span className="text-xs font-medium">i</span>
-                      </div>
-                    </div>
-
-                    {/* Tooltip with fixed positioning */}
-                    {showTooltip && (
-                      <div
-                        className="fixed text-white rounded-lg p-5 text-xs border border-white z-[9999] w-max max-w-[200px] md:max-w-xs"
-                        style={{
-                          backgroundColor: "#161616",
-                          opacity: 1,
-                          top: `${tooltipPosition.top - 10}px`,
-                          left:
-                            window.innerWidth < 768
-                              ? `${tooltipPosition.left - 100}px`
-                              : `${tooltipPosition.left + 30}px`,
-                          transform:
-                            window.innerWidth < 768
-                              ? "translateY(-100%)"
-                              : "translateY(-50%)",
-                        }}
-                        onMouseEnter={() => setShowTooltip(true)}
-                        onMouseLeave={() => setShowTooltip(false)}
-                      >
-                        <div className="flex flex-col gap-2">
-                          <span className="text-lg font-bold">
-                            {t.sendFiles.audioFiles.namingTooltipTitle}
-                          </span>
-                          {t.sendFiles.audioFiles.namingTooltipHints.map(
-                            (hint, index) => (
-                              <span
-                                key={index}
-                                className="font-poppins text-xs"
-                              >
-                                {hint}
-                              </span>
-                            ),
-                          )}
-                        </div>
-                      </div>
-                    )}
-                  </div>
-                  <Image
-                    src="https://www.dropbox.com/scl/fi/387ne9zdsto43otkmktg8/powered-by-Dropbox.png?rlkey=2n2na2rux64ivpluv1tmochuq&st=ovcr5mp5&dl=1"
-                    alt=""
-                    width={120}
-                    height={120}
-                  />
-                </div>
-
-                {/* Form Inputs */}
-                <div className="space-y-2 2xl:space-y-3">
-                  <div className="grid grid-cols-2 gap-2">
-                    <div>
-                      <input
-                        id="email"
-                        type="email"
-                        value={formData.email}
-                        onChange={(e) =>
-                          setFormData({ ...formData, email: e.target.value })
-                        }
-                        disabled={isUploading}
-                        placeholder="mail*"
-                        aria-required="true"
-                        className=" w-full py-1.5 px-8 2xl:py-3 bg-white rounded-[10px] text-black placeholder:text-black"
-                        required
-                      />
-                    </div>
-                    <div>
-                      <input
-                        id="projectName"
-                        type="text"
-                        value={formData.projectName}
-                        onChange={(e) =>
-                          setFormData({
-                            ...formData,
-                            projectName: e.target.value,
-                          })
-                        }
-                        disabled={isUploading}
-                        placeholder={
-                          t.sendFiles.audioFiles.projectNamePlaceholder
-                        }
-                        aria-required="true"
-                        className=" w-full py-1.5 px-8 2xl:py-3 bg-white rounded-[10px] text-black placeholder:text-black"
-                        required
-                      />
-                    </div>
-                  </div>
-                  <div>
-                    <textarea
-                      id="message"
-                      value={formData.message}
-                      onChange={(e) =>
-                        setFormData({ ...formData, message: e.target.value })
-                      }
-                      disabled={isUploading}
-                      placeholder={t.sendFiles.audioFiles.messagePlaceholder}
-                      rows={1.5}
-                      className=" w-full py-1.5 px-8 2xl:py-3 bg-white rounded-[10px] text-black placeholder:text-black resize-none"
-                    />
-                  </div>
-                  <div className="flex items-center space-x-2 2xl:space-x-3">
-                    <input
-                      id="name"
-                      type="text"
-                      value={formData.name}
-                      onChange={(e) =>
-                        setFormData({ ...formData, name: e.target.value })
-                      }
-                      disabled={isUploading}
-                      className=" w-full py-1.5 px-8 2xl:py-3 bg-white rounded-[10px] text-black placeholder:text-black"
-                      placeholder="name*"
-                      required
-                    />
-                    {/* Submit Button */}
-                    <button
-                      type="submit"
-                      disabled={isUploading || !formData.acceptTerms}
-                      className="bg-red-dark text-white font-bold text-center w-full py-1.5 2xl:py-3 rounded-[10px] hover:bg-red-dark/90 hover:scale-[1.03] transition-all duration-300 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
-                    >
-                      {isUploading ? "Uploading…" : "send files"}
-                      <ArrowUpRight size={20} />
-                    </button>
-                  </div>
-                </div>
-              </form>
-            )}
-            {!submitSuccess && (
-              <label className="flex items-center gap-2 cursor-pointer">
-                <input
-                  type="checkbox"
-                  checked={formData.acceptTerms}
-                  onChange={(e) =>
-                    setFormData({ ...formData, acceptTerms: e.target.checked })
-                  }
-                  className="w-4 h-4 flex-shrink-0 cursor-pointer outline-none focus:outline-none"
-                />
-                <p className="text-black font-light text-sm 2xl:text-base">
-                  {t.sendFiles.audioFiles.termsAndConditions.text}{" "}
-                  <Link
-                    href="/terms-and-conditions"
-                    target="_blank"
-                    className="font-medium hover:underline"
-                  >
-                    {t.sendFiles.audioFiles.termsAndConditions.link}
-                  </Link>{" "}
-                  {t.sendFiles.audioFiles.termsAndConditions.suffix}
-                </p>
-              </label>
-            )}
-          </div>
-
-          {/* Right Column - Illustration */}
-          <div className="hidden md:flex flex-col items-center md:items-end relative">
-            {submitSuccess ? (
-              <div className="flex flex-col self-start">
-                <span className="text-5xl lg:text-7xl xl:text-[90px] 2xl:text-[100px] font-bold text-white !leading-[0.8]">
-                  {t.sendFiles.audioFiles.successHeadline1}
-                </span>
-                <span className="text-5xl lg:text-7xl xl:text-[90px] 2xl:text-[100px] font-bold text-black !leading-[0.8]">
-                  {t.sendFiles.audioFiles.successHeadline2}
-                </span>
-              </div>
-            ) : (
-              <div className="flex flex-col self-start">
-                <span className="text-5xl lg:text-7xl xl:text-[90px] 2xl:text-[100px] font-bold text-white !leading-[0.8]">
-                  {t.sendFiles.audioFiles.headline1}
-                </span>
-                <span className="text-5xl lg:text-7xl xl:text-[90px] 2xl:text-[100px] font-bold text-black !leading-[0.8]">
-                  {t.sendFiles.audioFiles.headline2}
-                </span>
-                <span className="text-5xl lg:text-7xl xl:text-[90px] 2xl:text-[100px] font-bold text-black !leading-[0.8]">
-                  {t.sendFiles.audioFiles.headline3}
-                </span>
-              </div>
-            )}
-            <Image
-              src="https://www.dropbox.com/scl/fi/iwj6fuky5hk2my2qa0pa7/send-files.webp?rlkey=ucreqy7vx1p7mhahrv6hatzgc&st=3u0iinfy&dl=1"
-              alt="Edouard SendFiles Illustration"
-              width={271}
-              height={271}
-              className="absolute bottom-0 right-0 object-cover w-48 h-48 xl:w-56 xl:h-56 2xl:w-[271px] 2xl:h-[271px]"
-            />
-          </div>
-        </>
+      {isUploading && tracker.active && (
+        <UploadProgressScreen progress={tracker.progress} files={tracker.files} onCancel={handleCancel} />
       )}
+
+      <form onSubmit={handleSubmit} className="flex flex-col h-full min-h-0 gap-2 2xl:gap-3 md:overflow-y-auto md:pr-1">
+        {/* Drop zone card */}
+        <div className="bg-white rounded-[10px] p-4 2xl:p-6 flex flex-col gap-3 flex-1 min-h-[280px]">
+          <div
+            onDragOver={handleDragOver}
+            onDragLeave={() => setIsDragging(false)}
+            onDrop={handleDrop}
+            onClick={() => fileInputRef.current?.click()}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" || e.key === " ") {
+                e.preventDefault();
+                fileInputRef.current?.click();
+              }
+            }}
+            role="button"
+            tabIndex={0}
+            className={`border-dashed-custom rounded-[10px] flex-1 min-h-[140px] flex flex-col items-center justify-center gap-2 p-6 text-center cursor-pointer transition-colors ${
+              isDragging ? "bg-black/10" : "bg-[#ECECEC] hover:bg-[#E2E2E2]"
+            }`}
+          >
+            <input
+              ref={fileInputRef}
+              type="file"
+              multiple
+              accept=".wav,.aif,.aiff"
+              onChange={handleFileInputChange}
+              className="hidden"
+            />
+            <p className="font-medium text-black text-lg 2xl:text-xl">{labels.draganddrop}</p>
+            <div className="flex items-center gap-2 text-black">
+              <span className="underline underline-offset-4">{labels.clickordrag}</span>
+              <ArrowUpRight size={22} />
+            </div>
+            <p className="text-black/60 text-xs">{labels.acceptedFormats}</p>
+          </div>
+
+          {selectedFiles.length > 0 && (
+            <ul className="space-y-1.5 max-h-[140px] 2xl:max-h-[220px] overflow-y-auto pr-1">
+              {selectedFiles.map(({ file, id }) => (
+                <li
+                  key={id}
+                  className="flex items-center justify-between gap-3 bg-[#ECECEC] rounded-[10px] px-3 py-1.5"
+                >
+                  <span className="text-black text-sm truncate">{file.name}</span>
+                  <span className="flex items-center gap-2 flex-shrink-0">
+                    <span className="text-black/60 text-xs">{formatSize(file.size)}</span>
+                    <button
+                      type="button"
+                      onClick={() => handleRemoveFile(id)}
+                      className="text-black hover:text-red transition-colors"
+                      aria-label={`Remove ${file.name}`}
+                    >
+                      <X size={18} />
+                    </button>
+                  </span>
+                </li>
+              ))}
+            </ul>
+          )}
+
+          <div className="flex items-center justify-between gap-3">
+            <Image
+              src="https://www.dropbox.com/scl/fi/387ne9zdsto43otkmktg8/powered-by-Dropbox.png?rlkey=2n2na2rux64ivpluv1tmochuq&st=ovcr5mp5&dl=1"
+              alt="Powered by Dropbox"
+              width={110}
+              height={110}
+            />
+            <div
+              className="relative"
+              onMouseEnter={() => setShowTooltip(true)}
+              onMouseLeave={() => setShowTooltip(false)}
+            >
+              <button
+                type="button"
+                onClick={() => setShowTooltip((v) => !v)}
+                aria-label={labels.namingTooltipTitle}
+                className="w-5 h-5 rounded-full border border-black flex items-center justify-center bg-transparent hover:bg-black hover:text-white transition-colors"
+              >
+                <span className="text-xs font-medium">i</span>
+              </button>
+              {showTooltip && (
+                <div className="absolute bottom-full right-0 mb-2 text-white rounded-lg p-4 text-xs border border-white z-50 w-[240px] md:w-[300px] bg-black">
+                  <div className="flex flex-col gap-2">
+                    <span className="text-base font-bold">{labels.namingTooltipTitle}</span>
+                    {labels.namingTooltipHints.map((hint, index) => (
+                      <span key={index}>{hint}</span>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+
+        {/* Fields */}
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+          <input
+            type="text"
+            value={formData.name}
+            onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+            disabled={isUploading}
+            placeholder={labels.namePlaceholder}
+            autoComplete="name"
+            required
+            className={inputClass}
+          />
+          <input
+            type="email"
+            value={formData.email}
+            onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+            disabled={isUploading}
+            placeholder={labels.emailPlaceholder}
+            autoComplete="email"
+            required
+            className={inputClass}
+          />
+          <input
+            type="text"
+            value={formData.projectName}
+            onChange={(e) => setFormData({ ...formData, projectName: e.target.value })}
+            disabled={isUploading}
+            placeholder={labels.projectNamePlaceholder}
+            required
+            className={inputClass}
+          />
+        </div>
+        <textarea
+          value={formData.message}
+          onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+          disabled={isUploading}
+          placeholder={labels.messagePlaceholder}
+          rows={2}
+          className={`${inputClass} resize-none`}
+        />
+
+        {message && (
+          <div
+            role="alert"
+            className={`py-2 px-4 rounded-[10px] text-sm ${
+              message.type === "success" ? "bg-green-500/20 text-green-700" : "bg-white text-red"
+            }`}
+          >
+            {message.text}
+          </div>
+        )}
+
+        <div className="flex flex-col sm:flex-row sm:items-center gap-3">
+          <label className="flex items-center gap-2 cursor-pointer flex-1">
+            <input
+              type="checkbox"
+              checked={formData.acceptTerms}
+              onChange={(e) => setFormData({ ...formData, acceptTerms: e.target.checked })}
+              className="w-4 h-4 flex-shrink-0 cursor-pointer"
+            />
+            <span className="text-black font-light text-sm 2xl:text-base">
+              {labels.termsAndConditions.text}{" "}
+              <Link href="/terms-and-conditions" target="_blank" className="font-medium hover:underline">
+                {labels.termsAndConditions.link}
+              </Link>{" "}
+              {labels.termsAndConditions.suffix}
+            </span>
+          </label>
+          <button
+            type="submit"
+            disabled={isUploading || !formData.acceptTerms}
+            className="sm:w-[40%] bg-red-dark text-white font-bold text-lg py-2.5 2xl:py-3.5 px-6 rounded-[10px] hover:bg-black transition-colors duration-300 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-red-dark"
+          >
+            {labels.sendButton}
+            <ArrowUpRight size={20} />
+          </button>
+        </div>
+      </form>
+
+      {aside}
     </>
   );
 }

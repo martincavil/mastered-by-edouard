@@ -33,6 +33,20 @@ export type Translations = {
     audioFilesTitle: string;
     productionSheetTitle: string;
     prepareFilesTitle: string;
+    uploadScreen: {
+      title: string;
+      uploadedFiles: string;
+      pending: string;
+      done: string;
+      error: string;
+      keepOpen: string;
+      close: string;
+      cancelTitle: string;
+      cancelText: string;
+      cancelYes: string;
+      cancelNo: string;
+      cancelled: string;
+    };
     audioFiles: {
       draganddrop: string;
       clickordrag: string;
@@ -55,6 +69,16 @@ export type Translations = {
       backToHome: string;
       namingTooltipTitle: string;
       namingTooltipHints: string[];
+      namePlaceholder: string;
+      emailPlaceholder: string;
+      sendButton: string;
+      acceptedFormats: string;
+      errorNoFiles: string;
+      errorName: string;
+      errorEmail: string;
+      errorEmailInvalid: string;
+      errorProjectName: string;
+      errorFileType: string;
     };
     productionSheet: {
       headline1: string;

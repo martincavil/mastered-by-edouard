@@ -60,7 +60,7 @@ export function FormStep1({
 }: FormStep1Props) {
   return (
     <div className="space-y-2 2xl:space-y-3 py-1">
-      <h2 className="text-3xl 2xl:text-6xl font-bold text-black">
+      <h2 className="text-2xl xl:text-3xl 2xl:text-4xl font-bold text-black">
         {t.sendFiles.productionSheet.step1Title}
       </h2>
       <div className="grid grid-cols-2 gap-3">

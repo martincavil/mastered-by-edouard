@@ -3,27 +3,24 @@
 import { useTranslations } from "@/lib/i18n/useTranslations";
 import Image from "next/image";
 import Link from "next/link";
-import { useState, ChangeEvent, FormEvent } from "react";
+import { useState, useRef, ChangeEvent, FormEvent } from "react";
 import { UploadProgressScreen } from "@/components/upload-progress-screen";
+import { useUploadTracker } from "@/lib/use-upload-tracker";
+import { generateProductionSheetPDF } from "@/lib/pdf/generateProductionSheet";
+import {
+  UploadAbortedError,
+  createDropboxFolder,
+  getDropboxUploadToken,
+  sanitizeForDropbox,
+  uploadToDropbox,
+} from "@/lib/dropbox-upload";
 import { Track } from "./production-sheet/TrackListSection";
 import { FormStep1 } from "./production-sheet/FormStep1";
 import { FormStep2 } from "./production-sheet/FormStep2";
 import { FormStep3 } from "./production-sheet/FormStep3";
 import { SuccessView } from "./production-sheet/SuccessView";
-import { NavigationButtons } from "./production-sheet/NavigationButtons";
+import { NavigationButtons, StepIndicator } from "./production-sheet/NavigationButtons";
 import { Button } from "@/components/button";
-
-// Helper function to sanitize strings for Dropbox API
-const sanitizeForDropbox = (str: string): string => {
-  return str
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "")
-    .replace(/[^\x00-\x7F]/g, "_")
-    .replace(/[^\w\s.-]/g, "_")
-    .replace(/\s+/g, "_")
-    .replace(/_+/g, "_")
-    .replace(/^_+|_+$/g, "");
-};
 
 interface FormData {
   name: string;
@@ -60,10 +57,8 @@ export function ProductionSheet({ isUploading, setIsUploading }: ProductionSheet
   const [allInfoChecked, setAllInfoChecked] = useState(false);
   const [isAlternativeVersionsOpen, setIsAlternativeVersionsOpen] =
     useState(false);
-  const [uploadProgress, setUploadProgress] = useState(0);
-  const [uploadedFiles, setUploadedFiles] = useState<string[]>([]);
-  const [totalFiles, setTotalFiles] = useState(0);
-  const [allFiles, setAllFiles] = useState<string[]>([]);
+  const tracker = useUploadTracker();
+  const abortRef = useRef<AbortController | null>(null);
 
   const [formData, setFormData] = useState<FormData>({
     name: "",
@@ -305,168 +300,74 @@ export function ProductionSheet({ isUploading, setIsUploading }: ProductionSheet
     setErrors({});
   };
 
-  // Upload file to Dropbox
-  const uploadFileToDropbox = async (
-    file: File | Blob,
-    fileName: string,
-    folderPath: string,
-    dropboxToken: string,
-  ): Promise<void> => {
-    const sanitizedFileName = sanitizeForDropbox(fileName);
-    const filePath = `${folderPath}/${sanitizedFileName}`;
+  const handleCancel = () => abortRef.current?.abort();
 
-    const response = await fetch(
-      "https://content.dropboxapi.com/2/files/upload",
-      {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${dropboxToken}`,
-          "Content-Type": "application/octet-stream",
-          "Dropbox-API-Arg": JSON.stringify({
-            path: filePath,
-            mode: "add",
-            autorename: true,
-            mute: false,
-          }),
-        },
-        body: file,
-      },
-    );
-
-    if (!response.ok) {
-      const errorText = await response.text();
-      throw new Error(`Failed to upload ${fileName}: ${errorText}`);
-    }
-  };
-
-  // Submit
+  // Submit: PDF generated in the browser, then every file (PDF, cover, other
+  // files) is uploaded directly to Dropbox, one after the other. Progress is
+  // computed on the total bytes of all of them.
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
     if (!validateStep3()) return;
 
-    setIsUploading(true);
+    const controller = new AbortController();
+    abortRef.current = controller;
     setMessage(null);
+    setIsUploading(true);
+
+    const artistName = sanitizeForDropbox(formData.artist.toLowerCase());
+    const pdfName = `${artistName}-production_sheet.pdf`;
+    const coverName = coverFile ? `cover.${coverFile.name.split(".").pop()}` : null;
+
+    // Show the screen right away, with a size estimate for the PDF until it exists
+    const plannedNames = [pdfName, ...(coverName ? [coverName] : []), ...otherFiles.map((f) => f.name)];
+    tracker.start([
+      { name: pdfName, size: 200 * 1024 },
+      ...(coverFile && coverName ? [{ name: coverName, size: coverFile.size }] : []),
+      ...otherFiles.map((f) => ({ name: f.name, size: f.size })),
+    ]);
 
     try {
-      // Build list of all file names
-      const artistName = sanitizeForDropbox(formData.artist.toLowerCase());
-      const fileNames: string[] = [];
+      const pdfBlob = await generateProductionSheetPDF({ ...formData, tracks }, coverFile);
 
-      fileNames.push(`${artistName}-production_sheet.pdf`);
-      if (coverFile) {
-        const coverExtension = coverFile.name.split(".").pop();
-        fileNames.push(`cover.${coverExtension}`);
-      }
-      otherFiles.forEach(file => fileNames.push(file.name));
+      const uploads: { name: string; blob: Blob }[] = [
+        { name: pdfName, blob: pdfBlob },
+        ...(coverFile && coverName ? [{ name: coverName, blob: coverFile as Blob }] : []),
+        ...otherFiles.map((f) => ({ name: f.name, blob: f as Blob })),
+      ];
+      // Real sizes now that the PDF is generated
+      tracker.start(uploads.map((u) => ({ name: u.name, size: u.blob.size })));
 
-      // Count total files to upload
-      const filesToUpload = fileNames.length;
-
-      setTotalFiles(filesToUpload);
-      setAllFiles(fileNames);
-      setUploadedFiles([]);
-      setUploadProgress(0);
-
-      let uploadedCount = 0;
-
-      const updateProgress = (fileName: string) => {
-        uploadedCount++;
-        setUploadedFiles((prev) => [...prev, fileName]);
-        setUploadProgress(filesToUpload > 0 ? (uploadedCount / filesToUpload) * 100 : 0);
-      };
-
-      // Get Dropbox token
-      const tokenResponse = await fetch("/api/dropbox-token");
-
-      if (!tokenResponse.ok) {
-        throw new Error("Failed to get Dropbox token");
-      }
-
-      const { accessToken } = await tokenResponse.json();
-
-      // Create folder
+      const accessToken = await getDropboxUploadToken();
       const folderPath = `/01_uploads/${artistName}`;
+      await createDropboxFolder(accessToken, folderPath);
 
-      const folderResponse = await fetch(
-        "https://api.dropboxapi.com/2/files/create_folder_v2",
-        {
-          method: "POST",
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ path: folderPath, autorename: false }),
-        },
-      );
-
-      if (!folderResponse.ok && folderResponse.status !== 409) {
-        const errorText = await folderResponse.text();
-        throw new Error(`Failed to create folder: ${errorText}`);
+      for (const [index, upload] of uploads.entries()) {
+        tracker.setStatus(index, "uploading");
+        try {
+          await uploadToDropbox(upload.blob, {
+            token: accessToken,
+            path: `${folderPath}/${sanitizeForDropbox(upload.name)}`,
+            onProgress: (bytes) => tracker.setLoaded(index, bytes),
+            signal: controller.signal,
+          });
+          tracker.setStatus(index, "done");
+        } catch (err) {
+          tracker.setStatus(index, "error");
+          throw err;
+        }
       }
 
-      // Generate and upload PDF
-      const pdfResponse = await fetch("/api/production-sheet-fill", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          ...formData,
-          tracks,
-        }),
-      });
-
-      if (!pdfResponse.ok) {
-        throw new Error("Failed to generate PDF");
-      }
-
-      const pdfBlob = await pdfResponse.blob();
-      // Start progress for PDF
-      setUploadProgress(filesToUpload > 0 ? ((uploadedCount + 0.5) / filesToUpload) * 100 : 0);
-      await uploadFileToDropbox(
-        pdfBlob,
-        `${artistName}-production_sheet.pdf`,
-        folderPath,
-        accessToken,
-      );
-      updateProgress(`${artistName}-production_sheet.pdf`);
-
-      // Upload cover if exists
-      if (coverFile) {
-        const coverExtension = coverFile.name.split(".").pop();
-        // Start progress for cover
-        setUploadProgress(filesToUpload > 0 ? ((uploadedCount + 0.5) / filesToUpload) * 100 : 0);
-        await uploadFileToDropbox(
-          coverFile,
-          `cover.${coverExtension}`,
-          folderPath,
-          accessToken,
-        );
-        updateProgress(`cover.${coverExtension}`);
-      }
-
-      // Upload other files
-      for (const file of otherFiles) {
-        // Start progress for each file
-        setUploadProgress(filesToUpload > 0 ? ((uploadedCount + 0.5) / filesToUpload) * 100 : 0);
-        await uploadFileToDropbox(file, file.name, folderPath, accessToken);
-        updateProgress(file.name);
-      }
-
-      // Send notification + confirmation emails (non-blocking: files are already on Dropbox)
+      // Notification + confirmation emails (non-blocking: files are already on Dropbox)
       try {
         const emailResponse = await fetch("/api/production-sheet-notification", {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
+          headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             name: formData.name,
             email: formData.email,
             artist: formData.artist,
             projectTitle: formData.projectTitle,
-            fileNames,
+            fileNames: plannedNames,
             folderPath,
           }),
         });
@@ -477,38 +378,66 @@ export function ProductionSheet({ isUploading, setIsUploading }: ProductionSheet
         console.error("Production sheet notification failed:", emailError);
       }
 
+      // Let the bar reach 100% before closing the progress screen
+      await new Promise((resolve) => setTimeout(resolve, 800));
       setSubmitSuccess(true);
     } catch (error) {
+      const cancelled = error instanceof UploadAbortedError && controller.signal.aborted;
       setMessage({
         type: "error",
-        text: error instanceof Error ? error.message : "Failed to submit",
+        text: cancelled
+          ? t.sendFiles.uploadScreen.cancelled
+          : error instanceof Error
+            ? error.message
+            : "Failed to submit",
       });
     } finally {
+      abortRef.current = null;
+      tracker.stop();
       setIsUploading(false);
     }
   };
 
+  const headline = (
+    <div className="hidden md:flex flex-col justify-between items-end relative min-h-0">
+      <div className="flex flex-col self-start text-3xl lg:text-4xl xl:text-5xl 2xl:text-6xl font-bold !leading-[0.9]">
+        <span className="text-white">
+          {submitSuccess ? t.sendFiles.productionSheet.headlineSuccess1 : t.sendFiles.productionSheet.headline1}
+        </span>
+        <span className="text-black">
+          {submitSuccess ? t.sendFiles.productionSheet.headlineSuccess2 : t.sendFiles.productionSheet.headline2}
+        </span>
+      </div>
+      <Image
+        src="https://www.dropbox.com/scl/fi/iwj6fuky5hk2my2qa0pa7/send-files.webp?rlkey=ucreqy7vx1p7mhahrv6hatzgc&st=3u0iinfy&dl=1"
+        alt="Edouard SendFiles Illustration"
+        width={271}
+        height={271}
+        className="object-cover w-28 h-28 xl:w-36 xl:h-36 2xl:w-44 2xl:h-44"
+      />
+    </div>
+  );
+
   return (
     <>
-      {isUploading ? (
-        <UploadProgressScreen
-          uploadProgress={uploadProgress}
-          uploadedFiles={uploadedFiles}
-          totalFiles={totalFiles}
-          allFiles={allFiles}
-          onClose={() => {}}
-        />
-      ) : (
-        <>
-          <div className="hidden md:flex flex-col space-y-2 2xl:space-y-3">
+      {isUploading && tracker.active && (
+        <UploadProgressScreen progress={tracker.progress} files={tracker.files} onCancel={handleCancel} />
+      )}
+
+      <div className="hidden md:flex flex-col gap-2 2xl:gap-3 min-h-0 h-full">
         {submitSuccess ? (
           <SuccessView t={t} />
         ) : (
-          <form
-            onSubmit={handleSubmit}
-            className="flex flex-col space-y-2 2xl:space-y-4"
-          >
-            <div className="bg-white px-6 py-6 2xl:py-8 2xl:px-8 rounded-[10px] h-[350px] max-h-[350px] 2xl:h-full 2xl:max-h-[700px] overflow-y-auto relative flex flex-col">
+          <form onSubmit={handleSubmit} className="flex flex-col gap-2 2xl:gap-3 min-h-0 h-full">
+            <div className="bg-white px-6 py-5 2xl:py-8 2xl:px-8 rounded-[10px] flex-1 min-h-[360px] overflow-y-auto relative flex flex-col">
+              <StepIndicator
+                currentStep={currentStep}
+                t={t}
+                onStepClick={(step) => {
+                  setCurrentStep(step);
+                  setErrors({});
+                }}
+              />
               <div key={currentStep} className="animate-slide-in flex-1">
                 {/* STEP 1 - INFORMATIONS */}
                 {currentStep === 1 && (
@@ -540,38 +469,27 @@ export function ProductionSheet({ isUploading, setIsUploading }: ProductionSheet
                     onAddTrack={addTrack}
                     onRemoveTrack={removeTrack}
                     onUpdateTrack={updateTrack}
-                    onBack={goBack}
                   />
                 )}
 
                 {/* STEP 3 - CREDITS */}
                 {currentStep === 3 && (
-                  <FormStep3
-                    formData={formData}
-                    t={t}
-                    onInputChange={handleInputChange}
-                    onBack={goBack}
-                  />
+                  <FormStep3 formData={formData} t={t} onInputChange={handleInputChange} />
                 )}
               </div>
 
-              {/* Message Display */}
               {message && (
                 <div
-                  className={`mt-2 py-1.5 px-4 rounded-lg text-xs ${
-                    message.type === "success"
-                      ? "bg-green-500/20 text-green-700"
-                      : "bg-red-500/20 text-red"
+                  role="alert"
+                  className={`mt-3 py-2 px-4 rounded-[10px] text-sm ${
+                    message.type === "success" ? "bg-green-500/20 text-green-700" : "bg-red/10 text-red"
                   }`}
                 >
                   {message.text}
                 </div>
               )}
-
-              {/* Dropbox logo */}
             </div>
 
-            {/* Navigation Buttons */}
             <NavigationButtons
               currentStep={currentStep}
               allInfoChecked={allInfoChecked}
@@ -580,6 +498,7 @@ export function ProductionSheet({ isUploading, setIsUploading }: ProductionSheet
               onAllInfoCheckedChange={setAllInfoChecked}
               onStep2Click={goToStep2}
               onStep3Click={goToStep3}
+              onBack={goBack}
             />
           </form>
         )}
@@ -587,11 +506,7 @@ export function ProductionSheet({ isUploading, setIsUploading }: ProductionSheet
         {!submitSuccess && (
           <p className="text-black text-sm 2xl:text-base font-light">
             {t.sendFiles.productionSheet.termsAndConditions.beforeLink}{" "}
-            <Link
-              href="/terms-and-conditions"
-              target="_blank"
-              className="font-medium hover:underline"
-            >
+            <Link href="/terms-and-conditions" target="_blank" className="font-medium hover:underline">
               {t.sendFiles.productionSheet.termsAndConditions.linkText}
             </Link>
             {t.sendFiles.productionSheet.termsAndConditions.afterLink}
@@ -599,33 +514,11 @@ export function ProductionSheet({ isUploading, setIsUploading }: ProductionSheet
         )}
       </div>
 
-      {/* Right Column - Illustration */}
-      <div className="hidden md:flex flex-col items-center md:items-end relative">
-        <div className="flex flex-col self-start">
-          <span className="text-5xl lg:text-7xl xl:text-[90px] 2xl:text-[100px] font-bold text-white !leading-[0.8]">
-            {submitSuccess
-              ? t.sendFiles.productionSheet.headlineSuccess1
-              : t.sendFiles.productionSheet.headline1}
-          </span>
-          <span className="text-5xl lg:text-7xl xl:text-[90px] 2xl:text-[100px] font-bold text-black !leading-[0.8]">
-            {submitSuccess
-              ? t.sendFiles.productionSheet.headlineSuccess2
-              : t.sendFiles.productionSheet.headline2}
-          </span>
-        </div>
-        <Image
-          src="https://www.dropbox.com/scl/fi/iwj6fuky5hk2my2qa0pa7/send-files.webp?rlkey=ucreqy7vx1p7mhahrv6hatzgc&st=3u0iinfy&dl=1"
-          alt="Edouard SendFiles Illustration"
-          width={271}
-          height={271}
-          className="absolute bottom-0 right-0 object-cover w-48 h-48 xl:w-56 xl:h-56 2xl:w-[271px] 2xl:h-[271px]"
-        />
-      </div>
+      {headline}
 
       {/* Mobile Disclaimer */}
-      <div className="md:hidden flex flex-col items-center justify-center  bg-black p-6 rounded-[10px] h-full overflow-y-auto text-center text-white space-y-4">
+      <div className="md:hidden flex flex-col items-center justify-center bg-black p-6 rounded-[10px] h-full overflow-y-auto text-center text-white space-y-4">
         <p>{t.sendFiles.productionSheet.mobileDisclaimer}</p>
-        {/* Back home button */}
         <Button
           href="/"
           variant="custom"
@@ -639,8 +532,6 @@ export function ProductionSheet({ isUploading, setIsUploading }: ProductionSheet
           {t.notFound.backHome}.
         </Button>
       </div>
-        </>
-      )}
     </>
   );
 }

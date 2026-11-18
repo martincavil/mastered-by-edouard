@@ -1,6 +1,5 @@
 "use client";
 
-import { ArrowLeft } from "lucide-react";
 import { ChangeEvent } from "react";
 import { Translations } from "@/lib/i18n/types";
 
@@ -20,24 +19,15 @@ interface FormStep3Props {
   onInputChange: (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => void;
-  onBack: () => void;
 }
 
-export function FormStep3({ formData, t, onInputChange, onBack }: FormStep3Props) {
+export function FormStep3({ formData, t, onInputChange }: FormStep3Props) {
   return (
     <div className="space-y-2 2xl:space-y-3 py-1">
       <div className="flex items-center justify-between">
-        <h2 className="text-3xl 2xl:text-6xl font-bold text-black">
+        <h2 className="text-2xl xl:text-3xl 2xl:text-4xl font-bold text-black">
           {t.sendFiles.productionSheet.step3Title}
         </h2>
-        <button
-          type="button"
-          onClick={onBack}
-          className="flex items-center gap-2 text-black hover:text-red-dark transition-colors"
-        >
-          <ArrowLeft size={20} />
-          {t.sendFiles.productionSheet.back}
-        </button>
       </div>
 
       <div className="grid grid-cols-2 gap-3">
