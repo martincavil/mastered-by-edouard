@@ -27,7 +27,7 @@ export function LayoutWrapper({ children }: { children: React.ReactNode }) {
   }, []);
 
   // Pages with black background should have red mobile menu
-  const redMenuPages = ["/listen", "/studio", "/contact", "/terms-and-conditions", "/legal-notice", "/faq"];
+  const redMenuPages = ["/listen", "/studio", "/contact", "/terms-and-conditions", "/legal-notice", "/faq", "/ddp-player"];
   const isRedMenuPage = redMenuPages.some(page => pathname?.startsWith(page));
 
   if (isNotFoundPage || pathname?.startsWith("/admin")) {

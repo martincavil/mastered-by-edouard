@@ -75,6 +75,7 @@ export function generateSitemap() {
     { path: "/listen", priority: 0.8, changeFrequency: "weekly" as const },
     { path: "/contact", priority: 0.8, changeFrequency: "monthly" as const },
     { path: "/send-files", priority: 0.7, changeFrequency: "monthly" as const },
+    { path: "/ddp-player", priority: 0.7, changeFrequency: "monthly" as const },
     { path: "/faq", priority: 0.6, changeFrequency: "monthly" as const },
     {
       path: "/legal-notice",
