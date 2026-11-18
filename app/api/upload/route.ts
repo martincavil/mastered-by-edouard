@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { Resend } from 'resend';
+import { assertEmailsSent } from '@/lib/emails/assert-sent';
 import { getDropboxToken } from '@/lib/dropbox-token';
 
 const CHUNK_SIZE = 8 * 1024 * 1024; // 8MB chunks
@@ -285,6 +286,8 @@ async function sendNotificationEmails(
 </html>
     `,
   });
+
+  assertEmailsSent({ client: clientEmailResult, uploader: uploaderEmailResult });
 }
 
 export async function POST(request: NextRequest) {

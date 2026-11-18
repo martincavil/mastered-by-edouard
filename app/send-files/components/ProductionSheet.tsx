@@ -454,6 +454,29 @@ export function ProductionSheet({ isUploading, setIsUploading }: ProductionSheet
         updateProgress(file.name);
       }
 
+      // Send notification + confirmation emails (non-blocking: files are already on Dropbox)
+      try {
+        const emailResponse = await fetch("/api/production-sheet-notification", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            name: formData.name,
+            email: formData.email,
+            artist: formData.artist,
+            projectTitle: formData.projectTitle,
+            fileNames,
+            folderPath,
+          }),
+        });
+        if (!emailResponse.ok) {
+          console.error("Production sheet notification failed:", await emailResponse.text());
+        }
+      } catch (emailError) {
+        console.error("Production sheet notification failed:", emailError);
+      }
+
       setSubmitSuccess(true);
     } catch (error) {
       setMessage({

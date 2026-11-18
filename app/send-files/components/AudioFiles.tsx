@@ -461,7 +461,7 @@ export function AudioFiles({
       // Send notification emails
       try {
         const fileNames = selectedFiles.map((f) => f.file.name);
-        await fetch("/api/audio-files-notification", {
+        const emailResponse = await fetch("/api/audio-files-notification", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -475,8 +475,12 @@ export function AudioFiles({
             folderPath,
           }),
         });
+        if (!emailResponse.ok) {
+          console.error("Audio files notification failed:", await emailResponse.text());
+        }
       } catch (emailError) {
         // Don't fail the entire upload if email sending fails
+        console.error("Audio files notification failed:", emailError);
       }
 
       setSubmitSuccess(true);

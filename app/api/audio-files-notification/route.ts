@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { Resend } from 'resend';
+import { assertEmailsSent } from '@/lib/emails/assert-sent';
 
 // Initialize Resend
 const resend = process.env.RESEND_API_KEY ? new Resend(process.env.RESEND_API_KEY) : null;
@@ -118,6 +119,8 @@ async function sendAudioFilesNotificationEmails(
 </html>
     `,
   });
+
+  assertEmailsSent({ client: clientEmailResult, uploader: uploaderEmailResult });
 }
 
 export async function POST(request: NextRequest) {
