@@ -1,12 +1,37 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useRef, useState, type DragEvent } from "react";
+import {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+  type DragEvent,
+} from "react";
 import Link from "next/link";
-import { Lock, Pause, Play, SkipBack, SkipForward, Square, Upload, FolderOpen, Check, X as XIcon } from "lucide-react";
+import {
+  Lock,
+  Pause,
+  Play,
+  SkipBack,
+  SkipForward,
+  Square,
+  Upload,
+  FolderOpen,
+  Check,
+  X as XIcon,
+} from "lucide-react";
 import { useTranslations } from "@/lib/i18n/useTranslations";
 import { PageTransition } from "@/components/page-transition";
 import { Footer } from "@/components/footer";
-import { DdpError, SAMPLE_RATE, SAMPLES_PER_SECTOR, sectorsToMsf, parseDdp, type DdpDisc } from "@/lib/ddp/parse";
+import {
+  DdpError,
+  SAMPLE_RATE,
+  SAMPLES_PER_SECTOR,
+  sectorsToMsf,
+  parseDdp,
+  type DdpDisc,
+} from "@/lib/ddp/parse";
 import {
   DdpSourceError,
   MAX_ZIP_SIZE,
@@ -15,8 +40,18 @@ import {
   sourceFromZip,
   type DdpSource,
 } from "@/lib/ddp/source";
-import { DdpPlayer, buildImageBlob, detectByteOrder, type ByteOrder, type PlayerState } from "@/lib/ddp/audio";
-import { findChecksums, verifyChecksums, type ChecksumResult } from "@/lib/ddp/checksum";
+import {
+  DdpPlayer,
+  buildImageBlob,
+  detectByteOrder,
+  type ByteOrder,
+  type PlayerState,
+} from "@/lib/ddp/audio";
+import {
+  findChecksums,
+  verifyChecksums,
+  type ChecksumResult,
+} from "@/lib/ddp/checksum";
 import { exportPqCsv, exportPqPdf } from "@/lib/ddp/export";
 import "../navigation-link.css";
 
@@ -40,7 +75,10 @@ export default function DdpPlayerPage() {
 
   const [source, setSource] = useState<DdpSource | null>(null);
   const [disc, setDisc] = useState<DdpDisc | null>(null);
-  const [loading, setLoading] = useState<{ label: string; progress: number | null } | null>(null);
+  const [loading, setLoading] = useState<{
+    label: string;
+    progress: number | null;
+  } | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [isDragging, setIsDragging] = useState(false);
   const [byteOrder, setByteOrder] = useState<ByteOrder>("little");
@@ -85,7 +123,12 @@ export default function DdpPlayerPage() {
     (err: unknown): string => {
       const e = l.errors;
       if (err instanceof DdpSourceError) {
-        const map = { "too-large": e.tooLarge, empty: e.empty, "bad-zip": e.badZip, encrypted: e.encrypted };
+        const map = {
+          "too-large": e.tooLarge,
+          empty: e.empty,
+          "bad-zip": e.badZip,
+          encrypted: e.encrypted,
+        };
         return map[err.code].replace("{size}", MAX_SIZE_LABEL);
       }
       if (err instanceof DdpError) {
@@ -126,7 +169,11 @@ export default function DdpPlayerPage() {
           (state) => setPlayerState(state),
           () => setError(l.errors.playback),
         );
-        setPlayerState({ playing: false, paused: false, position: parsed.tracks[0].startSector * SAMPLES_PER_SECTOR });
+        setPlayerState({
+          playing: false,
+          paused: false,
+          position: parsed.tracks[0].startSector * SAMPLES_PER_SECTOR,
+        });
         setSource(src);
         setDisc(parsed);
       } catch (err) {
@@ -146,12 +193,15 @@ export default function DdpPlayerPage() {
       return;
     }
     void open(() =>
-      sourceFromZip(file, (fraction) => setLoading({ label: l.unzipping, progress: fraction })),
+      sourceFromZip(file, (fraction) =>
+        setLoading({ label: l.unzipping, progress: fraction }),
+      ),
     );
   };
 
   const openFiles = (files: File[], label: string) => {
-    const zip = files.length === 1 && /\.zip$/i.test(files[0].name) ? files[0] : null;
+    const zip =
+      files.length === 1 && /\.zip$/i.test(files[0].name) ? files[0] : null;
     if (zip) return openZip(zip);
     void open(async () => sourceFromFiles(files, label));
   };
@@ -161,7 +211,9 @@ export default function DdpPlayerPage() {
     setIsDragging(false);
     let files: File[] = [];
     try {
-      files = e.dataTransfer.items?.length ? await filesFromDataTransfer(e.dataTransfer.items) : [];
+      files = e.dataTransfer.items?.length
+        ? await filesFromDataTransfer(e.dataTransfer.items)
+        : [];
     } catch {
       files = [];
     }
@@ -185,7 +237,8 @@ export default function DdpPlayerPage() {
 
   const playTrack = (index: number) => {
     if (!disc || !playerRef.current) return;
-    const track = disc.tracks[Math.max(0, Math.min(disc.tracks.length - 1, index))];
+    const track =
+      disc.tracks[Math.max(0, Math.min(disc.tracks.length - 1, index))];
     void playerRef.current.playFrom(track.startSector * SAMPLES_PER_SECTOR);
   };
 
@@ -205,20 +258,33 @@ export default function DdpPlayerPage() {
 
   const next = () => {
     if (!disc) return;
-    if (currentTrackIndex < disc.tracks.length - 1) playTrack(currentTrackIndex + 1);
+    if (currentTrackIndex < disc.tracks.length - 1)
+      playTrack(currentTrackIndex + 1);
   };
 
-  const trackStart = currentTrack ? currentTrack.startSector * SAMPLES_PER_SECTOR : 0;
-  const trackEnd = currentTrack ? currentTrack.endSector * SAMPLES_PER_SECTOR : 1;
+  const trackStart = currentTrack
+    ? currentTrack.startSector * SAMPLES_PER_SECTOR
+    : 0;
+  const trackEnd = currentTrack
+    ? currentTrack.endSector * SAMPLES_PER_SECTOR
+    : 1;
   const inPause = position < trackStart;
   const trackElapsed = position - trackStart;
-  const trackProgress = Math.max(0, Math.min(1, trackElapsed / Math.max(1, trackEnd - trackStart)));
+  const trackProgress = Math.max(
+    0,
+    Math.min(1, trackElapsed / Math.max(1, trackEnd - trackStart)),
+  );
 
   const seekInTrack = (clientX: number, element: HTMLElement) => {
     if (!playerRef.current || !currentTrack) return;
     const rect = element.getBoundingClientRect();
-    const fraction = Math.max(0, Math.min(1, (clientX - rect.left) / rect.width));
-    playerRef.current.seek(Math.round(trackStart + fraction * (trackEnd - trackStart)));
+    const fraction = Math.max(
+      0,
+      Math.min(1, (clientX - rect.left) / rect.width),
+    );
+    playerRef.current.seek(
+      Math.round(trackStart + fraction * (trackEnd - trackStart)),
+    );
   };
 
   const changeByteOrder = (order: ByteOrder) => {
@@ -235,7 +301,8 @@ export default function DdpPlayerPage() {
     try {
       const found = await findChecksums(source);
       const lines =
-        found?.lines ?? disc.audioFiles.map((f) => ({ file: f.name, expected: "" }));
+        found?.lines ??
+        disc.audioFiles.map((f) => ({ file: f.name, expected: "" }));
       const results = await verifyChecksums(
         source,
         lines,
@@ -250,28 +317,38 @@ export default function DdpPlayerPage() {
     }
   };
 
-  const md5AllOk = md5.status === "done" && md5.reference && md5.results.every((r) => r.status === "ok");
+  const md5AllOk =
+    md5.status === "done" &&
+    md5.reference &&
+    md5.results.every((r) => r.status === "ok");
 
   // ---------- Render ----------
   const faqBlock = (
     <>
-  {/* FAQ */}
-  <section className="flex flex-col gap-3 text-white">
-    <h2 className="text-3xl md:text-4xl font-bold">{l.faqTitle}</h2>
-    <div className="flex flex-col gap-2">
-      {l.faq.map((item) => (
-        <details key={item.question} className="group rounded-[10px] bg-white/5 border border-white/10">
-          <summary className="cursor-pointer list-none flex items-center justify-between px-5 py-3 text-base md:text-lg">
-            {item.question}
-            <span className="text-red text-2xl leading-none transition-transform group-open:rotate-45">+</span>
-          </summary>
-          <p className="px-5 pb-4 text-white/70 font-light">{item.answer}</p>
-        </details>
-      ))}
-    </div>
-  </section>
+      {/* FAQ */}
+      <section className="flex flex-col gap-3 text-white">
+        <h2 className="text-3xl md:text-4xl font-bold">{l.faqTitle}</h2>
+        <div className="flex flex-col gap-2">
+          {l.faq.map((item) => (
+            <details
+              key={item.question}
+              className="group rounded-[10px] bg-white/5 border border-white/10"
+            >
+              <summary className="cursor-pointer list-none flex items-center justify-between px-5 py-3 text-base md:text-lg">
+                {item.question}
+                <span className="text-red text-2xl leading-none transition-transform group-open:rotate-45">
+                  +
+                </span>
+              </summary>
+              <p className="px-5 pb-4 text-white/70 font-light">
+                {item.answer}
+              </p>
+            </details>
+          ))}
+        </div>
+      </section>
 
-  <p className="text-white/40 text-xs">{l.trademark}</p>
+      <p className="text-white/40 text-xs">{l.trademark}</p>
     </>
   );
 
@@ -281,10 +358,14 @@ export default function DdpPlayerPage() {
   return (
     <PageTransition>
       <main className="h-full flex flex-col bg-black pb-8 md:pb-0 pt-8 md:pt-4 xl:pt-6 2xl:pt-8 md:px-8 px-5 overflow-hidden">
-        <div className={`flex-1 flex flex-col overflow-y-auto min-h-0 ${disc ? "" : "md:overflow-y-hidden"}`}>
+        <div
+          className={`flex-1 flex flex-col overflow-y-auto min-h-0 ${disc ? "" : "md:overflow-y-hidden"}`}
+        >
           {/* Header */}
           <div className="flex items-center justify-between mb-3 md:mb-1.5 xl:mb-5 2xl:mb-10">
-            <h1 className="text-4xl md:text-5xl xl:text-6xl 2xl:text-[80px] font-bold text-white">{l.title}</h1>
+            <h1 className="text-4xl md:text-5xl xl:text-6xl 2xl:text-[80px] font-bold text-white">
+              {l.title}
+            </h1>
             <div className="overflow-hidden flex-shrink-0">
               <Link
                 href="/"
@@ -310,137 +391,194 @@ export default function DdpPlayerPage() {
           <div
             className={
               disc
-                ? "flex flex-col gap-6 md:gap-8 pb-8 max-w-6xl w-full"
+                ? "flex flex-col gap-6 md:gap-8 pb-8 w-full"
                 : "grid md:grid-cols-2 gap-6 md:gap-8 xl:gap-12 pb-4 w-full md:flex-1 md:min-h-0"
             }
           >
-            <div className={disc ? "contents" : "flex flex-col gap-4 md:gap-5 min-h-0"}>
-            {/* Intro + local notice */}
-            <div className="flex flex-col gap-3">
-              <p className="text-white/80 font-light text-base md:text-lg max-w-3xl">{l.intro}</p>
-              <p className="inline-flex self-start items-center gap-2 rounded-full bg-red text-white px-4 py-1.5 text-sm font-medium">
-                <Lock size={16} aria-hidden="true" />
-                {l.localNotice}
-              </p>
-            </div>
-
-            {error && (
-              <div role="alert" className="rounded-[10px] bg-red-dark text-white px-5 py-3 text-sm md:text-base">
-                {error}
+            <div
+              className={
+                disc ? "contents" : "flex flex-col gap-4 md:gap-5 min-h-0"
+              }
+            >
+              {/* Intro + local notice */}
+              <div className="flex flex-col gap-3">
+                <p className="text-white/80 font-light text-base md:text-lg max-w-3xl">
+                  {l.intro}
+                </p>
+                <p className="inline-flex self-start items-center gap-2 rounded-full bg-red text-white px-4 py-1.5 text-sm font-medium">
+                  <Lock size={16} aria-hidden="true" />
+                  {l.localNotice}
+                </p>
               </div>
-            )}
 
-            {/* Drop zone */}
-            {!disc && (
-              <div
-                onDragOver={(e) => {
-                  e.preventDefault();
-                  setIsDragging(true);
-                }}
-                onDragLeave={() => setIsDragging(false)}
-                onDrop={handleDrop}
-                className={`rounded-[10px] border-2 border-dashed px-6 py-10 md:py-6 md:flex-1 md:min-h-0 flex flex-col items-center justify-center gap-5 text-center transition-colors ${
-                  isDragging ? "border-red bg-white/10" : "border-white/40 bg-white/5"
-                }`}
-              >
-                {loading ? (
-                  <div className="w-full max-w-md flex flex-col items-center gap-3" aria-live="polite">
-                    <p className="text-white text-lg">{loading.label}…</p>
-                    <div className="w-full h-3 rounded-full bg-white/15 overflow-hidden">
-                      <div
-                        className={`h-full bg-red rounded-full ${loading.progress === null ? "w-1/3 animate-pulse" : ""}`}
-                        style={loading.progress === null ? undefined : { width: `${Math.round(loading.progress * 100)}%` }}
+              {error && (
+                <div
+                  role="alert"
+                  className="rounded-[10px] bg-red-dark text-white px-5 py-3 text-sm md:text-base"
+                >
+                  {error}
+                </div>
+              )}
+
+              {/* Drop zone */}
+              {!disc && (
+                <div
+                  onDragOver={(e) => {
+                    e.preventDefault();
+                    setIsDragging(true);
+                  }}
+                  onDragLeave={() => setIsDragging(false)}
+                  onDrop={handleDrop}
+                  className={`rounded-[10px] border-2 border-dashed px-6 py-10 md:py-6 md:flex-1 md:min-h-0 flex flex-col items-center justify-center gap-5 text-center transition-colors ${
+                    isDragging
+                      ? "border-red bg-white/10"
+                      : "border-white/40 bg-white/5"
+                  }`}
+                >
+                  {loading ? (
+                    <div
+                      className="w-full max-w-md flex flex-col items-center gap-3"
+                      aria-live="polite"
+                    >
+                      <p className="text-white text-lg">{loading.label}…</p>
+                      <div className="w-full h-3 rounded-full bg-white/15 overflow-hidden">
+                        <div
+                          className={`h-full bg-red rounded-full ${loading.progress === null ? "w-1/3 animate-pulse" : ""}`}
+                          style={
+                            loading.progress === null
+                              ? undefined
+                              : {
+                                  width: `${Math.round(loading.progress * 100)}%`,
+                                }
+                          }
+                        />
+                      </div>
+                      {loading.progress !== null && (
+                        <p className="text-white/60 text-sm">
+                          {Math.round(loading.progress * 100)}%
+                        </p>
+                      )}
+                    </div>
+                  ) : (
+                    <>
+                      <Upload
+                        size={36}
+                        className="text-white"
+                        aria-hidden="true"
                       />
-                    </div>
-                    {loading.progress !== null && (
-                      <p className="text-white/60 text-sm">{Math.round(loading.progress * 100)}%</p>
-                    )}
-                  </div>
-                ) : (
-                  <>
-                    <Upload size={36} className="text-white" aria-hidden="true" />
-                    <div>
-                      <p className="text-white text-lg md:text-2xl font-medium">{l.dropTitle}</p>
-                      <p className="text-white/60 text-sm mt-1">{l.dropHint}</p>
-                    </div>
-                    <div className="flex flex-col sm:flex-row gap-2">
-                      <button
-                        type="button"
-                        onClick={() => zipInputRef.current?.click()}
-                        className={`${pill} bg-white text-black border-white hover:bg-red hover:border-red hover:text-white`}
-                      >
-                        <Upload size={16} aria-hidden="true" />
-                        {l.chooseZip}
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() => (folderSupported ? folderInputRef.current : filesInputRef.current)?.click()}
-                        className={`${pill} text-white border-white hover:bg-white hover:text-black`}
-                      >
-                        <FolderOpen size={16} aria-hidden="true" />
-                        {l.chooseFolder}
-                      </button>
-                    </div>
-                    {!folderSupported && <p className="text-white/60 text-xs max-w-md">{l.folderUnsupported}</p>}
-                    <p className="text-white/50 text-xs">{l.maxSize.replace("{size}", MAX_SIZE_LABEL)}</p>
-                  </>
-                )}
-                <input
-                  ref={zipInputRef}
-                  type="file"
-                  accept=".zip,application/zip"
-                  className="hidden"
-                  onChange={(e) => {
-                    const file = e.target.files?.[0];
-                    e.target.value = "";
-                    if (file) openZip(file);
-                  }}
-                />
-                <input
-                  ref={folderInputRef}
-                  type="file"
-                  className="hidden"
-                  multiple
-                  {...({ webkitdirectory: "", directory: "" } as Record<string, string>)}
-                  onChange={(e) => {
-                    const files = Array.from(e.target.files ?? []);
-                    e.target.value = "";
-                    if (files.length) openFiles(files, l.chooseFolder);
-                  }}
-                />
-                <input
-                  ref={filesInputRef}
-                  type="file"
-                  className="hidden"
-                  multiple
-                  onChange={(e) => {
-                    const files = Array.from(e.target.files ?? []);
-                    e.target.value = "";
-                    if (files.length) openFiles(files, files[0].name);
-                  }}
-                />
-              </div>
-            )}
-
+                      <div>
+                        <p className="text-white text-lg md:text-2xl font-medium">
+                          {l.dropTitle}
+                        </p>
+                        <p className="text-white/60 text-sm mt-1">
+                          {l.dropHint}
+                        </p>
+                      </div>
+                      <div className="flex flex-col sm:flex-row gap-2">
+                        <button
+                          type="button"
+                          onClick={() => zipInputRef.current?.click()}
+                          className={`${pill} bg-white text-black border-white hover:bg-red hover:border-red hover:text-white`}
+                        >
+                          <Upload size={16} aria-hidden="true" />
+                          {l.chooseZip}
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() =>
+                            (folderSupported
+                              ? folderInputRef.current
+                              : filesInputRef.current
+                            )?.click()
+                          }
+                          className={`${pill} text-white border-white hover:bg-white hover:text-black`}
+                        >
+                          <FolderOpen size={16} aria-hidden="true" />
+                          {l.chooseFolder}
+                        </button>
+                      </div>
+                      {!folderSupported && (
+                        <p className="text-white/60 text-xs max-w-md">
+                          {l.folderUnsupported}
+                        </p>
+                      )}
+                      <p className="text-white/50 text-xs">
+                        {l.maxSize.replace("{size}", MAX_SIZE_LABEL)}
+                      </p>
+                    </>
+                  )}
+                  <input
+                    ref={zipInputRef}
+                    type="file"
+                    accept=".zip,application/zip"
+                    className="hidden"
+                    onChange={(e) => {
+                      const file = e.target.files?.[0];
+                      e.target.value = "";
+                      if (file) openZip(file);
+                    }}
+                  />
+                  <input
+                    ref={folderInputRef}
+                    type="file"
+                    className="hidden"
+                    multiple
+                    {...({ webkitdirectory: "", directory: "" } as Record<
+                      string,
+                      string
+                    >)}
+                    onChange={(e) => {
+                      const files = Array.from(e.target.files ?? []);
+                      e.target.value = "";
+                      if (files.length) openFiles(files, l.chooseFolder);
+                    }}
+                  />
+                  <input
+                    ref={filesInputRef}
+                    type="file"
+                    className="hidden"
+                    multiple
+                    onChange={(e) => {
+                      const files = Array.from(e.target.files ?? []);
+                      e.target.value = "";
+                      if (files.length) openFiles(files, files[0].name);
+                    }}
+                  />
+                </div>
+              )}
             </div>
 
             {/* Empty state: FAQ in the right column */}
-            {!disc && <div className="flex flex-col gap-3 min-h-0 md:overflow-y-auto">{faqBlock}</div>}
+            {!disc && (
+              <div className="flex flex-col gap-3 min-h-0 md:overflow-y-auto">
+                {faqBlock}
+              </div>
+            )}
 
             {disc && playerState && (
               <>
                 {/* Disc summary */}
                 <section className="rounded-[10px] bg-white text-black p-5 md:p-7 flex flex-col md:flex-row md:items-end md:justify-between gap-4">
                   <div className="min-w-0">
-                    <p className="text-xs uppercase tracking-wide text-black/50">{l.album}</p>
-                    <h2 className="text-2xl md:text-4xl font-bold truncate">{disc.albumTitle || l.untitled}</h2>
-                    <p className="text-lg md:text-xl font-light truncate">{disc.albumPerformer}</p>
-                    {!disc.hasCdText && <p className="text-sm text-black/50 mt-1">{l.noCdText}</p>}
+                    <p className="text-xs uppercase tracking-wide text-black/50">
+                      {l.album}
+                    </p>
+                    <h2 className="text-2xl md:text-4xl font-bold truncate">
+                      {disc.albumTitle || l.untitled}
+                    </h2>
+                    <p className="text-lg md:text-xl font-light truncate">
+                      {disc.albumPerformer}
+                    </p>
+                    {!disc.hasCdText && (
+                      <p className="text-sm text-black/50 mt-1">{l.noCdText}</p>
+                    )}
                   </div>
                   <dl className="grid grid-cols-3 gap-4 text-sm md:text-base flex-shrink-0">
                     <div>
                       <dt className="text-black/50 text-xs">{l.upc}</dt>
-                      <dd className="font-medium tabular-nums">{disc.upc || "-"}</dd>
+                      <dd className="font-medium tabular-nums">
+                        {disc.upc || "-"}
+                      </dd>
                     </div>
                     <div>
                       <dt className="text-black/50 text-xs">{l.tracks}</dt>
@@ -448,7 +586,9 @@ export default function DdpPlayerPage() {
                     </div>
                     <div>
                       <dt className="text-black/50 text-xs">{l.totalTime}</dt>
-                      <dd className="font-medium tabular-nums">{sectorsToMsf(disc.leadOutSector)}</dd>
+                      <dd className="font-medium tabular-nums">
+                        {sectorsToMsf(disc.leadOutSector)}
+                      </dd>
                     </div>
                   </dl>
                 </section>
@@ -459,23 +599,39 @@ export default function DdpPlayerPage() {
                     <div className="min-w-0">
                       <p className="text-sm text-white/80">
                         {String(currentTrack?.number ?? 1).padStart(2, "0")}
-                        {inPause && playerState.playing ? ` · ${l.table.pause}` : ""}
+                        {inPause && playerState.playing
+                          ? ` · ${l.table.pause}`
+                          : ""}
                       </p>
                       <p className="text-lg md:text-2xl font-bold truncate">
-                        {currentTrack?.title || `${l.pqTrack} ${currentTrack?.number ?? 1}`}
+                        {currentTrack?.title ||
+                          `${l.pqTrack} ${currentTrack?.number ?? 1}`}
                       </p>
                     </div>
                     <div className="flex items-center gap-1 md:gap-2 flex-shrink-0">
-                      <button type="button" onClick={previous} aria-label={l.previous} className="p-2 rounded-full hover:bg-black/20">
+                      <button
+                        type="button"
+                        onClick={previous}
+                        aria-label={l.previous}
+                        className="p-2 rounded-full hover:bg-black/20"
+                      >
                         <SkipBack size={22} />
                       </button>
                       <button
                         type="button"
                         onClick={togglePlay}
-                        aria-label={playerState.playing && !playerState.paused ? l.pause : l.play}
+                        aria-label={
+                          playerState.playing && !playerState.paused
+                            ? l.pause
+                            : l.play
+                        }
                         className="p-3 rounded-full bg-white text-black hover:bg-black hover:text-white transition-colors"
                       >
-                        {playerState.playing && !playerState.paused ? <Pause size={24} /> : <Play size={24} />}
+                        {playerState.playing && !playerState.paused ? (
+                          <Pause size={24} />
+                        ) : (
+                          <Play size={24} />
+                        )}
                       </button>
                       <button
                         type="button"
@@ -485,41 +641,65 @@ export default function DdpPlayerPage() {
                       >
                         <Square size={20} />
                       </button>
-                      <button type="button" onClick={next} aria-label={l.next} className="p-2 rounded-full hover:bg-black/20">
+                      <button
+                        type="button"
+                        onClick={next}
+                        aria-label={l.next}
+                        className="p-2 rounded-full hover:bg-black/20"
+                      >
                         <SkipForward size={22} />
                       </button>
                     </div>
                   </div>
                   <div className="flex items-center gap-3 text-sm tabular-nums">
-                    <span className="w-12 text-right">{inPause ? "-" : ""}{formatClock(Math.abs(trackElapsed))}</span>
+                    <span className="w-12 text-right">
+                      {inPause ? "-" : ""}
+                      {formatClock(Math.abs(trackElapsed))}
+                    </span>
                     <div
                       role="slider"
                       tabIndex={0}
                       aria-label={l.seek}
                       aria-valuemin={0}
-                      aria-valuemax={Math.round((trackEnd - trackStart) / SAMPLE_RATE)}
-                      aria-valuenow={Math.round(Math.max(0, trackElapsed) / SAMPLE_RATE)}
+                      aria-valuemax={Math.round(
+                        (trackEnd - trackStart) / SAMPLE_RATE,
+                      )}
+                      aria-valuenow={Math.round(
+                        Math.max(0, trackElapsed) / SAMPLE_RATE,
+                      )}
                       onClick={(e) => seekInTrack(e.clientX, e.currentTarget)}
                       onKeyDown={(e) => {
                         if (!playerRef.current) return;
-                        if (e.key === "ArrowRight") playerRef.current.seek(position + 5 * SAMPLE_RATE);
-                        if (e.key === "ArrowLeft") playerRef.current.seek(Math.max(trackStart, position - 5 * SAMPLE_RATE));
+                        if (e.key === "ArrowRight")
+                          playerRef.current.seek(position + 5 * SAMPLE_RATE);
+                        if (e.key === "ArrowLeft")
+                          playerRef.current.seek(
+                            Math.max(trackStart, position - 5 * SAMPLE_RATE),
+                          );
                       }}
                       className="relative flex-1 h-3 rounded-full bg-black/25 cursor-pointer"
                     >
-                      <div className="absolute inset-y-0 left-0 rounded-full bg-white" style={{ width: `${trackProgress * 100}%` }} />
+                      <div
+                        className="absolute inset-y-0 left-0 rounded-full bg-white"
+                        style={{ width: `${trackProgress * 100}%` }}
+                      />
                     </div>
-                    <span className="w-12">{formatClock(trackEnd - trackStart)}</span>
+                    <span className="w-12">
+                      {formatClock(trackEnd - trackStart)}
+                    </span>
                   </div>
                   <div className="flex flex-wrap items-center justify-between gap-2 text-xs text-white/80">
                     <span className="tabular-nums">
-                      {sectorsToMsf(position / SAMPLES_PER_SECTOR)} / {sectorsToMsf(disc.leadOutSector)}
+                      {sectorsToMsf(position / SAMPLES_PER_SECTOR)} /{" "}
+                      {sectorsToMsf(disc.leadOutSector)}
                     </span>
                     <label className="flex items-center gap-2">
                       {l.byteOrder}
                       <select
                         value={byteOrder}
-                        onChange={(e) => changeByteOrder(e.target.value as ByteOrder)}
+                        onChange={(e) =>
+                          changeByteOrder(e.target.value as ByteOrder)
+                        }
                         className="bg-black/20 rounded-full px-2 py-0.5 text-white"
                       >
                         <option value="little">{l.byteOrderLittle}</option>
@@ -527,7 +707,9 @@ export default function DdpPlayerPage() {
                       </select>
                     </label>
                   </div>
-                  {!byteOrderConfident && <p className="text-xs text-white">{l.byteOrderUncertain}</p>}
+                  {!byteOrderConfident && (
+                    <p className="text-xs text-white">{l.byteOrderUncertain}</p>
+                  )}
                 </section>
 
                 {/* Track list */}
@@ -535,18 +717,33 @@ export default function DdpPlayerPage() {
                   <table className="w-full text-sm md:text-base text-white">
                     <thead className="text-white/50 text-xs uppercase tracking-wide">
                       <tr className="border-b border-white/10">
-                        <th className="text-left font-medium px-3 py-2 w-10">{l.table.number}</th>
-                        <th className="text-left font-medium px-3 py-2">{l.table.title}</th>
-                        <th className="text-left font-medium px-3 py-2 hidden md:table-cell">{l.table.isrc}</th>
-                        <th className="text-right font-medium px-3 py-2 hidden lg:table-cell">{l.table.pause}</th>
-                        <th className="text-right font-medium px-3 py-2 hidden lg:table-cell">{l.table.start}</th>
-                        <th className="text-right font-medium px-3 py-2 hidden lg:table-cell">{l.table.end}</th>
-                        <th className="text-right font-medium px-3 py-2">{l.table.duration}</th>
+                        <th className="text-left font-medium px-3 py-2 w-10">
+                          {l.table.number}
+                        </th>
+                        <th className="text-left font-medium px-3 py-2">
+                          {l.table.title}
+                        </th>
+                        <th className="text-left font-medium px-3 py-2 hidden md:table-cell">
+                          {l.table.isrc}
+                        </th>
+                        <th className="text-right font-medium px-3 py-2 hidden lg:table-cell">
+                          {l.table.pause}
+                        </th>
+                        <th className="text-right font-medium px-3 py-2 hidden lg:table-cell">
+                          {l.table.start}
+                        </th>
+                        <th className="text-right font-medium px-3 py-2 hidden lg:table-cell">
+                          {l.table.end}
+                        </th>
+                        <th className="text-right font-medium px-3 py-2">
+                          {l.table.duration}
+                        </th>
                       </tr>
                     </thead>
                     <tbody>
                       {disc.tracks.map((track, i) => {
-                        const active = i === currentTrackIndex && playerState.playing;
+                        const active =
+                          i === currentTrackIndex && playerState.playing;
                         return (
                           <tr
                             key={track.number}
@@ -555,24 +752,45 @@ export default function DdpPlayerPage() {
                               active ? "bg-red text-white" : "hover:bg-white/10"
                             }`}
                           >
-                            <td className="px-3 py-2.5 tabular-nums">{String(track.number).padStart(2, "0")}</td>
+                            <td className="px-3 py-2.5 tabular-nums">
+                              {String(track.number).padStart(2, "0")}
+                            </td>
                             <td className="px-3 py-2.5">
                               <span className="block truncate max-w-[50vw] md:max-w-xs lg:max-w-sm">
-                                {track.title || <span className="text-white/40">{l.untitled}</span>}
+                                {track.title || (
+                                  <span className="text-white/40">
+                                    {l.untitled}
+                                  </span>
+                                )}
                               </span>
-                              {track.performer && track.performer !== disc.albumPerformer && (
-                                <span className="block text-xs text-white/60 truncate">{track.performer}</span>
-                              )}
-                              <span className="md:hidden block text-xs text-white/50 tabular-nums">{track.isrc}</span>
+                              {track.performer &&
+                                track.performer !== disc.albumPerformer && (
+                                  <span className="block text-xs text-white/60 truncate">
+                                    {track.performer}
+                                  </span>
+                                )}
+                              <span className="md:hidden block text-xs text-white/50 tabular-nums">
+                                {track.isrc}
+                              </span>
                             </td>
-                            <td className="px-3 py-2.5 hidden md:table-cell tabular-nums">{track.isrc || "-"}</td>
+                            <td className="px-3 py-2.5 hidden md:table-cell tabular-nums">
+                              {track.isrc || "-"}
+                            </td>
                             <td className="px-3 py-2.5 text-right hidden lg:table-cell tabular-nums">
-                              {sectorsToMsf(track.startSector - track.pregapSector)}
+                              {sectorsToMsf(
+                                track.startSector - track.pregapSector,
+                              )}
                             </td>
-                            <td className="px-3 py-2.5 text-right hidden lg:table-cell tabular-nums">{sectorsToMsf(track.startSector)}</td>
-                            <td className="px-3 py-2.5 text-right hidden lg:table-cell tabular-nums">{sectorsToMsf(track.endSector)}</td>
+                            <td className="px-3 py-2.5 text-right hidden lg:table-cell tabular-nums">
+                              {sectorsToMsf(track.startSector)}
+                            </td>
+                            <td className="px-3 py-2.5 text-right hidden lg:table-cell tabular-nums">
+                              {sectorsToMsf(track.endSector)}
+                            </td>
                             <td className="px-3 py-2.5 text-right tabular-nums">
-                              {sectorsToMsf(track.endSector - track.startSector)}
+                              {sectorsToMsf(
+                                track.endSector - track.startSector,
+                              )}
                             </td>
                           </tr>
                         );
@@ -600,10 +818,15 @@ export default function DdpPlayerPage() {
                           <span className="truncate">
                             {l.md5Running} {md5.file}
                           </span>
-                          <span className="tabular-nums">{Math.floor(md5.progress * 100)}%</span>
+                          <span className="tabular-nums">
+                            {Math.floor(md5.progress * 100)}%
+                          </span>
                         </div>
                         <div className="h-3 rounded-full bg-white/15 overflow-hidden">
-                          <div className="h-full bg-red rounded-full" style={{ width: `${md5.progress * 100}%` }} />
+                          <div
+                            className="h-full bg-red rounded-full"
+                            style={{ width: `${md5.progress * 100}%` }}
+                          />
                         </div>
                         <button
                           type="button"
@@ -617,8 +840,14 @@ export default function DdpPlayerPage() {
                     {md5.status === "done" && (
                       <div className="flex flex-col gap-2 text-sm">
                         {md5.reference ? (
-                          <p className={`font-bold ${md5AllOk ? "text-white" : "text-red"} flex items-center gap-2`}>
-                            {md5AllOk ? <Check size={18} /> : <XIcon size={18} />}
+                          <p
+                            className={`font-bold ${md5AllOk ? "text-white" : "text-red"} flex items-center gap-2`}
+                          >
+                            {md5AllOk ? (
+                              <Check size={18} />
+                            ) : (
+                              <XIcon size={18} />
+                            )}
                             {md5AllOk ? l.md5Ok : l.md5Ko}
                           </p>
                         ) : (
@@ -626,18 +855,35 @@ export default function DdpPlayerPage() {
                         )}
                         <ul className="space-y-1">
                           {md5.results.map((r) => (
-                            <li key={r.file} className="flex flex-col rounded-[6px] bg-black/40 px-3 py-2">
+                            <li
+                              key={r.file}
+                              className="flex flex-col rounded-[6px] bg-black/40 px-3 py-2"
+                            >
                               <span className="flex justify-between gap-2">
                                 <span className="truncate">{r.file}</span>
                                 <span
                                   className={`font-bold ${
-                                    !md5.reference ? "text-white/60" : r.status === "ok" ? "text-white" : "text-red"
+                                    !md5.reference
+                                      ? "text-white/60"
+                                      : r.status === "ok"
+                                        ? "text-white"
+                                        : "text-red"
                                   }`}
                                 >
-                                  {!md5.reference ? l.md5Computed : r.status === "ok" ? "OK" : r.status === "ko" ? "KO" : l.md5Missing}
+                                  {!md5.reference
+                                    ? l.md5Computed
+                                    : r.status === "ok"
+                                      ? "OK"
+                                      : r.status === "ko"
+                                        ? "KO"
+                                        : l.md5Missing}
                                 </span>
                               </span>
-                              {r.actual && <span className="text-xs text-white/50 font-mono break-all">{r.actual}</span>}
+                              {r.actual && (
+                                <span className="text-xs text-white/50 font-mono break-all">
+                                  {r.actual}
+                                </span>
+                              )}
                             </li>
                           ))}
                         </ul>
@@ -683,21 +929,41 @@ export default function DdpPlayerPage() {
                     <table className="w-full text-sm tabular-nums">
                       <thead className="text-white/50 text-xs uppercase">
                         <tr>
-                          <th className="text-left font-medium py-1 pr-3">{l.pqTrack}</th>
-                          <th className="text-left font-medium py-1 pr-3">{l.pqIndex}</th>
-                          <th className="text-left font-medium py-1 pr-3">{l.pqTime}</th>
-                          <th className="text-left font-medium py-1 pr-3">{l.pqControl}</th>
-                          <th className="text-left font-medium py-1 pr-3">ISRC</th>
-                          <th className="text-left font-medium py-1">UPC/EAN</th>
+                          <th className="text-left font-medium py-1 pr-3">
+                            {l.pqTrack}
+                          </th>
+                          <th className="text-left font-medium py-1 pr-3">
+                            {l.pqIndex}
+                          </th>
+                          <th className="text-left font-medium py-1 pr-3">
+                            {l.pqTime}
+                          </th>
+                          <th className="text-left font-medium py-1 pr-3">
+                            {l.pqControl}
+                          </th>
+                          <th className="text-left font-medium py-1 pr-3">
+                            ISRC
+                          </th>
+                          <th className="text-left font-medium py-1">
+                            UPC/EAN
+                          </th>
                         </tr>
                       </thead>
                       <tbody>
                         {disc.pq.map((e, i) => (
                           <tr key={i} className="border-t border-white/5">
-                            <td className="py-1 pr-3">{e.track === "AA" ? l.leadOut : e.track}</td>
-                            <td className="py-1 pr-3">{String(e.index).padStart(2, "0")}</td>
+                            <td className="py-1 pr-3">
+                              {e.track === "AA" ? l.leadOut : e.track}
+                            </td>
+                            <td className="py-1 pr-3">
+                              {String(e.index).padStart(2, "0")}
+                            </td>
                             <td className="py-1 pr-3">{e.msf}</td>
-                            <td className="py-1 pr-3">{[e.control1, e.control2].filter(Boolean).join(" ") || "-"}</td>
+                            <td className="py-1 pr-3">
+                              {[e.control1, e.control2]
+                                .filter(Boolean)
+                                .join(" ") || "-"}
+                            </td>
                             <td className="py-1 pr-3">{e.isrc || "-"}</td>
                             <td className="py-1">{e.upc || "-"}</td>
                           </tr>
