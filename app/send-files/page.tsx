@@ -13,8 +13,7 @@ import { PrepareFiles } from "./components/PrepareFiles";
 
 // Form tabs: the form (left) takes about two thirds of the width, the
 // headline + illustration (right) only a narrow column.
-const FORM_GRID =
-  "md:grid-cols-[minmax(0,2fr)_minmax(0,1fr)] xl:grid-cols-[minmax(0,2.4fr)_minmax(0,1fr)] gap-6 md:gap-8 xl:gap-12";
+const FORM_GRID = "md:grid-cols-2 gap-6 md:gap-4 xl:gap-8";
 
 type SubjectKey = "audio-files" | "production-sheet" | "prepare-files";
 
