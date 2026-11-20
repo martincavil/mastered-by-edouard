@@ -253,13 +253,35 @@ export default function DdpPlayerPage() {
   const md5AllOk = md5.status === "done" && md5.reference && md5.results.every((r) => r.status === "ok");
 
   // ---------- Render ----------
+  const faqBlock = (
+    <>
+  {/* FAQ */}
+  <section className="flex flex-col gap-3 text-white">
+    <h2 className="text-3xl md:text-4xl font-bold">{l.faqTitle}</h2>
+    <div className="flex flex-col gap-2">
+      {l.faq.map((item) => (
+        <details key={item.question} className="group rounded-[10px] bg-white/5 border border-white/10">
+          <summary className="cursor-pointer list-none flex items-center justify-between px-5 py-3 text-base md:text-lg">
+            {item.question}
+            <span className="text-red text-2xl leading-none transition-transform group-open:rotate-45">+</span>
+          </summary>
+          <p className="px-5 pb-4 text-white/70 font-light">{item.answer}</p>
+        </details>
+      ))}
+    </div>
+  </section>
+
+  <p className="text-white/40 text-xs">{l.trademark}</p>
+    </>
+  );
+
   const pill =
     "inline-flex items-center justify-center gap-2 rounded-full border px-4 py-1.5 text-sm md:text-base transition-colors duration-300";
 
   return (
     <PageTransition>
       <main className="h-full flex flex-col bg-black pb-8 md:pb-0 pt-8 md:pt-4 xl:pt-6 2xl:pt-8 md:px-8 px-5 overflow-hidden">
-        <div className="flex-1 flex flex-col overflow-y-auto min-h-0">
+        <div className={`flex-1 flex flex-col overflow-y-auto min-h-0 ${disc ? "" : "md:overflow-y-hidden"}`}>
           {/* Header */}
           <div className="flex items-center justify-between mb-3 md:mb-1.5 xl:mb-5 2xl:mb-10">
             <h1 className="text-4xl md:text-5xl xl:text-6xl 2xl:text-[80px] font-bold text-white">{l.title}</h1>
@@ -285,7 +307,14 @@ export default function DdpPlayerPage() {
             </div>
           </div>
 
-          <div className="flex flex-col gap-6 md:gap-8 pb-8 max-w-6xl w-full">
+          <div
+            className={
+              disc
+                ? "flex flex-col gap-6 md:gap-8 pb-8 max-w-6xl w-full"
+                : "grid md:grid-cols-2 gap-6 md:gap-8 xl:gap-12 pb-4 w-full md:flex-1 md:min-h-0"
+            }
+          >
+            <div className={disc ? "contents" : "flex flex-col gap-4 md:gap-5 min-h-0"}>
             {/* Intro + local notice */}
             <div className="flex flex-col gap-3">
               <p className="text-white/80 font-light text-base md:text-lg max-w-3xl">{l.intro}</p>
@@ -310,7 +339,7 @@ export default function DdpPlayerPage() {
                 }}
                 onDragLeave={() => setIsDragging(false)}
                 onDrop={handleDrop}
-                className={`rounded-[10px] border-2 border-dashed px-6 py-12 md:py-16 flex flex-col items-center justify-center gap-5 text-center transition-colors ${
+                className={`rounded-[10px] border-2 border-dashed px-6 py-10 md:py-6 md:flex-1 md:min-h-0 flex flex-col items-center justify-center gap-5 text-center transition-colors ${
                   isDragging ? "border-red bg-white/10" : "border-white/40 bg-white/5"
                 }`}
               >
@@ -392,6 +421,11 @@ export default function DdpPlayerPage() {
                 />
               </div>
             )}
+
+            </div>
+
+            {/* Empty state: FAQ in the right column */}
+            {!disc && <div className="flex flex-col gap-3 min-h-0 md:overflow-y-auto">{faqBlock}</div>}
 
             {disc && playerState && (
               <>
@@ -676,23 +710,7 @@ export default function DdpPlayerPage() {
               </>
             )}
 
-            {/* FAQ */}
-            <section className="flex flex-col gap-3 text-white">
-              <h2 className="text-3xl md:text-4xl font-bold">{l.faqTitle}</h2>
-              <div className="flex flex-col gap-2">
-                {l.faq.map((item) => (
-                  <details key={item.question} className="group rounded-[10px] bg-white/5 border border-white/10">
-                    <summary className="cursor-pointer list-none flex items-center justify-between px-5 py-3 text-base md:text-lg">
-                      {item.question}
-                      <span className="text-red text-2xl leading-none transition-transform group-open:rotate-45">+</span>
-                    </summary>
-                    <p className="px-5 pb-4 text-white/70 font-light">{item.answer}</p>
-                  </details>
-                ))}
-              </div>
-            </section>
-
-            <p className="text-white/40 text-xs">{l.trademark}</p>
+            {disc && faqBlock}
           </div>
 
           <div className="mt-auto shrink-0">
