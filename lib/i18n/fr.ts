@@ -340,7 +340,6 @@ export const fr: Translations = {
     byteOrderLittle: "little-endian",
     byteOrderBig: "big-endian",
     byteOrderUncertain: "Détection incertaine (audio très calme ?) : changez l'ordre des octets si le son est un bruit blanc.",
-    preEmphasis: "pré-accentuation",
     pqEvents: "événements PQ",
     pqTrack: "piste",
     pqIndex: "index",

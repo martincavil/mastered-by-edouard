@@ -337,7 +337,6 @@ export const en: Translations = {
     byteOrderLittle: "little-endian",
     byteOrderBig: "big-endian",
     byteOrderUncertain: "Uncertain detection (very quiet audio?): switch the byte order if you hear white noise.",
-    preEmphasis: "pre-emphasis",
     pqEvents: "PQ events",
     pqTrack: "track",
     pqIndex: "index",

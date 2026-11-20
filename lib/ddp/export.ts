@@ -29,12 +29,11 @@ export function pqRows(disc: DdpDisc) {
     start: sectorsToMsf(t.startSector),
     end: sectorsToMsf(t.endSector),
     duration: sectorsToMsf(t.endSector - t.startSector),
-    preEmphasis: t.preEmphasis ? "yes" : "no",
   }));
 }
 
 export function exportPqCsv(disc: DdpDisc) {
-  const header = ["track", "title", "performer", "ISRC", "pause", "start", "end", "duration", "pre-emphasis"];
+  const header = ["track", "title", "performer", "ISRC", "pause", "start", "end", "duration"];
   const lines = [
     `# album;${csvCell(disc.albumTitle)}`,
     `# artist;${csvCell(disc.albumPerformer)}`,
@@ -42,7 +41,7 @@ export function exportPqCsv(disc: DdpDisc) {
     `# lead-out;${sectorsToMsf(disc.leadOutSector)}`,
     header.join(";"),
     ...pqRows(disc).map((r) =>
-      [r.track, r.title, r.performer, r.isrc, r.pause, r.start, r.end, r.duration, r.preEmphasis].map(csvCell).join(";"),
+      [r.track, r.title, r.performer, r.isrc, r.pause, r.start, r.end, r.duration].map(csvCell).join(";"),
     ),
   ];
   // BOM so Excel opens accents correctly

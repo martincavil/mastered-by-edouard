@@ -563,7 +563,6 @@ export default function DdpPlayerPage() {
                               {track.performer && track.performer !== disc.albumPerformer && (
                                 <span className="block text-xs text-white/60 truncate">{track.performer}</span>
                               )}
-                              {track.preEmphasis && <span className="text-xs text-white/60">{l.preEmphasis}</span>}
                               <span className="md:hidden block text-xs text-white/50 tabular-nums">{track.isrc}</span>
                             </td>
                             <td className="px-3 py-2.5 hidden md:table-cell tabular-nums">{track.isrc || "-"}</td>

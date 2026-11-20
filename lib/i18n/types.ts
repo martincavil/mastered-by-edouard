@@ -314,7 +314,6 @@ export type Translations = {
     byteOrderLittle: string;
     byteOrderBig: string;
     byteOrderUncertain: string;
-    preEmphasis: string;
     pqEvents: string;
     pqTrack: string;
     pqIndex: string;

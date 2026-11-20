@@ -95,7 +95,6 @@ export interface DdpTrack {
   startSector: number;
   /** Sector where the next track (index 00 or 01) or the lead-out begins */
   endSector: number;
-  preEmphasis: boolean;
   indexes: { index: number; sector: number }[];
 }
 
@@ -341,19 +340,17 @@ export async function parseDdp(files: DdpFiles): Promise<DdpDisc> {
     const idx1 = entries.find((e) => e.index === 1) ?? entries[0];
     const idx0 = entries.find((e) => e.index === 0);
     const text = cdText?.tracks[n] ?? {};
-    // Control 1 holds the Q-channel control bits as hex; bit 0 = pre-emphasis
-    const control = Number.parseInt(idx1.control1 || "0", 16);
     return {
       number: n,
       title: text[0x80] ?? "",
       performer: text[0x81] ?? "",
       songwriter: text[0x82] ?? "",
       composer: text[0x83] ?? "",
-      isrc: idx1.isrc || text[0x8e] || map.find((m) => Number(m.trk) === n && m.isrc)?.isrc || "",
+      // Some tools put the ISRC on index 00 instead of index 01
+      isrc: idx1.isrc || entries.find((e) => e.isrc)?.isrc || text[0x8e] || map.find((m) => Number(m.trk) === n && m.isrc)?.isrc || "",
       pregapSector: idx0 ? idx0.sector : idx1.sector,
       startSector: idx1.sector,
       endSector: 0,
-      preEmphasis: Number.isFinite(control) && (control & 0x01) === 1,
       indexes: entries.map((e) => ({ index: e.index, sector: e.sector })),
     };
   });
