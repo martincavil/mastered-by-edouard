@@ -6,7 +6,6 @@ import Link from "next/link";
 import { useState, useRef, ChangeEvent, FormEvent } from "react";
 import { UploadProgressScreen } from "@/components/upload-progress-screen";
 import { useUploadTracker } from "@/lib/use-upload-tracker";
-import { generateProductionSheetPDF } from "@/lib/pdf/generateProductionSheet";
 import {
   createDropboxFolder,
   getDropboxUploadToken,
@@ -338,10 +337,14 @@ export function ProductionSheet({
     ]);
 
     try {
-      const pdfBlob = await generateProductionSheetPDF(
-        { ...formData, tracks },
-        coverFile,
-      );
+      // PDF generated server-side (pdf-lib), as before
+      const pdfResponse = await fetch("/api/production-sheet-fill", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ...formData, tracks }),
+      });
+      if (!pdfResponse.ok) throw new Error("Failed to generate PDF");
+      const pdfBlob = await pdfResponse.blob();
 
       const uploads: { name: string; blob: Blob }[] = [
         { name: pdfName, blob: pdfBlob },
