@@ -16,7 +16,7 @@ interface NavigationButtonsProps {
 }
 
 const primaryClass =
-  "flex-1 bg-red-dark text-white font-bold text-lg px-6 py-2.5 2xl:py-3.5 rounded-[10px] hover:bg-black transition-colors duration-300 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-red-dark";
+  "flex-1 bg-red-dark text-white font-bold text-lg px-6 py-2.5 2xl:py-3 rounded-[10px] hover:bg-black transition-colors duration-300 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-red-dark";
 
 export function NavigationButtons({
   currentStep,
@@ -49,7 +49,7 @@ export function NavigationButtons({
           <button
             type="button"
             onClick={onBack}
-            className="bg-white text-black font-bold px-5 py-2.5 2xl:py-3.5 rounded-[10px] hover:bg-black hover:text-white transition-colors duration-300 flex items-center justify-center gap-2"
+            className="bg-white text-black font-bold px-5 py-2.5  rounded-[10px] hover:bg-black hover:text-white transition-colors duration-300 flex items-center justify-center gap-2"
           >
             <ArrowLeft size={18} />
             {labels.back}
@@ -71,7 +71,11 @@ export function NavigationButtons({
         )}
 
         {currentStep === 3 && (
-          <button type="submit" disabled={isSubmitting || !allInfoChecked} className={primaryClass}>
+          <button
+            type="submit"
+            disabled={isSubmitting || !allInfoChecked}
+            className={primaryClass}
+          >
             {labels.sendDocument}
             <ArrowUpRight size={20} />
           </button>
@@ -88,7 +92,11 @@ interface StepIndicatorProps {
   onStepClick: (step: number) => void;
 }
 
-export function StepIndicator({ currentStep, t, onStepClick }: StepIndicatorProps) {
+export function StepIndicator({
+  currentStep,
+  t,
+  onStepClick,
+}: StepIndicatorProps) {
   const labels = t.sendFiles.productionSheet;
   const steps = [labels.step1Title, labels.step2Title, labels.step3Title];
 
@@ -114,7 +122,9 @@ export function StepIndicator({ currentStep, t, onStepClick }: StepIndicatorProp
               />
               <span
                 className={`block mt-1.5 text-xs 2xl:text-sm truncate ${
-                  isCurrent ? "text-black font-bold" : "text-black/50 group-enabled:group-hover:text-black"
+                  isCurrent
+                    ? "text-black font-bold"
+                    : "text-black/50 group-enabled:group-hover:text-black"
                 }`}
               >
                 {step}. {title.replace(/\.$/, "")}

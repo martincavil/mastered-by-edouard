@@ -18,7 +18,10 @@ import { FormStep1 } from "./production-sheet/FormStep1";
 import { FormStep2 } from "./production-sheet/FormStep2";
 import { FormStep3 } from "./production-sheet/FormStep3";
 import { SuccessView } from "./production-sheet/SuccessView";
-import { NavigationButtons, StepIndicator } from "./production-sheet/NavigationButtons";
+import {
+  NavigationButtons,
+  StepIndicator,
+} from "./production-sheet/NavigationButtons";
 import { Button } from "@/components/button";
 
 interface FormData {
@@ -49,7 +52,10 @@ interface ProductionSheetProps {
   setIsUploading: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export function ProductionSheet({ isUploading, setIsUploading }: ProductionSheetProps) {
+export function ProductionSheet({
+  isUploading,
+  setIsUploading,
+}: ProductionSheetProps) {
   const t = useTranslations();
   const [currentStep, setCurrentStep] = useState(1);
   const [submitSuccess, setSubmitSuccess] = useState(false);
@@ -313,22 +319,35 @@ export function ProductionSheet({ isUploading, setIsUploading }: ProductionSheet
 
     const artistName = sanitizeForDropbox(formData.artist.toLowerCase());
     const pdfName = `${artistName}-production_sheet.pdf`;
-    const coverName = coverFile ? `cover.${coverFile.name.split(".").pop()}` : null;
+    const coverName = coverFile
+      ? `cover.${coverFile.name.split(".").pop()}`
+      : null;
 
     // Show the screen right away, with a size estimate for the PDF until it exists
-    const plannedNames = [pdfName, ...(coverName ? [coverName] : []), ...otherFiles.map((f) => f.name)];
+    const plannedNames = [
+      pdfName,
+      ...(coverName ? [coverName] : []),
+      ...otherFiles.map((f) => f.name),
+    ];
     tracker.start([
       { name: pdfName, size: 200 * 1024 },
-      ...(coverFile && coverName ? [{ name: coverName, size: coverFile.size }] : []),
+      ...(coverFile && coverName
+        ? [{ name: coverName, size: coverFile.size }]
+        : []),
       ...otherFiles.map((f) => ({ name: f.name, size: f.size })),
     ]);
 
     try {
-      const pdfBlob = await generateProductionSheetPDF({ ...formData, tracks }, coverFile);
+      const pdfBlob = await generateProductionSheetPDF(
+        { ...formData, tracks },
+        coverFile,
+      );
 
       const uploads: { name: string; blob: Blob }[] = [
         { name: pdfName, blob: pdfBlob },
-        ...(coverFile && coverName ? [{ name: coverName, blob: coverFile as Blob }] : []),
+        ...(coverFile && coverName
+          ? [{ name: coverName, blob: coverFile as Blob }]
+          : []),
         ...otherFiles.map((f) => ({ name: f.name, blob: f as Blob })),
       ];
       // Real sizes now that the PDF is generated
@@ -356,20 +375,26 @@ export function ProductionSheet({ isUploading, setIsUploading }: ProductionSheet
 
       // Notification + confirmation emails (non-blocking: files are already on Dropbox)
       try {
-        const emailResponse = await fetch("/api/production-sheet-notification", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            name: formData.name,
-            email: formData.email,
-            artist: formData.artist,
-            projectTitle: formData.projectTitle,
-            fileNames: plannedNames,
-            folderPath,
-          }),
-        });
+        const emailResponse = await fetch(
+          "/api/production-sheet-notification",
+          {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              name: formData.name,
+              email: formData.email,
+              artist: formData.artist,
+              projectTitle: formData.projectTitle,
+              fileNames: plannedNames,
+              folderPath,
+            }),
+          },
+        );
         if (!emailResponse.ok) {
-          console.error("Production sheet notification failed:", await emailResponse.text());
+          console.error(
+            "Production sheet notification failed:",
+            await emailResponse.text(),
+          );
         }
       } catch (emailError) {
         console.error("Production sheet notification failed:", emailError);
@@ -394,10 +419,14 @@ export function ProductionSheet({ isUploading, setIsUploading }: ProductionSheet
     <div className="hidden md:flex flex-col justify-between items-end relative min-h-0">
       <div className="flex flex-col self-start text-5xl lg:text-7xl xl:text-[90px] 2xl:text-[100px] font-bold !leading-[0.8]">
         <span className="text-white">
-          {submitSuccess ? t.sendFiles.productionSheet.headlineSuccess1 : t.sendFiles.productionSheet.headline1}
+          {submitSuccess
+            ? t.sendFiles.productionSheet.headlineSuccess1
+            : t.sendFiles.productionSheet.headline1}
         </span>
         <span className="text-black">
-          {submitSuccess ? t.sendFiles.productionSheet.headlineSuccess2 : t.sendFiles.productionSheet.headline2}
+          {submitSuccess
+            ? t.sendFiles.productionSheet.headlineSuccess2
+            : t.sendFiles.productionSheet.headline2}
         </span>
       </div>
       <Image
@@ -414,7 +443,9 @@ export function ProductionSheet({ isUploading, setIsUploading }: ProductionSheet
     return (
       <UploadProgressScreen
         uploadProgress={tracker.progress}
-        uploadedFiles={tracker.files.filter((f) => f.status === "done").map((f) => f.name)}
+        uploadedFiles={tracker.files
+          .filter((f) => f.status === "done")
+          .map((f) => f.name)}
         totalFiles={tracker.files.length}
         allFiles={tracker.files.map((f) => f.name)}
         onClose={() => {}}
@@ -424,12 +455,14 @@ export function ProductionSheet({ isUploading, setIsUploading }: ProductionSheet
 
   return (
     <>
-
       <div className="hidden md:flex flex-col gap-2 2xl:gap-3 min-h-0 h-full">
         {submitSuccess ? (
           <SuccessView t={t} />
         ) : (
-          <form onSubmit={handleSubmit} className="flex flex-col gap-2 2xl:gap-3 min-h-0 h-full">
+          <form
+            onSubmit={handleSubmit}
+            className="flex flex-col gap-2 2xl:gap-3 min-h-0 h-full"
+          >
             <div className="bg-white px-6 py-5 2xl:py-8 2xl:px-8 rounded-[10px] flex-1 min-h-[360px] overflow-y-auto relative flex flex-col">
               <StepIndicator
                 currentStep={currentStep}
@@ -475,7 +508,11 @@ export function ProductionSheet({ isUploading, setIsUploading }: ProductionSheet
 
                 {/* STEP 3 - CREDITS */}
                 {currentStep === 3 && (
-                  <FormStep3 formData={formData} t={t} onInputChange={handleInputChange} />
+                  <FormStep3
+                    formData={formData}
+                    t={t}
+                    onInputChange={handleInputChange}
+                  />
                 )}
               </div>
 
@@ -483,7 +520,9 @@ export function ProductionSheet({ isUploading, setIsUploading }: ProductionSheet
                 <div
                   role="alert"
                   className={`mt-3 py-2 px-4 rounded-[10px] text-sm ${
-                    message.type === "success" ? "bg-green-500/20 text-green-700" : "bg-red/10 text-red"
+                    message.type === "success"
+                      ? "bg-green-500/20 text-green-700"
+                      : "bg-red/10 text-red"
                   }`}
                 >
                   {message.text}
@@ -507,7 +546,11 @@ export function ProductionSheet({ isUploading, setIsUploading }: ProductionSheet
         {!submitSuccess && (
           <p className="text-black text-sm 2xl:text-base font-light">
             {t.sendFiles.productionSheet.termsAndConditions.beforeLink}{" "}
-            <Link href="/terms-and-conditions" target="_blank" className="font-medium hover:underline">
+            <Link
+              href="/terms-and-conditions"
+              target="_blank"
+              className="font-medium hover:underline"
+            >
               {t.sendFiles.productionSheet.termsAndConditions.linkText}
             </Link>
             {t.sendFiles.productionSheet.termsAndConditions.afterLink}
