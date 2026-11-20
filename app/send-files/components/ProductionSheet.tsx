@@ -8,7 +8,6 @@ import { UploadProgressScreen } from "@/components/upload-progress-screen";
 import { useUploadTracker } from "@/lib/use-upload-tracker";
 import { generateProductionSheetPDF } from "@/lib/pdf/generateProductionSheet";
 import {
-  UploadAbortedError,
   createDropboxFolder,
   getDropboxUploadToken,
   sanitizeForDropbox,
@@ -300,8 +299,6 @@ export function ProductionSheet({ isUploading, setIsUploading }: ProductionSheet
     setErrors({});
   };
 
-  const handleCancel = () => abortRef.current?.abort();
-
   // Submit: PDF generated in the browser, then every file (PDF, cover, other
   // files) is uploaded directly to Dropbox, one after the other. Progress is
   // computed on the total bytes of all of them.
@@ -382,14 +379,9 @@ export function ProductionSheet({ isUploading, setIsUploading }: ProductionSheet
       await new Promise((resolve) => setTimeout(resolve, 800));
       setSubmitSuccess(true);
     } catch (error) {
-      const cancelled = error instanceof UploadAbortedError && controller.signal.aborted;
       setMessage({
         type: "error",
-        text: cancelled
-          ? t.sendFiles.uploadScreen.cancelled
-          : error instanceof Error
-            ? error.message
-            : "Failed to submit",
+        text: error instanceof Error ? error.message : "Failed to submit",
       });
     } finally {
       abortRef.current = null;
@@ -418,11 +410,20 @@ export function ProductionSheet({ isUploading, setIsUploading }: ProductionSheet
     </div>
   );
 
+  if (isUploading) {
+    return (
+      <UploadProgressScreen
+        uploadProgress={tracker.progress}
+        uploadedFiles={tracker.files.filter((f) => f.status === "done").map((f) => f.name)}
+        totalFiles={tracker.files.length}
+        allFiles={tracker.files.map((f) => f.name)}
+        onClose={() => {}}
+      />
+    );
+  }
+
   return (
     <>
-      {isUploading && tracker.active && (
-        <UploadProgressScreen progress={tracker.progress} files={tracker.files} onCancel={handleCancel} />
-      )}
 
       <div className="hidden md:flex flex-col gap-2 2xl:gap-3 min-h-0 h-full">
         {submitSuccess ? (

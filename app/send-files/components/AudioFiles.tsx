@@ -9,7 +9,6 @@ import { ArrowUpRight } from "@/components/icons/ArrowUpRight";
 import { UploadProgressScreen } from "@/components/upload-progress-screen";
 import { useUploadTracker } from "@/lib/use-upload-tracker";
 import {
-  UploadAbortedError,
   createDropboxFolder,
   getDropboxUploadToken,
   runWithConcurrency,
@@ -126,8 +125,6 @@ export function AudioFiles({
     return null;
   };
 
-  const handleCancel = () => abortRef.current?.abort();
-
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const error = validate();
@@ -202,14 +199,9 @@ export function AudioFiles({
       setSelectedFiles([]);
       setFormData({ name: "", email: "", projectName: "", message: "", acceptTerms: false });
     } catch (err) {
-      const cancelled = err instanceof UploadAbortedError && controller.signal.aborted;
       setMessage({
         type: "error",
-        text: cancelled
-          ? t.sendFiles.uploadScreen.cancelled
-          : err instanceof Error
-            ? err.message
-            : "Failed to upload files",
+        text: err instanceof Error ? err.message : "Failed to upload files",
       });
     } finally {
       abortRef.current = null;
@@ -245,6 +237,23 @@ export function AudioFiles({
     </div>
   );
 
+  if (isUploading) {
+    return (
+      <UploadProgressScreen
+        uploadProgress={tracker.progress}
+        uploadedFiles={tracker.files.filter((f) => f.status === "done").map((f) => f.name)}
+        totalFiles={tracker.files.length}
+        allFiles={tracker.files.map((f) => f.name)}
+        filesWithProgress={tracker.files.map((f) => ({
+          name: f.name,
+          progress: f.progress,
+          uploading: f.status === "uploading",
+        }))}
+        onClose={() => {}}
+      />
+    );
+  }
+
   if (submitSuccess) {
     return (
       <>
@@ -277,9 +286,6 @@ export function AudioFiles({
 
   return (
     <>
-      {isUploading && tracker.active && (
-        <UploadProgressScreen progress={tracker.progress} files={tracker.files} onCancel={handleCancel} />
-      )}
 
       <form onSubmit={handleSubmit} className="flex flex-col h-full min-h-0 gap-2 2xl:gap-3 md:overflow-y-auto md:pr-1">
         {/* Drop zone card */}

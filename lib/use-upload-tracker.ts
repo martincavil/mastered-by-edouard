@@ -1,10 +1,15 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import type {
-  UploadFileProgress,
-  UploadFileStatus,
-} from "@/components/upload-progress-screen";
+
+export type UploadFileStatus = "pending" | "uploading" | "done" | "error";
+
+export interface UploadFileProgress {
+  name: string;
+  status: UploadFileStatus;
+  /** 0-100, progress of this file */
+  progress: number;
+}
 
 interface TrackedFile {
   name: string;

@@ -11,9 +11,23 @@ import { AudioFiles } from "./components/AudioFiles";
 import { ProductionSheet } from "./components/ProductionSheet";
 import { PrepareFiles } from "./components/PrepareFiles";
 
-// Form tabs: the form (left) takes about two thirds of the width, the
-// headline + illustration (right) only a narrow column.
-const FORM_GRID = "md:grid-cols-2 gap-6 md:gap-4 xl:gap-8";
+// Composant pour l'animation des points
+function AnimatedDots() {
+  const [dots, setDots] = useState("");
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setDots(prev => {
+        if (prev === "...") return "";
+        return prev + ".";
+      });
+    }, 500);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  return <span>{dots}</span>;
+}
 
 type SubjectKey = "audio-files" | "production-sheet" | "prepare-files";
 
@@ -78,7 +92,14 @@ function SendFilesContent() {
             {/* Header */}
             <div className="flex items-center justify-between mb-3 md:mb-3 xl:mb-5 2xl:mb-10">
               <h1 className="text-4xl md:text-5xl xl:text-6xl 2xl:text-[80px] font-bold text-red-dark">
-                {t.sendFiles.title}
+                {isAudioUploading || isProductionUploading ? (
+                  <>
+                    {t.sendFiles.audioFiles.uploadInProgress}
+                    <AnimatedDots />
+                  </>
+                ) : (
+                  t.sendFiles.title
+                )}
               </h1>
               {/* Close button */}
               <div className="overflow-hidden flex-shrink-0">
@@ -178,7 +199,7 @@ function SendFilesContent() {
               <div
                 className={`${
                   selectedSubject === "audio-files" ? "grid" : "hidden"
-                } ${FORM_GRID} animate-fade-in h-full`}
+                } ${isAudioUploading ? "md:grid-cols-1" : "md:grid-cols-[minmax(0,3fr)_minmax(0,2fr)]"} md:gap-4 xl:gap-8 animate-fade-in h-full`}
               >
                 <AudioFiles
                   selectedFiles={audioFiles}
@@ -192,7 +213,7 @@ function SendFilesContent() {
 
               {/* Other tabs - Conditional rendering is fine */}
               {selectedSubject === "production-sheet" && (
-                <div className={`grid ${FORM_GRID} animate-fade-in h-full`}>
+                <div className={`grid ${isProductionUploading ? "md:grid-cols-1" : "md:grid-cols-[minmax(0,3fr)_minmax(0,2fr)]"} md:gap-4 xl:gap-8 animate-fade-in h-full`}>
                   <ProductionSheet
                     isUploading={isProductionUploading}
                     setIsUploading={setIsProductionUploading}
@@ -200,7 +221,7 @@ function SendFilesContent() {
                 </div>
               )}
               {selectedSubject === "prepare-files" && (
-                <div className="grid md:grid-cols-2 md:gap-6 xl:gap-16 2xl:gap-16 animate-fade-in h-full">
+                <div className="grid md:grid-cols-[minmax(0,3fr)_minmax(0,2fr)] md:gap-4 xl:gap-8 animate-fade-in h-full">
                   <PrepareFiles />
                 </div>
               )}
