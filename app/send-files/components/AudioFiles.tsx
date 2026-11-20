@@ -221,7 +221,7 @@ export function AudioFiles({
   // Right column: small headline + illustration (the form dominates the page)
   const aside = (
     <div className="hidden md:flex flex-col justify-between items-end relative min-h-0">
-      <div className="flex flex-col self-start text-3xl lg:text-4xl xl:text-5xl 2xl:text-6xl font-bold !leading-[0.9]">
+      <div className="flex flex-col self-start text-5xl lg:text-7xl xl:text-[90px] 2xl:text-[100px] font-bold !leading-[0.8]">
         {submitSuccess ? (
           <>
             <span className="text-white">{labels.successHeadline1}</span>
