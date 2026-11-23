@@ -62,7 +62,7 @@ export function PrepareFiles({ onBack }: PrepareFilesProps) {
   ];
 
   return (
-    <div className="bg-red-dark rounded-[10px] p-5 md:p-6 xl:p-8 mdshort:p-5 h-full min-h-0 flex flex-col gap-4 xl:gap-6 mdshort:gap-3 overflow-y-auto">
+    <div className="bg-red-dark rounded-[10px] p-5 md:p-6 xl:p-8 mdshort:p-5 h-full min-h-0 flex flex-col gap-4 xl:gap-6 mdshort:gap-3 overflow-y-auto [&>*]:animate-fade-in">
       <h2 className="text-3xl md:text-4xl xl:text-5xl 2xl:text-6xl mdshort:text-4xl font-bold leading-none shrink-0">
         <span className="text-white">{l.headline1}</span>{" "}
         <span className="text-red">{l.headline2}</span>
