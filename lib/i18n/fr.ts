@@ -333,7 +333,6 @@ export const fr: Translations = {
       cdAudioStereo: "CD audio stéréo",
       volume: "volume",
       detailsTitle: "détails.",
-      masterInfo: "informations du master",
       audioFormat: "Format audio",
       audioFormatValue: "44,1 kHz / 16 bits",
       channels: "Canaux",

@@ -280,7 +280,6 @@ export type Translations = {
       cdAudioStereo: string;
       volume: string;
       detailsTitle: string;
-      masterInfo: string;
       audioFormat: string;
       audioFormatValue: string;
       channels: string;

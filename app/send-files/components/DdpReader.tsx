@@ -415,7 +415,7 @@ export function DdpReader() {
   ].filter(Boolean);
 
   return (
-    <div className="bg-white rounded-[10px] h-full min-h-0 p-5 md:p-8 mdshort:p-5 flex flex-col gap-6 mdshort:gap-4 overflow-y-auto">
+    <div className="bg-white rounded-[10px] h-full min-h-0 p-5 md:p-8 mdshort:p-5 flex flex-col gap-6 mdshort:gap-4 overflow-y-auto lg:overflow-hidden">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
         <div className="min-w-0">
@@ -440,8 +440,8 @@ export function DdpReader() {
         </div>
       )}
 
-      <div className="grid lg:grid-cols-[minmax(0,7fr)_minmax(0,3fr)] gap-6 md:gap-8 xl:gap-12 items-start">
-        <div className="flex flex-col gap-6 min-w-0">
+      <div className="grid lg:grid-cols-[minmax(0,7fr)_minmax(0,3fr)] gap-6 md:gap-8 xl:gap-12 lg:flex-1 lg:min-h-0">
+        <div className="flex flex-col gap-6 mdshort:gap-4 min-w-0 lg:min-h-0">
           {/* Player */}
           <section className="rounded-[10px] bg-red-dark text-white p-5 md:p-6 flex flex-col gap-4">
             <div className="flex items-end justify-between gap-4">
@@ -538,9 +538,9 @@ export function DdpReader() {
           </section>
 
           {/* Track list */}
-          <div className="overflow-x-auto">
+          <div className="overflow-x-auto lg:overflow-y-auto lg:min-h-0 lg:flex-1">
             <table className="w-full text-black">
-              <thead className="text-xs uppercase font-bold">
+              <thead className="text-xs uppercase font-bold sticky top-0 bg-white z-[1]">
                 <tr>
                   <th className="text-left px-4 py-2 w-12">{l.table.number}</th>
                   <th className="text-left px-4 py-2">{l.table.title}</th>
@@ -584,13 +584,8 @@ export function DdpReader() {
         </div>
 
         {/* details. */}
-        <aside className="rounded-[10px] bg-[#E5E5E5] p-5 xl:p-6 flex flex-col gap-4 text-black">
+        <aside className="rounded-[10px] bg-[#E5E5E5] p-5 xl:p-6 flex flex-col gap-4 text-black lg:min-h-0 lg:overflow-y-auto">
           <h3 className="text-5xl xl:text-6xl 2xl:text-7xl mdshort:text-5xl font-bold leading-none">{r.detailsTitle}</h3>
-          <div>
-            <p className="text-red text-xs uppercase font-bold">{r.masterInfo}</p>
-            <p className="text-xl 2xl:text-2xl font-bold mt-1">{disc.albumTitle || l.untitled}</p>
-            {disc.albumPerformer && <p className="font-light">{disc.albumPerformer}</p>}
-          </div>
           <dl className="border-y border-black/60 py-3 grid grid-cols-2 gap-y-2 text-sm 2xl:text-base">
             <dt className="font-light">{r.audioFormat}</dt>
             <dd className="font-bold">{r.audioFormatValue}</dd>
