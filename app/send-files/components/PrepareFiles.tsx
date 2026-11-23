@@ -53,11 +53,11 @@ export function PrepareFiles({ onBack }: PrepareFilesProps) {
       ))}
     </div>,
     <div key="stems" className="flex justify-center" aria-hidden="true">
-      <div className="relative w-36 h-24">
-        <span className="absolute left-0 top-1 w-[88px] h-[88px] rounded-full border border-black flex items-center pl-3 text-[10px] font-bold">
+      <div className="relative w-36 h-24 mdshort:w-28 mdshort:h-[76px]">
+        <span className="absolute left-0 top-1 w-[88px] h-[88px] mdshort:w-[70px] mdshort:h-[70px] rounded-full border border-black flex items-center pl-3 text-[10px] font-bold">
           {l.stemsLabels[0]}
         </span>
-        <span className="absolute right-0 top-0 w-[90px] h-[90px] rounded-full bg-red text-white flex items-center justify-end pr-4 text-[10px] font-bold">
+        <span className="absolute right-0 top-0 w-[90px] h-[90px] mdshort:w-[72px] mdshort:h-[72px] rounded-full bg-red text-white flex items-center justify-end pr-4 text-[10px] font-bold">
           {l.stemsLabels[1]}
         </span>
       </div>
@@ -71,23 +71,26 @@ export function PrepareFiles({ onBack }: PrepareFilesProps) {
         <span className="text-red">{l.headline2}</span>
       </h2>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-3 xl:gap-6 flex-1 shrink-0">
+      <div className="flex-1 shrink-0 flex flex-col justify-center py-3 xl:py-6 mdshort:py-2">
+      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-3 xl:gap-6">
         {l.cards.map((card, i) => (
           <div key={card.title} className="bg-white rounded-[10px] p-3 xl:p-4 flex flex-col">
             <div className="flex items-end justify-between px-1 xl:px-2 pb-2 xl:pb-3 border-b border-black/30">
               <span className="text-4xl xl:text-6xl mdshort:text-5xl font-bold text-red leading-none">{i + 1}.</span>
               <span className="text-2xl xl:text-4xl mdshort:text-3xl font-bold text-black leading-none">{card.title}</span>
             </div>
-            <div className="py-4 xl:py-6 min-h-[70px] xl:min-h-[100px] mdshort:py-2 mdshort:min-h-[64px] flex items-center justify-center">
+            <div className="py-3 xl:py-4 min-h-[64px] xl:min-h-[90px] mdshort:py-1 mdshort:min-h-[56px] flex items-center justify-center">
               {illustrations[i]}
             </div>
-            <ul className="list-disc pl-6 pr-2 space-y-3 mdshort:space-y-2 text-black text-sm xl:text-lg mdshort:text-base font-light leading-tight">
+            <ul className="list-disc pl-6 pr-2 space-y-2 xl:space-y-3 mdshort:space-y-1.5 text-black text-sm xl:text-lg mdshort:text-base font-normal leading-tight">
               {card.bullets.map((b) => (
                 <li key={b}>{b}</li>
               ))}
             </ul>
           </div>
         ))}
+      </div>
+
       </div>
 
       <div className="flex justify-end shrink-0">
