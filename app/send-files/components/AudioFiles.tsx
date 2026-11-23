@@ -3,7 +3,7 @@
 import { useTranslations } from "@/lib/i18n/useTranslations";
 import Link from "next/link";
 import { useState, useRef, DragEvent, ChangeEvent, FormEvent, MouseEvent } from "react";
-import { createPortal } from "react-dom";
+import { MorphPanel } from "@/components/morph-panel";
 import { X } from "lucide-react";
 import { ArrowUpRight } from "@/components/icons/ArrowUpRight";
 import { UploadProgressScreen } from "@/components/upload-progress-screen";
@@ -40,7 +40,7 @@ interface AudioFilesProps {
   isUploading: boolean;
   setIsUploading: React.Dispatch<React.SetStateAction<boolean>>;
   /** Opens the "how to prepare your files" screen */
-  onShowPrepare: () => void;
+  onShowPrepare: (origin: DOMRect | null) => void;
   /** Called once the files are on Dropbox (shows the "files sent." screen) */
   onSuccess: () => void;
 }
@@ -81,20 +81,17 @@ export function AudioFiles({
   const formRef = useRef<HTMLFormElement>(null);
   // "how to prepare" opening animation: a dark red panel grows from the
   // button to the whole card, then the prepare screen (same colour) replaces it
-  const [expand, setExpand] = useState<{ from: DOMRect; to: DOMRect; grown: boolean } | null>(null);
+  const [expand, setExpand] = useState<{ from: DOMRect; to: DOMRect } | null>(null);
 
   const openPrepare = (e: MouseEvent<HTMLButtonElement>) => {
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (reduceMotion || !formRef.current) {
-      onShowPrepare();
+      onShowPrepare(null);
       return;
     }
     const from = e.currentTarget.getBoundingClientRect();
     const to = formRef.current.getBoundingClientRect();
-    setExpand({ from, to, grown: false });
-    // Let the panel render at the button size first, then grow it (CSS transition)
-    setTimeout(() => setExpand((x) => (x ? { ...x, grown: true } : x)), 30);
-    setTimeout(onShowPrepare, 550);
+    setExpand({ from, to });
   };
   const tracker = useUploadTracker();
 
@@ -459,22 +456,15 @@ export function AudioFiles({
           <ArrowUpRight size={44} className="flex-shrink-0" />
         </button>
       </div>
-      {expand &&
-        createPortal(
-          <div
-            aria-hidden="true"
-            className="fixed z-[100] bg-red-dark pointer-events-none"
-            style={{
-              top: (expand.grown ? expand.to : expand.from).top,
-              left: (expand.grown ? expand.to : expand.from).left,
-              width: (expand.grown ? expand.to : expand.from).width,
-              height: (expand.grown ? expand.to : expand.from).height,
-              borderRadius: expand.grown ? 10 : 9999,
-              transition: "all 500ms cubic-bezier(0.65, 0, 0.35, 1)",
-            }}
-          />,
-          document.body,
-        )}
+      {expand && (
+        <MorphPanel
+          from={expand.from}
+          to={expand.to}
+          fromRadius={9999}
+          toRadius={10}
+          onDone={() => onShowPrepare(expand.from)}
+        />
+      )}
     </form>
   );
 }

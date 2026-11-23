@@ -1,9 +1,11 @@
 "use client";
 
+import { useRef } from "react";
 import { useTranslations } from "@/lib/i18n/useTranslations";
 
 interface PrepareFilesProps {
-  onBack: () => void;
+  /** Receives the card position so the page can animate the way back */
+  onBack: (cardRect: DOMRect | null) => void;
 }
 
 // Small illustrations of the 4 cards (mockup "mastering starts with a good mix.")
@@ -22,6 +24,7 @@ function Waveform() {
 export function PrepareFiles({ onBack }: PrepareFilesProps) {
   const t = useTranslations();
   const l = t.sendFiles.prepareFiles;
+  const cardRef = useRef<HTMLDivElement>(null);
   const [f16, f24, f32, wav, aif] = l.exportFormats;
 
   const illustrations = [
@@ -62,7 +65,7 @@ export function PrepareFiles({ onBack }: PrepareFilesProps) {
   ];
 
   return (
-    <div className="bg-red-dark rounded-[10px] p-5 md:p-6 xl:p-8 mdshort:p-5 h-full min-h-0 flex flex-col gap-4 xl:gap-6 mdshort:gap-3 overflow-y-auto [&>*]:animate-fade-in">
+    <div ref={cardRef} className="bg-red-dark rounded-[10px] p-5 md:p-6 xl:p-8 mdshort:p-5 h-full min-h-0 flex flex-col gap-4 xl:gap-6 mdshort:gap-3 overflow-y-auto [&>*]:animate-fade-in">
       <h2 className="text-3xl md:text-4xl xl:text-6xl mdshort:text-5xl font-bold leading-none shrink-0">
         <span className="text-white">{l.headline1}</span>{" "}
         <span className="text-red">{l.headline2}</span>
@@ -90,7 +93,7 @@ export function PrepareFiles({ onBack }: PrepareFilesProps) {
       <div className="flex justify-end shrink-0">
         <button
           type="button"
-          onClick={onBack}
+          onClick={() => onBack(cardRef.current?.getBoundingClientRect() ?? null)}
           className="bg-black text-white font-bold text-lg xl:text-3xl mdshort:text-2xl rounded-full px-10 py-2 xl:py-2.5 mdshort:py-1.5 hover:bg-white hover:text-black transition-colors duration-300"
         >
           {l.back}

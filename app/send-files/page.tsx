@@ -1,6 +1,7 @@
 "use client";
 
-import { useState, useEffect, Suspense } from "react";
+import { useState, useEffect, useRef, Suspense } from "react";
+import { MorphPanel } from "@/components/morph-panel";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { useTranslations } from "@/lib/i18n/useTranslations";
@@ -50,6 +51,17 @@ function SendFilesContent() {
     useState<SubjectKey>("audio-files");
   // "how to prepare your files" screen, opened from the audio files form
   const [showPrepare, setShowPrepare] = useState(false);
+  // Position of the "how to prepare" button, to shrink back into it
+  const prepareOriginRef = useRef<DOMRect | null>(null);
+  const [shrink, setShrink] = useState<{ from: DOMRect; to: DOMRect } | null>(null);
+
+  const closePrepare = (cardRect: DOMRect | null) => {
+    setShowPrepare(false);
+    const origin = prepareOriginRef.current;
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (!cardRect || !origin || reduceMotion) return;
+    setShrink({ from: cardRect, to: origin });
+  };
   // "files sent." screen after a successful upload
   const [sent, setSent] = useState<null | "audio" | "label">(null);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -146,12 +158,12 @@ function SendFilesContent() {
 
             {/* Subject buttons - Desktop */}
             {!sent && !isAudioUploading && !isProductionUploading && (
-              <div className="hidden md:flex flex-wrap items-center gap-2 md:gap-3 xl:gap-4 md:mb-3 xl:mb-5 2xl:mb-10 mdshort:mb-3">
+              <div className="hidden md:flex flex-wrap items-center gap-2 md:gap-3 xl:gap-4 md:mb-3 xl:mb-5 2xl:mb-10">
                 {subjects.map((subject) => (
                   <button
                     key={subject.key}
                     onClick={() => selectSubject(subject.key)}
-                    className={`py-1.5 px-4 border rounded-full text-xl md:text-lg lg:text-xl xl:text-2xl 2xl:text-3xl mdshort:text-xl mdshort:py-1 font-extralight relative overflow-hidden ${
+                    className={`py-1.5 px-4 border rounded-full text-xl md:text-lg lg:text-xl xl:text-2xl 2xl:text-3xl font-extralight relative overflow-hidden ${
                       selectedSubject === subject.key
                         ? "bg-black text-white border-black"
                         : "navigation-link bg-transparent text-black border-black"
@@ -223,7 +235,7 @@ function SendFilesContent() {
                   {selectedSubject === "audio-files" && (
                     <div className="h-full animate-fade-in">
                       {showPrepare ? (
-                        <PrepareFiles onBack={() => setShowPrepare(false)} />
+                        <PrepareFiles onBack={closePrepare} />
                       ) : (
                         <AudioFiles
                           selectedFiles={audioFiles}
@@ -232,7 +244,10 @@ function SendFilesContent() {
                           setFormData={setAudioFormData}
                           isUploading={isAudioUploading}
                           setIsUploading={setIsAudioUploading}
-                          onShowPrepare={() => setShowPrepare(true)}
+                          onShowPrepare={(origin) => {
+                            prepareOriginRef.current = origin;
+                            setShowPrepare(true);
+                          }}
                           onSuccess={() => setSent("audio")}
                         />
                       )}
@@ -262,6 +277,16 @@ function SendFilesContent() {
             </div>
           </div>
         </main>
+        {shrink && (
+          <MorphPanel
+            from={shrink.from}
+            to={shrink.to}
+            fromRadius={10}
+            toRadius={9999}
+            fadeOut
+            onDone={() => setShrink(null)}
+          />
+        )}
       </PageTransition>
     </>
   );
