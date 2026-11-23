@@ -297,7 +297,7 @@ export function DdpReader() {
               }}
               onDragLeave={() => setIsDragging(false)}
               onDrop={handleDrop}
-              className={`rounded-[10px] border border-dashed border-black/40 px-6 py-6 xl:py-10 mdshort:py-4 flex-1 min-h-[160px] mdshort:min-h-[130px] flex flex-col items-center justify-center gap-5 text-center transition-colors ${
+              className={`border-dashed-custom rounded-[10px] px-6 py-6 xl:py-10 mdshort:py-4 flex-1 min-h-[160px] mdshort:min-h-[130px] flex flex-col items-center justify-center gap-5 text-center transition-colors ${
                 isDragging ? "bg-black/10" : "bg-[#E5E5E5]"
               }`}
             >
