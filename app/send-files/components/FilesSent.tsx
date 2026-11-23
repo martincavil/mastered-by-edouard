@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useTranslations } from "@/lib/i18n/useTranslations";
+import { useLanguage } from "@/lib/i18n/LanguageProvider";
 import { ArrowUpRight } from "@/components/icons/ArrowUpRight";
 
 interface FilesSentProps {
@@ -12,6 +13,8 @@ interface FilesSentProps {
 /** Success screen shown after an upload (mockup "files sent.") */
 export function FilesSent({ kind }: FilesSentProps) {
   const t = useTranslations();
+  // French accents (é) collide with the line above at 0.85
+  const { locale } = useLanguage();
   const [before, highlight, after] = t.sendFiles.sent[kind];
 
   return (
@@ -27,7 +30,7 @@ export function FilesSent({ kind }: FilesSentProps) {
         />
       </div>
       <div className="flex flex-col items-start gap-6 xl:gap-8">
-        <p className="text-5xl lg:text-7xl xl:text-[90px] 2xl:text-[100px] mdshort:text-7xl font-bold text-black !leading-[0.85]">
+        <p className={`text-5xl lg:text-7xl xl:text-[90px] 2xl:text-[100px] mdshort:text-7xl font-bold text-black ${locale === "fr" ? "!leading-[1.1]" : "!leading-[0.85]"}`}>
           {before}
           <span className="text-red">{highlight}</span>
           {after}
