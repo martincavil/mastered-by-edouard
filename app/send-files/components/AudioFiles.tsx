@@ -364,7 +364,7 @@ export function AudioFiles({
             <button
               type="button"
               onClick={openPrepare}
-              className="bg-black text-white rounded-full px-8 py-1.5 text-sm xl:text-lg mdshort:text-base mdshort:py-1 font-light hover:bg-red-dark transition-colors duration-300"
+              className="bg-black text-white rounded-full text-base xl:text-xl mdshort:text-lg px-8 py-1.5 mdshort:py-1 font-light hover:bg-red-dark transition-colors duration-300"
             >
               {labels.howToPrepare}
             </button>

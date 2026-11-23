@@ -78,7 +78,7 @@ export function PrepareFiles({ onBack }: PrepareFilesProps) {
               <span className="text-4xl xl:text-6xl mdshort:text-5xl font-bold text-red leading-none">{i + 1}.</span>
               <span className="text-2xl xl:text-4xl mdshort:text-3xl font-bold text-black leading-none">{card.title}</span>
             </div>
-            <div className="py-4 xl:py-6 min-h-[70px] xl:min-h-[100px] mdshort:py-3 mdshort:min-h-[70px] flex items-center justify-center">
+            <div className="py-4 xl:py-6 min-h-[70px] xl:min-h-[100px] mdshort:py-2 mdshort:min-h-[64px] flex items-center justify-center">
               {illustrations[i]}
             </div>
             <ul className="list-disc pl-6 pr-2 space-y-3 mdshort:space-y-2 text-black text-sm xl:text-lg mdshort:text-base font-light leading-tight">
@@ -94,7 +94,7 @@ export function PrepareFiles({ onBack }: PrepareFilesProps) {
         <button
           type="button"
           onClick={() => onBack(cardRef.current?.getBoundingClientRect() ?? null)}
-          className="bg-black text-white font-bold text-lg xl:text-3xl mdshort:text-2xl rounded-full px-10 py-2 xl:py-2.5 mdshort:py-1.5 hover:bg-white hover:text-black transition-colors duration-300"
+          className="bg-black text-white font-bold text-base xl:text-xl mdshort:text-lg px-8 py-1.5 mdshort:py-1 rounded-full hover:bg-white hover:text-black transition-colors duration-300"
         >
           {l.back}
         </button>
