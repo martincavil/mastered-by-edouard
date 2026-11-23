@@ -63,7 +63,7 @@ export function PrepareFiles({ onBack }: PrepareFilesProps) {
 
   return (
     <div className="bg-red-dark rounded-[10px] p-5 md:p-6 xl:p-8 mdshort:p-5 h-full min-h-0 flex flex-col gap-4 xl:gap-6 mdshort:gap-3 overflow-y-auto [&>*]:animate-fade-in">
-      <h2 className="text-3xl md:text-4xl xl:text-5xl 2xl:text-6xl mdshort:text-4xl font-bold leading-none shrink-0">
+      <h2 className="text-3xl md:text-4xl xl:text-6xl mdshort:text-5xl font-bold leading-none shrink-0">
         <span className="text-white">{l.headline1}</span>{" "}
         <span className="text-red">{l.headline2}</span>
       </h2>
@@ -72,13 +72,13 @@ export function PrepareFiles({ onBack }: PrepareFilesProps) {
         {l.cards.map((card, i) => (
           <div key={card.title} className="bg-white rounded-[10px] p-3 xl:p-4 flex flex-col">
             <div className="flex items-end justify-between px-1 xl:px-2 pb-2 xl:pb-3 border-b border-black/30">
-              <span className="text-4xl xl:text-5xl mdshort:text-4xl font-bold text-red leading-none">{i + 1}.</span>
-              <span className="text-2xl xl:text-3xl mdshort:text-2xl font-bold text-black leading-none">{card.title}</span>
+              <span className="text-4xl xl:text-6xl mdshort:text-5xl font-bold text-red leading-none">{i + 1}.</span>
+              <span className="text-2xl xl:text-4xl mdshort:text-3xl font-bold text-black leading-none">{card.title}</span>
             </div>
             <div className="py-4 xl:py-6 min-h-[70px] xl:min-h-[100px] mdshort:py-3 mdshort:min-h-[70px] flex items-center justify-center">
               {illustrations[i]}
             </div>
-            <ul className="list-disc pl-6 pr-2 space-y-3 mdshort:space-y-2 text-black text-sm xl:text-base 2xl:text-lg mdshort:text-sm font-light leading-tight">
+            <ul className="list-disc pl-6 pr-2 space-y-3 mdshort:space-y-2 text-black text-sm xl:text-lg mdshort:text-base font-light leading-tight">
               {card.bullets.map((b) => (
                 <li key={b}>{b}</li>
               ))}
@@ -91,7 +91,7 @@ export function PrepareFiles({ onBack }: PrepareFilesProps) {
         <button
           type="button"
           onClick={onBack}
-          className="bg-black text-white font-bold text-lg xl:text-2xl mdshort:text-lg rounded-full px-10 py-2 xl:py-2.5 mdshort:py-1.5 hover:bg-white hover:text-black transition-colors duration-300"
+          className="bg-black text-white font-bold text-lg xl:text-3xl mdshort:text-2xl rounded-full px-10 py-2 xl:py-2.5 mdshort:py-1.5 hover:bg-white hover:text-black transition-colors duration-300"
         >
           {l.back}
         </button>

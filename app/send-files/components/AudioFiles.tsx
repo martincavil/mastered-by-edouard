@@ -57,7 +57,7 @@ const formatSize = (bytes: number) =>
 
 // Underlined fields (mockup "audio files")
 const inputClass =
-  "w-full bg-transparent border-b border-black pb-1.5 pt-1 px-1 text-black text-lg 2xl:text-xl mdshort:text-base mdshort:pb-1 placeholder:text-black outline-none focus:border-red disabled:opacity-60";
+  "w-full bg-transparent border-b border-black pb-1.5 pt-1 px-1 text-black text-lg xl:text-xl mdshort:text-lg mdshort:pb-1 placeholder:text-black outline-none focus:border-red disabled:opacity-60";
 
 export function AudioFiles({
   selectedFiles,
@@ -327,7 +327,7 @@ export function AudioFiles({
         </div>
 
         <div className="flex flex-col gap-2">
-          <p className="text-black font-light text-base 2xl:text-lg">
+          <p className="text-black font-light text-base xl:text-xl mdshort:text-lg">
             {labels.draganddrop}
           </p>
           <div
@@ -355,11 +355,11 @@ export function AudioFiles({
               onChange={handleFileInputChange}
               className="hidden"
             />
-            <div className="flex items-center gap-2 text-black text-lg 2xl:text-xl">
+            <div className="flex items-center gap-2 text-black text-lg xl:text-2xl mdshort:text-xl">
               <span>{labels.clickordrag}</span>
               <ArrowUpRight size={22} />
             </div>
-            <p className="text-black/70 text-sm 2xl:text-base font-light">
+            <p className="text-black/70 text-sm xl:text-lg mdshort:text-base font-light">
               {labels.browse}
             </p>
           </div>
@@ -367,7 +367,7 @@ export function AudioFiles({
             <button
               type="button"
               onClick={openPrepare}
-              className="bg-black text-white rounded-full px-6 py-1 text-sm 2xl:text-base font-light hover:bg-red-dark transition-colors duration-300"
+              className="bg-black text-white rounded-full px-8 py-1.5 text-sm xl:text-lg mdshort:text-base mdshort:py-1 font-light hover:bg-red-dark transition-colors duration-300"
             >
               {labels.howToPrepare}
             </button>
@@ -376,7 +376,7 @@ export function AudioFiles({
 
         {selectedFiles.length > 0 && (
           <div className="flex flex-col gap-2 shrink-0">
-            <p className="text-black font-light text-base 2xl:text-lg">
+            <p className="text-black font-light text-base xl:text-xl mdshort:text-lg">
               {labels.uploadingFiles}
             </p>
             <ul className="space-y-2 max-h-[160px] 2xl:max-h-[240px] mdshort:max-h-[100px] overflow-y-auto pr-1">
@@ -385,7 +385,7 @@ export function AudioFiles({
                   key={id}
                   className="flex items-center justify-between gap-3 bg-[#E5E5E5] border border-black rounded-[6px] px-4 py-2 mdshort:py-1"
                 >
-                  <span className="text-black text-sm 2xl:text-base font-light truncate">
+                  <span className="text-black text-sm xl:text-lg mdshort:text-base font-light truncate">
                     {file.name}
                   </span>
                   <span className="flex items-center gap-3 flex-shrink-0">
@@ -429,7 +429,7 @@ export function AudioFiles({
             }
             className="w-4 h-4 flex-shrink-0 cursor-pointer accent-black"
           />
-          <span className="text-black font-light text-sm 2xl:text-base">
+          <span className="text-black font-light text-sm xl:text-base">
             {labels.termsAndConditions.text}{" "}
             <Link
               href="/terms-and-conditions"
@@ -445,7 +445,7 @@ export function AudioFiles({
 
       {/* Right: headline + send button */}
       <div className="flex flex-col justify-end gap-6 xl:gap-10">
-        <div className="hidden md:flex flex-col text-5xl lg:text-6xl xl:text-[90px] 2xl:text-[100px] mdshort:text-6xl font-bold text-black !leading-[0.8]">
+        <div className="hidden md:flex flex-col text-5xl lg:text-6xl xl:text-[100px] mdshort:text-[80px] font-bold text-black !leading-[0.8]">
           <span>{labels.headline1}</span>
           <span>{labels.headline2}</span>
           <span>{labels.headline3}</span>
@@ -453,7 +453,7 @@ export function AudioFiles({
         <button
           type="submit"
           disabled={isUploading || !formData.acceptTerms}
-          className="w-full bg-red-dark text-white font-bold text-xl lg:text-2xl xl:text-3xl 2xl:text-4xl mdshort:text-2xl text-left leading-tight py-3 xl:py-5 mdshort:py-3 px-6 xl:px-8 rounded-[10px] hover:bg-black transition-colors duration-300 flex items-center justify-between gap-4 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-red-dark"
+          className="w-full bg-red-dark text-white font-bold text-xl lg:text-3xl xl:text-5xl mdshort:text-4xl text-left leading-tight py-3 xl:py-6 mdshort:py-4 px-6 xl:px-8 rounded-[10px] hover:bg-black transition-colors duration-300 flex items-center justify-between gap-4 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-red-dark"
         >
           {labels.sendButton}
           <ArrowUpRight size={44} className="flex-shrink-0" />

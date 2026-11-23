@@ -79,7 +79,7 @@ export function UploadSection({
             className="hidden"
           />
           <div className="flex justify-center items-center gap-3">
-            <p className="text-base 2xl:text-lg text-black">{label}</p>
+            <p className="text-base xl:text-xl text-black">{label}</p>
             <ArrowUpRight size={20} className="text-black" />
           </div>
           <div

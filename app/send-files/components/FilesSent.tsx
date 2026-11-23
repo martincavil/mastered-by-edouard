@@ -34,7 +34,7 @@ export function FilesSent({ kind }: FilesSentProps) {
         </p>
         <Link
           href="/"
-          className="bg-red-dark text-white font-bold text-base xl:text-lg px-12 py-2.5 rounded-[10px] hover:bg-black transition-colors duration-300 flex items-center gap-2"
+          className="bg-red-dark text-white font-bold text-lg xl:text-2xl px-12 py-2.5 xl:py-3 rounded-[10px] hover:bg-black transition-colors duration-300 flex items-center gap-2"
         >
           {t.sendFiles.sent.backHome}
           <ArrowUpRight size={22} />

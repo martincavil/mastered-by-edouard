@@ -274,7 +274,7 @@ export function DdpReader() {
   const md5AllOk = md5.status === "done" && md5.reference && md5Ok === md5.results.length;
 
   const pill =
-    "inline-flex items-center justify-center gap-2 rounded-full px-6 py-1.5 xl:py-2 text-lg xl:text-2xl font-light transition-colors duration-300";
+    "inline-flex items-center justify-center gap-2 rounded-full px-8 py-1.5 xl:py-2 text-lg xl:text-3xl mdshort:text-2xl font-light transition-colors duration-300";
 
   // ---------- Empty state (mockup "ddp reader") ----------
   if (!disc || !playerState) {
@@ -282,7 +282,7 @@ export function DdpReader() {
       <div className="bg-white rounded-[10px] h-full min-h-0 p-5 md:p-8 mdshort:p-5 flex flex-col gap-6 mdshort:gap-4 overflow-y-auto">
         <div className="grid md:grid-cols-[minmax(0,7fr)_minmax(0,3fr)] gap-6 md:gap-8 xl:gap-12 flex-1 shrink-0">
           <div className="flex flex-col gap-4">
-            <p className="text-black font-light text-base 2xl:text-lg">{r.intro}</p>
+            <p className="text-black font-light text-base xl:text-xl mdshort:text-lg">{r.intro}</p>
 
             {error && (
               <div role="alert" className="rounded-[10px] bg-red/10 text-red px-5 py-3 text-sm md:text-base">
@@ -316,7 +316,7 @@ export function DdpReader() {
                 </div>
               ) : (
                 <>
-                  <p className="text-black text-xl md:text-2xl xl:text-3xl">{r.dropTitle}</p>
+                  <p className="text-black text-xl md:text-2xl xl:text-4xl mdshort:text-3xl">{r.dropTitle}</p>
                   <div className="flex flex-col sm:flex-row gap-3">
                     <button
                       type="button"
@@ -373,15 +373,15 @@ export function DdpReader() {
               />
             </div>
 
-            <p className="text-red-dark text-base 2xl:text-lg">{r.privacy}</p>
+            <p className="text-red-dark text-base xl:text-xl mdshort:text-lg">{r.privacy}</p>
           </div>
 
           <div className="hidden md:flex flex-col justify-between items-start gap-6">
-            <p className="self-end flex items-center gap-2 text-black text-lg 2xl:text-xl">
+            <p className="self-end flex items-center gap-2 text-black text-lg xl:text-2xl mdshort:text-xl">
               <Lock size={20} strokeWidth={1.5} aria-hidden="true" />
               {r.localBadge}
             </p>
-            <div className="flex flex-col text-5xl lg:text-6xl xl:text-[90px] 2xl:text-[100px] mdshort:text-6xl font-bold text-black !leading-[0.8]">
+            <div className="flex flex-col text-5xl lg:text-6xl xl:text-[100px] mdshort:text-[80px] font-bold text-black !leading-[0.8]">
               {r.headline.map((word) => (
                 <span key={word}>{word}</span>
               ))}
@@ -393,11 +393,11 @@ export function DdpReader() {
         <div className="border-t border-black/20 pt-5 grid sm:grid-cols-3 gap-6 shrink-0">
           {r.steps.map((step) => (
             <div key={step.number} className="flex flex-col items-center sm:items-start sm:pl-[10%]">
-              <p className="text-3xl xl:text-4xl 2xl:text-5xl mdshort:text-2xl font-bold text-black leading-none">
+              <p className="text-3xl xl:text-5xl mdshort:text-4xl font-bold text-black leading-none">
                 {step.number} {step.title}
               </p>
-              <p className="text-lg 2xl:text-2xl mdshort:text-base font-bold text-black pl-8">{step.subtitle}</p>
-              <p className="text-sm 2xl:text-base font-light text-black pl-8 mt-1">{step.text}</p>
+              <p className="text-lg xl:text-2xl mdshort:text-xl font-bold text-black pl-8">{step.subtitle}</p>
+              <p className="text-sm xl:text-lg mdshort:text-base font-light text-black pl-8 mt-1">{step.text}</p>
             </div>
           ))}
         </div>
@@ -419,7 +419,7 @@ export function DdpReader() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
         <div className="min-w-0">
-          <h2 className="text-2xl md:text-3xl 2xl:text-4xl font-bold text-black truncate">
+          <h2 className="text-2xl md:text-3xl xl:text-4xl font-bold text-black truncate">
             {disc.albumTitle || l.untitled}
           </h2>
           <p className="text-black font-light text-base 2xl:text-lg">{subtitle.join("  ·  ")}</p>
@@ -427,7 +427,7 @@ export function DdpReader() {
         <button
           type="button"
           onClick={() => void reset()}
-          className="self-start flex items-center justify-between gap-10 rounded-full border border-red-dark text-red-dark px-6 py-1.5 text-lg 2xl:text-2xl font-light hover:bg-red-dark hover:text-white transition-colors duration-300"
+          className="self-start flex items-center justify-between gap-10 rounded-full border border-red-dark text-red-dark px-6 py-1.5 text-lg xl:text-2xl font-light hover:bg-red-dark hover:text-white transition-colors duration-300"
         >
           {l.loadAnother}
           <ArrowUpRight size={22} />

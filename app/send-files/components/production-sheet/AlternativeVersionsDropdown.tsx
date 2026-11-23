@@ -22,7 +22,7 @@ export function AlternativeVersionsDropdown({
       <button
         type="button"
         onClick={onToggle}
-        className={`px-5 py-1.5 2xl:py-2 rounded-full border text-base 2xl:text-lg transition-colors flex items-center gap-2 ${
+        className={`px-5 py-1.5 2xl:py-2 rounded-full border text-base xl:text-lg transition-colors flex items-center gap-2 ${
           selectedVersions.length > 0
             ? "bg-black text-white border-black"
             : "bg-white text-black border-black"

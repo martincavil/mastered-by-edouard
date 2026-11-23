@@ -60,7 +60,7 @@ export function FormStep1({
 }: FormStep1Props) {
   return (
     <div className="space-y-4 2xl:space-y-6 mdshort:space-y-3 py-1">
-      <h2 className="text-4xl xl:text-5xl 2xl:text-6xl mdshort:text-4xl font-bold text-black leading-none mb-2 2xl:mb-4 mdshort:mb-1">
+      <h2 className="text-4xl xl:text-6xl mdshort:text-5xl font-bold text-black leading-none mb-2 2xl:mb-4 mdshort:mb-1">
         {t.sendFiles.productionSheet.step1Title}
       </h2>
       <div className="grid grid-cols-2 gap-x-6 gap-y-4">
@@ -70,7 +70,7 @@ export function FormStep1({
           value={formData.name}
           onChange={onInputChange}
           placeholder={t.sendFiles.productionSheet.name}
-          className={`w-full px-6 py-2.5 2xl:py-4 mdshort:py-2 bg-[#E5E5E5] rounded-[10px] text-lg 2xl:text-xl mdshort:text-base text-black placeholder:text-black focus:outline-none focus:ring-2 focus:ring-red focus:ring-offset-0 ${
+          className={`w-full px-6 py-2.5 2xl:py-4 mdshort:py-2 bg-[#E5E5E5] rounded-[10px] text-lg xl:text-xl mdshort:text-lg text-black placeholder:text-black focus:outline-none focus:ring-2 focus:ring-red focus:ring-offset-0 ${
             errors.name ? "ring-2 ring-inset ring-red" : ""
           }`}
           required
@@ -81,7 +81,7 @@ export function FormStep1({
           value={formData.artist}
           onChange={onInputChange}
           placeholder={t.sendFiles.productionSheet.artist}
-          className={`w-full px-6 py-2.5 2xl:py-4 mdshort:py-2 bg-[#E5E5E5] rounded-[10px] text-lg 2xl:text-xl mdshort:text-base text-black placeholder:text-black focus:outline-none focus:ring-2 focus:ring-red focus:ring-offset-0 ${
+          className={`w-full px-6 py-2.5 2xl:py-4 mdshort:py-2 bg-[#E5E5E5] rounded-[10px] text-lg xl:text-xl mdshort:text-lg text-black placeholder:text-black focus:outline-none focus:ring-2 focus:ring-red focus:ring-offset-0 ${
             errors.artist ? "ring-2 ring-inset ring-red" : ""
           }`}
           required
@@ -93,7 +93,7 @@ export function FormStep1({
         value={formData.email}
         onChange={onInputChange}
         placeholder={t.sendFiles.productionSheet.mail}
-        className={`w-full px-6 py-2.5 2xl:py-4 mdshort:py-2 bg-[#E5E5E5] rounded-[10px] text-lg 2xl:text-xl mdshort:text-base text-black placeholder:text-black focus:outline-none focus:ring-2 focus:ring-red focus:ring-offset-0 ${
+        className={`w-full px-6 py-2.5 2xl:py-4 mdshort:py-2 bg-[#E5E5E5] rounded-[10px] text-lg xl:text-xl mdshort:text-lg text-black placeholder:text-black focus:outline-none focus:ring-2 focus:ring-red focus:ring-offset-0 ${
           errors.email ? "ring-2 ring-inset ring-red" : ""
         }`}
         required
@@ -105,7 +105,7 @@ export function FormStep1({
         value={formData.projectTitle}
         onChange={onInputChange}
         placeholder={t.sendFiles.productionSheet.projectTitle}
-        className={`w-full px-6 py-2.5 2xl:py-4 mdshort:py-2 bg-[#E5E5E5] rounded-[10px] text-lg 2xl:text-xl mdshort:text-base text-black placeholder:text-black focus:outline-none focus:ring-2 focus:ring-red focus:ring-offset-0 ${
+        className={`w-full px-6 py-2.5 2xl:py-4 mdshort:py-2 bg-[#E5E5E5] rounded-[10px] text-lg xl:text-xl mdshort:text-lg text-black placeholder:text-black focus:outline-none focus:ring-2 focus:ring-red focus:ring-offset-0 ${
           errors.projectTitle ? "ring-2 ring-inset ring-red" : ""
         }`}
         required
@@ -153,7 +153,7 @@ export function FormStep1({
           value={formData.cdUpc}
           onChange={onInputChange}
           placeholder={t.sendFiles.productionSheet.cdUpc}
-          className="w-full px-6 py-2.5 2xl:py-3.5 mdshort:py-1.5 border border-black rounded-full text-lg 2xl:text-xl mdshort:text-base text-black placeholder:text-black focus:outline-none focus:ring-2 focus:ring-red focus:ring-offset-0"
+          className="w-full px-6 py-2.5 2xl:py-3.5 mdshort:py-1.5 border border-black rounded-full text-lg xl:text-xl mdshort:text-lg text-black placeholder:text-black focus:outline-none focus:ring-2 focus:ring-red focus:ring-offset-0"
         />
         <input
           type="text"
@@ -161,7 +161,7 @@ export function FormStep1({
           value={formData.vinylUpc}
           onChange={onInputChange}
           placeholder={t.sendFiles.productionSheet.vinylUpc}
-          className="w-full px-6 py-2.5 2xl:py-3.5 mdshort:py-1.5 border border-black rounded-full text-lg 2xl:text-xl mdshort:text-base text-black placeholder:text-black focus:outline-none focus:ring-2 focus:ring-red focus:ring-offset-0"
+          className="w-full px-6 py-2.5 2xl:py-3.5 mdshort:py-1.5 border border-black rounded-full text-lg xl:text-xl mdshort:text-lg text-black placeholder:text-black focus:outline-none focus:ring-2 focus:ring-red focus:ring-offset-0"
         />
       </div>
 

@@ -16,7 +16,7 @@ interface NavigationButtonsProps {
 }
 
 const primaryClass =
-  "w-full max-w-[33%] bg-red-dark text-white font-bold text-lg 2xl:text-xl px-6 py-2.5 2xl:py-3.5 mdshort:py-2 rounded-[10px] hover:bg-black transition-colors duration-300 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-red-dark";
+  "w-full max-w-[33%] bg-red-dark text-white font-bold text-lg xl:text-2xl px-6 py-2.5 2xl:py-3.5 mdshort:py-2 rounded-[10px] hover:bg-black transition-colors duration-300 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-red-dark";
 
 export function NavigationButtons({
   currentStep,
@@ -59,7 +59,7 @@ export function NavigationButtons({
               {labels.back}
             </button>
           )}
-          <span className="flex-1 text-center font-bold text-black text-lg 2xl:text-xl border-b border-black pb-1">
+          <span className="flex-1 text-center font-bold text-black text-lg xl:text-xl border-b border-black pb-1">
             {currentStep}/3
           </span>
         </div>
