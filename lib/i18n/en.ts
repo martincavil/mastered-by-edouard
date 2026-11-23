@@ -347,7 +347,6 @@ export const en: Translations = {
       advanced: "more",
     },
     title: "DDP player.",
-    navButton: "DDP player",
     intro: "Listen to and check your DDP master right in your browser: track list, CD-Text, ISRC, PQ codes, gapless playback and MD5 verification.",
     localNotice: "Everything happens locally, no file is uploaded.",
     dropTitle: "Drop your DDP here (.zip or folder)",

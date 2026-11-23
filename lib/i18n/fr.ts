@@ -25,12 +25,12 @@ export const fr: Translations = {
   sendFiles: {
     title: "envoyer des fichiers.",
     audioFilesTitle: "fichiers audio",
-    productionSheetTitle: "fiche label",
+    productionSheetTitle: "label copy",
     ddpReaderTitle: "lecteur DDP",
     filesSentTitle: "fichiers envoyés.",
     sent: {
       audio: ["fichiers audio ", "envoyés", " avec succès."],
-      label: ["fiche label ", "envoyée", " avec succès."],
+      label: ["label copy ", "envoyée", " avec succès."],
       backHome: "retour à l'accueil",
     },
     audioFiles: {
@@ -349,7 +349,6 @@ export const fr: Translations = {
       advanced: "plus",
     },
     title: "lecteur DDP.",
-    navButton: "lecteur DDP",
     intro: "Écoutez et vérifiez votre master DDP directement dans votre navigateur : liste des pistes, CD-Text, ISRC, codes PQ, lecture sans blanc entre les titres et contrôle MD5.",
     localNotice: "Tout se passe en local, aucun fichier n'est envoyé.",
     dropTitle: "Déposez votre DDP ici (.zip ou dossier)",

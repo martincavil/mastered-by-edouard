@@ -296,7 +296,6 @@ export type Translations = {
       advanced: string;
     };
     title: string;
-    navButton: string;
     intro: string;
     localNotice: string;
     dropTitle: string;

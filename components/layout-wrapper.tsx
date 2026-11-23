@@ -34,6 +34,11 @@ export function LayoutWrapper({ children }: { children: React.ReactNode }) {
     return <>{children}</>;
   }
 
+  // Upload pages are full screen, focused on the upload (no site header nor menu)
+  if (pathname?.startsWith("/send-files")) {
+    return <div className="flex-1 rounded-[10px] overflow-hidden mt-[10px]">{children}</div>;
+  }
+
   return (
     <>
       <Navbar />

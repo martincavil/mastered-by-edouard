@@ -3,11 +3,8 @@
 import Image from "next/image";
 import { LanguageSwitcher } from "@/components/language-switcher";
 import Link from "next/link";
-import { useTranslations } from "@/lib/i18n/useTranslations";
 
 export function Navbar() {
-  const t = useTranslations();
-
   return (
     <nav className="flex justify-between pt-3.5 px-2 md:px-6 pb-3.5 sticky top-0 z-40">
       {/* Logo */}
@@ -21,13 +18,6 @@ export function Navbar() {
         />
       </Link>
       <div className="flex items-center gap-3 md:gap-5">
-        {/* DDP player shortcut */}
-          <Link
-            href="/send-files?tab=ddp-reader"
-            className="rounded-full bg-black text-white text-xs md:text-sm font-medium px-3 py-1 hover:bg-red transition-colors duration-300 whitespace-nowrap"
-          >
-            {t.ddpPlayer.navButton}
-          </Link>
         {/* Language Switcher */}
         <LanguageSwitcher />
       </div>

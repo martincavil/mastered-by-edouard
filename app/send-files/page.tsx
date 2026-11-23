@@ -6,6 +6,7 @@ import { useSearchParams } from "next/navigation";
 import { useTranslations } from "@/lib/i18n/useTranslations";
 import { PageTransition } from "@/components/page-transition";
 import { Footer } from "@/components/footer";
+import { LanguageSwitcher } from "@/components/language-switcher";
 import "../navigation-link.css";
 import { AudioFiles } from "./components/AudioFiles";
 import { ProductionSheet } from "./components/ProductionSheet";
@@ -110,7 +111,9 @@ function SendFilesContent() {
                   t.sendFiles.title
                 )}
               </h1>
-              {/* Close button */}
+              {/* Language switcher (no site header on this page) + close button */}
+              <div className="flex items-center gap-4 md:gap-8 flex-shrink-0">
+              <LanguageSwitcher />
               <div className="overflow-hidden flex-shrink-0">
                 <Link
                   href="/"
@@ -130,6 +133,7 @@ function SendFilesContent() {
                     <line x1="6" y1="6" x2="18" y2="18" />
                   </svg>
                 </Link>
+              </div>
               </div>
             </div>
             {/* After a successful upload: social links instead of the tabs */}

@@ -424,7 +424,7 @@ export function AudioFiles({
       </div>
 
       {/* Right: headline + send button */}
-      <div className="flex flex-col justify-center gap-6 xl:gap-10">
+      <div className="flex flex-col justify-end gap-6 xl:gap-10">
         <div className="hidden md:flex flex-col text-5xl lg:text-6xl xl:text-[90px] 2xl:text-[100px] mdshort:text-6xl font-bold text-black !leading-[0.8]">
           <span>{labels.headline1}</span>
           <span>{labels.headline2}</span>
