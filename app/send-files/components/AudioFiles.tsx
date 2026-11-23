@@ -1,10 +1,9 @@
 "use client";
 
 import { useTranslations } from "@/lib/i18n/useTranslations";
-import Image from "next/image";
 import Link from "next/link";
 import { useState, useRef, DragEvent, ChangeEvent, FormEvent } from "react";
-import { X, CircleCheckBig } from "lucide-react";
+import { X } from "lucide-react";
 import { ArrowUpRight } from "@/components/icons/ArrowUpRight";
 import { UploadProgressScreen } from "@/components/upload-progress-screen";
 import { useUploadTracker } from "@/lib/use-upload-tracker";
@@ -39,6 +38,10 @@ interface AudioFilesProps {
   setFormData: React.Dispatch<React.SetStateAction<AudioFormData>>;
   isUploading: boolean;
   setIsUploading: React.Dispatch<React.SetStateAction<boolean>>;
+  /** Opens the "how to prepare your files" screen */
+  onShowPrepare: () => void;
+  /** Called once the files are on Dropbox (shows the "files sent." screen) */
+  onSuccess: () => void;
 }
 
 // Files uploaded at the same time. Each file is chunked (32 MB) through an
@@ -51,8 +54,9 @@ const formatSize = (bytes: number) =>
     ? `${(bytes / 1024 / 1024 / 1024).toFixed(2)} GB`
     : `${Math.max(0.1, bytes / 1024 / 1024).toFixed(1)} MB`;
 
+// Underlined fields (mockup "audio files")
 const inputClass =
-  "w-full py-2.5 px-5 2xl:py-3.5 bg-white rounded-[10px] text-black placeholder:text-black/70 outline-none focus:ring-2 focus:ring-black disabled:opacity-60";
+  "w-full bg-transparent border-b border-black pb-1.5 pt-1 px-1 text-black text-lg 2xl:text-xl mdshort:text-base mdshort:pb-1 placeholder:text-black outline-none focus:border-red disabled:opacity-60";
 
 export function AudioFiles({
   selectedFiles,
@@ -61,16 +65,16 @@ export function AudioFiles({
   setFormData,
   isUploading,
   setIsUploading,
+  onShowPrepare,
+  onSuccess,
 }: AudioFilesProps) {
   const t = useTranslations();
   const labels = t.sendFiles.audioFiles;
-  const [submitSuccess, setSubmitSuccess] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
   const [message, setMessage] = useState<{
     type: "success" | "error";
     text: string;
   } | null>(null);
-  const [showTooltip, setShowTooltip] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const abortRef = useRef<AbortController | null>(null);
   const tracker = useUploadTracker();
@@ -212,7 +216,7 @@ export function AudioFiles({
       // Let the bar reach 100% before closing the progress screen
       await new Promise((resolve) => setTimeout(resolve, 800));
 
-      setSubmitSuccess(true);
+      onSuccess();
       setSelectedFiles([]);
       setFormData({
         name: "",
@@ -233,32 +237,6 @@ export function AudioFiles({
     }
   };
 
-  // Right column: small headline + illustration (the form dominates the page)
-  const aside = (
-    <div className="hidden md:flex flex-col justify-between items-end relative min-h-0">
-      <div className="flex flex-col self-start text-5xl lg:text-7xl xl:text-[90px] 2xl:text-[100px] font-bold !leading-[0.8]">
-        {submitSuccess ? (
-          <>
-            <span className="text-white">{labels.successHeadline1}</span>
-            <span className="text-black">{labels.successHeadline2}</span>
-          </>
-        ) : (
-          <>
-            <span className="text-white">{labels.headline1}</span>
-            <span className="text-black">{labels.headline2}</span>
-            <span className="text-black">{labels.headline3}</span>
-          </>
-        )}
-      </div>
-      <Image
-        src="https://www.dropbox.com/scl/fi/iwj6fuky5hk2my2qa0pa7/send-files.webp?rlkey=ucreqy7vx1p7mhahrv6hatzgc&st=3u0iinfy&dl=1"
-        alt="Edouard SendFiles Illustration"
-        width={271}
-        height={271}
-        className="object-cover w-28 h-28 xl:w-36 xl:h-36 2xl:w-44 2xl:h-44"
-      />
-    </div>
-  );
 
   if (isUploading) {
     return (
@@ -279,153 +257,24 @@ export function AudioFiles({
     );
   }
 
-  if (submitSuccess) {
-    return (
-      <>
-        <div className="flex flex-col h-full min-h-0 gap-2 2xl:gap-3">
-          <div className="bg-white rounded-[10px] p-8 flex flex-col items-center justify-center gap-4 flex-1 min-h-[260px]">
-            <CircleCheckBig
-              size={64}
-              className="text-white bg-red rounded-full p-3"
-              strokeWidth={2}
-            />
-            <p className="text-black text-center text-xl md:text-2xl 2xl:text-3xl">
-              {labels.successMessage}
-            </p>
-          </div>
-          <div className="flex flex-col sm:flex-row items-stretch w-full gap-2">
-            <Link
-              href="/send-files?tab=production-sheet"
-              className="bg-white text-black font-bold text-base 2xl:text-lg py-2.5 2xl:py-3.5 rounded-[10px] hover:bg-black hover:text-white transition-colors duration-300 flex items-center justify-center gap-2 w-full"
-            >
-              {labels.sendProductionSheet}
-              <ArrowUpRight size={20} />
-            </Link>
-            <Link
-              href="/"
-              className="bg-red-dark text-white font-bold text-base 2xl:text-lg py-2.5 2xl:py-3.5 rounded-[10px] hover:bg-black transition-colors duration-300 flex items-center justify-center gap-2 w-full"
-            >
-              {labels.backToHome}
-              <ArrowUpRight size={20} />
-            </Link>
-          </div>
-        </div>
-        {aside}
-      </>
-    );
-  }
-
   return (
-    <>
-      <form
-        onSubmit={handleSubmit}
-        className="flex flex-col h-full min-h-0 gap-2 2xl:gap-3 md:overflow-y-auto md:pr-1"
-      >
-        {/* Drop zone card */}
-        <div className="bg-white rounded-[10px] p-4 2xl:p-6 flex flex-col gap-3 flex-1 min-h-[280px]">
-          <div
-            onDragOver={handleDragOver}
-            onDragLeave={() => setIsDragging(false)}
-            onDrop={handleDrop}
-            onClick={() => fileInputRef.current?.click()}
-            onKeyDown={(e) => {
-              if (e.key === "Enter" || e.key === " ") {
-                e.preventDefault();
-                fileInputRef.current?.click();
-              }
-            }}
-            role="button"
-            tabIndex={0}
-            className={`border-dashed-custom rounded-[10px] flex-1 min-h-[140px] flex flex-col items-center justify-center gap-2 p-6 text-center cursor-pointer transition-colors ${
-              isDragging ? "bg-black/10" : "bg-[#ECECEC] hover:bg-[#E2E2E2]"
-            }`}
-          >
-            <input
-              ref={fileInputRef}
-              type="file"
-              multiple
-              accept=".wav,.aif,.aiff"
-              onChange={handleFileInputChange}
-              className="hidden"
-            />
-            <p className="font-medium text-black text-lg 2xl:text-xl">
-              {labels.draganddrop}
-            </p>
-            <div className="flex items-center gap-2 text-black">
-              <span className="underline underline-offset-4">
-                {labels.clickordrag}
-              </span>
-              <ArrowUpRight size={22} />
-            </div>
-            <p className="text-black/60 text-xs">{labels.acceptedFormats}</p>
-          </div>
-
-          {selectedFiles.length > 0 && (
-            <ul className="space-y-1.5 max-h-[140px] 2xl:max-h-[220px] overflow-y-auto pr-1">
-              {selectedFiles.map(({ file, id }) => (
-                <li
-                  key={id}
-                  className="flex items-center justify-between gap-3 bg-[#ECECEC] rounded-[10px] px-3 py-1.5"
-                >
-                  <span className="text-black text-sm truncate">
-                    {file.name}
-                  </span>
-                  <span className="flex items-center gap-2 flex-shrink-0">
-                    <span className="text-black/60 text-xs">
-                      {formatSize(file.size)}
-                    </span>
-                    <button
-                      type="button"
-                      onClick={() => handleRemoveFile(id)}
-                      className="text-black hover:text-red transition-colors"
-                      aria-label={`Remove ${file.name}`}
-                    >
-                      <X size={18} />
-                    </button>
-                  </span>
-                </li>
-              ))}
-            </ul>
-          )}
-
-          <div className="flex items-center justify-between gap-3">
-            <Image
-              src="https://www.dropbox.com/scl/fi/387ne9zdsto43otkmktg8/powered-by-Dropbox.png?rlkey=2n2na2rux64ivpluv1tmochuq&st=ovcr5mp5&dl=1"
-              alt="Powered by Dropbox"
-              width={110}
-              height={110}
-            />
-            <div
-              className="relative"
-              onMouseEnter={() => setShowTooltip(true)}
-              onMouseLeave={() => setShowTooltip(false)}
-            >
-              <button
-                type="button"
-                onClick={() => setShowTooltip((v) => !v)}
-                aria-label={labels.namingTooltipTitle}
-                className="w-5 h-5 rounded-full border border-black flex items-center justify-center bg-transparent hover:bg-black hover:text-white transition-colors"
-              >
-                <span className="text-xs font-medium">i</span>
-              </button>
-              {showTooltip && (
-                <div className="absolute bottom-full right-0 mb-2 text-white rounded-lg p-4 text-xs border border-white z-50 w-[240px] md:w-[300px] bg-black">
-                  <div className="flex flex-col gap-2">
-                    <span className="text-base font-bold">
-                      {labels.namingTooltipTitle}
-                    </span>
-                    {labels.namingTooltipHints.map((hint, index) => (
-                      <span key={index}>{hint}</span>
-                    ))}
-                  </div>
-                </div>
-              )}
-            </div>
-          </div>
-        </div>
-
-        {/* Fields */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+    <form
+      onSubmit={handleSubmit}
+      className="bg-white rounded-[10px] h-full min-h-0 p-5 md:p-8 xl:p-10 mdshort:p-6 grid md:grid-cols-[minmax(0,7fr)_minmax(0,3fr)] gap-6 md:gap-8 xl:gap-12 overflow-y-auto"
+    >
+      {/* Left: fields, drop zone, file list */}
+      <div className="flex flex-col gap-4 2xl:gap-6 mdshort:gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-10 gap-y-4">
+          <input
+            type="email"
+            value={formData.email}
+            onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+            disabled={isUploading}
+            placeholder={labels.emailPlaceholder}
+            autoComplete="email"
+            required
+            className={inputClass}
+          />
           <input
             type="text"
             value={formData.name}
@@ -433,18 +282,6 @@ export function AudioFiles({
             disabled={isUploading}
             placeholder={labels.namePlaceholder}
             autoComplete="name"
-            required
-            className={inputClass}
-          />
-          <input
-            type="email"
-            value={formData.email}
-            onChange={(e) =>
-              setFormData({ ...formData, email: e.target.value })
-            }
-            disabled={isUploading}
-            placeholder={labels.emailPlaceholder}
-            autoComplete="email"
             required
             className={inputClass}
           />
@@ -459,17 +296,96 @@ export function AudioFiles({
             required
             className={inputClass}
           />
+          <input
+            type="text"
+            value={formData.message}
+            onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+            disabled={isUploading}
+            placeholder={labels.messagePlaceholder}
+            className={inputClass}
+          />
         </div>
-        <textarea
-          value={formData.message}
-          onChange={(e) =>
-            setFormData({ ...formData, message: e.target.value })
-          }
-          disabled={isUploading}
-          placeholder={labels.messagePlaceholder}
-          rows={2}
-          className={`${inputClass} resize-none`}
-        />
+
+        <div className="flex flex-col gap-2">
+          <p className="text-black font-light text-base 2xl:text-lg">
+            {labels.draganddrop}
+          </p>
+          <div
+            onDragOver={handleDragOver}
+            onDragLeave={() => setIsDragging(false)}
+            onDrop={handleDrop}
+            onClick={() => fileInputRef.current?.click()}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" || e.key === " ") {
+                e.preventDefault();
+                fileInputRef.current?.click();
+              }
+            }}
+            role="button"
+            tabIndex={0}
+            className={`border-dashed-custom rounded-[10px] min-h-[140px] xl:min-h-[180px] 2xl:min-h-[220px] mdshort:min-h-[90px] flex flex-col items-center justify-center gap-1 p-6 text-center cursor-pointer transition-colors ${
+              isDragging ? "bg-black/10" : "bg-[#E5E5E5] hover:bg-[#DCDCDC]"
+            }`}
+          >
+            <input
+              ref={fileInputRef}
+              type="file"
+              multiple
+              accept=".wav,.aif,.aiff"
+              onChange={handleFileInputChange}
+              className="hidden"
+            />
+            <div className="flex items-center gap-2 text-black text-lg 2xl:text-xl">
+              <span>{labels.clickordrag}</span>
+              <ArrowUpRight size={22} />
+            </div>
+            <p className="text-black/70 text-sm 2xl:text-base font-light">
+              {labels.browse}
+            </p>
+          </div>
+          <div className="flex justify-end">
+            <button
+              type="button"
+              onClick={onShowPrepare}
+              className="bg-black text-white rounded-full px-6 py-1 text-sm 2xl:text-base font-light hover:bg-red transition-colors duration-300"
+            >
+              {labels.howToPrepare}
+            </button>
+          </div>
+        </div>
+
+        {selectedFiles.length > 0 && (
+          <div className="flex flex-col gap-2 shrink-0">
+            <p className="text-black font-light text-base 2xl:text-lg">
+              {labels.uploadingFiles}
+            </p>
+            <ul className="space-y-2 max-h-[160px] 2xl:max-h-[240px] mdshort:max-h-[100px] overflow-y-auto pr-1">
+              {selectedFiles.map(({ file, id }) => (
+                <li
+                  key={id}
+                  className="flex items-center justify-between gap-3 bg-[#E5E5E5] border border-black rounded-[6px] px-4 py-2 mdshort:py-1"
+                >
+                  <span className="text-black text-sm 2xl:text-base font-light truncate">
+                    {file.name}
+                  </span>
+                  <span className="flex items-center gap-3 flex-shrink-0">
+                    <span className="text-black/60 text-xs">
+                      {formatSize(file.size)}
+                    </span>
+                    <button
+                      type="button"
+                      onClick={() => handleRemoveFile(id)}
+                      className="text-black hover:text-red transition-colors"
+                      aria-label={`Remove ${file.name}`}
+                    >
+                      <X size={18} strokeWidth={1.5} />
+                    </button>
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
 
         {message && (
           <div
@@ -477,47 +393,52 @@ export function AudioFiles({
             className={`py-2 px-4 rounded-[10px] text-sm ${
               message.type === "success"
                 ? "bg-green-500/20 text-green-700"
-                : "bg-white text-red"
+                : "bg-red/10 text-red"
             }`}
           >
             {message.text}
           </div>
         )}
 
-        <div className="flex flex-col sm:flex-row sm:items-center gap-3">
-          <label className="flex items-center gap-2 cursor-pointer flex-1">
-            <input
-              type="checkbox"
-              checked={formData.acceptTerms}
-              onChange={(e) =>
-                setFormData({ ...formData, acceptTerms: e.target.checked })
-              }
-              className="w-4 h-4 flex-shrink-0 cursor-pointer"
-            />
-            <span className="text-black font-light text-sm 2xl:text-base">
-              {labels.termsAndConditions.text}{" "}
-              <Link
-                href="/terms-and-conditions"
-                target="_blank"
-                className="font-medium hover:underline"
-              >
-                {labels.termsAndConditions.link}
-              </Link>{" "}
-              {labels.termsAndConditions.suffix}
-            </span>
-          </label>
-          <button
-            type="submit"
-            disabled={isUploading || !formData.acceptTerms}
-            className="sm:w-[40%] bg-red-dark text-white font-bold text-lg py-2.5 2xl:py-3.5 px-6 rounded-[10px] hover:bg-black transition-colors duration-300 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-red-dark"
-          >
-            {labels.sendButton}
-            <ArrowUpRight size={20} />
-          </button>
-        </div>
-      </form>
+        <label className="flex items-center gap-2 cursor-pointer mt-auto">
+          <input
+            type="checkbox"
+            checked={formData.acceptTerms}
+            onChange={(e) =>
+              setFormData({ ...formData, acceptTerms: e.target.checked })
+            }
+            className="w-4 h-4 flex-shrink-0 cursor-pointer accent-black"
+          />
+          <span className="text-black font-light text-sm 2xl:text-base">
+            {labels.termsAndConditions.text}{" "}
+            <Link
+              href="/terms-and-conditions"
+              target="_blank"
+              className="font-bold hover:underline"
+            >
+              {labels.termsAndConditions.link}
+            </Link>{" "}
+            {labels.termsAndConditions.suffix}
+          </span>
+        </label>
+      </div>
 
-      {aside}
-    </>
+      {/* Right: headline + send button */}
+      <div className="flex flex-col justify-center gap-6 xl:gap-10">
+        <div className="hidden md:flex flex-col text-5xl lg:text-6xl xl:text-[90px] 2xl:text-[100px] mdshort:text-6xl font-bold text-black !leading-[0.8]">
+          <span>{labels.headline1}</span>
+          <span>{labels.headline2}</span>
+          <span>{labels.headline3}</span>
+        </div>
+        <button
+          type="submit"
+          disabled={isUploading || !formData.acceptTerms}
+          className="w-full bg-red-dark text-white font-bold text-xl lg:text-2xl xl:text-3xl 2xl:text-4xl mdshort:text-2xl text-left leading-tight py-3 xl:py-5 mdshort:py-3 px-6 xl:px-8 rounded-[10px] hover:bg-black transition-colors duration-300 flex items-center justify-between gap-4 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-red-dark"
+        >
+          {labels.sendButton}
+          <ArrowUpRight size={44} className="flex-shrink-0" />
+        </button>
+      </div>
+    </form>
   );
 }

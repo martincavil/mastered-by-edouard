@@ -25,8 +25,14 @@ export const fr: Translations = {
   sendFiles: {
     title: "envoyer des fichiers.",
     audioFilesTitle: "fichiers audio",
-    productionSheetTitle: "fiche de production",
-    prepareFilesTitle: "préparer vos fichiers",
+    productionSheetTitle: "fiche label",
+    ddpReaderTitle: "lecteur DDP",
+    filesSentTitle: "fichiers envoyés.",
+    sent: {
+      audio: ["fichiers audio ", "envoyés", " avec succès."],
+      label: ["fiche label ", "envoyée", " avec succès."],
+      backHome: "retour à l'accueil",
+    },
     audioFiles: {
       draganddrop: "glissez ou déposez vos fichiers ici",
       clickordrag: "uploader des fichiers *",
@@ -56,6 +62,8 @@ export const fr: Translations = {
       namePlaceholder: "nom*",
       emailPlaceholder: "mail*",
       sendButton: "envoyer les fichiers",
+      browse: "ou parcourez votre appareil",
+      howToPrepare: "comment préparer vos fichiers ?",
       acceptedFormats: ".wav ou .aif",
       errorNoFiles: "Veuillez sélectionner au moins un fichier.",
       errorName: "Veuillez renseigner votre nom.",
@@ -139,38 +147,43 @@ export const fr: Translations = {
     prepareFiles: {
       headline1: "le mastering",
       headline2: "commence par un bon mix.",
-      uploadFiles: "envoyer des fichiers",
-      step1Title: "le mix.",
-      step1Content: {
-        step1Content1:
-          "assurez vous que le mix soit propre : aucun clic, bruit de fond ou artefact. Soignez l'entrée et la sortie de la piste ; évitez les coupures trop brutales.",
-        step1Content2:
-          " le niveau de True Peak (TP) n'a pas d'importance dans le monde numérique, qu'il soit à -0,1 ou -6, tant que le son ne contient pas de distortion audible.",
-        step1Content3:
-          "le mix est LE MIX : merci de conserver tous vos traitements sur le bus master (clipper/limiteur compris).",
-      },
-      step2Title: "l'export.",
-      step2Content: {
-        step2Content1:
-          "exportez en 32-bit flottant ou 24-bits. Évitez d'exporter en 16-bit, surtout si vos niveaux de crête sont assez bas.",
-        step2Content2:
-          "c'est très simple... la fréquence d'échantillonnage (sample rate) doit rester la même que celle utilisée pendant le mixage.",
-        step2Content3:
-          "Les fichiers doivent être exportés au format .WAV ou .AIF.",
-      },
-      step3Title: "la nomenclature.",
-      step3Content: {
-        step3Content1:
-          "merci de nommer correctement vos fichiers avant de les envoyer ! Vous pouvez suivre le schéma de nommage suivant :",
-        step3Content2: "Artiste_Titre(MIX)_mix 1; Artiste_Titre(PBO)_mix 1...",
-      },
-      step4Title: "stem mastering?",
-      step4Content: {
-        step4Content1:
-          "le stem mastering est souvent le signe d'un mixage qui n'est pas totalement finalisé : c'est pourquoi le studio ne privilégie pas nécessairement cette approche. Ma vision des choses : prenons le temps d'écouter le mix ensemble et de l'améliorer au maximum ! Mon travail d'ingénieur de mastering commence dès l'étape du mixage, en vous aidant à garder la bonne direction.",
-        step4Content2:
-          "cependant, le stem mastering peut se discuter dans certains cas.",
-      },
+      back: "retour à l'envoi !",
+      cards: [
+        {
+          title: "audio",
+          bullets: [
+            "Début et fin propres : pas de clics, pas de bruit.",
+            "Pas de saturation. Le niveau True Peak n'est pas critique.",
+            "Le mix, c'est LE MIX : gardez les traitements de votre bus master, limiteurs compris.",
+          ],
+        },
+        {
+          title: "export",
+          bullets: [
+            "24 bits minimum, 32 bits flottant idéal. Évitez le 16 bits.",
+            "Même fréquence d'échantillonnage que votre mix.",
+            "Format : WAV ou AIF.",
+          ],
+        },
+        {
+          title: "nommage",
+          bullets: [
+            "Nommez correctement vos fichiers avant de les envoyer.",
+            "Format conseillé : Artiste_Titre[VERSION]_Mix1",
+          ],
+        },
+        {
+          title: "stems ?",
+          bullets: [
+            "Le mastering en stems n'est pas la règle : c'est souvent le signe d'un mix pas tout à fait terminé.",
+            "Écoutons votre mix ensemble pour le rendre le meilleur possible.",
+            "Les stems restent possibles dans certains cas.",
+          ],
+        },
+      ],
+      exportFormats: ["16", "24", "32 float", ".WAV", ".AIF"],
+      namingChips: ["Artiste", "Titre(VERSION)", "Mix 1"],
+      stemsLabels: ["mix", "master"],
     },
   },
   studio: {
@@ -301,6 +314,40 @@ export const fr: Translations = {
     illustrationTitle2: "toutes vos questions.",
   },
   ddpPlayer: {
+    reader: {
+      intro: "Importez votre DDP pour écouter les pistes et consulter les codes de votre disque.",
+      dropTitle: "Déposez votre dossier DDP ou votre .zip ici",
+      chooseFolder: "choisir un dossier",
+      chooseZip: "choisir un .zip",
+      privacy: "Vos fichiers restent sur votre appareil. Aucun envoi, aucun stockage en ligne.",
+      localBadge: "lecture 100% locale",
+      headline: ["écoutez.", "vérifiez.", "validez."],
+      steps: [
+        { number: "1.", title: "ouvrez", subtitle: "votre DDP", text: "Un dossier complet ou une archive .zip." },
+        { number: "2.", title: "écoutez", subtitle: "chaque piste", text: "Lecture, navigation et durées du master." },
+        { number: "3.", title: "contrôlez", subtitle: "les informations", text: "Titres, codes ISRC et intégrité du disque." },
+      ],
+      nowPlaying: "lecture en cours",
+      trackOf: "Piste {n} / {total}",
+      tracksCount: "{n} pistes",
+      cdAudioStereo: "CD audio stéréo",
+      volume: "volume",
+      detailsTitle: "détails.",
+      masterInfo: "informations du master",
+      audioFormat: "Format audio",
+      audioFormatValue: "44,1 kHz / 16 bits",
+      channels: "Canaux",
+      stereo: "Stéréo",
+      upc: "Code UPC / EAN",
+      notProvided: "Non renseigné",
+      md5Verified: "Intégrité MD5 vérifiée",
+      md5Failed: "Intégrité MD5 non conforme",
+      md5Checking: "Vérification MD5 en cours",
+      md5FilesOk: "{ok} / {total} fichiers conformes",
+      md5Reference: "Pas de fichier de sommes : empreinte calculée pour référence",
+      md5Details: "détails MD5",
+      advanced: "plus",
+    },
     title: "lecteur DDP.",
     navButton: "lecteur DDP",
     intro: "Écoutez et vérifiez votre master DDP directement dans votre navigateur : liste des pistes, CD-Text, ISRC, codes PQ, lecture sans blanc entre les titres et contrôle MD5.",

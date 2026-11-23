@@ -32,7 +32,13 @@ export type Translations = {
     title: string;
     audioFilesTitle: string;
     productionSheetTitle: string;
-    prepareFilesTitle: string;
+    ddpReaderTitle: string;
+    filesSentTitle: string;
+    sent: {
+      audio: [string, string, string];
+      label: [string, string, string];
+      backHome: string;
+    };
     audioFiles: {
       draganddrop: string;
       clickordrag: string;
@@ -58,6 +64,8 @@ export type Translations = {
       namePlaceholder: string;
       emailPlaceholder: string;
       sendButton: string;
+      browse: string;
+      howToPrepare: string;
       acceptedFormats: string;
       errorNoFiles: string;
       errorName: string;
@@ -132,29 +140,11 @@ export type Translations = {
     prepareFiles: {
       headline1: string;
       headline2: string;
-      uploadFiles: string;
-      step1Title: string;
-      step1Content: {
-        step1Content1: string;
-        step1Content2: string;
-        step1Content3: string;
-      };
-      step2Title: string;
-      step2Content: {
-        step2Content1: string;
-        step2Content2: string;
-        step2Content3: string;
-      };
-      step3Title: string;
-      step3Content: {
-        step3Content1: string;
-        step3Content2: string;
-      };
-      step4Title: string;
-      step4Content: {
-        step4Content1: string;
-        step4Content2: string;
-      };
+      back: string;
+      cards: { title: string; bullets: string[] }[];
+      exportFormats: string[];
+      namingChips: string[];
+      stemsLabels: string[];
     };
   };
   studio: {
@@ -275,6 +265,36 @@ export type Translations = {
     illustrationTitle2: string;
   };
   ddpPlayer: {
+    reader: {
+      intro: string;
+      dropTitle: string;
+      chooseFolder: string;
+      chooseZip: string;
+      privacy: string;
+      localBadge: string;
+      headline: string[];
+      steps: { number: string; title: string; subtitle: string; text: string }[];
+      nowPlaying: string;
+      trackOf: string;
+      tracksCount: string;
+      cdAudioStereo: string;
+      volume: string;
+      detailsTitle: string;
+      masterInfo: string;
+      audioFormat: string;
+      audioFormatValue: string;
+      channels: string;
+      stereo: string;
+      upc: string;
+      notProvided: string;
+      md5Verified: string;
+      md5Failed: string;
+      md5Checking: string;
+      md5FilesOk: string;
+      md5Reference: string;
+      md5Details: string;
+      advanced: string;
+    };
     title: string;
     navButton: string;
     intro: string;

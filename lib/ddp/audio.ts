@@ -84,6 +84,7 @@ export class DdpPlayer {
   private state: PlayerState;
   private iosUnlock: HTMLAudioElement | null = null;
   private pumping = false;
+  private volume = 1;
 
   constructor(
     private image: Blob,
@@ -97,6 +98,12 @@ export class DdpPlayer {
     this.endSample = Math.min(imageEnd, disc.leadOutSector * SAMPLES_PER_SECTOR);
     const first = disc.tracks[0];
     this.state = { playing: false, paused: false, position: first.startSector * SAMPLES_PER_SECTOR };
+  }
+
+  /** 0..1, applied immediately when the context exists */
+  setVolume(volume: number) {
+    this.volume = Math.max(0, Math.min(1, volume));
+    if (this.gain && this.ctx) this.gain.gain.setTargetAtTime(this.volume, this.ctx.currentTime, 0.01);
   }
 
   setByteOrder(order: ByteOrder) {
@@ -124,6 +131,7 @@ export class DdpPlayer {
       this.ctx = new Ctor();
     }
     this.gain = this.ctx.createGain();
+    this.gain.gain.value = this.volume;
     this.gain.connect(this.ctx.destination);
     this.unlockIos();
     return this.ctx;

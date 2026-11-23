@@ -10,6 +10,9 @@ import "../navigation-link.css";
 import { AudioFiles } from "./components/AudioFiles";
 import { ProductionSheet } from "./components/ProductionSheet";
 import { PrepareFiles } from "./components/PrepareFiles";
+import { DdpReader } from "./components/DdpReader";
+import { FilesSent } from "./components/FilesSent";
+import { SocialLinks } from "../contact/components/SocialLinks";
 
 // Composant pour l'animation des points
 function AnimatedDots() {
@@ -29,7 +32,7 @@ function AnimatedDots() {
   return <span>{dots}</span>;
 }
 
-type SubjectKey = "audio-files" | "production-sheet" | "prepare-files";
+type SubjectKey = "audio-files" | "production-sheet" | "ddp-reader";
 
 interface SelectedFile {
   file: File;
@@ -43,7 +46,11 @@ function SendFilesContent() {
   const t = useTranslations();
   const searchParams = useSearchParams();
   const [selectedSubject, setSelectedSubject] =
-    useState<SubjectKey>("prepare-files");
+    useState<SubjectKey>("audio-files");
+  // "how to prepare your files" screen, opened from the audio files form
+  const [showPrepare, setShowPrepare] = useState(false);
+  // "files sent." screen after a successful upload
+  const [sent, setSent] = useState<null | "audio" | "label">(null);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   // State partagé pour les fichiers audio
@@ -60,43 +67,45 @@ function SendFilesContent() {
 
   useEffect(() => {
     const tab = searchParams.get("tab");
-    if (
+    if (tab === "prepare-files") {
+      setSelectedSubject("audio-files");
+      setShowPrepare(true);
+    } else if (
       tab === "production-sheet" ||
-      tab === "prepare-files" ||
-      tab === "audio-files"
+      tab === "audio-files" ||
+      tab === "ddp-reader"
     ) {
       setSelectedSubject(tab);
+      setShowPrepare(false);
     }
   }, [searchParams]);
 
   const subjects: { key: SubjectKey; name: string }[] = [
-    {
-      key: "prepare-files",
-      name: t.sendFiles.prepareFilesTitle,
-    },
-    {
-      key: "audio-files",
-      name: t.sendFiles.audioFilesTitle,
-    },
-    {
-      key: "production-sheet",
-      name: t.sendFiles.productionSheetTitle,
-    },
+    { key: "audio-files", name: t.sendFiles.audioFilesTitle },
+    { key: "production-sheet", name: t.sendFiles.productionSheetTitle },
+    { key: "ddp-reader", name: t.sendFiles.ddpReaderTitle },
   ];
+
+  const selectSubject = (key: SubjectKey) => {
+    setSelectedSubject(key);
+    setShowPrepare(false);
+  };
 
   return (
     <>
       <PageTransition>
-        <main className="h-full flex flex-col bg-red pb-8 md:pb-0 pt-8 md:pt-4 xl:pt-6 2xl:pt-8 md:px-8 px-5 overflow-hidden">
+        <main className="h-full flex flex-col bg-red pb-8 md:pb-0 pt-8 md:pt-4 xl:pt-6 2xl:pt-8 mdshort:pt-3 md:px-8 px-5 overflow-hidden">
           <div className="flex-1 flex flex-col overflow-y-auto md:overflow-y-hidden md:pr-0 px-3">
             {/* Header */}
-            <div className="flex items-center justify-between mb-3 md:mb-3 xl:mb-5 2xl:mb-10">
-              <h1 className="text-4xl md:text-5xl xl:text-6xl 2xl:text-[80px] font-bold text-red-dark">
+            <div className="flex items-center justify-between mb-3 md:mb-3 xl:mb-5 2xl:mb-10 mdshort:mb-2">
+              <h1 className="text-4xl md:text-5xl xl:text-6xl 2xl:text-[80px] mdshort:text-5xl font-bold text-red-dark">
                 {isAudioUploading || isProductionUploading ? (
                   <>
                     {t.sendFiles.audioFiles.uploadInProgress}
                     <AnimatedDots />
                   </>
+                ) : sent ? (
+                  t.sendFiles.filesSentTitle
                 ) : (
                   t.sendFiles.title
                 )}
@@ -123,14 +132,22 @@ function SendFilesContent() {
                 </Link>
               </div>
             </div>
+            {/* After a successful upload: social links instead of the tabs */}
+            {sent && (
+              <SocialLinks
+                variant="dark"
+                className="flex gap-3 xl:gap-4 mb-4 md:mb-3 xl:mb-5 2xl:mb-10 mdshort:mb-3"
+              />
+            )}
+
             {/* Subject buttons - Desktop */}
-            {!isAudioUploading && !isProductionUploading && (
-              <div className="hidden md:flex flex-wrap items-center gap-2 md:gap-3 xl:gap-4 md:mb-3 xl:mb-5 2xl:mb-10">
+            {!sent && !isAudioUploading && !isProductionUploading && (
+              <div className="hidden md:flex flex-wrap items-center gap-2 md:gap-3 xl:gap-4 md:mb-3 xl:mb-5 2xl:mb-10 mdshort:mb-3">
                 {subjects.map((subject) => (
                   <button
                     key={subject.key}
-                    onClick={() => setSelectedSubject(subject.key)}
-                    className={`py-1.5 px-4 border rounded-full text-xl md:text-lg lg:text-xl xl:text-2xl 2xl:text-3xl font-extralight relative overflow-hidden ${
+                    onClick={() => selectSubject(subject.key)}
+                    className={`py-1.5 px-4 border rounded-full text-xl md:text-lg lg:text-xl xl:text-2xl 2xl:text-3xl mdshort:text-xl mdshort:py-1 font-extralight relative overflow-hidden ${
                       selectedSubject === subject.key
                         ? "bg-black text-white border-black"
                         : "navigation-link bg-transparent text-black border-black"
@@ -146,7 +163,7 @@ function SendFilesContent() {
             )}
 
             {/* Subject menu - Mobile only */}
-            {!isAudioUploading && !isProductionUploading && (
+            {!sent && !isAudioUploading && !isProductionUploading && (
               <div className="md:hidden mb-8 relative">
                 <button
                   onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
@@ -181,7 +198,7 @@ function SendFilesContent() {
                         <button
                           key={subject.key}
                           onClick={() => {
-                            setSelectedSubject(subject.key);
+                            selectSubject(subject.key);
                             setIsMobileMenuOpen(false);
                           }}
                           className="w-full bg-black text-white py-2 px-3 rounded-full text-xl font-extralight flex items-center justify-center"
@@ -193,37 +210,47 @@ function SendFilesContent() {
                 )}
               </div>
             )}
-            {/* Content */}
-            <div className="md:col-span-2 flex-1 min-h-0">
-              {/* AudioFiles - Always mounted to preserve state */}
-              <div
-                className={`${
-                  selectedSubject === "audio-files" ? "grid" : "hidden"
-                } ${isAudioUploading ? "md:grid-cols-1" : "md:grid-cols-[minmax(0,3fr)_minmax(0,2fr)]"} md:gap-4 xl:gap-8 animate-fade-in h-full`}
-              >
-                <AudioFiles
-                  selectedFiles={audioFiles}
-                  setSelectedFiles={setAudioFiles}
-                  formData={audioFormData}
-                  setFormData={setAudioFormData}
-                  isUploading={isAudioUploading}
-                  setIsUploading={setIsAudioUploading}
-                />
-              </div>
+            {/* Content: one full-width card per screen */}
+            <div className="flex-1 min-h-0">
+              {sent ? (
+                <FilesSent kind={sent} />
+              ) : (
+                <>
+                  {selectedSubject === "audio-files" && (
+                    <div className="h-full animate-fade-in">
+                      {showPrepare ? (
+                        <PrepareFiles onBack={() => setShowPrepare(false)} />
+                      ) : (
+                        <AudioFiles
+                          selectedFiles={audioFiles}
+                          setSelectedFiles={setAudioFiles}
+                          formData={audioFormData}
+                          setFormData={setAudioFormData}
+                          isUploading={isAudioUploading}
+                          setIsUploading={setIsAudioUploading}
+                          onShowPrepare={() => setShowPrepare(true)}
+                          onSuccess={() => setSent("audio")}
+                        />
+                      )}
+                    </div>
+                  )}
 
-              {/* Other tabs - Conditional rendering is fine */}
-              {selectedSubject === "production-sheet" && (
-                <div className={`grid ${isProductionUploading ? "md:grid-cols-1" : "md:grid-cols-[minmax(0,3fr)_minmax(0,2fr)]"} md:gap-4 xl:gap-8 animate-fade-in h-full`}>
-                  <ProductionSheet
-                    isUploading={isProductionUploading}
-                    setIsUploading={setIsProductionUploading}
-                  />
-                </div>
-              )}
-              {selectedSubject === "prepare-files" && (
-                <div className="grid md:grid-cols-[minmax(0,3fr)_minmax(0,2fr)] md:gap-4 xl:gap-8 animate-fade-in h-full">
-                  <PrepareFiles />
-                </div>
+                  {selectedSubject === "production-sheet" && (
+                    <div className="h-full animate-fade-in">
+                      <ProductionSheet
+                        isUploading={isProductionUploading}
+                        setIsUploading={setIsProductionUploading}
+                        onSuccess={() => setSent("label")}
+                      />
+                    </div>
+                  )}
+
+                  {selectedSubject === "ddp-reader" && (
+                    <div className="h-full animate-fade-in">
+                      <DdpReader />
+                    </div>
+                  )}
+                </>
               )}
             </div>
             <div className="mt-auto">

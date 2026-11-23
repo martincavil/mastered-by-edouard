@@ -23,7 +23,7 @@ export function Navbar() {
       <div className="flex items-center gap-3 md:gap-5">
         {/* DDP player shortcut */}
           <Link
-            href="/ddp-player"
+            href="/send-files?tab=ddp-reader"
             className="rounded-full bg-black text-white text-xs md:text-sm font-medium px-3 py-1 hover:bg-red transition-colors duration-300 whitespace-nowrap"
           >
             {t.ddpPlayer.navButton}

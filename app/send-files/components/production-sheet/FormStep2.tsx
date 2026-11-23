@@ -24,7 +24,7 @@ export function FormStep2({
     <div className="flex flex-col justify-between h-full">
       <div className="space-y-2 2xl:space-y-3">
         <div className="flex items-center justify-between">
-          <h2 className="text-2xl xl:text-3xl 2xl:text-4xl font-bold text-black">
+          <h2 className="text-4xl xl:text-5xl 2xl:text-6xl mdshort:text-4xl font-bold text-black leading-none mb-2 2xl:mb-4 mdshort:mb-1">
             {t.sendFiles.productionSheet.step2Title}
           </h2>
         </div>

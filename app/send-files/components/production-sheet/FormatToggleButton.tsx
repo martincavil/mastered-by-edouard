@@ -17,7 +17,7 @@ export function FormatToggleButton({
     <button
       type="button"
       onClick={onClick}
-      className={`px-4 py-1 2xl:py-2 rounded-full border text-sm transition-colors flex items-center gap-2 ${
+      className={`px-5 py-1.5 2xl:py-2 rounded-full border text-base 2xl:text-lg transition-colors flex items-center gap-2 ${
         isSelected
           ? "bg-black text-white border-black"
           : "bg-white text-black border-black"

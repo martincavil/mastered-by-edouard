@@ -25,8 +25,14 @@ export const en: Translations = {
   sendFiles: {
     title: "send files.",
     audioFilesTitle: "audio files",
-    productionSheetTitle: "production sheet",
-    prepareFilesTitle: "prepare your files",
+    productionSheetTitle: "label copy",
+    ddpReaderTitle: "ddp reader",
+    filesSentTitle: "files sent.",
+    sent: {
+      audio: ["audio files ", "sent", " successfully."],
+      label: ["label copy ", "sent", " successfully."],
+      backHome: "go back to homepage",
+    },
     audioFiles: {
       draganddrop: "simply drop the file(s) below :",
       clickordrag: "upload file(s) *",
@@ -56,6 +62,8 @@ export const en: Translations = {
       namePlaceholder: "name*",
       emailPlaceholder: "mail*",
       sendButton: "send files",
+      browse: "or browse your device",
+      howToPrepare: "how to prepare your files ?",
       acceptedFormats: ".wav or .aif",
       errorNoFiles: "Please select at least one file.",
       errorName: "Please enter your name.",
@@ -137,37 +145,43 @@ export const en: Translations = {
     prepareFiles: {
       headline1: "mastering",
       headline2: "starts with a good mix.",
-      uploadFiles: "upload files",
-      step1Title: "the mix.",
-      step1Content: {
-        step1Content1:
-          "make sure the audio is clean : no clicks, noise, audio artifacts. Also make sure the audio is not cutting too abruptly.",
-        step1Content2:
-          " true Peak (TP) level doesn’t really matter in the digital world, whether it’s at -0.1 or -6, as long as the sound doesn’t have audible distortions.",
-        step1Content3:
-          "the mix is THE MIX : keep all your mix bus processing (limiters & clippers included). You can also export an additional version without them ",
-      },
-      step2Title: "the bounce.",
-      step2Content: {
-        step2Content1:
-          "you can export in 32-bit floating point or 24-bit, it's excellent. Avoid exporting at 16-bit, especially if your peak levels are quite low.",
-        step2Content2:
-          "this is very simple... sample rate must remain the same as during mixing.",
-        step2Content3: "Files must be exported in .WAV or .AIF format.",
-      },
-      step3Title: "the naming.",
-      step3Content: {
-        step3Content1:
-          "please, name properly your files before sending them! You can follow the following naming scheme :",
-        step3Content2: "Artist_Title(MIX)_mix 1; Artist_Title(PBO)_mix 1...",
-      },
-      step4Title: "stem mastering?",
-      step4Content: {
-        step4Content1:
-          "stem mastering is often a sign of a mix not fully finalized : this is why the studio doesn’t necessarily favor this approach. My vision : let’s take time together to listen to the mix and improve it to its best! My job as a mastering engineer starts at the mixing stage, helping you keep to good direction.",
-        step4Content2:
-          "However, stem mastering can be discussed in certain cases.",
-      },
+      back: "back to send files!",
+      cards: [
+        {
+          title: "audio",
+          bullets: [
+            "Clean start & end: no clicks, no noise.",
+            "Don't clip. True Peak level isn't critical.",
+            "The mix is THE MIX: keep your mix bus processing, limiters included.",
+          ],
+        },
+        {
+          title: "export",
+          bullets: [
+            "24-bit minimum, 32-bit float ideal. Avoid 16-bit.",
+            "Same sample rate as your mix.",
+            "Format: WAV or AIF.",
+          ],
+        },
+        {
+          title: "naming",
+          bullets: [
+            "Name your files properly before sending them.",
+            "Suggested scheme: Artist_Title[VERSION]_Mix1",
+          ],
+        },
+        {
+          title: "stems?",
+          bullets: [
+            "Stem mastering isn't the default: it often means a mix not fully finalized.",
+            "Let's listen to your mix together and make it the best it can be.",
+            "Stems stay possible in some cases.",
+          ],
+        },
+      ],
+      exportFormats: ["16", "24", "32 float", ".WAV", ".AIF"],
+      namingChips: ["Artist", "Title(VERSION)", "Mix 1"],
+      stemsLabels: ["mix", "master"],
     },
   },
   studio: {
@@ -298,6 +312,40 @@ export const en: Translations = {
     illustrationTitle2: "in one place.",
   },
   ddpPlayer: {
+    reader: {
+      intro: "Import your DDP to listen to the tracks and check your disc codes.",
+      dropTitle: "Drop your DDP folder or your .zip here",
+      chooseFolder: "choose a folder",
+      chooseZip: "choose a .zip",
+      privacy: "Your files stay on your device. No upload, no online storage.",
+      localBadge: "100% local playback",
+      headline: ["listen.", "check.", "approve."],
+      steps: [
+        { number: "1.", title: "open", subtitle: "your DDP", text: "A complete folder or a .zip archive." },
+        { number: "2.", title: "listen", subtitle: "to each track", text: "Playback, navigation and master durations." },
+        { number: "3.", title: "check", subtitle: "the information", text: "Titles, ISRC codes and disc integrity." },
+      ],
+      nowPlaying: "now playing",
+      trackOf: "Track {n} / {total}",
+      tracksCount: "{n} tracks",
+      cdAudioStereo: "CD audio stereo",
+      volume: "volume",
+      detailsTitle: "details.",
+      masterInfo: "master information",
+      audioFormat: "Audio format",
+      audioFormatValue: "44.1 kHz / 16-bit",
+      channels: "Channels",
+      stereo: "Stereo",
+      upc: "UPC / EAN code",
+      notProvided: "Not provided",
+      md5Verified: "MD5 integrity verified",
+      md5Failed: "MD5 integrity failed",
+      md5Checking: "Checking MD5 integrity",
+      md5FilesOk: "{ok} / {total} files OK",
+      md5Reference: "No checksum file: fingerprint computed for reference",
+      md5Details: "MD5 details",
+      advanced: "more",
+    },
     title: "DDP player.",
     navButton: "DDP player",
     intro: "Listen to and check your DDP master right in your browser: track list, CD-Text, ISRC, PQ codes, gapless playback and MD5 verification.",

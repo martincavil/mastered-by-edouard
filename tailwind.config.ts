@@ -11,6 +11,11 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      screens: {
+        // Wide but short viewports (e.g. MacBook browser window ~1512x760):
+        // compact sizes so /send-files fits without scrolling.
+        mdshort: { raw: "(min-width: 768px) and (max-height: 880px)" },
+      },
       colors: {
         white: "#FFFFFF",
         black: "#161616",

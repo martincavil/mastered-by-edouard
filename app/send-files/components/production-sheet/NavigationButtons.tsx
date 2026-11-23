@@ -16,7 +16,7 @@ interface NavigationButtonsProps {
 }
 
 const primaryClass =
-  "flex-1 bg-red-dark text-white font-bold text-lg px-6 py-2.5 2xl:py-3 rounded-[10px] hover:bg-black transition-colors duration-300 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-red-dark";
+  "w-full max-w-[33%] bg-red-dark text-white font-bold text-lg 2xl:text-xl px-6 py-2.5 2xl:py-3.5 mdshort:py-2 rounded-[10px] hover:bg-black transition-colors duration-300 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-red-dark";
 
 export function NavigationButtons({
   currentStep,
@@ -31,42 +31,50 @@ export function NavigationButtons({
   const labels = t.sendFiles.productionSheet;
 
   return (
-    <div className="flex flex-col gap-2">
+    <div className="flex flex-col gap-3">
       {currentStep === 3 && (
-        <label className="flex items-center gap-2 bg-white px-4 py-2.5 rounded-[10px] cursor-pointer">
+        <label className="flex items-center gap-2 cursor-pointer">
           <input
             type="checkbox"
             checked={allInfoChecked}
             onChange={(e) => onAllInfoCheckedChange(e.target.checked)}
-            className="w-4 h-4"
+            className="w-4 h-4 accent-black"
           />
-          <span className="text-sm text-black">{labels.allInfoChecked}</span>
+          <span className="text-sm 2xl:text-base text-black font-light">
+            {labels.allInfoChecked}
+          </span>
         </label>
       )}
 
-      <div className="flex items-stretch gap-2 w-full">
-        {currentStep > 1 && (
-          <button
-            type="button"
-            onClick={onBack}
-            className="bg-white text-black font-bold px-5 py-2.5  rounded-[10px] hover:bg-black hover:text-white transition-colors duration-300 flex items-center justify-center gap-2"
-          >
-            <ArrowLeft size={18} />
-            {labels.back}
-          </button>
-        )}
+      <div className="flex items-end justify-between gap-6 w-full">
+        {/* Step counter, underlined (mockup "1/3") */}
+        <div className="flex items-end gap-4 w-full max-w-[33%]">
+          {currentStep > 1 && (
+            <button
+              type="button"
+              onClick={onBack}
+              className="flex items-center gap-1 text-black text-sm 2xl:text-base hover:text-red transition-colors pb-1.5"
+            >
+              <ArrowLeft size={16} />
+              {labels.back}
+            </button>
+          )}
+          <span className="flex-1 text-center font-bold text-black text-lg 2xl:text-xl border-b border-black pb-1">
+            {currentStep}/3
+          </span>
+        </div>
 
         {currentStep === 1 && (
           <button type="button" onClick={onStep2Click} className={primaryClass}>
             {labels.nextTrackList}
-            <ArrowUpRight size={20} />
+            <ArrowUpRight size={24} />
           </button>
         )}
 
         {currentStep === 2 && (
           <button type="button" onClick={onStep3Click} className={primaryClass}>
             {labels.nextCredits}
-            <ArrowUpRight size={20} />
+            <ArrowUpRight size={24} />
           </button>
         )}
 
@@ -77,62 +85,10 @@ export function NavigationButtons({
             className={primaryClass}
           >
             {labels.sendDocument}
-            <ArrowUpRight size={20} />
+            <ArrowUpRight size={24} />
           </button>
         )}
       </div>
     </div>
-  );
-}
-
-interface StepIndicatorProps {
-  currentStep: number;
-  t: Translations;
-  /** Only previous steps can be reached from the indicator (next steps need validation) */
-  onStepClick: (step: number) => void;
-}
-
-export function StepIndicator({
-  currentStep,
-  t,
-  onStepClick,
-}: StepIndicatorProps) {
-  const labels = t.sendFiles.productionSheet;
-  const steps = [labels.step1Title, labels.step2Title, labels.step3Title];
-
-  return (
-    <ol className="flex items-center gap-2 mb-3 2xl:mb-5">
-      {steps.map((title, index) => {
-        const step = index + 1;
-        const isCurrent = step === currentStep;
-        const isPast = step < currentStep;
-        return (
-          <li key={step} className="flex-1 min-w-0">
-            <button
-              type="button"
-              disabled={!isPast}
-              onClick={() => onStepClick(step)}
-              aria-current={isCurrent ? "step" : undefined}
-              className="w-full text-left disabled:cursor-default group"
-            >
-              <span
-                className={`block h-1.5 rounded-full transition-colors ${
-                  isCurrent || isPast ? "bg-red-dark" : "bg-[#E5E5E5]"
-                }`}
-              />
-              <span
-                className={`block mt-1.5 text-xs 2xl:text-sm truncate ${
-                  isCurrent
-                    ? "text-black font-bold"
-                    : "text-black/50 group-enabled:group-hover:text-black"
-                }`}
-              >
-                {step}. {title.replace(/\.$/, "")}
-              </span>
-            </button>
-          </li>
-        );
-      })}
-    </ol>
   );
 }

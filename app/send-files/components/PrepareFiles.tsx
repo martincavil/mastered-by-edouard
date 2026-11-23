@@ -1,186 +1,101 @@
 "use client";
 
 import { useTranslations } from "@/lib/i18n/useTranslations";
-import Image from "next/image";
-import Link from "next/link";
-import { useState, useEffect } from "react";
-import { ChevronLeft, ChevronRight } from "lucide-react";
-import { ArrowUpRight } from "@/components/icons/ArrowUpRight";
 
-export function PrepareFiles() {
+interface PrepareFilesProps {
+  onBack: () => void;
+}
+
+// Small illustrations of the 4 cards (mockup "mastering starts with a good mix.")
+function Waveform() {
+  const bars = [6, 14, 22, 30, 18, 34, 26, 40, 22, 36, 28, 44, 24, 38, 30, 20, 34, 16, 26, 10, 18, 6];
+  return (
+    <svg viewBox="0 0 220 50" className="w-full max-w-[220px] h-12" aria-hidden="true">
+      <line x1="0" y1="25" x2="220" y2="25" stroke="currentColor" strokeWidth="2" />
+      {bars.map((h, i) => (
+        <rect key={i} x={8 + i * 9.5} y={25 - h / 2} width="5" height={h} rx="2.5" fill="currentColor" />
+      ))}
+    </svg>
+  );
+}
+
+export function PrepareFiles({ onBack }: PrepareFilesProps) {
   const t = useTranslations();
-  const [currentStep, setCurrentStep] = useState(1);
+  const l = t.sendFiles.prepareFiles;
+  const [f16, f24, f32, wav, aif] = l.exportFormats;
 
-  const steps = [
-    {
-      title: t.sendFiles.prepareFiles.step1Title,
-      content1: t.sendFiles.prepareFiles.step1Content.step1Content1,
-      content2: t.sendFiles.prepareFiles.step1Content.step1Content2,
-      content3: t.sendFiles.prepareFiles.step1Content.step1Content3,
-    },
-    {
-      title: t.sendFiles.prepareFiles.step2Title,
-      content1: t.sendFiles.prepareFiles.step2Content.step2Content1,
-      content2: t.sendFiles.prepareFiles.step2Content.step2Content2,
-      content3: t.sendFiles.prepareFiles.step2Content.step2Content3,
-    },
-    {
-      title: t.sendFiles.prepareFiles.step3Title,
-      content1: t.sendFiles.prepareFiles.step3Content.step3Content1,
-      content2: t.sendFiles.prepareFiles.step3Content.step3Content2,
-      image:
-        "https://www.dropbox.com/scl/fi/2qcsr5m8po00plzip7asq/finder_Site-web_prepare-your-files.png?rlkey=3ufg17f6has1zwsszwrf4mys2&st=54vn1kst&dl=1",
-    },
-    {
-      title: t.sendFiles.prepareFiles.step4Title,
-      content1: t.sendFiles.prepareFiles.step4Content.step4Content1,
-      content2: t.sendFiles.prepareFiles.step4Content.step4Content2,
-    },
+  const illustrations = [
+    <div key="audio" className="text-red flex justify-center">
+      <Waveform />
+    </div>,
+    <div key="export" className="flex flex-col gap-2 items-start">
+      <div className="flex gap-1.5">
+        <span className="rounded-full border border-black/40 text-black/40 line-through px-4 py-1 text-xs font-bold">{f16}</span>
+        <span className="rounded-full bg-red text-white px-4 py-1 text-xs font-bold">{f24}</span>
+        <span className="rounded-full bg-red text-white px-3 py-1 text-xs font-bold">{f32}</span>
+      </div>
+      <div className="flex gap-1.5">
+        <span className="rounded-full border border-black px-4 py-1 text-xs font-bold">{wav}</span>
+        <span className="rounded-full border border-black px-4 py-1 text-xs font-bold">{aif}</span>
+      </div>
+    </div>,
+    <div key="naming" className="flex items-center gap-1 flex-wrap">
+      {l.namingChips.map((chip, i) => (
+        <span key={chip} className="flex items-center gap-1">
+          {i > 0 && <span className="text-black/50">_</span>}
+          <span className={`rounded-[6px] px-2 py-1 text-xs font-bold ${i === 1 ? "bg-red text-white" : "bg-[#E5E5E5] text-black"}`}>
+            {chip}
+          </span>
+        </span>
+      ))}
+    </div>,
+    <div key="stems" className="flex justify-center" aria-hidden="true">
+      <div className="relative w-36 h-24">
+        <span className="absolute left-0 top-1 w-[88px] h-[88px] rounded-full border border-black flex items-center pl-3 text-[10px] font-bold">
+          {l.stemsLabels[0]}
+        </span>
+        <span className="absolute right-0 top-0 w-[90px] h-[90px] rounded-full bg-red text-white flex items-center justify-end pr-4 text-[10px] font-bold">
+          {l.stemsLabels[1]}
+        </span>
+      </div>
+    </div>,
   ];
 
-  const nextStep = () => {
-    setCurrentStep((prev) => Math.min(4, prev + 1));
-  };
-
-  const prevStep = () => {
-    setCurrentStep((prev) => Math.max(1, prev - 1));
-  };
-
-  const goToStep = (step: number) => {
-    setCurrentStep(step);
-  };
-
-  // Navigation au clavier
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "ArrowLeft") {
-        setCurrentStep((prev) => Math.max(1, prev - 1));
-      } else if (e.key === "ArrowRight") {
-        setCurrentStep((prev) => Math.min(4, prev + 1));
-      }
-    };
-
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
-  }, []); // Pas de dépendances nécessaires car on utilise la forme fonctionnelle de setState
-
   return (
-    <>
-      <div className="flex flex-col space-y-3">
-        {/* White container with carousel */}
-        <div className="relative bg-white overflow-hidden p-5 rounded-[10px] min-h-[350px] max-h-[350px] 2xl:h-full xl:min-h-[350px] 2xl:max-h-[700px] flex flex-col">
-          {/* Content */}
-          <div
-            key={currentStep}
-            className="flex-1 flex flex-col space-y-4 animate-slide-in overflow-y-auto"
-          >
-            <h2 className="text-3xl 2xl:text-6xl font-bold text-black">
-              {steps[currentStep - 1].title}
-            </h2>
+    <div className="bg-red-dark rounded-[10px] p-5 md:p-6 xl:p-8 mdshort:p-5 h-full min-h-0 flex flex-col gap-4 xl:gap-6 mdshort:gap-3 overflow-y-auto">
+      <h2 className="text-3xl md:text-4xl xl:text-5xl 2xl:text-6xl mdshort:text-4xl font-bold leading-none shrink-0">
+        <span className="text-white">{l.headline1}</span>{" "}
+        <span className="text-red">{l.headline2}</span>
+      </h2>
 
-            {/* Steps 1 and 2: List */}
-            {(currentStep === 1 || currentStep === 2) && (
-              <ul className="md:pl-32 font-poppins md:pr-16 space-y-5 list-disc list-inside leading-[1] 2xl:text-xl">
-                <li>{steps[currentStep - 1].content1}</li>
-                {steps[currentStep - 1].content2 && (
-                  <li>{steps[currentStep - 1].content2}</li>
-                )}
-                {steps[currentStep - 1].content3 && (
-                  <li>{steps[currentStep - 1].content3}</li>
-                )}
-              </ul>
-            )}
-
-            {/* Steps 3 and 4: Simple text */}
-            {(currentStep === 3 || currentStep === 4) && (
-              <div className="md:pl-32 font-poppins md:pr-16 space-y-5 leading-[1] 2xl:text-xl">
-                <p>{steps[currentStep - 1].content1}</p>
-                {steps[currentStep - 1].content2 && (
-                  <p>{steps[currentStep - 1].content2}</p>
-                )}
-              </div>
-            )}
-
-            {steps[currentStep - 1].image && (
-              <div className="hidden xl:block absolute right-0 bottom-16">
-                <Image
-                  src={steps[currentStep - 1].image!}
-                  alt={`Step ${currentStep} Illustration`}
-                  width={380}
-                  height={173}
-                  className="object-cover shadow-md"
-                />
-              </div>
-            )}
-          </div>
-
-          {/* Step indicator */}
-          <div className="hidden lg:flex font-poppins absolute -left-2.5 -bottom-3 translate-y-[10%] leading-none">
-            <span className="text-[50px] text-black font-extrabold leading-none block">
-              <span className="text-7xl lg:text-[200px] 2xl:text-[250px] leading-none">
-                {currentStep}
-              </span>
-              <span className="leading-none">/4</span>
-            </span>
-          </div>
-
-          <div className="flex items-end justify-end">
-            {/* Dots navigation */}
-            <div className="flex items-center justify-center gap-0">
-              <button onClick={prevStep} disabled={currentStep === 1}>
-                <ChevronLeft
-                  size={36}
-                  className={currentStep === 1 ? "text-white" : "text-black"}
-                />
-              </button>
-              <div className="flex items-center justify-center gap-2">
-                {steps.map((_, index) => (
-                  <button
-                    key={index}
-                    onClick={() => goToStep(index + 1)}
-                    className={`w-5 h-5 rounded-full transition-all border border-black ${
-                      currentStep === index + 1 ? "bg-black" : "bg-transparent"
-                    }`}
-                  />
-                ))}
-              </div>
-              <button onClick={nextStep} disabled={currentStep === 4}>
-                <ChevronRight
-                  size={36}
-                  className={currentStep === 4 ? "text-white" : "text-black"}
-                />
-              </button>
+      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-3 xl:gap-6 flex-1 shrink-0">
+        {l.cards.map((card, i) => (
+          <div key={card.title} className="bg-white rounded-[10px] p-3 xl:p-4 flex flex-col">
+            <div className="flex items-end justify-between px-1 xl:px-2 pb-2 xl:pb-3 border-b border-black/30">
+              <span className="text-4xl xl:text-5xl mdshort:text-4xl font-bold text-red leading-none">{i + 1}.</span>
+              <span className="text-2xl xl:text-3xl mdshort:text-2xl font-bold text-black leading-none">{card.title}</span>
             </div>
+            <div className="py-4 xl:py-6 min-h-[70px] xl:min-h-[100px] mdshort:py-3 mdshort:min-h-[70px] flex items-center justify-center">
+              {illustrations[i]}
+            </div>
+            <ul className="list-disc pl-6 pr-2 space-y-3 mdshort:space-y-2 text-black text-sm xl:text-base 2xl:text-lg mdshort:text-sm font-light leading-tight">
+              {card.bullets.map((b) => (
+                <li key={b}>{b}</li>
+              ))}
+            </ul>
           </div>
-        </div>
-        {/* Upload files button */}
-        <Link
-          href="?tab=audio-files"
-          className="bg-red-dark text-white font-bold text-base 2xl:text-lg px-6 xl:px-8 py-2.5 xl:py-3 rounded-[10px] hover:bg-red-dark/90 transition-colors duration-300 flex items-center justify-center gap-2"
-        >
-          {t.sendFiles.prepareFiles.uploadFiles}
-          <ArrowUpRight size={20} />
-        </Link>
+        ))}
       </div>
 
-      {/* Right Column - Illustration */}
-      <div className="hidden md:flex flex-col items-center md:items-end relative">
-        <div className="flex flex-col self-start">
-          <span className="text-5xl lg:text-7xl xl:text-[90px] 2xl:text-[100px] font-bold text-white !leading-[0.8]">
-            {t.sendFiles.prepareFiles.headline1}
-          </span>
-          <span className="text-5xl lg:text-7xl xl:text-[90px] 2xl:text-[100px] font-bold text-black !leading-[0.8]">
-            {t.sendFiles.prepareFiles.headline2}
-          </span>
-        </div>
-        <Image
-          src="https://www.dropbox.com/scl/fi/iwj6fuky5hk2my2qa0pa7/send-files.webp?rlkey=ucreqy7vx1p7mhahrv6hatzgc&st=3u0iinfy&dl=1"
-          alt="Edouard SendFiles Illustration"
-          width={271}
-          height={271}
-          className="absolute bottom-0 right-0 object-cover w-48 h-48 xl:w-56 xl:h-56 2xl:w-[271px] 2xl:h-[271px]"
-        />
+      <div className="flex justify-end shrink-0">
+        <button
+          type="button"
+          onClick={onBack}
+          className="bg-black text-white font-bold text-lg xl:text-2xl mdshort:text-lg rounded-full px-10 py-2 xl:py-2.5 mdshort:py-1.5 hover:bg-white hover:text-black transition-colors duration-300"
+        >
+          {l.back}
+        </button>
       </div>
-    </>
+    </div>
   );
 }

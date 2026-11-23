@@ -1,7 +1,6 @@
 "use client";
 
 import { useTranslations } from "@/lib/i18n/useTranslations";
-import Image from "next/image";
 import Link from "next/link";
 import { useState, useRef, ChangeEvent, FormEvent } from "react";
 import { UploadProgressScreen } from "@/components/upload-progress-screen";
@@ -16,11 +15,7 @@ import { Track } from "./production-sheet/TrackListSection";
 import { FormStep1 } from "./production-sheet/FormStep1";
 import { FormStep2 } from "./production-sheet/FormStep2";
 import { FormStep3 } from "./production-sheet/FormStep3";
-import { SuccessView } from "./production-sheet/SuccessView";
-import {
-  NavigationButtons,
-  StepIndicator,
-} from "./production-sheet/NavigationButtons";
+import { NavigationButtons } from "./production-sheet/NavigationButtons";
 import { Button } from "@/components/button";
 
 interface FormData {
@@ -49,15 +44,17 @@ interface FormData {
 interface ProductionSheetProps {
   isUploading: boolean;
   setIsUploading: React.Dispatch<React.SetStateAction<boolean>>;
+  /** Called once everything is on Dropbox (shows the "files sent." screen) */
+  onSuccess: () => void;
 }
 
 export function ProductionSheet({
   isUploading,
   setIsUploading,
+  onSuccess,
 }: ProductionSheetProps) {
   const t = useTranslations();
   const [currentStep, setCurrentStep] = useState(1);
-  const [submitSuccess, setSubmitSuccess] = useState(false);
   const [allInfoChecked, setAllInfoChecked] = useState(false);
   const [isAlternativeVersionsOpen, setIsAlternativeVersionsOpen] =
     useState(false);
@@ -405,7 +402,7 @@ export function ProductionSheet({
 
       // Let the bar reach 100% before closing the progress screen
       await new Promise((resolve) => setTimeout(resolve, 800));
-      setSubmitSuccess(true);
+      onSuccess();
     } catch (error) {
       setMessage({
         type: "error",
@@ -417,30 +414,6 @@ export function ProductionSheet({
       setIsUploading(false);
     }
   };
-
-  const headline = (
-    <div className="hidden md:flex flex-col justify-between items-end relative min-h-0">
-      <div className="flex flex-col self-start text-5xl lg:text-7xl xl:text-[90px] 2xl:text-[100px] font-bold !leading-[0.8]">
-        <span className="text-white">
-          {submitSuccess
-            ? t.sendFiles.productionSheet.headlineSuccess1
-            : t.sendFiles.productionSheet.headline1}
-        </span>
-        <span className="text-black">
-          {submitSuccess
-            ? t.sendFiles.productionSheet.headlineSuccess2
-            : t.sendFiles.productionSheet.headline2}
-        </span>
-      </div>
-      <Image
-        src="https://www.dropbox.com/scl/fi/iwj6fuky5hk2my2qa0pa7/send-files.webp?rlkey=ucreqy7vx1p7mhahrv6hatzgc&st=3u0iinfy&dl=1"
-        alt="Edouard SendFiles Illustration"
-        width={271}
-        height={271}
-        className="object-cover w-28 h-28 xl:w-36 xl:h-36 2xl:w-44 2xl:h-44"
-      />
-    </div>
-  );
 
   if (isUploading) {
     return (
@@ -458,110 +431,90 @@ export function ProductionSheet({
 
   return (
     <>
-      <div className="hidden md:flex flex-col gap-2 2xl:gap-3 min-h-0 h-full">
-        {submitSuccess ? (
-          <SuccessView t={t} />
-        ) : (
-          <form
-            onSubmit={handleSubmit}
-            className="flex flex-col gap-2 2xl:gap-3 min-h-0 h-full"
-          >
-            <div className="bg-white px-6 py-5 2xl:py-8 2xl:px-8 rounded-[10px] flex-1 min-h-[360px] overflow-y-auto relative flex flex-col">
-              <StepIndicator
-                currentStep={currentStep}
-                t={t}
-                onStepClick={(step) => {
-                  setCurrentStep(step);
-                  setErrors({});
-                }}
-              />
-              <div key={currentStep} className="animate-slide-in flex-1">
-                {/* STEP 1 - INFORMATIONS */}
-                {currentStep === 1 && (
-                  <FormStep1
-                    formData={formData}
-                    errors={errors}
-                    t={t}
-                    onInputChange={handleInputChange}
-                    onFormatToggle={toggleFormat}
-                    onAlternativeVersionToggle={toggleAlternativeVersion}
-                    isAlternativeVersionsOpen={isAlternativeVersionsOpen}
-                    setIsAlternativeVersionsOpen={setIsAlternativeVersionsOpen}
-                    coverPreview={coverPreview}
-                    setCoverFile={setCoverFile}
-                    setCoverPreview={setCoverPreview}
-                    handleCoverUpload={handleCoverUpload}
-                    handleOtherFilesUpload={handleOtherFilesUpload}
-                    otherFiles={otherFiles}
-                    removeOtherFile={removeOtherFile}
-                  />
-                )}
-
-                {/* STEP 2 - TRACK LIST */}
-                {currentStep === 2 && (
-                  <FormStep2
-                    tracks={tracks}
-                    errors={errors}
-                    t={t}
-                    onAddTrack={addTrack}
-                    onRemoveTrack={removeTrack}
-                    onUpdateTrack={updateTrack}
-                  />
-                )}
-
-                {/* STEP 3 - CREDITS */}
-                {currentStep === 3 && (
-                  <FormStep3
-                    formData={formData}
-                    t={t}
-                    onInputChange={handleInputChange}
-                  />
-                )}
-              </div>
-
-              {message && (
-                <div
-                  role="alert"
-                  className={`mt-3 py-2 px-4 rounded-[10px] text-sm ${
-                    message.type === "success"
-                      ? "bg-green-500/20 text-green-700"
-                      : "bg-red/10 text-red"
-                  }`}
-                >
-                  {message.text}
-                </div>
-              )}
-            </div>
-
-            <NavigationButtons
-              currentStep={currentStep}
-              allInfoChecked={allInfoChecked}
-              isSubmitting={isUploading}
+      <form
+        onSubmit={handleSubmit}
+        className="hidden md:flex bg-white rounded-[10px] h-full min-h-0 p-6 md:p-8 xl:p-10 mdshort:p-6 flex-col gap-4 xl:gap-6 mdshort:gap-3 overflow-y-auto"
+      >
+        <div key={currentStep} className="animate-slide-in flex-1">
+          {/* STEP 1 - INFORMATIONS */}
+          {currentStep === 1 && (
+            <FormStep1
+              formData={formData}
+              errors={errors}
               t={t}
-              onAllInfoCheckedChange={setAllInfoChecked}
-              onStep2Click={goToStep2}
-              onStep3Click={goToStep3}
-              onBack={goBack}
+              onInputChange={handleInputChange}
+              onFormatToggle={toggleFormat}
+              onAlternativeVersionToggle={toggleAlternativeVersion}
+              isAlternativeVersionsOpen={isAlternativeVersionsOpen}
+              setIsAlternativeVersionsOpen={setIsAlternativeVersionsOpen}
+              coverPreview={coverPreview}
+              setCoverFile={setCoverFile}
+              setCoverPreview={setCoverPreview}
+              handleCoverUpload={handleCoverUpload}
+              handleOtherFilesUpload={handleOtherFilesUpload}
+              otherFiles={otherFiles}
+              removeOtherFile={removeOtherFile}
             />
-          </form>
+          )}
+
+          {/* STEP 2 - TRACK LIST */}
+          {currentStep === 2 && (
+            <FormStep2
+              tracks={tracks}
+              errors={errors}
+              t={t}
+              onAddTrack={addTrack}
+              onRemoveTrack={removeTrack}
+              onUpdateTrack={updateTrack}
+            />
+          )}
+
+          {/* STEP 3 - CREDITS */}
+          {currentStep === 3 && (
+            <FormStep3
+              formData={formData}
+              t={t}
+              onInputChange={handleInputChange}
+            />
+          )}
+        </div>
+
+        {message && (
+          <div
+            role="alert"
+            className={`py-2 px-4 rounded-[10px] text-sm ${
+              message.type === "success"
+                ? "bg-green-500/20 text-green-700"
+                : "bg-red/10 text-red"
+            }`}
+          >
+            {message.text}
+          </div>
         )}
 
-        {!submitSuccess && (
-          <p className="text-black text-sm 2xl:text-base font-light">
-            {t.sendFiles.productionSheet.termsAndConditions.beforeLink}{" "}
-            <Link
-              href="/terms-and-conditions"
-              target="_blank"
-              className="font-medium hover:underline"
-            >
-              {t.sendFiles.productionSheet.termsAndConditions.linkText}
-            </Link>
-            {t.sendFiles.productionSheet.termsAndConditions.afterLink}
-          </p>
-        )}
-      </div>
+        <p className="text-black text-sm 2xl:text-base font-light">
+          {t.sendFiles.productionSheet.termsAndConditions.beforeLink}{" "}
+          <Link
+            href="/terms-and-conditions"
+            target="_blank"
+            className="font-bold hover:underline"
+          >
+            {t.sendFiles.productionSheet.termsAndConditions.linkText}
+          </Link>
+          {t.sendFiles.productionSheet.termsAndConditions.afterLink}
+        </p>
 
-      {headline}
+        <NavigationButtons
+          currentStep={currentStep}
+          allInfoChecked={allInfoChecked}
+          isSubmitting={isUploading}
+          t={t}
+          onAllInfoCheckedChange={setAllInfoChecked}
+          onStep2Click={goToStep2}
+          onStep3Click={goToStep3}
+          onBack={goBack}
+        />
+      </form>
 
       {/* Mobile Disclaimer */}
       <div className="md:hidden flex flex-col items-center justify-center bg-black p-6 rounded-[10px] h-full overflow-y-auto text-center text-white space-y-4">

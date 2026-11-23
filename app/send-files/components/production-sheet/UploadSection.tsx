@@ -68,7 +68,7 @@ export function UploadSection({
           onDragOver={handleDragOver}
           onDrop={handleDrop}
           onClick={() => inputRef.current?.click()}
-          className="relative border-dashed-custom rounded-[10px] py-3 px-6 cursor-pointer bg-[#ECECEC] transition-colors "
+          className="relative border-dashed-custom rounded-[10px] py-4 2xl:py-6 mdshort:py-2.5 px-6 cursor-pointer bg-[#E5E5E5] transition-colors "
         >
           <input
             ref={inputRef}
@@ -79,8 +79,8 @@ export function UploadSection({
             className="hidden"
           />
           <div className="flex justify-center items-center gap-3">
-            <p className="text-xs text-black/60">{label}</p>
-            <ArrowUpRight size={14} className="text-black/60" />
+            <p className="text-base 2xl:text-lg text-black">{label}</p>
+            <ArrowUpRight size={20} className="text-black" />
           </div>
           <div
             ref={tooltipButtonRef}
