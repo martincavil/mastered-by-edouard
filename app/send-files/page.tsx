@@ -107,10 +107,10 @@ function SendFilesContent() {
   return (
     <>
       <PageTransition>
-        <main className="h-full flex flex-col bg-red pb-8 md:pb-0 pt-8 md:pt-4 xl:pt-6 2xl:pt-8 mdshort:pt-3 md:px-8 px-5 overflow-hidden">
+        <main className="h-full flex flex-col bg-red pb-8 md:pb-0 pt-8 md:pt-4 xl:pt-6 2xl:pt-8 mdshort:pt-4 md:px-8 px-5 overflow-hidden">
           <div className="flex-1 flex flex-col overflow-y-auto md:overflow-y-hidden md:pr-0 px-3">
             {/* Header */}
-            <div className="flex items-center justify-between mb-3 md:mb-3 xl:mb-5 2xl:mb-10 mdshort:mb-2">
+            <div className="flex items-center justify-between mb-3 md:mb-3 xl:mb-5 2xl:mb-10 mdshort:mb-5">
               <h1 className="text-4xl md:text-5xl xl:text-[80px] mdshort:text-6xl font-bold text-red-dark">
                 {isAudioUploading || isProductionUploading ? (
                   <>

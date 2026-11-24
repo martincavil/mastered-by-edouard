@@ -65,21 +65,21 @@ export function PrepareFiles({ onBack }: PrepareFilesProps) {
   ];
 
   return (
-    <div ref={cardRef} className="bg-red-dark rounded-[10px] p-5 md:p-6 xl:p-8 mdshort:p-5 h-full min-h-0 flex flex-col gap-4 xl:gap-6 mdshort:gap-3 overflow-y-auto [&>*]:animate-fade-in">
+    <div ref={cardRef} className="bg-red-dark rounded-[10px] p-5 md:p-6 xl:p-8 mdshort:p-4 h-full min-h-0 flex flex-col gap-4 xl:gap-6 mdshort:gap-3 overflow-y-auto [&>*]:animate-fade-in">
       <h2 className="text-3xl md:text-4xl xl:text-6xl mdshort:text-5xl font-bold leading-none shrink-0">
         <span className="text-white">{l.headline1}</span>{" "}
         <span className="text-red">{l.headline2}</span>
       </h2>
 
-      <div className="flex-1 shrink-0 flex flex-col justify-center py-3 xl:py-6 mdshort:py-2">
-      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-3 xl:gap-6">
+      <div className="flex-1 shrink-0 flex flex-col py-1 xl:py-2 mdshort:py-0">
+      <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-3 xl:gap-6">
         {l.cards.map((card, i) => (
           <div key={card.title} className="bg-white rounded-[10px] p-3 xl:p-4 flex flex-col">
             <div className="flex items-end justify-between px-1 xl:px-2 pb-2 xl:pb-3 border-b border-black/30">
               <span className="text-4xl xl:text-6xl mdshort:text-5xl font-bold text-red leading-none">{i + 1}.</span>
               <span className="text-2xl xl:text-4xl mdshort:text-3xl font-bold text-black leading-none">{card.title}</span>
             </div>
-            <div className="py-3 xl:py-4 min-h-[64px] xl:min-h-[90px] mdshort:py-1 mdshort:min-h-[56px] flex items-center justify-center">
+            <div className="pt-5 pb-5 xl:pt-8 xl:pb-7 min-h-[80px] xl:min-h-[120px] mdshort:pt-4 mdshort:pb-3 mdshort:min-h-[70px] flex items-center justify-center">
               {illustrations[i]}
             </div>
             <ul className="list-disc pl-6 pr-2 space-y-2 xl:space-y-3 mdshort:space-y-1.5 text-black text-sm xl:text-lg mdshort:text-base font-normal leading-tight">
