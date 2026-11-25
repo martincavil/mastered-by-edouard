@@ -53,11 +53,11 @@ export function PrepareFiles({ onBack }: PrepareFilesProps) {
       ))}
     </div>,
     <div key="stems" className="flex justify-center" aria-hidden="true">
-      <div className="relative w-36 h-24 mdshort:w-28 mdshort:h-[76px]">
-        <span className="absolute left-0 top-1 w-[88px] h-[88px] mdshort:w-[70px] mdshort:h-[70px] rounded-full border border-black flex items-center pl-3 text-[10px] font-bold">
+      <div className="relative w-36 h-24 mdshort:w-[104px] mdshort:h-[70px]">
+        <span className="absolute left-0 top-1 w-[88px] h-[88px] mdshort:w-[64px] mdshort:h-[64px] rounded-full border border-black flex items-center pl-3 text-[10px] font-bold">
           {l.stemsLabels[0]}
         </span>
-        <span className="absolute right-0 top-0 w-[90px] h-[90px] mdshort:w-[72px] mdshort:h-[72px] rounded-full bg-red text-white flex items-center justify-end pr-4 text-[10px] font-bold">
+        <span className="absolute right-0 top-0 w-[90px] h-[90px] mdshort:w-[66px] mdshort:h-[66px] rounded-full bg-red text-white flex items-center justify-end pr-4 text-[10px] font-bold">
           {l.stemsLabels[1]}
         </span>
       </div>
@@ -79,7 +79,7 @@ export function PrepareFiles({ onBack }: PrepareFilesProps) {
               <span className="text-4xl xl:text-6xl mdshort:text-5xl font-bold text-red leading-none">{i + 1}.</span>
               <span className="text-2xl xl:text-4xl mdshort:text-3xl font-bold text-black leading-none">{card.title}</span>
             </div>
-            <div className="pt-5 pb-5 xl:pt-8 xl:pb-7 min-h-[80px] xl:min-h-[120px] mdshort:pt-4 mdshort:pb-3 mdshort:min-h-[70px] flex items-center justify-center">
+            <div className="h-24 my-6 xl:my-8 mdshort:h-[70px] mdshort:my-4 flex items-center justify-center">
               {illustrations[i]}
             </div>
             <ul className="list-disc pl-6 pr-2 space-y-2 xl:space-y-3 mdshort:space-y-1.5 text-black text-sm xl:text-lg mdshort:text-base font-normal leading-tight">

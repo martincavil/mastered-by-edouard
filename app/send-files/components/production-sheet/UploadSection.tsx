@@ -32,10 +32,13 @@ export function UploadSection({
   const handleTooltipHover = () => {
     if (tooltipButtonRef.current) {
       const rect = tooltipButtonRef.current.getBoundingClientRect();
-      setTooltipPosition({
-        top: rect.top,
-        left: rect.left,
-      });
+      // Mobile: above the icon. Desktop: below it, aligned to its right edge
+      // and opening to the left, so it never leaves the screen on the right
+      setTooltipPosition(
+        window.innerWidth < 768
+          ? { top: rect.top - 10, left: rect.left - 100 }
+          : { top: rect.bottom + 10, left: rect.right },
+      );
       setShowTooltip(true);
     }
   };
@@ -79,7 +82,7 @@ export function UploadSection({
             className="hidden"
           />
           <div className="flex justify-center items-center gap-3">
-            <p className="text-base xl:text-xl text-black">{label}</p>
+            <p className="text-lg xl:text-xl mdshort:text-lg text-black">{label}</p>
             <ArrowUpRight size={20} className="text-black" />
           </div>
           <div
@@ -100,15 +103,12 @@ export function UploadSection({
               style={{
                 backgroundColor: "#161616",
                 opacity: 1,
-                top: `${tooltipPosition.top - 10}px`,
-                left:
-                  window.innerWidth < 768
-                    ? `${tooltipPosition.left - 100}px`
-                    : `${tooltipPosition.left + 30}px`,
+                top: `${tooltipPosition.top}px`,
+                left: `${tooltipPosition.left}px`,
                 transform:
                   window.innerWidth < 768
                     ? "translateY(-100%)"
-                    : "translateY(-50%)",
+                    : "translateX(-100%)",
               }}
               onMouseEnter={() => setShowTooltip(true)}
               onMouseLeave={() => setShowTooltip(false)}

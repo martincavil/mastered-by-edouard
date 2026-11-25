@@ -7,6 +7,10 @@ import { FormatToggleButton } from "./FormatToggleButton";
 import { AlternativeVersionsDropdown } from "./AlternativeVersionsDropdown";
 import { UploadSection } from "./UploadSection";
 
+// Same underlined fields as the "audio files" tab
+const underlinedInput =
+  "w-full bg-transparent border-b pb-1.5 pt-1 px-1 text-black text-lg xl:text-xl mdshort:text-lg mdshort:pb-1 placeholder:text-black outline-none focus:border-red";
+
 interface FormData {
   name: string;
   artist: string;
@@ -63,16 +67,14 @@ export function FormStep1({
       <h2 className="text-4xl xl:text-6xl mdshort:text-5xl font-bold text-black leading-none mb-2 2xl:mb-4 mdshort:mb-1">
         {t.sendFiles.productionSheet.step1Title}
       </h2>
-      <div className="grid grid-cols-2 gap-x-6 gap-y-4">
+      <div className="grid grid-cols-2 gap-x-20 gap-y-5 2xl:gap-y-7 mdshort:gap-y-3 px-6">
         <input
           type="text"
           name="name"
           value={formData.name}
           onChange={onInputChange}
           placeholder={t.sendFiles.productionSheet.name}
-          className={`w-full px-6 py-2.5 2xl:py-4 mdshort:py-2 bg-[#E5E5E5] rounded-[10px] text-lg xl:text-xl mdshort:text-lg text-black placeholder:text-black focus:outline-none focus:ring-2 focus:ring-red focus:ring-offset-0 ${
-            errors.name ? "ring-2 ring-inset ring-red" : ""
-          }`}
+          className={`${underlinedInput} ${errors.name ? "border-red" : "border-black"}`}
           required
         />
         <input
@@ -81,9 +83,7 @@ export function FormStep1({
           value={formData.artist}
           onChange={onInputChange}
           placeholder={t.sendFiles.productionSheet.artist}
-          className={`w-full px-6 py-2.5 2xl:py-4 mdshort:py-2 bg-[#E5E5E5] rounded-[10px] text-lg xl:text-xl mdshort:text-lg text-black placeholder:text-black focus:outline-none focus:ring-2 focus:ring-red focus:ring-offset-0 ${
-            errors.artist ? "ring-2 ring-inset ring-red" : ""
-          }`}
+          className={`${underlinedInput} ${errors.artist ? "border-red" : "border-black"}`}
           required
         />
 
@@ -93,9 +93,7 @@ export function FormStep1({
         value={formData.email}
         onChange={onInputChange}
         placeholder={t.sendFiles.productionSheet.mail}
-        className={`w-full px-6 py-2.5 2xl:py-4 mdshort:py-2 bg-[#E5E5E5] rounded-[10px] text-lg xl:text-xl mdshort:text-lg text-black placeholder:text-black focus:outline-none focus:ring-2 focus:ring-red focus:ring-offset-0 ${
-          errors.email ? "ring-2 ring-inset ring-red" : ""
-        }`}
+        className={`${underlinedInput} ${errors.email ? "border-red" : "border-black"}`}
         required
       />
 
@@ -105,9 +103,7 @@ export function FormStep1({
         value={formData.projectTitle}
         onChange={onInputChange}
         placeholder={t.sendFiles.productionSheet.projectTitle}
-        className={`w-full px-6 py-2.5 2xl:py-4 mdshort:py-2 bg-[#E5E5E5] rounded-[10px] text-lg xl:text-xl mdshort:text-lg text-black placeholder:text-black focus:outline-none focus:ring-2 focus:ring-red focus:ring-offset-0 ${
-          errors.projectTitle ? "ring-2 ring-inset ring-red" : ""
-        }`}
+        className={`${underlinedInput} ${errors.projectTitle ? "border-red" : "border-black"}`}
         required
       />
       </div>
