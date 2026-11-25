@@ -21,6 +21,7 @@ export const en: Translations = {
     title: "listen.",
     subTitle: "they trust me.",
     fullDiscography: "view full discography",
+    selectedWork: "selected work.",
   },
   sendFiles: {
     title: "send files.",

@@ -1,0 +1,42 @@
+/* Selected work: two columns looping in opposite directions, paused on hover */
+.listen-works .listen-col {
+  animation: listen-up var(--listen-duration, 40s) linear infinite;
+}
+.listen-works .listen-col-down {
+  animation-name: listen-down;
+}
+.listen-works .listen-row {
+  animation: listen-left var(--listen-duration, 40s) linear infinite;
+}
+.listen-works:hover .listen-col,
+.listen-works:hover .listen-row,
+.listen-works:focus-within .listen-col,
+.listen-works:focus-within .listen-row {
+  animation-play-state: paused;
+}
+.listen-fade-y {
+  mask-image: linear-gradient(to bottom, transparent 0, black 8%, black 92%, transparent 100%);
+}
+.listen-fade-x {
+  mask-image: linear-gradient(to right, transparent 0, black 6%, black 94%, transparent 100%);
+}
+
+@keyframes listen-up {
+  from { transform: translateY(0); }
+  to { transform: translateY(-50%); }
+}
+@keyframes listen-down {
+  from { transform: translateY(-50%); }
+  to { transform: translateY(0); }
+}
+@keyframes listen-left {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .listen-works .listen-col,
+  .listen-works .listen-row {
+    animation: none;
+  }
+}

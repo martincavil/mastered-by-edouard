@@ -27,6 +27,7 @@ export type Translations = {
     title: string;
     subTitle: string;
     fullDiscography: string;
+    selectedWork: string;
   };
   sendFiles: {
     title: string;
