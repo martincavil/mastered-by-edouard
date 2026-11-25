@@ -88,13 +88,9 @@ function DiscographyButton({ label }: { label: string }) {
       target="_blank"
       rel="noopener noreferrer"
     >
-      <Button
-        bgColor="white"
-        textColor="black"
-        className="rounded-full whitespace-nowrap !py-1.5 px-6 md:py-3 md:px-10 text-base md:text-lg xl:text-xl font-normal bg-white !text-black hover:bg-white/90 shadow-lg"
-      >
+      <span className="block rounded-full whitespace-nowrap py-1.5 px-6 md:px-10 text-base md:text-lg xl:text-xl font-normal bg-white text-black shadow-lg transition-transform duration-300 hover:scale-105">
         {label}
-      </Button>
+      </span>
     </Link>
   );
 }
@@ -260,7 +256,7 @@ export function ListenClient() {
 
       {preview && (
         <div
-          className="fixed z-50 pointer-events-none w-28 h-28 xl:w-[134px] xl:h-[134px] -translate-y-1/2 rounded-full overflow-hidden shadow-2xl"
+          className="fixed z-50 pointer-events-none w-28 h-28 xl:w-[134px] xl:h-[134px] -translate-y-1/2 rounded-[10px] overflow-hidden shadow-2xl"
           style={{ left: preview.x + 24, top: preview.y }}
         >
           <Image src={preview.src} alt="" fill sizes="134px" className="object-cover" />
