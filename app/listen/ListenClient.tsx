@@ -57,7 +57,7 @@ function WorkCard({ work }: { work: SelectedWork }) {
           sizes="(min-width: 1024px) 20vw, 40vw"
           // Covers move in and out of view constantly: load them all upfront
           loading="eager"
-          className="object-cover transition duration-500 group-hover:grayscale group-hover:blur-[6px] group-hover:scale-105 group-focus:grayscale group-focus:blur-[6px] group-focus:scale-105"
+          className="object-cover transition duration-500 group-hover:blur-[6px] group-hover:scale-105 group-focus:blur-[6px] group-focus:scale-105"
         />
       )}
       <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 p-3 text-center text-white bg-black/30 opacity-0 transition-opacity duration-500 group-hover:opacity-100 group-focus:opacity-100">
@@ -77,6 +77,25 @@ function WorkCard({ work }: { work: SelectedWork }) {
     <div tabIndex={0} className={className}>
       {content}
     </div>
+  );
+}
+
+/** Link to the full credits on muso.ai */
+function DiscographyButton({ label }: { label: string }) {
+  return (
+    <Link
+      href="https://credits.muso.ai/profile/83085fe9-a37a-493e-b0ac-1a62bf76590f"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      <Button
+        bgColor="white"
+        textColor="black"
+        className="rounded-full whitespace-nowrap !py-1.5 px-6 md:py-3 md:px-10 text-base md:text-lg xl:text-xl font-normal bg-white !text-black hover:bg-white/90 shadow-lg"
+      >
+        {label}
+      </Button>
+    </Link>
   );
 }
 
@@ -156,11 +175,12 @@ export function ListenClient() {
               </div>
 
               {/* Name dropping: photo on hover, link to the Qobuz artist page */}
-              <p className="text-3xl md:text-4xl xl:text-5xl 2xl:text-6xl mdshort:text-[40px] font-poppins font-normal uppercase text-red !leading-[1.15]">
+              <p className="text-4xl md:text-5xl lg:text-[length:min(3.4vw,6.9vh,calc(4vw_+_6vh_-_57px))] font-poppins font-normal uppercase text-red !leading-[1.15]">
                 {artists.map((artist, index) => {
                   const name = (
                     <span
-                      className="transition-colors duration-300 hover:text-white"
+                      // Keep single words like "C-ROM" from breaking on the hyphen
+                      className={`transition-colors duration-300 hover:text-white ${artist.name.includes(" ") ? "" : "whitespace-nowrap"}`}
                       onMouseMove={(e) =>
                         artist.photo && setPreview({ src: artist.photo, x: e.clientX, y: e.clientY })
                       }
@@ -184,24 +204,10 @@ export function ListenClient() {
                 })}
               </p>
 
-              <div className="flex justify-center w-full shrink-0">
-                <Link
-                  href="https://credits.muso.ai/profile/83085fe9-a37a-493e-b0ac-1a62bf76590f"
-                  target="_blank"
-                >
-                  <Button
-                    bgColor="white"
-                    textColor="black"
-                    className="rounded-full !py-1.5 px-6 md:py-3 md:px-10 text-base md:text-lg xl:text-xl font-normal bg-white !text-black hover:bg-white/90"
-                  >
-                    {t.listen.fullDiscography}
-                  </Button>
-                </Link>
-              </div>
             </div>
 
             {/* Selected work: vertical slider on desktop */}
-            <section className="hidden lg:flex flex-col min-h-0 border border-white rounded-[10px] p-4 xl:p-5 gap-3">
+            <section className="relative hidden lg:flex flex-col min-h-0 border border-white rounded-[10px] p-4 xl:p-5 gap-3">
               <h2 className="text-5xl xl:text-6xl 2xl:text-7xl mdshort:text-5xl font-light text-white leading-none shrink-0">
                 {t.listen.selectedWork}
               </h2>
@@ -220,6 +226,9 @@ export function ListenClient() {
                   </div>
                 ))}
               </div>
+              <div className="absolute bottom-4 xl:bottom-6 mdshort:bottom-4 left-1/2 -translate-x-1/2 z-10">
+                <DiscographyButton label={t.listen.fullDiscography} />
+              </div>
             </section>
 
             {/* Selected work: horizontal strip under the names on mobile */}
@@ -236,6 +245,9 @@ export function ListenClient() {
                     </div>
                   ))}
                 </div>
+              </div>
+              <div className="flex justify-center w-full pt-2">
+                <DiscographyButton label={t.listen.fullDiscography} />
               </div>
             </section>
           </div>
