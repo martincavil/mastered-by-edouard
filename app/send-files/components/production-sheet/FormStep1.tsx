@@ -67,7 +67,7 @@ export function FormStep1({
       <h2 className="text-4xl xl:text-6xl mdshort:text-5xl font-bold text-black leading-none mb-2 2xl:mb-4 mdshort:mb-1">
         {t.sendFiles.productionSheet.step1Title}
       </h2>
-      <div className="grid grid-cols-2 gap-x-20 gap-y-5 2xl:gap-y-7 mdshort:gap-y-3 px-6">
+      <div className="grid grid-cols-2 gap-x-6 gap-y-5 2xl:gap-y-7 mdshort:gap-y-3">
         <input
           type="text"
           name="name"
@@ -161,7 +161,7 @@ export function FormStep1({
         />
       </div>
 
-      <div className="flex items-center w-full gap-3">
+      <div className="flex items-center w-full gap-6">
         {/* Upload Cover */}
         <UploadSection
           label={t.sendFiles.productionSheet.uploadCover}
