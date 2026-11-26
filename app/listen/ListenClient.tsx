@@ -260,7 +260,7 @@ export function ListenClient({ artists }: { artists: ListenArtist[] }) {
 
       {preview && (
         <div
-          className="fixed z-50 pointer-events-none w-28 h-28 xl:w-[134px] xl:h-[134px] -translate-y-1/2 rounded-[10px] overflow-hidden shadow-2xl"
+          className="fixed z-50 pointer-events-none w-28 h-28 xl:w-[134px] xl:h-[134px] -translate-y-1/2 rounded-[25px] overflow-hidden shadow-2xl"
           style={{ left: preview.x + 24, top: preview.y }}
         >
           {/* The photos come with white rounded corners baked in: zoom slightly to crop them out */}
