@@ -1,4 +1,4 @@
-/* Selected work: two columns looping in opposite directions, paused on hover */
+/* Selected work: two columns looping in opposite directions, each paused on its own hover */
 .listen-works .listen-col {
   animation: listen-up var(--listen-duration, 40s) linear infinite;
 }
@@ -8,10 +8,10 @@
 .listen-works .listen-row {
   animation: listen-left var(--listen-duration, 40s) linear infinite;
 }
-.listen-works:hover .listen-col,
-.listen-works:hover .listen-row,
-.listen-works:focus-within .listen-col,
-.listen-works:focus-within .listen-row {
+.listen-works .listen-col:hover,
+.listen-works .listen-row:hover,
+.listen-works .listen-col:focus-within,
+.listen-works .listen-row:focus-within {
   animation-play-state: paused;
 }
 .listen-fade-y {

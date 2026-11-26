@@ -8,7 +8,7 @@ export const artist = defineType({
     defineField({ name: "name", title: "Nom", type: "string", validation: (r) => r.required() }),
     defineField({
       name: "picture",
-      title: "Photo (URL Dropbox)",
+      title: "Photo au survol (URL Dropbox)",
       type: "url",
       description: "URL d'image (ex: lien Dropbox direct). Laisser vide si pas de photo.",
     }),
@@ -17,14 +17,15 @@ export const artist = defineType({
       name: "order",
       title: "Ordre",
       type: "number",
-      description: "Ordre d'affichage dans la liste de gauche sur /listen",
+      description: "Ordre d'affichage dans le name dropping sur /listen",
       validation: (r) => r.required(),
     }),
     defineField({
       name: "featured",
       title: "Affiché en image (constellation)",
       type: "boolean",
-      description: "Coche pour afficher cet artiste parmi les photos sur /listen",
+      // Not used since the /listen redesign: every artist is in the name drop
+      hidden: true,
       initialValue: false,
     }),
   ],

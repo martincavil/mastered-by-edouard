@@ -8,7 +8,7 @@ import { PageTransition } from "@/components/page-transition";
 import { Footer } from "@/components/footer";
 import { Button } from "@/components/button";
 import { ArrowUpRight } from "@/components/icons/ArrowUpRight";
-import { artists, selectedWorks, type SelectedWork } from "./data";
+import { selectedWorks, type ListenArtist, type SelectedWork } from "./data";
 import "../navigation-link.css";
 import "./listen.css";
 
@@ -95,7 +95,7 @@ function DiscographyButton({ label }: { label: string }) {
   );
 }
 
-export function ListenClient() {
+export function ListenClient({ artists }: { artists: ListenArtist[] }) {
   const t = useTranslations();
   // Artist photo that follows the cursor over the names
   const [preview, setPreview] = useState<{ src: string; x: number; y: number } | null>(null);
@@ -171,7 +171,11 @@ export function ListenClient() {
               </div>
 
               {/* Name dropping: photo on hover, link to the Qobuz artist page */}
-              <p className="text-4xl md:text-5xl lg:text-[length:min(3.4vw,6.9vh,calc(4vw_+_6vh_-_57px))] font-poppins font-normal uppercase text-red !leading-[1.15]">
+              <p
+                className="text-4xl md:text-5xl lg:text-[length:calc(min(3.4vw,6.9vh,calc(4vw_+_6vh_-_57px))*var(--names-scale))] font-poppins font-normal uppercase text-red !leading-[1.15]"
+                // Sized for 20 names: shrink when there are more so the page never scrolls
+                style={{ ["--names-scale" as string]: Math.min(1, Math.sqrt(20 / Math.max(artists.length, 1)) * 1.0) }}
+              >
                 {artists.map((artist, index) => {
                   const name = (
                     <span
